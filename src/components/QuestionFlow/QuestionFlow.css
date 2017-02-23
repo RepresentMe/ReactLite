@@ -1,0 +1,76 @@
+.likertButton1 {
+  background-image: url(./images/button_strongly_disagree.png);
+}
+
+.likertButton2 {
+  background-image: url(./images/button_disagree.png);
+}
+
+.likertButton3 {
+  background-image: url(./images/button_neutral.png);
+}
+
+.likertButton4 {
+  background-image: url(./images/button_agree.png);
+}
+
+.likertButton5 {
+  background-image: url(./images/button_strongly_agree.png);
+}
+
+.likertButton {
+  width: 50px;
+  height: 50px;
+  background-size: contain;
+  overflow: hidden;
+  float: left;
+  margin-left: 10px;
+}
+
+.likertButton:last-child {
+  margin-right: 0;
+}
+
+/* TRANSITION */
+
+.QuestionFlowTransition-enter {
+  animation: QuestionFlowTransitionEntering 1s ease-in-out;
+}
+
+.QuestionFlowTransition-leave {
+  animation: QuestionFlowTransitionLeaving 1s ease-in-out;
+}
+
+@keyframes QuestionFlowTransitionEntering {
+    0% {
+      opacity: 0;
+      transform: translate(0, 50px) rotateX(50deg);
+    }
+
+    30% {
+      opacity: 0;
+      transform: translate(0, 50px) rotateX(50deg);
+    }
+
+    100% {
+      opacity: 1;
+      transform: rotateX(0deg);
+    }
+}
+
+@keyframes QuestionFlowTransitionLeaving {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    70% {
+      opacity: 0;
+      transform: translate(0, -100px) rotateX(50deg);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translate(0, -100px) rotateX(50deg);
+    }
+}
