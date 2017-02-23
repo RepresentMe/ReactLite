@@ -24,11 +24,15 @@
   background-size: contain;
   overflow: hidden;
   float: left;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 .likertButton:last-child {
   margin-right: 0;
+}
+
+.likertButtonDimmed {
+  opacity: 0.3;
 }
 
 /* TRANSITION */

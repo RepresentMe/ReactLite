@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 
-var CollectionIntro = inject("CollectionStore", "QuestionStore")(observer(({ CollectionStore, QuestionStore, match }) => {
+var CollectionEnd = inject("CollectionStore", "QuestionStore")(observer(({ CollectionStore, QuestionStore, match }) => {
 
   let collectionId = parseInt(match.params.collectionId);
   let collection = CollectionStore.collections.get(collectionId);
@@ -20,15 +20,13 @@ var CollectionIntro = inject("CollectionStore", "QuestionStore")(observer(({ Col
     <Card style={{margin: '10px'}}>
       <CardTitle
         title={ collection.name }
+        subtitle="You've just completed"
       />
       <CardText>
         { collection.desc }
       </CardText>
-      <CardActions>
-        <Link to={ "/collection/" + collection.id + "/flow/0" }><RaisedButton label="Start" primary /></Link>
-      </CardActions>
     </Card>
   );
 }))
 
-export default CollectionIntro;
+export default CollectionEnd;

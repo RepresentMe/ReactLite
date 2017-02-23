@@ -6,9 +6,9 @@ class QuestionStore {
   questions = observable.shallowMap({});
   collectionQuestions = observable.shallowMap({});
 
-  loadQuestion(id) {
+  loadQuestion(id, forceUpdate = false) {
 
-    if(this.questions.has(id)) {
+    if(!forceUpdate && this.questions.has(id)) {
       return;
     }
 
@@ -35,7 +35,24 @@ class QuestionStore {
         }
         this.collectionQuestions.set(collectionId, questionIds);
       }.bind(this));
+
   }
+
+  voteQuestion(questionId, value) {
+    if(!this.questions.has(questionId) || !value) {
+      return false;
+    }
+
+    axios.post('/api/question_votes/', {
+        object_id: questionId,
+        value,
+        private: true,
+      })
+      .then(function (response) {
+        this.loadQuestion(questionId, true);
+      }.bind(this));
+  }
+
 
 }
 

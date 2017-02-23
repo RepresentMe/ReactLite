@@ -9,10 +9,11 @@ import axios from 'axios';
 /* STORES */
 import CollectionStore from './Stores/CollectionStore.js';
 import QuestionStore from './Stores/QuestionStore.js';
+import UserStore from './Stores/UserStore.js';
 
 /* AXIOS CONFIG & MIDDLEWARE */
 axios.defaults.baseURL = 'http://localhost:8000';
-//axios.defaults.headers.common['Authorization'] = "TEST";
+axios.defaults.headers.common['Authorization'] = "Token ff76bcf5e0daf737144f34fcd913a6cd13c96df2";
 //SEE 'INTERCEPTORS' FOR MIDDLEWARE
 
 injectTapEventPlugin();
@@ -21,6 +22,7 @@ ReactDOM.render(
   <Provider
     CollectionStore={new CollectionStore()}
     QuestionStore={new QuestionStore()}
+    UserStore={new UserStore()}
   ><Shell/></Provider>,
   document.getElementById('root')
 );
