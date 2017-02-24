@@ -5,18 +5,46 @@ class QuestionStore {
 
   questions = observable.shallowMap({});
   collectionQuestions = observable.shallowMap({});
+  searchCache = observable.shallowMap({});
 
   loadQuestion(id, forceUpdate = false) {
 
     if(!forceUpdate && this.questions.has(id)) {
-      return;
+      return true;
     }
 
     axios.get('/api/questions/', {params: { id: id } })
       .then(function (response) {
+        if(!response.data.results[0]) {
+          return;
+        }
         console.log("Downloaded question", id);
         this.questions.set(response.data.results[0].id, response.data.results[0]);
       }.bind(this));
+  }
+
+  searchQuestions(search) {
+    if(this.searchCache.has(search)) {
+      return this.searchCache.get(search);
+    }else {
+      axios.get('/api/questions/', {params: { search, page_size: 3 } })
+        .then(function (response) {
+          if(!response.data.results[0]) {
+            return;
+          }else {
+            let searchResultSummary = [];
+            for(let question of response.data.results) {
+              if(!this.questions.has(question.id)) {
+                this.questions.set(question.id, question);
+                console.log("Downloaded question", question.id);
+              }
+              searchResultSummary = searchResultSummary.concat([question.id]);
+            }
+            this.searchCache.set(search, searchResultSummary);
+          }
+        }.bind(this));
+      return false;
+    }
   }
 
   loadCollectionQuestions(collectionId) {
