@@ -18,6 +18,7 @@ import QuestionFlow from '../QuestionFlow';
 import Login from '../Login';
 import { inject, observer } from "mobx-react";
 import createHistory from 'history/createBrowserHistory'
+import Test from '../Test'
 
 import './Shell.css';
 
@@ -85,6 +86,7 @@ const muiTheme = getMuiTheme({
                   <Route exact path="/collection/:collectionId" component={CollectionIntro}/>
                   <Route exact path="/collection/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
                   <Route exact path="/collection/:collectionId/end" component={CollectionEnd}/>
+                  <Route exact path="/test" component={Test}/>
                 </div>
               </div>
           </MuiThemeProvider>
