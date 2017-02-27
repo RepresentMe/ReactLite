@@ -14,6 +14,18 @@ class CollectionStore {
       }.bind(this));
   }
 
+  getCollection(collectionId, forceUpdate = false) {
+
+    if(!forceUpdate && this.collections.has(collectionId)) {
+      return true;
+    }
+
+    axios.get('/api/question_collections/', {params: {id: collectionId}})
+      .then(function (response) {
+        this.collections.set(response.data.results[0].id, response.data.results[0]);
+      }.bind(this));
+  }
+
   createCollection(title, description, endText, questions) {
     axios.post('/api/question_collections/', {
         desc: description,

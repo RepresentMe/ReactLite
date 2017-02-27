@@ -14,6 +14,7 @@ import { white, cyan600 } from 'material-ui/styles/colors';
 import CollectionsList from '../CollectionsList';
 import CollectionIntro from '../CollectionIntro';
 import CollectionEnd from '../CollectionEnd';
+import EditCollection from '../EditCollection';
 import QuestionFlow from '../QuestionFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
@@ -108,6 +109,7 @@ const history = createHistory();
                   <Route exact path="/login" component={Login}/>
                   <Route exact path="/collection/create" component={CreateCollection}/>
                   <Route exact path="/collection/:collectionId" component={CollectionIntro}/>
+                  <Route exact path="/collection/:collectionId/edit" component={EditCollection}/>
                   <Route exact path="/collection/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
                   <Route exact path="/collection/:collectionId/end" component={CollectionEnd}/>
                   <Route exact path="/test" component={Test}/>
