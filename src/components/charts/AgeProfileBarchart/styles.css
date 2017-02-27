@@ -1,0 +1,49 @@
+.age-profile-barchart .custom-tooltip {
+    margin: 0px;
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(204, 204, 204);
+    white-space: nowrap;
+}
+.age-profile-barchart .custom-tooltip ul{
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+.age-profile-barchart .custom-tooltip .label {
+    display: block;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 14px;
+}
+
+.age-profile-barchart .custom-tooltip .title {
+    margin: 0;
+    padding-top: 4px;
+    padding-bottom: 4px
+}
+
+.age-profile-barchart .custom-tooltip .label .value {
+    padding-left: 7px;
+    float: right;
+    font-weight: bold;
+}
+
+.age-profile-barchart .custom-tooltip .label .color, .custom-legend .color {
+    display: inline-block;
+    margin-right: 6px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid grey;
+    border-radius: 2px;
+}
+
+.age-profile-barchart .custom-legend {
+    margin-top: 0;
+    list-style-type: none;
+}
+
+.age-profile-barchart .custom-legend li {
+    margin-right: 10px;
+    display: inline-block;
+}

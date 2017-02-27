@@ -1,0 +1,16 @@
+.answers-over-time-areachart .custom-tooltip {
+    margin: 0px;
+    padding: 0 10px;
+    background-color: rgb(252, 252, 252);
+    border: 1px solid #aaaaFF;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.answers-over-time-areachart .custom-tooltip .value {
+    color: #444488;
+}
+
+.answers-over-time-areachart .custom-tooltip .value .bold {
+    font-weight: bold;
+}

@@ -10,6 +10,8 @@ import axios from 'axios';
 import CollectionStore from './Stores/CollectionStore.js';
 import QuestionStore from './Stores/QuestionStore.js';
 import UserStore from './Stores/UserStore.js';
+import DemographicsDataStore from './Stores/DemographicsDataStore.js';
+import AppStatisticsStore from './Stores/AppStatisticsStore.js';
 
 /* AXIOS CONFIG & MIDDLEWARE */
 axios.defaults.baseURL = 'http://localhost:8000';
@@ -23,6 +25,8 @@ ReactDOM.render(
     CollectionStore={new CollectionStore()}
     QuestionStore={new QuestionStore()}
     UserStore={new UserStore()}
+    DemographicsDataStore={new DemographicsDataStore()}
+    AppStatisticsStore={new AppStatisticsStore()}
   ><Shell/></Provider>,
   document.getElementById('root')
 );
