@@ -1,2 +1,2 @@
-import CollectionEnd from './CollectionEnd';
-export default CollectionEnd;
+import CollectionSearch from './CollectionSearch';
+export default CollectionSearch;

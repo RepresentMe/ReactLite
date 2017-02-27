@@ -27,7 +27,6 @@ import './Shell.css';
 import {
   Router,
   Route,
-  Link
 } from 'react-router-dom'
 
 const muiTheme = getMuiTheme({

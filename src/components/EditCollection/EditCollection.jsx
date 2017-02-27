@@ -8,7 +8,7 @@ import CollectionEditor from '../CollectionEditor';
 import { arrayMove } from 'react-sortable-hoc';
 import LinearProgress from 'material-ui/LinearProgress';
 
-@inject("QuestionStore", "CollectionStore") @observer class EditCollection extends Component {
+@inject("QuestionStore", "CollectionStore", "UserStore") @observer class EditCollection extends Component {
 
   constructor() {
     super();
@@ -58,13 +58,17 @@ import LinearProgress from 'material-ui/LinearProgress';
   }
 
   componentWillReact() { // Called every time the store updates (Requires a reference to store in render())
+    let collectionId = parseInt(this.props.match.params.collectionId); // Check if user is the owner of the collection, otherwise navigate away
+    if(this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id !== this.props.UserStore.userData.get("id")) {
+      this.props.push("/");
+    }
     this.checkForUpdates();
   }
 
   render() {
     let collectionId = parseInt(this.props.match.params.collectionId);
 
-    if(!this.props.CollectionStore.collections.has(collectionId) || !this.props.QuestionStore.collectionQuestions.has(collectionId)) {
+    if(!this.props.CollectionStore.collections.has(collectionId) || !this.props.QuestionStore.collectionQuestions.has(collectionId) || !this.props.UserStore.userData.has("id")) {
       return <LinearProgress mode="indeterminate" />;
     }
 
@@ -101,7 +105,8 @@ import LinearProgress from 'material-ui/LinearProgress';
             <FlatButton label="Cancel" style={{float: 'right'}} onClick={() => this.props.push("/")} />
             <RaisedButton label="Save" primary={true} style={{float: 'left'}} onClick={() => {
               this.props.QuestionStore.updateCollectionQuestions(collectionId, this.state.questions);
-              //this.props.CollectionStore.createCollection(this.state.title, this.state.description, this.state.endText, this.state.questions);
+              this.props.CollectionStore.updateCollection(collectionId, this.state.title, this.state.description, this.state.endText);
+              this.props.push("/collection/" + collectionId);
             }} />
           </div>
       </div>

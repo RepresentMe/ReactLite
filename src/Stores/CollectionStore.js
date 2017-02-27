@@ -5,6 +5,7 @@ import Promise from 'promise';
 class CollectionStore {
 
   collections = observable.shallowMap([]);
+  searchCache = observable.shallowMap({});
 
   constructor() {
     axios.get('/api/question_collections/')
@@ -25,6 +26,29 @@ class CollectionStore {
       .then(function (response) {
         this.collections.set(response.data.results[0].id, response.data.results[0]);
       }.bind(this));
+  }
+
+  searchCollections(search) {
+    if(this.searchCache.has(search)) {
+      return this.searchCache.get(search);
+    }else {
+      axios.get('/api/question_collections/', {params: { search, page_size: 3 } })
+        .then(function (response) {
+          if(!response.data.results[0]) {
+            return;
+          }else {
+            let searchResultSummary = [];
+            for(let collection of response.data.results) {
+              if(!this.collections.has(collection.id)) {
+                this.collections.set(collection.id, collection);
+              }
+              searchResultSummary = searchResultSummary.concat([collection.id]);
+            }
+            this.searchCache.set(search, searchResultSummary);
+          }
+        }.bind(this));
+      return false;
+    }
   }
 
   createCollection(title, description, endText, questions) {
@@ -61,13 +85,13 @@ class CollectionStore {
       }.bind(this));
   }
 
-  updateCollection(collectionId, title, description, endText, questions) {
+  updateCollection(collectionId, title, description, endText) {
     axios.patch('/api/question_collections/' + collectionId + '/', { // First step is update details
         desc: description,
         end_text: endText,
         name: title,
       }).then(function (response) { // Once details updated, check for question changes
-        this.getCollection(collectionId);
+        this.getCollection(collectionId, true);
       }.bind(this));
   }
 

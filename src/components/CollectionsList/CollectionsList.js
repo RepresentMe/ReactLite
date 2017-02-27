@@ -3,6 +3,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import RaisedButton from 'material-ui/RaisedButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
+import CollectionSearch from '../CollectionSearch';
 
 var CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) => {
 
@@ -14,6 +15,7 @@ var CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) =
 
   return (
     <div>
+      <div><CollectionSearch /></div>
       {collections.map((collection_obj) => {
         let id = collection_obj[0];
         let collection = collection_obj[1];

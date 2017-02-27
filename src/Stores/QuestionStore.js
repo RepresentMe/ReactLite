@@ -49,9 +49,9 @@ class QuestionStore {
     }
   }
 
-  loadCollectionQuestions(collectionId) {
+  loadCollectionQuestions(collectionId, forceUpdate = false) {
 
-    if(this.collectionQuestions.has(collectionId)) {
+    if(this.collectionQuestions.has(collectionId) && !forceUpdate) {
       return;
     }
 
@@ -118,7 +118,7 @@ class QuestionStore {
     }
 
     axios.all(apiQueue).then(axios.spread(function() {
-      this.loadCollectionQuestions(collectionId);
+      this.loadCollectionQuestions(collectionId, true);
     }.bind(this)));
 
 
