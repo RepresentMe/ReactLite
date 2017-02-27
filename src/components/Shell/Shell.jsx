@@ -15,6 +15,7 @@ import CollectionsList from '../CollectionsList';
 import CollectionIntro from '../CollectionIntro';
 import CollectionEnd from '../CollectionEnd';
 import QuestionFlow from '../QuestionFlow';
+import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import { inject, observer } from "mobx-react";
 import createHistory from 'history/createBrowserHistory'
@@ -35,13 +36,16 @@ const muiTheme = getMuiTheme({
   }
 });
 
+const history = createHistory();
+
 @inject("UserStore") @observer export default class Shell extends Component {
 
   render() {
 
-    let history = createHistory()
+    history.listen((location, action) => { // Storing location in UserStore forces a rerender of the Shell each navigation
+      this.props.UserStore.sessionData.set("userLocation", location);
+    });
 
-    //history.listen((location, action) => {
     return(
       <Router history={history}>
           <MuiThemeProvider muiTheme={muiTheme}>
@@ -49,7 +53,7 @@ const muiTheme = getMuiTheme({
 
                 <AppBar
                   title="Represent"
-                  iconElementLeft={history.location.pathname !== "/" && <IconButton onClick={() => { history.goBack() }}><ArrowBack color={cyan600} /></IconButton>}
+                  iconElementLeft={this.props.UserStore.sessionData.get("userLocation").pathname !== "/" ? <IconButton onClick={() => { history.goBack() }}><ArrowBack color={cyan600} /></IconButton> : null}
                   iconElementRight={<Avatar icon={<Face />} backgroundColor={cyan600} onClick={() => {
                     if(this.props.UserStore.userData.has("id")) { // Is user logged in?
                       this.props.UserStore.toggleUserDialogue();
@@ -63,13 +67,32 @@ const muiTheme = getMuiTheme({
 
                 <Dialog
                   title="My Account"
-                  actions={<FlatButton
-                    label="Close"
-                    secondary={true}
-                    onTouchTap={() => {
-                      this.props.UserStore.toggleUserDialogue();
-                    }}
-                  />}
+                  actions={
+                    <div>
+                    <FlatButton
+                      label="Create a Collection"
+                      secondary={false}
+                      onTouchTap={() => {
+                        this.props.UserStore.toggleUserDialogue();
+                        history.push("/collection/create");
+                      }}
+                    />
+                    <FlatButton
+                      label="Logout"
+                      secondary={true}
+                      onTouchTap={() => {
+                        this.props.UserStore.logout();
+                      }}
+                    />
+                    <FlatButton
+                      label="Close"
+                      secondary={true}
+                      onTouchTap={() => {
+                        this.props.UserStore.toggleUserDialogue();
+                      }}
+                    />
+                    </div>
+                  }
                   modal={false}
                   open={this.props.UserStore.sessionData.get("showUserDialogue")}
                   onRequestClose={() => {
@@ -83,6 +106,7 @@ const muiTheme = getMuiTheme({
                 <div style={{height: "calc(100% - 64px)", overflow: 'scroll'}}>
                   <Route exact path="/" component={CollectionsList}/>
                   <Route exact path="/login" component={Login}/>
+                  <Route exact path="/collection/create" component={CreateCollection}/>
                   <Route exact path="/collection/:collectionId" component={CollectionIntro}/>
                   <Route exact path="/collection/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
                   <Route exact path="/collection/:collectionId/end" component={CollectionEnd}/>
