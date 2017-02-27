@@ -100,8 +100,8 @@ const history = createHistory();
                     this.props.UserStore.toggleUserDialogue();
                   }}
                 >
-                  <TextField disabled={true} id="text-field-disabled" defaultValue={this.props.UserStore.userData.get("first_name")}/>
-                  <TextField disabled={true} id="text-field-disabled" defaultValue={this.props.UserStore.userData.get("last_name")}/>
+                  <TextField disabled={true} id="text-field-disabled" defaultValue={this.props.UserStore.userData.get("first_name")} fullWidth={true}/>
+                  <TextField disabled={true} id="text-field-disabled" defaultValue={this.props.UserStore.userData.get("last_name")} fullWidth={true}/>
                 </Dialog>
 
                 <div style={{height: "calc(100% - 64px)", overflow: 'scroll'}}>

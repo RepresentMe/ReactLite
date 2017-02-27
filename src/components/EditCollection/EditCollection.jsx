@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import CollectionEditor from '../CollectionEditor';
 import { arrayMove } from 'react-sortable-hoc';
-import CircularProgress from 'material-ui/CircularProgress';
+import LinearProgress from 'material-ui/LinearProgress';
 
-@inject("QuestionStore", "CollectionStore") @observer class CreateCollection extends Component {
+@inject("QuestionStore", "CollectionStore") @observer class EditCollection extends Component {
 
   constructor() {
     super();
@@ -17,66 +18,54 @@ import CircularProgress from 'material-ui/CircularProgress';
       description: "",
       endText: "",
       questions: [],
-      hasCollection: false,
+      hasCollectionDetails: false,
+      hasCollectionQuestions: false,
     }
 
-    //this.populateCollection = this.populateCollection.bind(this);
-    this.fillStateFromStore = this.fillStateFromStore.bind(this);
+    this.fillDetailsFromStore = this.fillDetailsFromStore.bind(this);
+    this.checkForUpdates = this.checkForUpdates.bind(this);
   }
 
-  /*
-  populateCollection() {
-    let collectionId = parseInt(match.params.collectionId);
-    let collection = CollectionStore.collections.get(collectionId);
-
-    if(!collection) {
-      return null;
-    }
-
-    if(!this.props.CollectionStore.collections.has(collectionId)) {
-      return false;
-    }else {
-      this.setState({
-        title: collection.name,
-        description: collection.desc,
-        endText: end_text
-      });
-    }
-  }
-  */
-
-  fillStateFromStore() {
-    console.log("populating");
+  fillDetailsFromStore() {
     let collectionId = parseInt(this.props.match.params.collectionId);
     let storeCollection = this.props.CollectionStore.collections.get(collectionId);
     this.setState({
       title: storeCollection.name,
       description: storeCollection.desc,
-      endText: storeCollection.end_text
+      endText: storeCollection.end_text,
+      hasCollectionDetails: true
     });
   }
 
-  componentWillMount() {
+  checkForUpdates() {
     let collectionId = parseInt(this.props.match.params.collectionId);
-    if(this.props.CollectionStore.collections.has(collectionId)) { // Collection already loaded
-      this.fillStateFromStore();
+
+    if(this.props.CollectionStore.collections.has(collectionId) && !this.state.hasCollectionDetails) { // Are the collection details already cached?
+      this.fillDetailsFromStore();
     }else {
       this.props.CollectionStore.getCollection(collectionId);
     }
+
+    if(this.props.QuestionStore.collectionQuestions.has(collectionId) && !this.state.hasCollectionQuestions) { // Are the collection questions already cached?
+      this.setState({ questions: this.props.QuestionStore.collectionQuestions.get(collectionId), hasCollectionQuestions: true });
+    }else {
+      this.props.QuestionStore.loadCollectionQuestions(collectionId);
+    }
   }
 
-  componentWillReact() {
-    let collectionId = parseInt(this.props.match.params.collectionId);
-    if(!this.state.hasCollection && this.props.CollectionStore.collections.has(collectionId)) {
-      this.fillStateFromStore();
-    }
+  componentWillMount() {
+    this.checkForUpdates();
+  }
+
+  componentWillReact() { // Called every time the store updates (Requires a reference to store in render())
+    this.checkForUpdates();
   }
 
   render() {
     let collectionId = parseInt(this.props.match.params.collectionId);
 
-    if(!this.props.CollectionStore.collections.has(collectionId)) {
-      return <CircularProgress size={80} thickness={5} />;
+    if(!this.props.CollectionStore.collections.has(collectionId) || !this.props.QuestionStore.collectionQuestions.has(collectionId)) {
+      return <LinearProgress mode="indeterminate" />;
     }
 
     return (
@@ -109,9 +98,10 @@ import CircularProgress from 'material-ui/CircularProgress';
           }}
           />
           <div style={{margin: '40px 10px'}}>
-            <RaisedButton label="Cancel" primary={true} style={{float: 'right', marginLeft: '10px'}} />
-            <RaisedButton label="Create" primary={true} style={{float: 'right'}} onClick={() => {
-              this.props.CollectionStore.createCollection(this.state.title, this.state.description, this.state.endText, this.state.questions);
+            <FlatButton label="Cancel" style={{float: 'right'}} onClick={() => this.props.push("/")} />
+            <RaisedButton label="Save" primary={true} style={{float: 'left'}} onClick={() => {
+              this.props.QuestionStore.updateCollectionQuestions(collectionId, this.state.questions);
+              //this.props.CollectionStore.createCollection(this.state.title, this.state.description, this.state.endText, this.state.questions);
             }} />
           </div>
       </div>
@@ -119,4 +109,4 @@ import CircularProgress from 'material-ui/CircularProgress';
   }
 }
 
-export default CreateCollection;
+export default EditCollection;

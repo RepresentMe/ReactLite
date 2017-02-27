@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import CollectionEditor from '../CollectionEditor';
 import { arrayMove } from 'react-sortable-hoc';
+import Dialog from 'material-ui/Dialog';
 
 @inject("QuestionStore", "CollectionStore") @observer class CreateCollection extends Component {
 
@@ -15,6 +17,7 @@ import { arrayMove } from 'react-sortable-hoc';
       description: "",
       endText: "",
       questions: [],
+      errorMessage: false
     }
   }
 
@@ -48,12 +51,21 @@ import { arrayMove } from 'react-sortable-hoc';
             this.setState({questions: arrayMove(this.state.questions, oldIndex, newIndex)});
           }}
           />
-          <div style={{margin: '40px 10px'}}>
-            <RaisedButton label="Cancel" primary={true} style={{float: 'right', marginLeft: '10px'}} />
-            <RaisedButton label="Create" primary={true} style={{float: 'right'}} onClick={() => {
-              this.props.CollectionStore.createCollection(this.state.title, this.state.description, this.state.endText, this.state.questions);
-            }} />
-          </div>
+        <div style={{margin: '40px 10px'}}>
+          <FlatButton label="Cancel" style={{float: 'right'}} onClick={() => this.props.push("/")}/>
+          <RaisedButton label="Save" primary={true} style={{float: 'left'}} onClick={() => {
+            this.props.CollectionStore.createCollection(this.state.title, this.state.description, this.state.endText, this.state.questions)
+              .then(function(collectionId) {
+                this.props.QuestionStore.loadCollectionQuestions(collectionId);
+                this.props.push("/collection/" + collectionId + "/edit");
+              }.bind(this)).catch(function(reason) {
+                console.log("FAILED");
+                this.setState({errorMessage: reason});
+              }.bind(this));
+          }} />
+        </div>
+
+        <Dialog title="Warning" actions={<RaisedButton label="Close" primary={true} onTouchTap={() => this.setState({errorMessage: false})}/>} modal={false} open={this.state.errorMessage ? true : false} onRequestClose={() => this.setState({errorMessage: false})}>{this.state.errorMessage ? this.state.errorMessage : null}</Dialog>
       </div>
     )
   }

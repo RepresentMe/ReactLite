@@ -4,8 +4,10 @@ import axios from 'axios';
 class QuestionStore {
 
   questions = observable.shallowMap({});
-  collectionQuestions = observable.shallowMap({});
   searchCache = observable.shallowMap({});
+
+  collectionQuestions = observable.shallowMap({}); // Stores each collection item by collection id
+  collectionItems = observable.shallowMap({}); // Stores the full details of the collection item
 
   loadQuestion(id, forceUpdate = false) {
 
@@ -58,6 +60,7 @@ class QuestionStore {
         // Add questions and add question collection relationship
         let questionIds = [];
         for (let question of response.data.results) {
+          this.collectionItems.set(question.id, question);
           this.loadQuestion(question.question);
           questionIds.push(question.question);
         }
@@ -79,6 +82,46 @@ class QuestionStore {
       .then(function (response) {
         this.loadQuestion(questionId, true);
       }.bind(this));
+  }
+
+  getCollectionItem(collectionId, questionId) {
+    return this.collectionItems.values().filter((item) => { return (item.parent === collectionId && item.question === questionId)})[0];
+  }
+
+  updateCollectionQuestions(collectionId, newQuestions) {
+
+    let apiQueue = [];
+
+    for(let questionId of newQuestions) { // Loop through questions looking for new questions and updated orders
+
+      let oldIndex = this.collectionQuestions.get(collectionId).indexOf(questionId);
+      let newIndex = newQuestions.indexOf(questionId);
+
+      if (oldIndex == -1) { // New question has been added to the collection
+        apiQueue.push(axios.post('/api/question_collection_items/', {
+            parent: collectionId,
+            question: questionId,
+            order: newIndex
+          }));
+      }else if(oldIndex != newIndex) { // Existing question order has changed
+        apiQueue.push(axios.patch('/api/question_collection_items/' + this.getCollectionItem(collectionId, questionId).id + '/', {
+            order: newIndex
+          }));
+      } // Otherwise the question has not changed
+    }
+
+    for(let questionId of this.collectionQuestions.get(collectionId)) { // Loop through existing questions looking for deleted items
+      let newIndex = newQuestions.indexOf(questionId);
+      if(newIndex == -1) { // Question has been deleted
+        apiQueue.push(axios.delete('/api/question_collection_items/' + this.getCollectionItem(collectionId, questionId).id + '/'));
+      }
+    }
+
+    axios.all(apiQueue).then(axios.spread(function() {
+      this.loadCollectionQuestions(collectionId);
+    }.bind(this)));
+
+
   }
 
 
