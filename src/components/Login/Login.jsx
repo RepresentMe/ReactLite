@@ -20,6 +20,7 @@ var Login = inject("UserStore")(observer(({ UserStore, match }) => {
 
             }
           }} />
+          <p style={{margin: "20px", textAlign: 'center'}}>I have read and agree to the <a href="http://help.represent.me/policies/terms-of-use/">terms and conditions</a> and <a href="http://help.represent.me/policies/privacy-policy/">privacy policy</a></p>
       </div>
     </div>
   )
