@@ -28,7 +28,7 @@ const styles = {
   }
 }
 
-@inject("QuestionStore") @observer class CollectionEditor extends Component { // The view only for the collection editor and creator
+@inject("QuestionStore") @observer class CollectionAdminGUI extends Component { // The view only for the collection editor and creator
 
   constructor() {
     super();
@@ -172,4 +172,4 @@ const SortableQuestionLoading = SortableElement(() => {
 
 var SortableQuestionHandle = SortableHandle(({orderNumber}) => <span>{orderNumber}</span>);
 
-export default CollectionEditor;
+export default CollectionAdminGUI;

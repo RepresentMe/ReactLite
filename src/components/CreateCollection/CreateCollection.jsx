@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
-import CollectionEditor from '../CollectionEditor';
+import CollectionAdminGUI from '../CollectionAdminGUI';
 import { arrayMove } from 'react-sortable-hoc';
 import Dialog from 'material-ui/Dialog';
 
@@ -17,14 +17,16 @@ import Dialog from 'material-ui/Dialog';
       description: "",
       endText: "",
       questions: [],
+      items: [],
       errorMessage: false
     }
   }
 
   render() {
+
     return (
       <div>
-        <CollectionEditor
+        <CollectionAdminGUI
           title={this.state.title}
           description={this.state.description}
           endText={this.state.endText}

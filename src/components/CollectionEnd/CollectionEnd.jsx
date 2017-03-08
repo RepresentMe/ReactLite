@@ -13,9 +13,6 @@ var CollectionEnd = inject("CollectionStore", "QuestionStore")(observer(({ Colle
     return null;
   }
 
-  // Buffer the questions
-  QuestionStore.loadCollectionQuestions(collectionId);
-
   return (
     <Card style={{margin: '10px'}}>
       <CardTitle
@@ -23,8 +20,11 @@ var CollectionEnd = inject("CollectionStore", "QuestionStore")(observer(({ Colle
         subtitle="You've just completed"
       />
       <CardText>
-        { collection.desc }
+        { collection.end_text }
       </CardText>
+      <CardActions>
+        <Link to={ "/" }><RaisedButton label="All collections" primary /></Link>
+      </CardActions>
     </Card>
   );
 }))

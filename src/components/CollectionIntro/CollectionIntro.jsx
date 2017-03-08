@@ -4,17 +4,23 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 
-var CollectionIntro = inject("CollectionStore", "QuestionStore", "UserStore")(observer(({ CollectionStore, QuestionStore, UserStore, match }) => {
+var CollectionIntro = inject("CollectionStore", "UserStore")(observer(({ CollectionStore, UserStore, match }) => {
 
   let collectionId = parseInt(match.params.collectionId);
   let collection = CollectionStore.collections.get(collectionId);
 
-  if(!collection) {
+  if(!collectionId) {
     return null;
   }
 
-  // Buffer the questions
-  QuestionStore.loadCollectionQuestions(collectionId);
+  if(!collection) {
+    CollectionStore.getCollection(collectionId);
+    return null;
+  }
+
+  if(!CollectionStore.collectionItems.has(collectionId)) {
+    CollectionStore.items(collectionId); // Buffers the questions
+  }
 
   return (
     <Card style={{margin: '10px'}}>

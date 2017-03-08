@@ -1,19 +1,22 @@
-import { observable, autorun } from 'mobx';
+import { observable, autorun, computed } from 'mobx';
 import axios from 'axios';
 import Promise from 'promise';
 
 class CollectionStore {
 
   collections = observable.shallowMap([]);
+  collectionItems = observable.shallowMap({});
   searchCache = observable.shallowMap({});
 
   constructor() {
+
     axios.get('/api/question_collections/')
       .then(function (response) {
         for (let collection of response.data.results) {
           this.collections.set(collection.id, collection);
         }
       }.bind(this));
+
   }
 
   getCollection(collectionId, forceUpdate = false) {
@@ -26,6 +29,32 @@ class CollectionStore {
       .then(function (response) {
         this.collections.set(response.data.results[0].id, response.data.results[0]);
       }.bind(this));
+  }
+
+  items(collectionId, forceUpdate = false) {
+
+    if(!forceUpdate && this.collectionItems.has(collectionId)) {
+      return this.collectionItems.get(collectionId);
+    }
+
+    axios.get('/api/question_collection_items/', {params: { parent: collectionId, ordering: 'order' } })
+      .then(function (response) { // Then perform network requests to get questions
+        let items = response.data.results;
+        for(let item of items) {
+          if(item.type === 'Q') { // If item is a question, update QuestionStore
+            window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
+            delete item.content_object; // Remove the question data as now stored in QuestionStore
+          }
+        }
+        if(items.length === 0) {
+          this.collectionItems.set(collectionId, [1234]);
+        } else {
+          this.collectionItems.set(collectionId, items);
+        }
+      }.bind(this));
+
+    return null;
+
   }
 
   searchCollections(search) {

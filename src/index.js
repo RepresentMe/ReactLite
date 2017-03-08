@@ -7,26 +7,33 @@ import { observable } from 'mobx';
 import axios from 'axios';
 
 /* STORES */
+import UserStore from './Stores/UserStore.js';
 import CollectionStore from './Stores/CollectionStore.js';
 import QuestionStore from './Stores/QuestionStore.js';
-import UserStore from './Stores/UserStore.js';
 import DemographicsDataStore from './Stores/DemographicsDataStore.js';
 import AppStatisticsStore from './Stores/AppStatisticsStore.js';
 
 /* AXIOS CONFIG & MIDDLEWARE */
 axios.defaults.baseURL = 'http://localhost:8000';
-axios.defaults.headers.common['Authorization'] = "Token ff76bcf5e0daf737144f34fcd913a6cd13c96df2";
 //SEE 'INTERCEPTORS' FOR MIDDLEWARE
 
 injectTapEventPlugin();
 
+window.stores = {
+  UserStore:              new UserStore(),
+  CollectionStore:        new CollectionStore(),
+  QuestionStore:          new QuestionStore(),
+  DemographicsDataStore:  new DemographicsDataStore(),
+  AppStatisticsStore:     new AppStatisticsStore(),
+}
+
 ReactDOM.render(
   <Provider
-    CollectionStore={new CollectionStore()}
-    QuestionStore={new QuestionStore()}
-    UserStore={new UserStore()}
-    DemographicsDataStore={new DemographicsDataStore()}
-    AppStatisticsStore={new AppStatisticsStore()}
+    UserStore={window.stores.UserStore}
+    CollectionStore={window.stores.CollectionStore}
+    QuestionStore={window.stores.QuestionStore}
+    DemographicsDataStore={window.stores.DemographicsDataStore}
+    AppStatisticsStore={window.stores.AppStatisticsStore}
   ><Shell/></Provider>,
   document.getElementById('root')
 );

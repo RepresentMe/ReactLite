@@ -14,24 +14,17 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
   let collection = CollectionStore.collections.get(collectionId);
 
   if(!collection) {
+    CollectionStore.getCollection(collectionId);
     return null;
   }
 
-  if(!QuestionStore.collectionQuestions.has(collectionId)) {
-    // Buffer the questions
-    QuestionStore.loadCollectionQuestions(collectionId);
+  let collectionItems = CollectionStore.items(collectionId); // Question data is stored in QuestionStore, not on collectionItems records
+
+  if(!collectionItems || collectionItems.length === 0) {
     return null;
   }
 
-  let questions = [];
-
-  for (let questionId of QuestionStore.collectionQuestions.get(collectionId)) {
-    questions.push(QuestionStore.questions.get(questionId));
-  }
-
-  if(!questions[orderNumber]) {
-    return null;
-  }
+  let item = collectionItems[orderNumber];
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -39,27 +32,52 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
         transitionName="QuestionFlowTransition"
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
-        <RenderedQuestion key={ orderNumber } question={ questions[orderNumber] } onUpdate={(i) => {
 
-          if(!UserStore.userData.has("id")) {
-            push("/login");
-            return
-          }
+        {item.type === "Q" && // If rendering a question
 
-          QuestionStore.voteQuestion(questions[orderNumber].id, i);
-          if( orderNumber < questions.length - 1 ) { // If there is a next question
-            push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
-          }else {
-            push('/collection/' + collectionId + '/end');
-          }
-        }} />
+          <RenderedQuestion key={ orderNumber } question={ QuestionStore.questions.get(item.object_id) } onUpdate={(i) => {
+            if(!UserStore.userData.has("id")) { push("/login"); return } // User must log in
+
+            QuestionStore.voteQuestion(item.object_id, i);
+            if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
+              push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
+            }else {
+              push('/collection/' + collectionId + '/end');
+            }
+          }} />
+
+        }
+
+        {item.type === "B" && // If rendering a break
+          <RenderedBreak break={item.content_object} onContinue={() => {
+            if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
+              push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
+            }else {
+              push('/collection/' + collectionId + '/end');
+            }
+          }} />
+        }
+
       </ReactCSSTransitionGroup>
     </div>
   );
 
 }))
 
+let RenderedBreak = (props) => {
+  return(
+    <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
+      <div className="QuestionFlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 40px 20px' }}>
+        <h1>{ props.break.title }</h1>
+        <h3>{ props.break.text }</h3>
+        <RaisedButton label="Continue" onClick={props.onContinue} primary />
+      </div>
+    </div>  )
+}
+
 let RenderedQuestion = (props) => {
+
+  console.log(props);
 
   let myVote = null;
 

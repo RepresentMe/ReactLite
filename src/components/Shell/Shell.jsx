@@ -20,7 +20,8 @@ import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import { inject, observer } from "mobx-react";
 import createHistory from 'history/createBrowserHistory'
-import Test from '../Test'
+import Test from '../Test';
+import NetworkProgress from '../NetworkProgress';
 
 import './Shell.css';
 
@@ -65,6 +66,8 @@ const history = createHistory();
                   }}/>}
                 />
 
+                <NetworkProgress />
+
                 <Dialog
                   title="My Account"
                   actions={
@@ -103,7 +106,7 @@ const history = createHistory();
                   <TextField disabled={true} id="text-field-disabled" defaultValue={this.props.UserStore.userData.get("last_name")} fullWidth={true}/>
                 </Dialog>
 
-                <div style={{height: "calc(100% - 64px)", overflow: 'scroll'}}>
+                <div style={{height: "calc(100% - 68px)", overflow: 'scroll'}}>
                   <Route exact path="/" component={CollectionsList}/>
                   <Route exact path="/login" component={Login}/>
                   <Route exact path="/collection/create" component={CreateCollection}/>

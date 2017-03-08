@@ -6,9 +6,6 @@ class QuestionStore {
   questions = observable.shallowMap({});
   searchCache = observable.shallowMap({});
 
-  collectionQuestions = observable.shallowMap({}); // Stores each collection item by collection id
-  collectionItems = observable.shallowMap({}); // Stores the full details of the collection item
-
   loadQuestion(id, forceUpdate = false) {
 
     if(!forceUpdate && this.questions.has(id)) {
@@ -20,7 +17,6 @@ class QuestionStore {
         if(!response.data.results[0]) {
           return;
         }
-        console.log("Downloaded question", id);
         this.questions.set(response.data.results[0].id, response.data.results[0]);
       }.bind(this));
   }
@@ -38,7 +34,6 @@ class QuestionStore {
             for(let question of response.data.results) {
               if(!this.questions.has(question.id)) {
                 this.questions.set(question.id, question);
-                console.log("Downloaded question", question.id);
               }
               searchResultSummary = searchResultSummary.concat([question.id]);
             }
@@ -47,26 +42,6 @@ class QuestionStore {
         }.bind(this));
       return false;
     }
-  }
-
-  loadCollectionQuestions(collectionId, forceUpdate = false) {
-
-    if(this.collectionQuestions.has(collectionId) && !forceUpdate) {
-      return;
-    }
-
-    axios.get('/api/question_collection_items/', {params: { parent: collectionId, ordering: 'order' } })
-      .then(function (response) {
-        // Add questions and add question collection relationship
-        let questionIds = [];
-        for (let question of response.data.results) {
-          this.collectionItems.set(question.id, question);
-          this.loadQuestion(question.question);
-          questionIds.push(question.question);
-        }
-        this.collectionQuestions.set(collectionId, questionIds);
-      }.bind(this));
-
   }
 
   voteQuestion(questionId, value) {
