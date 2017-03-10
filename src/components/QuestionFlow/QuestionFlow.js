@@ -6,6 +6,10 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
 import Tappable from 'react-tappable';
 import './QuestionFlow.css';
+import Slider from 'material-ui/Slider';
+import LinearProgress from 'material-ui/LinearProgress';
+import { white, cyan600, grey300 } from 'material-ui/styles/colors';
+import ReactMarkdown from 'react-markdown';
 
 let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(observer(({ push, UserStore, CollectionStore, QuestionStore, match }) => {
 
@@ -20,11 +24,16 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
 
   let collectionItems = CollectionStore.items(collectionId); // Question data is stored in QuestionStore, not on collectionItems records
 
-  if(!collectionItems || collectionItems.length === 0) {
+  if(collectionItems === null) {
     return null;
   }
 
   let item = collectionItems[orderNumber];
+
+  if(!item) {
+    push('/collection/' + collectionId + '/end');
+    return null;
+  }
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -36,9 +45,17 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
         {item.type === "Q" && // If rendering a question
 
           <RenderedQuestion key={ orderNumber } question={ QuestionStore.questions.get(item.object_id) } onUpdate={(i) => {
-            if(!UserStore.userData.has("id")) { push("/login"); return } // User must log in
 
-            QuestionStore.voteQuestion(item.object_id, i);
+            let question = QuestionStore.questions.get(item.object_id);
+
+            if(!UserStore.userData.has("id")) { push("/login/" + encodeURIComponent(window.location.pathname.substring(1))); return } // User must log in
+
+            if(question.subtype === 'likert') {
+              QuestionStore.voteQuestionLikert(item.object_id, i, collectionId);
+            }else if(question.subtype === 'mcq') {
+              QuestionStore.voteQuestionMCQ(item.object_id, i, collectionId);
+            }
+
             if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
               push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
             }else {
@@ -59,6 +76,15 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
         }
 
       </ReactCSSTransitionGroup>
+
+      <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '0', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
+        if( value < collectionItems.length ) { // If there is a next question
+          push('/collection/' + collectionId + '/flow/' + value);
+        }else {
+          push('/collection/' + collectionId + '/end');
+        }
+      }}/>
+
     </div>
   );
 
@@ -67,17 +93,15 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
 let RenderedBreak = (props) => {
   return(
     <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
-      <div className="QuestionFlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 40px 20px' }}>
+      <div className="QuestionFlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0px 20px 70px 20px' }}>
         <h1>{ props.break.title }</h1>
-        <h3>{ props.break.text }</h3>
+        <ReactMarkdown source={ props.break.text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
         <RaisedButton label="Continue" onClick={props.onContinue} primary />
       </div>
     </div>  )
 }
 
 let RenderedQuestion = (props) => {
-
-  console.log(props);
 
   let myVote = null;
 
@@ -87,11 +111,24 @@ let RenderedQuestion = (props) => {
 
   return (
       <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
-        <div className="QuestionFlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 40px 20px' }}>
+        <div className="QuestionFlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 70px 20px' }}>
           <h1>{ props.question.question }</h1>
-          <LikertButtons onUpdate={(i) => props.onUpdate(i)} value={myVote} />
+
+          {props.question.subtype === "likert" && <LikertButtons onUpdate={(i) => props.onUpdate(i)} value={myVote} />}
+          {props.question.subtype === "mcq" && <MCQButtons onUpdate={(i) => props.onUpdate(i)} question={props.question} />}
+
         </div>
       </div>
+  )
+}
+
+let ProgressIndicator = (props) => {
+
+  return (
+    <div style={props.style}>
+      <p style={{textAlign: 'center', color: cyan600, margin: "5px 0" }}>{props.order + 1} / {props.max}</p>
+      <Slider style={{backgroundColor: grey300, width: '100%', pointerEvents: "all"}} sliderStyle={{backgroundColor: white, color: cyan600, margin: "0"}} max={props.max} min={0} value={props.order} step={1} onChange={props.onChange}/>
+    </div>
   )
 }
 
@@ -101,6 +138,18 @@ let LikertButtons = (props) => {
     likertJSX.push(<div className={ "likertButton likertButton" + i + ( props.value && props.value !== i ? " likertButtonDimmed" : "")} key={i} onClick={() => props.onUpdate(i)}></div>);
   }
   return (<div style={{overflow: 'hidden', display: 'table', margin: '0 auto'}}>{likertJSX.map((item, index) => {return item})}</div>);
+}
+
+let MCQButtons = (props) => {
+
+  return (
+    <div>
+      { props.question.choices.map((choice, index) => {
+        return (<RaisedButton primary={!(props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id)} key={index} label={choice.text} style={{display:'block', margin: '10px 0'}} onClick={() => props.onUpdate(choice.id)}/>);
+      })}
+    </div>
+  )
+
 }
 
 export default QuestionFlow;

@@ -47,7 +47,7 @@ class CollectionStore {
           }
         }
         if(items.length === 0) {
-          this.collectionItems.set(collectionId, [1234]);
+          this.collectionItems.set(collectionId, []);
         } else {
           this.collectionItems.set(collectionId, items);
         }

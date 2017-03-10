@@ -42,6 +42,7 @@
 }
 
 .QuestionFlowTransition-leave {
+  opacity: 0;
   animation: QuestionFlowTransitionLeaving 1s ease-in-out;
 }
 

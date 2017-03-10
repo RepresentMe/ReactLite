@@ -44,7 +44,8 @@ class QuestionStore {
     }
   }
 
-  voteQuestion(questionId, value) {
+  voteQuestionLikert(questionId, value, collection = null) {
+    console.log("VOTE LIKERT");
     if(!this.questions.has(questionId) || !value) {
       return false;
     }
@@ -52,6 +53,24 @@ class QuestionStore {
     axios.post('/api/question_votes/', {
         object_id: questionId,
         value,
+        collection,
+        private: true,
+      })
+      .then(function (response) {
+        this.loadQuestion(questionId, true);
+      }.bind(this));
+  }
+
+  voteQuestionMCQ(questionId, value, collection = null) {
+    console.log("VOTE MCQ");
+    if(!this.questions.has(questionId) || !value) {
+      return false;
+    }
+
+    axios.post('/api/question_choice_votes/', {
+        object_id: value,
+        value: 5,
+        collection,
         private: true,
       })
       .then(function (response) {

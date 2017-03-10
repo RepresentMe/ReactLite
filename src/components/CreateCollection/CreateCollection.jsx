@@ -31,11 +31,16 @@ import Dialog from 'material-ui/Dialog';
           description={this.state.description}
           endText={this.state.endText}
           questions={this.state.questions}
+          items={this.state.items}
 
           textChange={(field, newValue) => {
             let newState = this.state;
             newState[field] = newValue
             this.setState(newState);
+          }}
+
+          addItem={(item) => {
+            this.setState({items: this.state.items.concat([item])});
           }}
 
           addQuestion={(question) => {
@@ -54,8 +59,7 @@ import Dialog from 'material-ui/Dialog';
           }}
           />
         <div style={{margin: '40px 10px'}}>
-          <FlatButton label="Cancel" style={{float: 'right'}} onClick={() => this.props.push("/")}/>
-          <RaisedButton label="Save" primary={true} style={{float: 'left'}} onClick={() => {
+          <RaisedButton label="Save" primary={true} style={{float: 'right'}} onClick={() => {
             this.props.CollectionStore.createCollection(this.state.title, this.state.description, this.state.endText, this.state.questions)
               .then(function(collectionId) {
                 this.props.QuestionStore.loadCollectionQuestions(collectionId);
@@ -65,6 +69,7 @@ import Dialog from 'material-ui/Dialog';
                 this.setState({errorMessage: reason});
               }.bind(this));
           }} />
+          <FlatButton label="Cancel" style={{float: 'right'}} secondary={true} onClick={() => this.props.push("/")}/>
         </div>
 
         <Dialog title="Warning" actions={<RaisedButton label="Close" primary={true} onTouchTap={() => this.setState({errorMessage: false})}/>} modal={false} open={this.state.errorMessage ? true : false} onRequestClose={() => this.setState({errorMessage: false})}>{this.state.errorMessage ? this.state.errorMessage : null}</Dialog>

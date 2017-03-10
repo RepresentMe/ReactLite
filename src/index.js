@@ -5,6 +5,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Provider } from 'mobx-react';
 import { observable } from 'mobx';
 import axios from 'axios';
+import DevTools, { setLogEnabled } from 'mobx-react-devtools';
 
 /* STORES */
 import UserStore from './Stores/UserStore.js';
@@ -27,13 +28,22 @@ window.stores = {
   AppStatisticsStore:     new AppStatisticsStore(),
 }
 
+window.authSettings = {
+  facebookPageId: 1522822621304793,
+  facebookId: 1499361770335561,
+}
+
+setLogEnabled(false); // Mobx dev tools
+
+//<DevTools />
+
 ReactDOM.render(
-  <Provider
+  <div><Provider
     UserStore={window.stores.UserStore}
     CollectionStore={window.stores.CollectionStore}
     QuestionStore={window.stores.QuestionStore}
     DemographicsDataStore={window.stores.DemographicsDataStore}
     AppStatisticsStore={window.stores.AppStatisticsStore}
-  ><Shell/></Provider>,
+  ><Shell/></Provider></div>,
   document.getElementById('root')
 );

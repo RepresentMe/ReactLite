@@ -4,7 +4,7 @@ import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
-import { white, cyan600, green100 } from 'material-ui/styles/colors';
+import { white, cyan600, green100, red500 } from 'material-ui/styles/colors';
 import Divider from 'material-ui/Divider';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import {List, ListItem} from 'material-ui/List';
@@ -35,7 +35,10 @@ const styles = {
 
     this.state = {
       showAddExistingQuestionDialog: false,
-      existingQuestionDialogText: ""
+      existingQuestionDialogText: "",
+      showAddBreakDialog: false,
+      addBreakDialogTitle: "",
+      addBreakDialogText: "",
     }
   }
 
@@ -57,17 +60,19 @@ const styles = {
 
     return (
       <div>
-        <Paper zDepth={0} style={{ margin: '20px' }}>
+
+        <Paper zDepth={0} style={{ margin: '20px' }}> {/* Collection title, description and end text */}
           <TextField onChange={(e, newValue) => this.props.textChange('title', newValue)} value={this.props.title} style={styles.textField} floatingLabelText="Collection Title" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} underlineShow={false} />
           <Divider />
           <TextField onChange={(e, newValue) => this.props.textChange('description', newValue)} value={this.props.description} style={styles.textField} floatingLabelText="Collection Description" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} multiLine={true} underlineShow={false} />
           <Divider />
-          <TextField onChange={(e, newValue) => this.props.textChange('endText', newValue)} value={this.props.endText} style={styles.textField} floatingLabelText="Ending Text" hintText="Shown after users have completed the collection" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} multiLine={true} underlineShow={false} />
+          <TextField onChange={(e, newValue) => this.props.textChange('endText', newValue)} value={this.props.endText} style={styles.textField} floatingLabelText="Ending Text" hintText="Shown at the end of a collection" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} multiLine={true} underlineShow={false} />
         </Paper>
-        <Paper zDepth={2} style={{ margin: '10px' }}>
+
+        <Paper zDepth={2} style={{ margin: '10px' }}> {/* Drag and drop items toolbar */}
           <Toolbar style={{backgroundColor: cyan600, color: white}}>
             <ToolbarGroup firstChild={true}>
-              <ToolbarTitle text="Questions (Drag to reorder)" style={{marginLeft: '20px', color: white}} />
+              <ToolbarTitle text="Content (Drag to reorder)" style={{marginLeft: '20px', color: white}} />
             </ToolbarGroup>
             <ToolbarGroup>
               <IconMenu
@@ -79,19 +84,14 @@ const styles = {
                 >
                 <MenuItem primaryText="Add an existing question" onClick={() => this.setState({showAddExistingQuestionDialog: true})} />
                 <MenuItem primaryText="Create a new question" disabled={true} />
+                <MenuItem primaryText="Add a break" onClick={() => this.setState({showAddBreakDialog: true})} />
               </IconMenu>
             </ToolbarGroup>
           </Toolbar>
 
+          {/* Drag and drop items list */}
           <SortableQuestions
-            items={this.props.questions.map((question, index) => {
-              if(this.props.QuestionStore.questions.has(question)) {
-                return this.props.QuestionStore.questions.get(question)
-              }else {
-                this.props.QuestionStore.loadQuestion(question);
-                return null;
-              }
-            })}
+            items={this.props.items}
             useDragHandle={false}
             lockAxis="y"
             onSortEnd={({oldIndex, newIndex}) => this.props.sortQuestion(oldIndex, newIndex)}
@@ -99,6 +99,54 @@ const styles = {
             />
         </Paper>
 
+        {/* Add break dialog */}
+        <Dialog
+            title="Add a Break"
+            actions={[
+              <FlatButton
+                label="Cancel"
+                secondary={true}
+                onTouchTap={() => this.setState({showAddBreakDialog: false})}
+              />,
+              <FlatButton
+                label="Add"
+                onTouchTap={() => {
+
+                  if(!this.state.addBreakDialogTitle) {
+                    return
+                  }
+
+                  this.props.addItem({
+                    type: 'B',
+                    title: this.state.addBreakDialogTitle,
+                    text: this.state.addBreakDialogText,
+                  });
+
+                  this.setState({
+                    showAddBreakDialog: false,
+                    addBreakDialogTitle: "",
+                    addBreakDialogText: "",
+                  });
+
+                }}
+              />
+            ]}
+            modal={false}
+            open={this.state.showAddBreakDialog}
+            onRequestClose={() => this.setState({showAddBreakDialog: false})}
+          >
+
+          <TextField underlineStyle={!this.state.addBreakDialogTitle ? { borderColor: red500 } : {}} value={this.state.addBreakDialogTitle} style={styles.textField} hintText="Title" fullWidth={true} onChange={(e, newValue) => {
+            this.setState({addBreakDialogTitle: newValue});
+          }} />
+
+          <TextField value={this.state.addBreakDialogText} style={styles.textField} hintText="Text" fullWidth={true} onChange={(e, newValue) => {
+            this.setState({addBreakDialogText: newValue});
+          }} />
+
+        </Dialog>
+
+        {/* Add existing question dialog */}
         <Dialog
             title="Add an Existing Question"
             actions={
@@ -126,7 +174,11 @@ const styles = {
                 <ListItem onClick={() => {
                     this.setState({showAddExistingQuestionDialog: false});
                     this.setState({existingQuestionDialogText: ""});
-                    this.props.addQuestion(this.props.QuestionStore.questions.get(question).id);
+                    //this.props.addQuestion(this.props.QuestionStore.questions.get(question).id);
+                    this.props.addItem({
+                      type: "Q",
+                      id: this.props.QuestionStore.questions.get(question).id
+                    });
                   }}
                   key={index}
                   hoverColor={green100}
@@ -144,14 +196,35 @@ const styles = {
   }
 }
 
+// if(this.props.QuestionStore.questions.has(question)) {
+//   return this.props.QuestionStore.questions.get(question)
+// }else {
+//   this.props.QuestionStore.loadQuestion(question);
+//   return null;
+// }
+
+// {items.map((value, index) => {
+//   if(!value) {
+//     return <SortableQuestionLoading key={`item-${index}`} index={index}/>;
+//   }else {
+//     return <SortableQuestion key={`item-${index}`} index={index} value={value} orderNumber={(index + 1)} onRemove={() => onRemove(value.id)} />
+//   }
+// })}
+
 const SortableQuestions = SortableContainer(({items, onRemove}) => {
   return (
     <List>
-      {items.map((value, index) => {
-        if(!value) {
-          return <SortableQuestionLoading key={`item-${index}`} index={index}/>;
-        }else {
-          return <SortableQuestion key={`item-${index}`} index={index} value={value} orderNumber={(index + 1)} onRemove={() => onRemove(value.id)} />
+      {items.map((item, index) => {
+        if(item.type === "Q") { // Type is question
+          items.map((value, index) => {
+            if(!value) {
+              return <SortableQuestionLoading key={`item-${index}`} index={index}/>;
+            }else {
+              return <SortableQuestion key={`item-${index}`} index={index} value={value} orderNumber={(index + 1)} onRemove={() => onRemove(value.id)} />
+            }
+          })
+        }else if(item.type === "B") { // Type is break
+
         }
       })}
     </List>

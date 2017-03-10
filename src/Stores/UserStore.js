@@ -8,7 +8,10 @@ class UserStore {
   sessionData = observable.shallowMap({
     authToken: "",
     showUserDialogue: false,
-    userLocation: observable.map(),
+  });
+
+  userLocation = observable.shallowMap({
+    pathname: window.location.pathname
   });
 
   updateAxios = observe(this.sessionData, "authToken", (change) => {
