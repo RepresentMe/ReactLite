@@ -38,7 +38,7 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <ReactCSSTransitionGroup
-        transitionName="QuestionFlowTransition"
+        transitionName="FlowTransition"
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
 
@@ -93,7 +93,7 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
 let RenderedBreak = (props) => {
   return(
     <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
-      <div className="QuestionFlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0px 20px 70px 20px' }}>
+      <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0px 20px 70px 20px' }}>
         <h1>{ props.break.title }</h1>
         <ReactMarkdown source={ props.break.text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
         <RaisedButton label="Continue" onClick={props.onContinue} primary />
@@ -111,7 +111,7 @@ let RenderedQuestion = (props) => {
 
   return (
       <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
-        <div className="QuestionFlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 70px 20px' }}>
+        <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 70px 20px' }}>
           <h1>{ props.question.question }</h1>
 
           {props.question.subtype === "likert" && <LikertButtons onUpdate={(i) => props.onUpdate(i)} value={myVote} />}

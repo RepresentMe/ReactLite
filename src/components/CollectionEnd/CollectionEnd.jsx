@@ -15,7 +15,6 @@ import TextField from 'material-ui/TextField';
     super();
     this.state = {
       showMessengerDialog: true,
-      messengerDialogScriptLoaded: false,
       showEmbedDialog: false,
     }
   }
@@ -29,12 +28,24 @@ import TextField from 'material-ui/TextField';
       return null;
     }
 
+    let cardMediaCSS = {
+      background: "linear-gradient(135deg, rgba(250,255,209,1) 0%,rgba(161,255,206,1) 100%)",
+      height: '200px',
+      overflow: 'hidden',
+      backgroundSize: 'cover',
+    }
+
+    if(collection.photo) {
+      cardMediaCSS.backgroundImage = 'url(' + collection.photo.replace("localhost:8000", "represent.me") + ')';
+    }
+
+
     return (
       <div>
 
         <Card style={{margin: '10px'}}>
           <CardMedia overlay={<CardTitle title={ collection.name } subtitle="Thanks for completing this collection, your opinion will now be used as evidence by your representative and decision makers" />}>
-            <div style={{height: '200px', overflow: 'hidden', backgroundSize: 'cover', backgroundImage: 'url(' + collection.photo.replace("localhost:8000", "represent.me") + ')'}}></div>
+            <div style={cardMediaCSS}></div>
           </CardMedia>
           <CardTitle
             title="Know someone passionate about this subject?"
@@ -57,9 +68,8 @@ import TextField from 'material-ui/TextField';
               appId={String(window.authSettings.facebookId)}
               pageId={String(window.authSettings.facebookPageId)}
               size="xlarge"
-              asyncScriptOnLoad={() => this.setState({messengerDialogScriptLoaded: true})}
               /></span>
-            {this.state.messengerDialogScriptLoaded && <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showMessengerDialog: false})} /></span>}
+            <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showMessengerDialog: false})} /></span>
 
         </Dialog>
 
@@ -76,6 +86,7 @@ import TextField from 'material-ui/TextField';
               />
             }
           >
+          Copy the following HTML into the source of your website, no additional setup required!
           <TextField
             value={'<iframe width="700" height="400" src="https://' + window.location.host + '/collection/' + collection.id + '"></iframe>'}
             fullWidth={true}

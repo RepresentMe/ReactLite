@@ -18,6 +18,7 @@ import EditCollection from '../EditCollection';
 import QuestionFlow from '../QuestionFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
+import Register from '../Register';
 import { inject, observer } from "mobx-react";
 import createHistory from 'history/createBrowserHistory'
 import Test from '../Test';
@@ -41,6 +42,17 @@ const muiTheme = getMuiTheme({
     selectionColor: cyan600,
     rippleColor: cyan600,
   },
+  raisedButton: {
+    textColor: white,
+  },
+  flatButton: {
+    primaryTextColor: cyan600,
+  },
+  datePicker: {
+    textColor: white,
+    color: cyan600,
+    selectTextColor: white
+  }
 });
 
 const history = createHistory();
@@ -138,6 +150,8 @@ const history = createHistory();
                     <Route exact path="/" component={CollectionsList}/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/login/:redirect" component={Login}/>
+                    <Route exact path="/register" component={Register}/>
+                    <Route exact path="/register/:redirect" component={Register}/>
                     <Route exact path="/collection/create" component={CreateCollection}/>
                     <Route exact path="/collection/:collectionId" component={CollectionIntro}/>
                     <Route exact path="/collection/:collectionId/edit" component={EditCollection}/>

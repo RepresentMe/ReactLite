@@ -30,8 +30,15 @@ window.stores = {
 
 window.authSettings = {
   facebookPageId: 1522822621304793,
-  facebookId: 1499361770335561,
+  //facebookId: 1499361770335561,
+  facebookId: 1665890767015993,
 }
+
+// window.FB.init({
+//   appId  : window.authSettings.facebookId,
+//   xfbml  : true,
+//   version: 'v2.6',
+// });
 
 setLogEnabled(false); // Mobx dev tools
 
