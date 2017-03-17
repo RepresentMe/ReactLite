@@ -70,6 +70,10 @@ class UserStore {
     this.sessionData.set("showUserDialogue", !this.sessionData.get("showUserDialogue"));
   }
 
+  register(details) {
+    return axios.post('/auth-yeti/', details);
+  }
+
   logout() {
     Cookies.expire("representAuthToken");
     this.sessionData.set("authToken", "");
