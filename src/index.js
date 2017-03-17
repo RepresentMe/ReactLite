@@ -27,7 +27,7 @@ window.authSettings = {
 }
 
 if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
-  axios.defaults.baseURL = 'https://developers.represent.me';
+  axios.defaults.baseURL = 'https://test.represent.me';
   window.authSettings.facebookId = 1529695427302195;
 }
 

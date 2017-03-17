@@ -159,7 +159,7 @@ import MenuItem from 'material-ui/MenuItem';
           actions={
             <div>
               <FlatButton primary label="Register" onClick={() => this.setState({showIntroDialog: false})} />
-              {this.props.match.params.redirect && <FlatButton label="Cancel" onClick={() => this.props.push("/" + decodeURIComponent(this.props.match.params.redirect))}/>}
+              {this.props.match.params.redirect && <FlatButton label="Cancel" onClick={() => this.props.history.push("/" + decodeURIComponent(this.props.match.params.redirect))}/>}
             </div>
           }
           >

@@ -4,15 +4,15 @@ import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import FacebookLogin from 'react-facebook-login';
 
-var Login = inject("UserStore")(observer(({ UserStore, match, push }) => {
+var Login = inject("UserStore")(observer(({ UserStore, match, history }) => {
 
   let redirect = match.params.redirect;
 
   if(UserStore.userData.has("id")) { // If user is logged in, redirect
     if(redirect) {
-      push("/" + decodeURIComponent(redirect));
+      history.push("/" + decodeURIComponent(redirect));
     }else {
-      push("/");
+      history.push("/");
     }
   }
 
@@ -44,7 +44,7 @@ var Login = inject("UserStore")(observer(({ UserStore, match, push }) => {
             display: 'block',
             margin: '10px auto',
           }}
-          onClick={() => push("/register/" + redirect)}
+          onClick={() => history.push("/register/" + redirect)}
         />
 
         <p style={{textAlign: 'center'}}>I have read and agree to the <a href="http://help.represent.me/policies/terms-of-use/">terms and conditions</a> and <a href="http://help.represent.me/policies/privacy-policy/">privacy policy</a></p>
