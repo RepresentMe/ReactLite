@@ -20,14 +20,6 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 injectTapEventPlugin();
 
-window.stores = {
-  UserStore:              new UserStore(),
-  CollectionStore:        new CollectionStore(),
-  QuestionStore:          new QuestionStore(),
-  DemographicsDataStore:  new DemographicsDataStore(),
-  AppStatisticsStore:     new AppStatisticsStore(),
-}
-
 window.authSettings = {
   facebookPageId: 1522822621304793,
   //facebookId: 1499361770335561,
@@ -37,6 +29,14 @@ window.authSettings = {
 if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
   axios.defaults.baseURL = 'https://developers.represent.me';
   window.authSettings.facebookId = 1529695427302195;
+}
+
+window.stores = {
+  UserStore:              new UserStore(),
+  CollectionStore:        new CollectionStore(),
+  QuestionStore:          new QuestionStore(),
+  DemographicsDataStore:  new DemographicsDataStore(),
+  AppStatisticsStore:     new AppStatisticsStore(),
 }
 
 // window.FB.init({
