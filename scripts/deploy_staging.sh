@@ -1,10 +1,11 @@
 #!/bin/bash
 
-echo "Deploying to staging...\n"
+echo "Deploying to staging..."
 
-ssh centos@share-test.represent.me <<EOF
+ssh -t -t centos@share-test.represent.me <<EOF
 cd /var/www/html
-git reset --hard staging
+git fetch
+git reset --hard "staging"
 npm install
 npm run build
 exit
