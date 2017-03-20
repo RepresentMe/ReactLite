@@ -11,7 +11,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 import { white, cyan600, grey300 } from 'material-ui/styles/colors';
 import ReactMarkdown from 'react-markdown';
 
-let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(observer(({ push, UserStore, CollectionStore, QuestionStore, match }) => {
+let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(observer(({ history, UserStore, CollectionStore, QuestionStore, match }) => {
 
   let collectionId = parseInt(match.params.collectionId);
   let orderNumber = parseInt(match.params.orderNumber);
@@ -31,14 +31,14 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
   let item = collectionItems[orderNumber];
 
   if(!item) {
-    push('/collection/' + collectionId + '/end');
+    history.push('/collection/' + collectionId + '/end');
     return null;
   }
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <ReactCSSTransitionGroup
-        transitionName="QuestionFlowTransition"
+        transitionName="FlowTransition"
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
 
@@ -48,7 +48,7 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
 
             let question = QuestionStore.questions.get(item.object_id);
 
-            if(!UserStore.userData.has("id")) { push("/login/" + encodeURIComponent(window.location.pathname.substring(1))); return } // User must log in
+            if(!UserStore.userData.has("id")) { history.push("/login/" + encodeURIComponent(window.location.pathname.substring(1))); return } // User must log in
 
             if(question.subtype === 'likert') {
               QuestionStore.voteQuestionLikert(item.object_id, i, collectionId);
@@ -57,9 +57,9 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
             }
 
             if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
-              push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
+              history.push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
             }else {
-              push('/collection/' + collectionId + '/end');
+              history.push('/collection/' + collectionId + '/end');
             }
           }} />
 
@@ -68,9 +68,9 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
         {item.type === "B" && // If rendering a break
           <RenderedBreak break={item.content_object} onContinue={() => {
             if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
-              push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
+              history.push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
             }else {
-              push('/collection/' + collectionId + '/end');
+              history.push('/collection/' + collectionId + '/end');
             }
           }} />
         }
@@ -79,9 +79,9 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
 
       <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '0', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
         if( value < collectionItems.length ) { // If there is a next question
-          push('/collection/' + collectionId + '/flow/' + value);
+          history.push('/collection/' + collectionId + '/flow/' + value);
         }else {
-          push('/collection/' + collectionId + '/end');
+          history.push('/collection/' + collectionId + '/end');
         }
       }}/>
 
@@ -93,7 +93,7 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
 let RenderedBreak = (props) => {
   return(
     <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
-      <div className="QuestionFlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0px 20px 70px 20px' }}>
+      <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0px 20px 70px 20px' }}>
         <h1>{ props.break.title }</h1>
         <ReactMarkdown source={ props.break.text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
         <RaisedButton label="Continue" onClick={props.onContinue} primary />
@@ -111,7 +111,7 @@ let RenderedQuestion = (props) => {
 
   return (
       <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
-        <div className="QuestionFlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 70px 20px' }}>
+        <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 70px 20px' }}>
           <h1>{ props.question.question }</h1>
 
           {props.question.subtype === "likert" && <LikertButtons onUpdate={(i) => props.onUpdate(i)} value={myVote} />}

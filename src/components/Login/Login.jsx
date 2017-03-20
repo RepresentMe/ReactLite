@@ -4,15 +4,15 @@ import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import FacebookLogin from 'react-facebook-login';
 
-var Login = inject("UserStore")(observer(({ UserStore, match, push }) => {
+var Login = inject("UserStore")(observer(({ UserStore, match, history }) => {
 
   let redirect = match.params.redirect;
 
   if(UserStore.userData.has("id")) { // If user is logged in, redirect
     if(redirect) {
-      push("/" + decodeURIComponent(redirect));
+      history.push("/" + decodeURIComponent(redirect));
     }else {
-      push("/");
+      history.push("/");
     }
   }
 
@@ -21,7 +21,7 @@ var Login = inject("UserStore")(observer(({ UserStore, match, push }) => {
       <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center' }}>
         <h1>Please sign into your Represent account</h1>
         <FacebookLogin
-          appId="1665890767015993"
+          appId={String(window.authSettings.facebookId)}
           autoLoad={false}
           fields="name,email,picture"
           callback={(result) => {
@@ -38,10 +38,14 @@ var Login = inject("UserStore")(observer(({ UserStore, match, push }) => {
           textButton="Continue with Facebook"
           />
 
-        <FlatButton label="Continue with Email" style={{
-          display: 'block',
-          margin: '10px auto',
-        }}/>
+        <FlatButton
+          label="I don't have an account"
+          style={{
+            display: 'block',
+            margin: '10px auto',
+          }}
+          onClick={() => history.push("/register/" + redirect)}
+        />
 
         <p style={{textAlign: 'center'}}>I have read and agree to the <a href="http://help.represent.me/policies/terms-of-use/">terms and conditions</a> and <a href="http://help.represent.me/policies/privacy-policy/">privacy policy</a></p>
       </div>

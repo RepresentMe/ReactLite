@@ -1,0 +1,6 @@
+RewriteEngine On    # Turn on the rewriting engine
+
+RewriteCond %{REQUEST_URI} !(\.well-known) [NC]
+
+RewriteRule    ^static/                   -                          [L]
+RewriteRule    ^                      index.html                     [B,L]

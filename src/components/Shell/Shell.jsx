@@ -18,6 +18,7 @@ import EditCollection from '../EditCollection';
 import QuestionFlow from '../QuestionFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
+import Register from '../Register';
 import { inject, observer } from "mobx-react";
 import createHistory from 'history/createBrowserHistory'
 import Test from '../Test';
@@ -41,9 +42,30 @@ const muiTheme = getMuiTheme({
     selectionColor: cyan600,
     rippleColor: cyan600,
   },
+  raisedButton: {
+    textColor: white,
+  },
+  flatButton: {
+    primaryTextColor: cyan600,
+  },
+  datePicker: {
+    textColor: white,
+    color: cyan600,
+    selectTextColor: white
+  }
 });
 
 const history = createHistory();
+
+function onProfileClick(){
+  if(this.props.UserStore.userData.has("id")) { // Is user logged in?
+    this.props.UserStore.toggleUserDialogue();
+  }else {
+    if(history.location.pathname !== "/login"){
+      history.push("/login/" + encodeURIComponent(history.location.pathname.substring(1)));
+    }
+  }
+}
 
 @inject("UserStore") @observer export default class Shell extends Component {
 
@@ -62,30 +84,27 @@ const history = createHistory();
 
                 <AppBar
                   title="Represent"
-                  iconElementLeft={<img src={smallLogo} style={{height: '36px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
-                  iconElementRight={<Avatar style={{height: '36px', width: '36px', margin: '0 0'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => {
-                    if(this.props.UserStore.userData.has("id")) { // Is user logged in?
-                      this.props.UserStore.toggleUserDialogue();
-                    }else {
-                      if(history.location.pathname !== "/login"){
-                        history.push("/login/" + encodeURIComponent(history.location.pathname.substring(1)));
-                      }
-                    }
-                  }}/>}
+                  iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
+                  iconElementRight={
+                    <span>
+                      <div onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}>{this.props.UserStore.userData.has("id") && this.props.UserStore.userData.get("first_name") + ' ' + this.props.UserStore.userData.get("last_name")}</div>
+                      <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
+                  </span>}
                   style={{
-                    height: '44px',
+                    height: '24px',
                     padding: 0,
                   }}
                   iconStyleLeft={{
-                    margin: '4px 8px'
+                    margin: '2px 4px'
                   }}
                   iconStyleRight={{
-                    margin: '4px 8px'
+                    marginRight: '8px',
+                    marginTop: '0',
                   }}
                   titleStyle={{
                     margin: 0,
-                    lineHeight: '44px',
-                    fontSize: '20px',
+                    lineHeight: '24px',
+                    fontSize: '16px',
                   }}
                   />
 
@@ -125,11 +144,11 @@ const history = createHistory();
                     this.props.UserStore.toggleUserDialogue();
                   }}
                 >
-                  <TextField value={this.props.UserStore.userData.get("first_name")} fullWidth={true}/>
-                  <TextField value={this.props.UserStore.userData.get("last_name")} fullWidth={true}/>
+                  <TextField value={this.props.UserStore.userData.get("first_name")} fullWidth={true} id="firstname"/>
+                  <TextField value={this.props.UserStore.userData.get("last_name")} fullWidth={true} id="lastname"/>
                 </Dialog>
 
-                <div style={{height: "calc(100% - 48px)", overflow: 'scroll', position: "relative"}}>
+                <div style={{height: "calc(100% - 24px)", overflow: 'scroll', position: "relative"}}>
                   <ReactCSSTransitionGroup
                     transitionName="QuestionFlowTransition"
                     transitionEnterTimeout={1000}
@@ -138,6 +157,8 @@ const history = createHistory();
                     <Route exact path="/" component={CollectionsList}/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/login/:redirect" component={Login}/>
+                    <Route exact path="/register" component={Register}/>
+                    <Route exact path="/register/:redirect" component={Register}/>
                     <Route exact path="/collection/create" component={CreateCollection}/>
                     <Route exact path="/collection/:collectionId" component={CollectionIntro}/>
                     <Route exact path="/collection/:collectionId/edit" component={EditCollection}/>

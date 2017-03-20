@@ -21,6 +21,17 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 injectTapEventPlugin();
 
+window.authSettings = {
+  facebookPageId: 1522822621304793,
+  //facebookId: 1499361770335561,
+  facebookId: 1665890767015993,
+}
+
+if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
+  axios.defaults.baseURL = 'https://test.represent.me';
+  window.authSettings.facebookId = 1684727181799018;
+}
+
 window.stores = {
   UserStore:              new UserStore(),
   CollectionStore:        new CollectionStore(),
@@ -30,10 +41,11 @@ window.stores = {
   AppStatisticsStore:     new AppStatisticsStore(),
 }
 
-window.authSettings = {
-  facebookPageId: 1522822621304793,
-  facebookId: 1499361770335561,
-}
+// window.FB.init({
+//   appId  : window.authSettings.facebookId,
+//   xfbml  : true,
+//   version: 'v2.6',
+// });
 
 setLogEnabled(false); // Mobx dev tools
 
