@@ -12,6 +12,7 @@ import UserStore from './Stores/UserStore.js';
 import CollectionStore from './Stores/CollectionStore.js';
 import QuestionStore from './Stores/QuestionStore.js';
 import DemographicsDataStore from './Stores/DemographicsDataStore.js';
+import CensusDataStore from './Stores/CensusDataStore.js';
 import AppStatisticsStore from './Stores/AppStatisticsStore.js';
 
 /* AXIOS CONFIG & MIDDLEWARE */
@@ -25,6 +26,7 @@ window.stores = {
   CollectionStore:        new CollectionStore(),
   QuestionStore:          new QuestionStore(),
   DemographicsDataStore:  new DemographicsDataStore(),
+  CensusDataStore:        new CensusDataStore(),
   AppStatisticsStore:     new AppStatisticsStore(),
 }
 
@@ -43,6 +45,7 @@ ReactDOM.render(
     CollectionStore={window.stores.CollectionStore}
     QuestionStore={window.stores.QuestionStore}
     DemographicsDataStore={window.stores.DemographicsDataStore}
+    CensusDataStore={window.stores.CensusDataStore}
     AppStatisticsStore={window.stores.AppStatisticsStore}
   ><Shell/></Provider></div>,
   document.getElementById('root')
