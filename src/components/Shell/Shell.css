@@ -4,6 +4,15 @@ html, body {
   font-family: Roboto, sans-serif;
 }
 
+a {
+  color: rgb(0, 172, 193);
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgba(0, 172, 193, 0.5);
+}
+
 /* GLOBAL TRANSITION */
 
 .FlowTransition-enter {

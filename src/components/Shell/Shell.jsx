@@ -10,7 +10,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { white, cyan600 } from 'material-ui/styles/colors';
+import { white, cyan600, black, grey700 } from 'material-ui/styles/colors';
 import CollectionsList from '../CollectionsList';
 import CollectionIntro from '../CollectionIntro';
 import CollectionEnd from '../CollectionEnd';
@@ -19,6 +19,7 @@ import QuestionFlow from '../QuestionFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import Register from '../Register';
+import JoinGroup from '../JoinGroup';
 import { inject, observer } from "mobx-react";
 import createHistory from 'history/createBrowserHistory'
 import Test from '../Test';
@@ -47,11 +48,15 @@ const muiTheme = getMuiTheme({
   },
   flatButton: {
     primaryTextColor: cyan600,
+    secondaryTextColor: grey700,
   },
   datePicker: {
     textColor: white,
     color: cyan600,
     selectTextColor: white
+  },
+  checkbox: {
+    checkedColor: cyan600
   }
 });
 
@@ -71,6 +76,8 @@ function onProfileClick(){
 
   render() {
 
+    let split_pathname = history.location.pathname.split("/");
+
     // DISABLED HISTORY UPDATE TO STORE AS CAUSES OVERFLOW OF RENDERS
     // history.listen((location, action) => { // Storing location in UserStore forces a rerender of the Shell each navigation
     //   this.props.UserStore.userLocation.replace(location);
@@ -82,33 +89,37 @@ function onProfileClick(){
           <MuiThemeProvider muiTheme={muiTheme}>
             <div style={{height: '100vh'}}>
 
-                <AppBar
-                  title="Represent"
-                  iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
-                  iconElementRight={
-                    <span>
-                      <div onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}>{this.props.UserStore.userData.has("id") && this.props.UserStore.userData.get("first_name") + ' ' + this.props.UserStore.userData.get("last_name")}</div>
-                      <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
-                  </span>}
-                  style={{
-                    height: '24px',
-                    padding: 0,
-                  }}
-                  iconStyleLeft={{
-                    margin: '2px 4px'
-                  }}
-                  iconStyleRight={{
-                    marginRight: '8px',
-                    marginTop: '0',
-                  }}
-                  titleStyle={{
-                    margin: 0,
-                    lineHeight: '24px',
-                    fontSize: '16px',
-                  }}
-                  />
+                {split_pathname[1] !== 'joingroup' &&
+                  <div>
+                    <AppBar
+                      title="Represent"
+                      iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
+                      iconElementRight={
+                        <span>
+                          <div onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}>{this.props.UserStore.userData.has("id") && this.props.UserStore.userData.get("first_name") + ' ' + this.props.UserStore.userData.get("last_name")}</div>
+                          <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
+                      </span>}
+                      style={{
+                        height: '24px',
+                        padding: 0,
+                      }}
+                      iconStyleLeft={{
+                        margin: '2px 4px'
+                      }}
+                      iconStyleRight={{
+                        marginRight: '8px',
+                        marginTop: '0',
+                      }}
+                      titleStyle={{
+                        margin: 0,
+                        lineHeight: '24px',
+                        fontSize: '16px',
+                      }}
+                      />
 
-                <NetworkProgress />
+                    <NetworkProgress />
+                  </div>
+                }
 
                 <Dialog
                   title="My Account"
@@ -148,7 +159,7 @@ function onProfileClick(){
                   <TextField value={this.props.UserStore.userData.get("last_name")} fullWidth={true} id="lastname"/>
                 </Dialog>
 
-                <div style={{height: "calc(100% - 24px)", overflow: 'scroll', position: "relative"}}>
+                <div style={{height: "calc(100%" + (split_pathname[1] !== 'joingroup' && "-28px") + ")", overflow: 'scroll', position: "relative"}}>
                   <ReactCSSTransitionGroup
                     transitionName="QuestionFlowTransition"
                     transitionEnterTimeout={1000}
@@ -159,6 +170,7 @@ function onProfileClick(){
                     <Route exact path="/login/:redirect" component={Login}/>
                     <Route exact path="/register" component={Register}/>
                     <Route exact path="/register/:redirect" component={Register}/>
+                    <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
                     <Route exact path="/collection/create" component={CreateCollection}/>
                     <Route exact path="/collection/:collectionId" component={CollectionIntro}/>
                     <Route exact path="/collection/:collectionId/edit" component={EditCollection}/>

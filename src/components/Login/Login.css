@@ -1,0 +1,13 @@
+.custom-facebook-login-button {
+  background-color: rgb(245, 245, 245);
+  height: 36px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #3B5998;
+  border: none;
+  font-family: Roboto, sans-serif;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: normal;
+  text-transform: uppercase;
+}

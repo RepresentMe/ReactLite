@@ -24,7 +24,7 @@ injectTapEventPlugin();
 window.authSettings = {
   facebookPageId: 1522822621304793,
   //facebookId: 1499361770335561,
-  facebookId: 1665890767015993,
+  facebookId: 1499361770335561,
 }
 
 if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
