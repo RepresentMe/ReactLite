@@ -19,16 +19,16 @@
 }
 
 .likertButton {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-size: contain;
   overflow: hidden;
   float: left;
   margin-left: 15px;
 }
 
-.likertButton:last-child {
-  margin-right: 0;
+.likertButton:first-child {
+  margin-left: 0;
 }
 
 .likertButtonDimmed {
