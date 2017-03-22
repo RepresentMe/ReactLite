@@ -84,6 +84,16 @@ function onProfileClick(){
     // });
     //iconElementLeft={this.props.UserStore.userLocation.get("pathname") !== "/" ? <IconButton onClick={() => { history.goBack() }}><ArrowBack color={cyan600} /></IconButton> : null}
 
+    let mainContentStyle = {
+      height: "calc(100% - 28px)",
+      overflow: 'scroll',
+      position: "relative"
+    }
+
+    if(split_pathname[1] === 'joingroup') {
+      mainContentStyle.height = "100%";
+    }
+
     return(
       <Router history={history}>
           <MuiThemeProvider muiTheme={muiTheme}>
@@ -159,7 +169,7 @@ function onProfileClick(){
                   <TextField value={this.props.UserStore.userData.get("last_name")} fullWidth={true} id="lastname"/>
                 </Dialog>
 
-                <div style={{height: "calc(100%" + (split_pathname[1] !== 'joingroup' && "-28px") + ")", overflow: 'scroll', position: "relative"}}>
+                <div style={mainContentStyle}>
                   <ReactCSSTransitionGroup
                     transitionName="QuestionFlowTransition"
                     transitionEnterTimeout={1000}

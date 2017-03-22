@@ -47,6 +47,8 @@ const styles = {
 
   render() {
 
+    console.log(axios.defaults);
+
     if(!this.state.group) {
       return null;
     }
@@ -170,7 +172,7 @@ const styles = {
       this.setState({problems});
     }else {
 
-      window.API.get("https://maps.googleapis.com/maps/api/geocode/json?components=postal_code%3A" + encodeURIComponent(this.state.txtPostcode) + "&key=" + window.authSettings.googleMapsAPI)
+      axios.get("https://maps.googleapis.com/maps/api/geocode/json?components=postal_code%3A" + encodeURIComponent(this.state.txtPostcode) + "&key=" + window.authSettings.googleMapsAPI)
         .then(function(response) {
 
           console.log(response);

@@ -24,13 +24,14 @@ window.authSettings = {
   googleMapsAPI: "AIzaSyDZxI6243Bb460yabWL_tyN97NBH6hsnwo",
 }
 
-if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
-  window.authSettings.facebookId = 1684727181799018;
-}
-
 window.API = axios.create({
   baseURL: 'http://localhost:8000'
 });
+
+if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
+  window.authSettings.facebookId = 1684727181799018;
+  window.API.defaults.baseURL = 'https://test.represent.me';
+}
 
 window.stores = {
   UserStore:              new UserStore(),
