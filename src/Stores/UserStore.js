@@ -1,5 +1,4 @@
 import { observable, autorun, observe } from 'mobx';
-import axios from 'axios';
 import Cookies from 'cookies-js';
 
 class UserStore {
@@ -16,9 +15,9 @@ class UserStore {
 
   updateAxios = observe(this.sessionData, "authToken", (change) => {
     if(change.newValue) {
-      axios.defaults.headers.common['Authorization'] = "Token " + change.newValue;
+      window.API.defaults.headers.common['Authorization'] = "Token " + change.newValue;
     }else {
-      delete axios.defaults.headers.common['Authorization'];
+      delete window.API.defaults.headers.common['Authorization'];
     }
   });
 
@@ -30,7 +29,7 @@ class UserStore {
       this.getMe();
     }
 
-    axios.interceptors.response.use(function (response) { // On successful response
+    window.API.interceptors.response.use(function (response) { // On successful response
         return response;
       }, function (error) { // On error response
         if(401 === error.response.status) { // Server returned 401
@@ -47,21 +46,25 @@ class UserStore {
       return false;
     }
 
-    axios.get('/auth/me/')
+    window.API.get('/auth/me/')
       .then(function (response) {
         this.userData.replace(response.data);
       }.bind(this));
 
   }
 
+  setupAuthToken(authToken) {
+    this.sessionData.set("authToken", authToken);
+    Cookies.set("representAuthToken", authToken, { expires: Infinity });
+    window.API.defaults.headers.common['Authorization'] = "Token " + authToken;
+    this.getMe();
+  }
+
   authYeti(provider, access_token) {
-    axios.post('/auth-yeti/', { provider, access_token })
+    window.API.post('/auth-yeti/', { provider, access_token })
       .then(function (response) {
         if(response.data.auth_token && response.data.id) {
-          this.sessionData.set("authToken", response.data.auth_token);
-          Cookies.set("representAuthToken", response.data.auth_token, { expires: Infinity });
-          axios.defaults.headers.common['Authorization'] = "Token " + response.data.auth_token;
-          this.getMe();
+          this.setupAuthToken(response.data.auth_token);
         }
       }.bind(this));
   }
@@ -71,7 +74,7 @@ class UserStore {
   }
 
   register(details) {
-    return axios.post('/auth-yeti/', details);
+    return window.API.post('/auth-yeti/', details);
   }
 
   logout() {
@@ -85,7 +88,7 @@ class UserStore {
 }
 
 autorun(() => {
-  //axios.defaults.headers.common['Authorization'] = "Token ff76bcf5e0daf737144f34fcd913a6cd13c96df2";
+  //window.API.defaults.headers.common['Authorization'] = "Token ff76bcf5e0daf737144f34fcd913a6cd13c96df2";
 })
 
 export default UserStore;

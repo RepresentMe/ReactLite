@@ -20,6 +20,10 @@ class MessengerCheckboxPlugin extends Component {
         }
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   componentDidMount() {
       this.initFacebookSDK();
   }

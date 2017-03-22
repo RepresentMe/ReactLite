@@ -9,6 +9,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 import MessengerPlugin from 'react-messenger-plugin';
 import Checkbox from 'material-ui/Checkbox';
 import MessengerCheckboxPlugin from '../MessengerCheckboxPlugin';
+import { observer, inject } from "mobx-react";
 
 const styles = {
   floatingLabelText: {
@@ -16,7 +17,7 @@ const styles = {
   }
 }
 
-export default class JoinGroup extends Component {
+@inject("UserStore") @observer export default class JoinGroup extends Component {
 
   constructor() {
     super();
@@ -29,14 +30,16 @@ export default class JoinGroup extends Component {
       emailExists: false,
       agreedTerms: false,
       problems: [],
+      joinComplete: false,
     }
 
     this.attemptJoin = this.attemptJoin.bind(this);
+    this.joinGroup = this.joinGroup.bind(this);
   }
 
   componentWillMount() {
     let groupId = parseInt(this.props.match.params.groupId);
-    axios.get("/api/groups/" + groupId + "/")
+    window.API.get("/api/groups/" + groupId + "/")
       .then(function (response) {
         this.setState({group: response.data});
       }.bind(this));
@@ -98,12 +101,15 @@ export default class JoinGroup extends Component {
 
         </Paper>
 
-        <Dialog
-          open={this.state.emailExists}
-          >
+        <Dialog open={this.state.emailExists}>
           <p style={{fontWeight: 'bold'}}>{"It looks like you're already signed up to Represent, please login to join this group."}</p>
           <FlatButton label="Login" style={{width: '100%'}} backgroundColor={grey100} secondary onClick={() => this.props.history.push("/login/" + encodeURIComponent(window.location.pathname.substring(1)))} />
         </Dialog>
+
+        <Dialog open={this.state.joinComplete}>
+          <p style={{fontWeight: 'bold'}}>{"You're now a member of " + this.state.group.name}</p>
+        </Dialog>
+
       </div>
     )
   }
@@ -121,13 +127,23 @@ export default class JoinGroup extends Component {
 
   checkEmail() {
 
-    axios.get('/auth/check_email/?email=' + this.state.txtEmail)
+    window.API.get('/auth/check_email/?email=' + this.state.txtEmail)
       .then(function (response) {
         if(response.data.result === true) {
           this.setState({emailExists: true});
         }
       }.bind(this));
 
+  }
+
+  joinGroup() {
+    window.API.post("/api/groups/" + this.state.group.id + "/join/")
+      .then(function(response) {
+        this.setState({joinComplete: true});
+      }.bind(this))
+      .catch(function(error) {
+        this.setState({problems: [JSON.stringify(error.response.data)]})
+      }.bind(this))
   }
 
   attemptJoin() {
@@ -150,21 +166,50 @@ export default class JoinGroup extends Component {
       problems.push("Postcode invalid");
     }
 
-    if(problems.length === 0) {
+    if(problems.length !== 0) {
       this.setState({problems});
     }else {
-      axios.post("/auth/register/", {
-        email: this.state.txtEmail,
-        first_name: this.state.txtFirstName,
-        last_name: this.state.txtLastName,
-        address: this.state.txtPostcode
-      }).then(function(response) {
-      }).catch(function(response) {
-        console.log(response.response.data);
-        this.setState({problems: [JSON.stringify(response.response.data)]})
-      }.bind(this))
+
+      window.API.get("https://maps.googleapis.com/maps/api/geocode/json?components=postal_code%3A" + encodeURIComponent(this.state.txtPostcode) + "&key=" + window.authSettings.googleMapsAPI)
+        .then(function(response) {
+
+          console.log(response);
+
+          let location = null;
+
+          if(response.data.status === "OK") {
+            let raw_location = response.data.results[0].geometry.location;
+            location =  {
+              "type": "Point",
+              "coordinates": [raw_location.lng, raw_location.lat]
+            };
+          }
+
+          window.API.post("/auth/register/", {
+            email: this.state.txtEmail,
+            first_name: this.state.txtFirstName,
+            last_name: this.state.txtLastName,
+            address: this.state.txtPostcode,
+            username: this.generateUsername(),
+            password: Math.floor(Math.random() * 1000000000000),
+            location,
+          }).then(function(response) {
+            this.props.UserStore.setupAuthToken(response.data.auth_token);
+            this.joinGroup();
+          }.bind(this)).catch(function(error) {
+            this.setState({problems: [JSON.stringify(error.response.data)]})
+          }.bind(this))
+
+        }.bind(this))
+        .catch(function(error) {
+          console.log(error);
+        });
     }
 
+  }
+
+  generateUsername() {
+    return (this.state.txtFirstName.toLowerCase() + "_" + this.state.txtLastName.toLowerCase()).replace(/[`~!@#$%^&*()|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '') + Math.floor(Math.random() * 100);
   }
 
 }

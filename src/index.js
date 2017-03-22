@@ -15,22 +15,22 @@ import DemographicsDataStore from './Stores/DemographicsDataStore.js';
 import CensusDataStore from './Stores/CensusDataStore.js';
 import AppStatisticsStore from './Stores/AppStatisticsStore.js';
 
-/* AXIOS CONFIG & MIDDLEWARE */
-axios.defaults.baseURL = 'http://localhost:8000';
-//SEE 'INTERCEPTORS' FOR MIDDLEWARE
-
 injectTapEventPlugin();
 
 window.authSettings = {
   facebookPageId: 1522822621304793,
   //facebookId: 1499361770335561,
   facebookId: 1499361770335561,
+  googleMapsAPI: "AIzaSyDZxI6243Bb460yabWL_tyN97NBH6hsnwo",
 }
 
 if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
-  axios.defaults.baseURL = 'https://test.represent.me';
   window.authSettings.facebookId = 1684727181799018;
 }
+
+window.API = axios.create({
+  baseURL: 'http://localhost:8000'
+});
 
 window.stores = {
   UserStore:              new UserStore(),

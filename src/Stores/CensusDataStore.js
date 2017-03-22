@@ -1,5 +1,4 @@
 import { observable, autorun } from 'mobx';
-import axios from 'axios';
 
 class CensusDataStore {
 
@@ -10,7 +9,7 @@ class CensusDataStore {
   loadCensusData(geoId) {
     let reqStr = '/api/census_data/';
     if (geoId) reqStr += '?geo=' + geoId;
-    return axios.get(reqStr)
+    return window.API.get(reqStr)
       .then((response) => {
         this.censusData.set(geoId, response.data);
       });
@@ -26,7 +25,7 @@ class CensusDataStore {
       self.loadCensusData(geoId).then(() => {
         resolve(self.censusData.get(geoId));
       })
-    }) 
+    })
   }
 
 

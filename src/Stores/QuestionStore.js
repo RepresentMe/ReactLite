@@ -1,5 +1,4 @@
 import { observable, autorun } from 'mobx';
-import axios from 'axios';
 
 class QuestionStore {
 
@@ -12,7 +11,7 @@ class QuestionStore {
       return true;
     }
 
-    axios.get('/api/questions/', {params: { id: id } })
+    window.API.get('/api/questions/', {params: { id: id } })
       .then(function (response) {
         if(!response.data.results[0]) {
           return;
@@ -25,7 +24,7 @@ class QuestionStore {
     if(this.searchCache.has(search)) {
       return this.searchCache.get(search);
     }else {
-      axios.get('/api/questions/', {params: { search, page_size: 3 } })
+      window.API.get('/api/questions/', {params: { search, page_size: 3 } })
         .then(function (response) {
           if(!response.data.results[0]) {
             return;
@@ -50,7 +49,7 @@ class QuestionStore {
       return false;
     }
 
-    axios.post('/api/question_votes/', {
+    window.API.post('/api/question_votes/', {
         object_id: questionId,
         value,
         collection,
@@ -67,7 +66,7 @@ class QuestionStore {
       return false;
     }
 
-    axios.post('/api/question_choice_votes/', {
+    window.API.post('/api/question_choice_votes/', {
         object_id: value,
         value: 5,
         collection,
@@ -92,13 +91,13 @@ class QuestionStore {
       let newIndex = newQuestions.indexOf(questionId);
 
       if (oldIndex == -1) { // New question has been added to the collection
-        apiQueue.push(axios.post('/api/question_collection_items/', {
+        apiQueue.push(window.API.post('/api/question_collection_items/', {
             parent: collectionId,
             question: questionId,
             order: newIndex
           }));
       }else if(oldIndex != newIndex) { // Existing question order has changed
-        apiQueue.push(axios.patch('/api/question_collection_items/' + this.getCollectionItem(collectionId, questionId).id + '/', {
+        apiQueue.push(window.API.patch('/api/question_collection_items/' + this.getCollectionItem(collectionId, questionId).id + '/', {
             order: newIndex
           }));
       } // Otherwise the question has not changed
@@ -107,11 +106,11 @@ class QuestionStore {
     for(let questionId of this.collectionQuestions.get(collectionId)) { // Loop through existing questions looking for deleted items
       let newIndex = newQuestions.indexOf(questionId);
       if(newIndex == -1) { // Question has been deleted
-        apiQueue.push(axios.delete('/api/question_collection_items/' + this.getCollectionItem(collectionId, questionId).id + '/'));
+        apiQueue.push(window.API.delete('/api/question_collection_items/' + this.getCollectionItem(collectionId, questionId).id + '/'));
       }
     }
 
-    axios.all(apiQueue).then(axios.spread(function() {
+    window.API.all(apiQueue).then(window.API.spread(function() {
       this.loadCollectionQuestions(collectionId, true);
     }.bind(this)));
 
