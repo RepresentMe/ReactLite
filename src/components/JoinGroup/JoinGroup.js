@@ -17,6 +17,20 @@ const styles = {
   }
 }
 
+const roundUp = (x) => {
+
+    if(x < 10) {
+      return 10;
+    }
+
+    var y = Math.pow(10, x.toString().length-1);
+
+    x = (x/y);
+    x = Math.ceil(x);
+    x = x*y;
+    return x;
+}
+
 @inject("UserStore") @observer export default class JoinGroup extends Component {
 
   constructor() {
@@ -42,6 +56,9 @@ const styles = {
     window.API.get("/api/groups/" + groupId + "/")
       .then(function (response) {
         this.setState({group: response.data});
+        if(response.data.my_membership) {
+          this.setState({joinComplete: true})
+        }
       }.bind(this));
   }
 
@@ -51,7 +68,7 @@ const styles = {
       return null;
     }
 
-    let memberGoal = Math.pow(10, (this.state.group.member_count % 10) - 1);
+    let memberGoal = roundUp(this.state.group.member_count);
 
     return (
       <div style={{height: '100%'}}>
@@ -108,6 +125,11 @@ const styles = {
 
         <Dialog open={this.state.joinComplete}>
           <p style={{fontWeight: 'bold'}}>{"You're now a member of " + this.state.group.name}</p>
+        </Dialog>
+
+        <Dialog open={this.props.UserStore.userData.has("id") && !this.state.joinComplete}>
+          <p>Welcome back, <b>{this.props.UserStore.userData.get("first_name")}</b>{". Would you like to join the " + this.state.group.name + " group on Represent?"}</p>
+          <FlatButton label={"Join " + this.state.group.name} primary style={{width: '100%'}} backgroundColor={grey100} secondary onClick={() => this.joinGroup()} />
         </Dialog>
 
       </div>
@@ -200,8 +222,8 @@ const styles = {
 
         }.bind(this))
         .catch(function(error) {
-          console.log(error);
-        });
+          this.setState({problems: [JSON.stringify(error.response.data)]})
+        }.bind(this));
     }
 
   }
