@@ -69,6 +69,15 @@ class UserStore {
       }.bind(this));
   }
 
+  authLogin(username, password) {
+    return window.API.post('/auth/login/', { username, password })
+      .then(function (response) {
+        if(response.data.auth_token) {
+          this.setupAuthToken(response.data.auth_token);
+        }
+      }.bind(this));
+  }
+
   toggleUserDialogue() {
     this.sessionData.set("showUserDialogue", !this.sessionData.get("showUserDialogue"));
   }
