@@ -47,17 +47,15 @@ const styles = {
 
   render() {
 
-    console.log(axios.defaults);
-
     if(!this.state.group) {
       return null;
     }
 
-    let memberGoal = Math.pow(10, (this.state.group.member_count % 10) + 1);
+    let memberGoal = Math.pow(10, (this.state.group.member_count % 10) - 1);
 
     return (
       <div style={{height: '100%'}}>
-        <Paper zDepth={1} style={{padding: '10px 20px', width: '100%', marginLeft: 'auto', marginRight: 'auto'}}>
+        <Paper zDepth={0} style={{padding: '10px 20px', width: '100%', marginLeft: 'auto', marginRight: 'auto'}}>
           <h1>Join us</h1>
           <p style={{fontSize: '12px', margin: '5px 0'}}><span style={{color: cyan600}}>{this.state.group.member_count.toLocaleString()}</span> members</p>
           <LinearProgress mode="determinate" max={memberGoal} value={this.state.group.member_count} color={ cyan600 } style={{backgroundColor: grey100, height: '8px'}} />
@@ -174,8 +172,6 @@ const styles = {
 
       axios.get("https://maps.googleapis.com/maps/api/geocode/json?components=postal_code%3A" + encodeURIComponent(this.state.txtPostcode) + "&key=" + window.authSettings.googleMapsAPI)
         .then(function(response) {
-
-          console.log(response);
 
           let location = null;
 
