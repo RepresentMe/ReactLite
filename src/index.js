@@ -8,6 +8,7 @@ import axios from 'axios';
 import DevTools, { setLogEnabled } from 'mobx-react-devtools';
 import createHistory from 'history/createBrowserHistory'
 import createMemoryHistory from 'history/createMemoryHistory'
+import Cookies from 'cookies-js';
 
 /* STORES */
 import UserStore from './Stores/UserStore.js';
@@ -18,6 +19,10 @@ import CensusDataStore from './Stores/CensusDataStore.js';
 import AppStatisticsStore from './Stores/AppStatisticsStore.js';
 
 injectTapEventPlugin();
+
+Cookies.defaults = {
+  secure: true
+};
 
 window.authSettings = {
   facebookPageId: 1522822621304793,
