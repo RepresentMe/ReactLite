@@ -21,7 +21,6 @@ import Login from '../Login';
 import Register from '../Register';
 import JoinGroup from '../JoinGroup';
 import { inject, observer } from "mobx-react";
-import createHistory from 'history/createBrowserHistory'
 import Test from '../Test';
 import NetworkProgress from '../NetworkProgress';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -60,14 +59,12 @@ const muiTheme = getMuiTheme({
   }
 });
 
-const history = createHistory();
-
 function onProfileClick(){
   if(this.props.UserStore.userData.has("id")) { // Is user logged in?
     this.props.UserStore.toggleUserDialogue();
   }else {
-    if(history.location.pathname !== "/login"){
-      history.push("/login/" + encodeURIComponent(history.location.pathname.substring(1)));
+    if(this.props.history.location.pathname !== "/login"){
+      this.props.history.push("/login/" + encodeURIComponent(this.props.history.location.pathname.substring(1)));
     }
   }
 }
@@ -76,7 +73,7 @@ function onProfileClick(){
 
   render() {
 
-    let split_pathname = history.location.pathname.split("/");
+    let split_pathname = this.props.history.location.pathname.split("/");
 
     // DISABLED HISTORY UPDATE TO STORE AS CAUSES OVERFLOW OF RENDERS
     // history.listen((location, action) => { // Storing location in UserStore forces a rerender of the Shell each navigation
@@ -95,9 +92,9 @@ function onProfileClick(){
     }
 
     return(
-      <Router history={history}>
+      <Router history={this.props.history}>
           <MuiThemeProvider muiTheme={muiTheme}>
-            <div style={{height: '100vh'}}>
+            <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0}}>
 
                 {split_pathname[1] !== 'joingroup' &&
                   <div>
@@ -124,6 +121,7 @@ function onProfileClick(){
                         margin: 0,
                         lineHeight: '24px',
                         fontSize: '16px',
+                        height: '24px',
                       }}
                       />
 

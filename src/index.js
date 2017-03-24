@@ -6,6 +6,8 @@ import { Provider } from 'mobx-react';
 import { observable } from 'mobx';
 import axios from 'axios';
 import DevTools, { setLogEnabled } from 'mobx-react-devtools';
+import createHistory from 'history/createBrowserHistory'
+import createMemoryHistory from 'history/createMemoryHistory'
 
 /* STORES */
 import UserStore from './Stores/UserStore.js';
@@ -42,24 +44,33 @@ window.stores = {
   AppStatisticsStore:     new AppStatisticsStore(),
 }
 
-// window.FB.init({
-//   appId  : window.authSettings.facebookId,
-//   xfbml  : true,
-//   version: 'v2.6',
-// });
+window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
 
-setLogEnabled(false); // Mobx dev tools
+  let history;
 
-//<DevTools />
+  if(virtualLocation) {
+    history = createMemoryHistory({
+      initialEntries: [ initialPath ],
+    });
+  }else {
+    history = createHistory();
+  }
 
-ReactDOM.render(
-  <div><Provider
-    UserStore={window.stores.UserStore}
-    CollectionStore={window.stores.CollectionStore}
-    QuestionStore={window.stores.QuestionStore}
-    DemographicsDataStore={window.stores.DemographicsDataStore}
-    CensusDataStore={window.stores.CensusDataStore}
-    AppStatisticsStore={window.stores.AppStatisticsStore}
-  ><Shell/></Provider></div>,
-  document.getElementById('root')
-);
+  ReactDOM.render(
+    <div>
+      <Provider
+        UserStore={window.stores.UserStore}
+        CollectionStore={window.stores.CollectionStore}
+        QuestionStore={window.stores.QuestionStore}
+        DemographicsDataStore={window.stores.DemographicsDataStore}
+        CensusDataStore={window.stores.CensusDataStore}
+        AppStatisticsStore={window.stores.AppStatisticsStore}
+        >
+        <Shell history={history}/>
+      </Provider>
+    </div>,
+    document.getElementById(element)
+  );
+}
+
+window.REPRESENTREADY();
