@@ -53,7 +53,7 @@ const QuestionPopulationStackedChart = inject("CensusDataStore", "DemographicsDa
     })
 
     QuestionStore.loadQuestion(questionId).then((res) => {
-      question = res.data.results[0];
+      question = res;
       finishedReqCount++;
       finish();
     })

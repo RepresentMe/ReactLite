@@ -15,9 +15,9 @@ const Test = inject("QuestionStore")(({ QuestionStore }) => {
         <div>
             {/*<AnswersOverTimeAreachart />*/}
             {/*<AgeProfileBarchart geoId={59} />*/}
-            {/*<QuestionPopulationStackedChart questionId={1399} geoId={59}/>*/}
+            <QuestionPopulationStackedChart questionId={1399} geoId={59}/>
             {/*<QuestionResultsBarchart data={data}/>*/}
-            {/*<CertanityStatisticsBarchart questionId={1399} geoId={59} />*/}
+            <CertanityStatisticsBarchart questionId={1399} geoId={59} />
         </div>
     )
 

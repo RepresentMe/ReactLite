@@ -6,18 +6,22 @@ class QuestionStore {
   searchCache = observable.shallowMap({});
 
   loadQuestion(id, forceUpdate = false) {
+    let self = this;
+    return new Promise((resolve, reject) => {
 
-    if(!forceUpdate && this.questions.has(id)) {
-      return true;
-    }
+      if (!forceUpdate && self.questions.has(id)) {
+        return resolve(self.questions.get(id));
+      }
 
-    window.API.get('/api/questions/', {params: { id: id } })
-      .then(function (response) {
-        if(!response.data.results[0]) {
-          return;
-        }
-        this.questions.set(response.data.results[0].id, response.data.results[0]);
-      }.bind(this));
+      window.API.get('/api/questions/', {params: { id: id } })
+        .then(function (response) {
+          if(!response.data.results[0]) {
+            return reject("Question not found");
+          }
+          self.questions.set(response.data.results[0].id, response.data.results[0]);
+          return resolve(self.questions.get(response.data.results[0].id))
+        }.bind(self));
+    })
   }
 
   searchQuestions(search) {
