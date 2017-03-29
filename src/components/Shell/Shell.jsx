@@ -61,7 +61,7 @@ const muiTheme = getMuiTheme({
 
 function onProfileClick(){
   if(this.props.UserStore.userData.has("id")) { // Is user logged in?
-    this.props.UserStore.toggleUserDialogue();
+    this.props.UserStore.toggleUserDialog();
   }else {
     if(this.props.history.location.pathname !== "/login"){
       this.props.history.push("/login/" + encodeURIComponent(this.props.history.location.pathname.substring(1)));
@@ -96,8 +96,32 @@ function onProfileClick(){
           <MuiThemeProvider muiTheme={muiTheme}>
             <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0}}>
 
+              <div style={mainContentStyle}>
+                <ReactCSSTransitionGroup
+                  transitionName="QuestionFlowTransition"
+                  transitionEnterTimeout={1000}
+                  transitionLeaveTimeout={1000}>
+
+                  <Route exact path="/" component={CollectionsList}/>
+                  <Route exact path="/login" component={Login}/>
+                  <Route exact path="/login/:redirect" component={Login}/>
+                  <Route exact path="/login/:redirect/:email" component={Login}/>
+                  <Route exact path="/register" component={Register}/>
+                  <Route exact path="/register/:redirect" component={Register}/>
+                  <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
+                  <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
+                  <Route exact path="/collection/create" component={CreateCollection}/>
+                  <Route exact path="/collection/:collectionId" component={CollectionIntro}/>
+                  <Route exact path="/collection/:collectionId/edit" component={EditCollection}/>
+                  <Route exact path="/collection/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
+                  <Route exact path="/collection/:collectionId/end" component={CollectionEnd}/>
+                  <Route exact path="/test" component={Test}/>
+                </ReactCSSTransitionGroup>
+              </div>
+
                 {split_pathname[1] !== 'joingroup' &&
                   <div>
+                    <NetworkProgress />
                     <AppBar
                       title="Represent"
                       iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
@@ -124,8 +148,6 @@ function onProfileClick(){
                         height: '24px',
                       }}
                       />
-
-                    <NetworkProgress />
                   </div>
                 }
 
@@ -133,61 +155,31 @@ function onProfileClick(){
                   title="My Account"
                   actions={
                     <div>
-                    {/*}<FlatButton
-                      label="Create a Collection"
-                      secondary={false}
-                      onTouchTap={() => {
-                        this.props.UserStore.toggleUserDialogue();
-                        history.push("/collection/create");
-                      }}
-                    />*/}
-                    <FlatButton
-                      label="Logout"
-                      secondary={true}
-                      onTouchTap={() => {
-                        this.props.UserStore.logout();
-                      }}
-                    />
-                    <FlatButton
-                      label="Close"
-                      secondary={true}
-                      onTouchTap={() => {
-                        this.props.UserStore.toggleUserDialogue();
-                      }}
-                    />
+                      <FlatButton
+                        label="Logout"
+                        secondary={true}
+                        onTouchTap={() => {
+                          this.props.UserStore.logout();
+                        }}
+                      />
+                      <FlatButton
+                        label="Close"
+                        secondary={true}
+                        onTouchTap={() => {
+                          this.props.UserStore.toggleUserDialog();
+                        }}
+                      />
                     </div>
                   }
                   modal={false}
-                  open={this.props.UserStore.sessionData.get("showUserDialogue")}
+                  open={this.props.UserStore.sessionData.get("showUserDialog")}
                   onRequestClose={() => {
-                    this.props.UserStore.toggleUserDialogue();
+                    this.props.UserStore.toggleUserDialog();
                   }}
                 >
                   <TextField value={this.props.UserStore.userData.get("first_name")} fullWidth={true} id="firstname"/>
                   <TextField value={this.props.UserStore.userData.get("last_name")} fullWidth={true} id="lastname"/>
                 </Dialog>
-
-                <div style={mainContentStyle}>
-                  <ReactCSSTransitionGroup
-                    transitionName="QuestionFlowTransition"
-                    transitionEnterTimeout={1000}
-                    transitionLeaveTimeout={1000}>
-
-                    <Route exact path="/" component={CollectionsList}/>
-                    <Route exact path="/login" component={Login}/>
-                    <Route exact path="/login/:redirect" component={Login}/>
-                    <Route exact path="/login/:redirect/:email" component={Login}/>
-                    <Route exact path="/register" component={Register}/>
-                    <Route exact path="/register/:redirect" component={Register}/>
-                    <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
-                    <Route exact path="/collection/create" component={CreateCollection}/>
-                    <Route exact path="/collection/:collectionId" component={CollectionIntro}/>
-                    <Route exact path="/collection/:collectionId/edit" component={EditCollection}/>
-                    <Route exact path="/collection/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
-                    <Route exact path="/collection/:collectionId/end" component={CollectionEnd}/>
-                    <Route exact path="/test" component={Test}/>
-                  </ReactCSSTransitionGroup>
-                </div>
               </div>
           </MuiThemeProvider>
       </Router>

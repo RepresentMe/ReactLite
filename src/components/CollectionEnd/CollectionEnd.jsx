@@ -8,14 +8,23 @@ import { Link } from 'react-router-dom';
 import { FacebookButton, TwitterButton } from "react-social";
 import MessengerPlugin from 'react-messenger-plugin';
 import TextField from 'material-ui/TextField';
+import QuestionResultsBarchart from "../charts/QuestionResultsBarchart";
 
-@inject("CollectionStore") @observer class CollectionEnd extends Component {
+@inject("CollectionStore", "QuestionStore") @observer class CollectionEnd extends Component {
 
   constructor() {
     super();
+
     this.state = {
-      showMessengerDialog: true,
+      showMessengerDialog: false,
       showEmbedDialog: false,
+    }
+  }
+
+  componentWillMount() {
+    let collectionId = parseInt(this.props.match.params.collectionId);
+    if(!this.props.CollectionStore.collectionItems.has(collectionId)) {
+      this.props.CollectionStore.items(collectionId); // Buffers the questions
     }
   }
 
@@ -58,6 +67,12 @@ import TextField from 'material-ui/TextField';
           </CardActions>
         </Card>
 
+        {/*<Card style={{margin: '10px'}}>
+          <CardText>
+            <QuestionResultsBarchart data={this.props.QuestionStore.questions.get(2452)}/>
+          </CardText>
+        </Card>*/}
+
         <Dialog
             title="You can now recieve updates on this topic from your messenger inbox"
             modal={false}
@@ -97,6 +112,10 @@ import TextField from 'material-ui/TextField';
 
       </div>
     );
+
+  }
+
+  getQuestionShareLink() {
 
   }
 

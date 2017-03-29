@@ -10,6 +10,7 @@ import MessengerPlugin from 'react-messenger-plugin';
 import Checkbox from 'material-ui/Checkbox';
 import MessengerCheckboxPlugin from '../MessengerCheckboxPlugin';
 import { observer, inject } from "mobx-react";
+import GeoService from '../../services/GeoService';
 
 const styles = {
   floatingLabelText: {
@@ -35,7 +36,6 @@ const roundUp = (x) => {
 
   constructor() {
     super();
-
     this.state = {
       txtEmail: '',
       txtFirstName: '',
@@ -120,7 +120,9 @@ const roundUp = (x) => {
 
         <Dialog open={this.state.emailExists}>
           <p style={{fontWeight: 'bold'}}>{"It looks like you're already signed up to Represent, please login to join this group."}</p>
-          <FlatButton label="Login" style={{width: '100%'}} backgroundColor={grey100} secondary onClick={() => this.props.history.push("/login/" + encodeURIComponent(window.location.pathname.substring(1)) + "/" + encodeURIComponent(this.state.txtEmail))} />
+          <FlatButton label="Login" style={{width: '100%'}} backgroundColor={grey100} secondary onClick={() => {
+            this.props.history.push("/login/" + encodeURIComponent(window.location.pathname.substring(1)) + "/" + encodeURIComponent(this.state.txtEmail))
+          }} />
         </Dialog>
 
         <Dialog open={this.state.joinComplete}>
@@ -173,26 +175,26 @@ const roundUp = (x) => {
     let problems = [];
 
     if(!RegExp("[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?").test(this.state.txtEmail)) {
-      problems.push("Email address invalid");
+      problems.push("Please check you've entered a valid email address");
     }
 
     if(this.state.txtFirstName.length < 2) {
-      problems.push("First name invalid");
+      problems.push("Please enter your first name!");
     }
 
     if(this.state.txtLastName.length < 2) {
-      problems.push("Last name invalid");
+      problems.push("Please enter your last name!");
     }
 
     if(this.state.txtPostcode.length < 2 || this.state.txtPostcode.length > 8) {
-      problems.push("Postcode invalid");
+      problems.push("Please enter a valid postcode!");
     }
 
     if(problems.length !== 0) {
       this.setState({problems});
     }else {
 
-      axios.get("https://maps.googleapis.com/maps/api/geocode/json?components=postal_code%3A" + encodeURIComponent(this.state.txtPostcode) + "&key=" + window.authSettings.googleMapsAPI)
+      GeoService.checkPostcode(this.state.txtPostcode)
         .then(function(response) {
 
           let location = null;

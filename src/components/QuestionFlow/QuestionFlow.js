@@ -77,7 +77,7 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
 
       </ReactCSSTransitionGroup>
 
-      <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '0', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
+      <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'absolute', bottom: '0', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
         if( value < collectionItems.length ) { // If there is a next question
           history.push('/collection/' + collectionId + '/flow/' + value);
         }else {

@@ -8,7 +8,6 @@ import axios from 'axios';
 import DevTools, { setLogEnabled } from 'mobx-react-devtools';
 import createHistory from 'history/createBrowserHistory'
 import createMemoryHistory from 'history/createMemoryHistory'
-import Cookies from 'cookies-js';
 
 /* STORES */
 import UserStore from './Stores/UserStore.js';
@@ -20,10 +19,6 @@ import AppStatisticsStore from './Stores/AppStatisticsStore.js';
 
 injectTapEventPlugin();
 
-Cookies.defaults = {
-  secure: true
-};
-
 window.authSettings = {
   facebookPageId: 1522822621304793,
   //facebookId: 1499361770335561,
@@ -31,13 +26,20 @@ window.authSettings = {
   googleMapsAPI: "AIzaSyDZxI6243Bb460yabWL_tyN97NBH6hsnwo",
 }
 
-window.API = axios.create({
-  baseURL: 'http://localhost:8000'
-});
-
-if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
+if (location.host === 'open.represent.me') { // Test server override defaults
+  window.authSettings.facebookId = 1499361770335561;
+  window.API = axios.create({
+    baseURL: 'https://api.represent.me'
+  });
+}else if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
   window.authSettings.facebookId = 1684727181799018;
-  window.API.defaults.baseURL = 'https://test.represent.me';
+  window.API = axios.create({
+    baseURL: 'https://test.represent.me'
+  });
+}else {
+  window.API = axios.create({
+    baseURL: 'http://localhost:8000'
+  });
 }
 
 window.stores = {

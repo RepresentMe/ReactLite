@@ -12,12 +12,12 @@ const AgeProfileBarchart = inject("DemographicsDataStore")(({DemographicsDataSto
   let viewData = observable.shallowObject({
     width: (size && size.width) || 400,
     height: (size && size.height) || 300,
-    values: computeBarchartData(DemographicsDataStore.demographicsData.get(geoId))
+    values: computeBarchartData(DemographicsDataStore.usersDemographicsData.get(geoId))
   });
-    
+
   if (!viewData.values) {
-    DemographicsDataStore.getDemographicsData(geoId);
-    reaction(() => DemographicsDataStore.demographicsData.get(geoId), (demographicData) => {
+    DemographicsDataStore.getUsersDemographicsData(geoId);
+    reaction(() => DemographicsDataStore.usersDemographicsData.get(geoId), (demographicData) => {
       viewData.values = computeBarchartData(demographicData);
     })
   }

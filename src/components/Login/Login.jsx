@@ -14,6 +14,7 @@ import './Login.css';
 
   constructor() {
     super();
+
     this.state = {
       email: "",
       password: "",
@@ -46,7 +47,7 @@ import './Login.css';
         <div style={{ display: 'table', width: '100%', height: '100%' }}>
           <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', padding: '10px 20px' }}>
             <Paper zDepth={1} style={{padding: '10px 20px', maxWidth: '320px', marginLeft: 'auto', marginRight: 'auto'}}>
-              <p style={{fontWeight: 'bold', margin: '10px 0'}}><img src={smallLogo} style={{height: '30px', verticalAlign: 'middle', marginRight: '10px', marginTop: '-4px'}} />Please Login to Continue</p>
+              <p style={{fontWeight: 'bold', margin: '10px 0'}}><img src={smallLogo} style={{height: '30px', verticalAlign: 'middle', marginRight: '10px', marginTop: '-4px'}} />Please login to continue</p>
               <TextField hintText="Username / email" style={{width: '100%'}} value={this.state.email} onChange={(e, newValue) => this.setState({email: newValue})}/><br />
               <TextField hintText="Password" type="password" style={{width: '100%'}} value={this.state.password} onChange={(e, newValue) => this.setState({password: newValue})}/><br />
               <FlatButton label="login" style={{width: '100%', marginBottom: '5px'}} backgroundColor={grey100} secondary onClick={this.attemptLogin} />
@@ -63,7 +64,7 @@ import './Login.css';
                 }}
                 textButton="Continue with Facebook"
                 />
-              <p style={{textAlign: 'center', fontSize: '12px'}}>By using the service, you agree to the <a href="https://represent.me/legal/terms/">terms and conditions</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/><br/><a onClick={() => history.push("/register/" + this.props.match.params.redirect)}>{"Don't have an account?"}</a></p>
+              <p style={{textAlign: 'center', fontSize: '12px'}}>By using the service, you agree to the <a href="https://represent.me/legal/terms/">terms and conditions</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/><br/><a onClick={() => this.props.history.push("/register/" + this.props.match.params.redirect)}>{"Don't have an account?"}</a></p>
             </Paper>
             {this.props.match.params.redirect && <Paper onClick={() => this.props.history.push("/" + decodeURIComponent(this.props.match.params.redirect))} zDepth={1} style={{padding: '10px 20px', maxWidth: '320px', marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
               <a>&larr; {"back"}</a>

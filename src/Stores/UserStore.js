@@ -6,7 +6,7 @@ class UserStore {
   userData = observable.shallowMap({});
   sessionData = observable.shallowMap({
     authToken: "",
-    showUserDialogue: false,
+    showUserDialog: false,
   });
 
   userLocation = observable.shallowMap({
@@ -78,8 +78,8 @@ class UserStore {
       }.bind(this));
   }
 
-  toggleUserDialogue() {
-    this.sessionData.set("showUserDialogue", !this.sessionData.get("showUserDialogue"));
+  toggleUserDialog() {
+    this.sessionData.set("showUserDialog", !this.sessionData.get("showUserDialog"));
   }
 
   register(details) {

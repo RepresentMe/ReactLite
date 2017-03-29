@@ -20,11 +20,16 @@ import MenuItem from 'material-ui/MenuItem';
 
     super();
     this.state = {
-      showIntroDialog: true,
+      showIntroDialog: false,
       showErrorDialog: false,
       registrationErrors: [],
       currentValue: 0,
       formValues: [
+        {
+          type: 'email',
+          name: 'Email',
+          value: '',
+        },
         {
           type: 'text',
           name: 'First name',
@@ -36,18 +41,13 @@ import MenuItem from 'material-ui/MenuItem';
           value: '',
         },
         {
-          type: 'email',
-          name: 'Email',
-          value: '',
-        },
-        {
           type: 'dob',
           name: 'Date of birth',
           value: startDOB.toISOString(),
         },
         {
-          type: 'location',
-          name: 'Location',
+          type: 'postcode',
+          name: 'Postcode',
           value: '',
         },
         {
@@ -61,11 +61,25 @@ import MenuItem from 'material-ui/MenuItem';
     this.nextField = this.nextField.bind(this);
     this.previousField = this.previousField.bind(this);
     this.attemptRegistration = this.attemptRegistration.bind(this);
+    this.getCurrentFormElement = this.getCurrentFormElement.bind(this);
+    this.fieldUpdate = this.fieldUpdate.bind(this);
+  }
+
+  fieldUpdate(newValue) {
+    let formElement = this.getCurrentFormElement();
+    let newFormValues = this.state.formValues.slice(0);
+    formElement.value = newValue
+    newFormValues.splice(this.state.currentValue, 1, formElement);
+    this.setState({formValues: newFormValues});
+  }
+
+  getCurrentFormElement() {
+    return this.state.formValues[this.state.currentValue];
   }
 
   render() {
 
-    let formElement = this.state.formValues[this.state.currentValue];
+    let formElement = this.getCurrentFormElement();
     let maxDate = new Date();
     maxDate.setFullYear(maxDate.getFullYear() - 13);
 
@@ -80,66 +94,17 @@ import MenuItem from 'material-ui/MenuItem';
 
           <FormItemContainer key={formElement.name}>
 
-            {(formElement.type === 'text' || formElement.type === 'email') &&
-              <FormTextField text={formElement.name} value={formElement.value} autoFocus={autoFocus => autoFocus && autoFocus.focus()} onChange={(e) => {
-
-                if(/\r|\n/.exec(e.target.value)) {
-                  this.setState({currentValue: this.state.currentValue + 1});
-                  return;
-                }
-
-                let newText = e.target.value;
-                let newFormValues = this.state.formValues.slice(0);
-                formElement.value = newText
-                newFormValues.splice(this.state.currentValue, 1, formElement);
-                this.setState({formValues: newFormValues});
-              }} />
+            {(formElement.type === 'text' || formElement.type === 'email' || formElement.type === 'password') &&
+              <FormTextField type={formElement.type} hintText={formElement.name} onFieldUpdate={this.fieldUpdate} value={formElement.value} />
             }
 
-            {(formElement.type === 'password') &&
-              <FormPasswordField text={formElement.name} value={formElement.value} autoFocus={autoFocus => autoFocus && autoFocus.focus()} onChange={(e) => {
-
-                if(/\r|\n/.exec(e.target.value)) {
-                  this.setState({currentValue: this.state.currentValue + 1});
-                  return;
-                }
-
-                let newText = e.target.value;
-                let newFormValues = this.state.formValues.slice(0);
-                formElement.value = newText
-                newFormValues.splice(this.state.currentValue, 1, formElement);
-                this.setState({formValues: newFormValues});
-              }} />
-            }
-
-            {formElement.type === 'location' &&
-              <MuiGeoSuggest
-                style={{width: '100%', fontSize: '28px'}}
-                onPlaceChange={(e) => {
-                  let newFormValues = this.state.formValues.slice(0);
-                  formElement.value = e.formatted_address
-                  newFormValues.splice(this.state.currentValue, 1, formElement);
-                  this.setState({formValues: newFormValues});
-                  this.nextField();
-                }}
-                hintText={formElement.name}
-                underlineShow={false}
-                multiLine={true}
-                defaultValue={formElement.value}
-                />
+            {formElement.type === 'postcode' &&
+              <FormTextField hintText={formElement.name} onFieldUpdate={this.fieldUpdate} value={formElement.value} />
             }
 
             {formElement.type === 'dob' &&
-
-              <DOBPicker name={formElement.name} value={formElement.value} onChange={(newValue) => {
-                let newFormValues = this.state.formValues.slice(0);
-                formElement.value = newValue
-                newFormValues.splice(this.state.currentValue, 1, formElement);
-                this.setState({formValues: newFormValues});
-              }} />
-
+              <DOBPicker name={formElement.name} value={formElement.value} onChange={this.fieldUpdate} />
             }
-
 
           </FormItemContainer>
 
@@ -231,17 +196,31 @@ import MenuItem from 'material-ui/MenuItem';
 
 }
 
+const styles = {
+  formTextField: {
+    width: '100%',
+    fontSize: '28px',
+  }
+}
+
 let FormTextField = (props) => (
   <TextField
-    hintText={props.text}
-    style={{width: '100%', fontSize: '28px'}}
+    hintText={props.hintText}
+    style={styles.formTextField}
     underlineShow={false}
-    ref={props.autoFocus}
-    multiLine={true}
-    onChange={(e) => props.onChange(e)}
+    onChange={(e) => props.onFieldUpdate(e.target.value)}
     value={props.value}
+    type={props.type}
   />
 )
+
+FormTextField.defaultProps = {
+  hintText: React.PropTypes.string.isRequired,
+  stateField: React.PropTypes.string.isRequired,
+  value: React.PropTypes.string.isRequired,
+  autoFocus: true,
+  type: 'text',
+}
 
 let FormPasswordField = (props) => (
   <TextField
