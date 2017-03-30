@@ -76,7 +76,7 @@ const QuestionPopulationStackedChartView = observer(({ data, height }) => {
           <YAxis orientation="left" yAxisId="left" />
           <YAxis orientation="right" yAxisId="right" tickFormatter={simpleFormatter} />
           <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip labelFormatter={tootltipLabelFormatter} formatter={simpleFormatter} />
+          <Tooltip labelFormatter={tootltipLabelFormatter} formatter={simpleFormatter} wrapperStyle={{zIndex: 1}} />
           <Area type='monotone' yAxisId="right" dataKey={'censusCount'} stackId="2" name={"Census"} fill="#d6d6d6" stroke="#d6d6d6" />
           {data.values[0].values.map((data, i) => {
           return <Area type='monotone' yAxisId="left" dataKey={'values[' + i + '].value'} fill={data.color} stroke={data.color}  stackId="1" key={data.id} name={data.name} />
