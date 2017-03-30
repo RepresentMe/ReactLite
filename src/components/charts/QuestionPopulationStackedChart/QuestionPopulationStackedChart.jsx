@@ -4,10 +4,10 @@ import { observable, reaction } from "mobx";
 
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { scaleTime } from 'd3-scale';
-import LoadingIndicator from '../../LoadingIndicator'; 
+import LoadingIndicator from '../../LoadingIndicator';
 import QuestionService from "../../../services/QuestionService";
 
-const QuestionPopulationStackedChart = inject("CensusDataStore", "DemographicsDataStore", "QuestionStore")(({ CensusDataStore, DemographicsDataStore, QuestionStore, questionId, geoId, data}) => {
+const QuestionPopulationStackedChart = inject("CensusDataStore", "DemographicsDataStore", "QuestionStore")(({ CensusDataStore, DemographicsDataStore, QuestionStore, questionId, geoId, data, height = null}) => {
   let certainityStatisticsArr = null;
   let currentlyShowingIndex = null;
   let viewData = observable.shallowObject({
@@ -20,7 +20,7 @@ const QuestionPopulationStackedChart = inject("CensusDataStore", "DemographicsDa
   })
 
 	return (
-    <QuestionPopulationStackedChartView data={viewData} />
+    <QuestionPopulationStackedChartView data={viewData} height={height} />
 	)
 
   function initData(cb) {
@@ -65,13 +65,13 @@ const QuestionPopulationStackedChart = inject("CensusDataStore", "DemographicsDa
   }
 })
 
-const QuestionPopulationStackedChartView = observer(({ data }) => {
+const QuestionPopulationStackedChartView = observer(({ data, height }) => {
   return (
-    <div style={{width:'100%', height: '100%'}}>
+    <div style={{width:'100%', height: '50%'}}>
       {!data.values && <LoadingIndicator />}
-      {data.values && 
-        <ResponsiveContainer minWidth={100} minHeight={100}><AreaChart width={600} height={400} data={data.values}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+      {data.values &&
+        <ResponsiveContainer minWidth={100} minHeight={100} height={height}><AreaChart width={600} height={400} data={data.values}
+          margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
           <XAxis dataKey="age" />
           <YAxis orientation="left" yAxisId="left" />
           <YAxis orientation="right" yAxisId="right" tickFormatter={simpleFormatter} />
@@ -99,7 +99,7 @@ function getDemographicsLikertData(demogrData) {
   let answersNames = ["Strongly agree", "Agree", "Neutral", "Disagree", "Strongly disagree", "Skip"];
   let SKIP_INDEX = answersNames.length-1;
   let ages = ["<15", "15-25", "25-35", "35-45", "45-55", "55-65", "65-75", "75-85", "85+"];
-  let ageToIndex = {}; // ageToIndex={"<15":0, "15-25":1, ... } 
+  let ageToIndex = {}; // ageToIndex={"<15":0, "15-25":1, ... }
 
   /*
     resData = [
@@ -108,15 +108,15 @@ function getDemographicsLikertData(demogrData) {
     ]
   */
   let resData = ages.map((age, i) => {
-    ageToIndex[age] = i; 
-    return { 
-      age: age, 
+    ageToIndex[age] = i;
+    return {
+      age: age,
       values: answersNames.map((name, j) => ({
         id: j,
         name: name,
         value: 0,
         color: colors[j]
-      })) 
+      }))
   }})
 
   let ageIndex, answerIndex;
@@ -125,7 +125,7 @@ function getDemographicsLikertData(demogrData) {
     answerIndex = demogr.value ? 5-demogr.value : SKIP_INDEX;
     resData[ageIndex].values[answerIndex].value += demogr.id__count
   })
-  return resData;  
+  return resData;
 }
 
 function getDemographicsMcqData(demogrData, choices) {
@@ -166,7 +166,7 @@ function getDemographicsMcqData(demogrData, choices) {
     answerIndex = demogr.object__text ? answerNameToIndex[demogr.object__text] : SKIP_INDEX;
     resData[ageIndex].values[answerIndex].value += demogr.id__count;
   })
-  return resData;  
+  return resData;
 }
 
 //returns new array
@@ -182,7 +182,7 @@ function setCensusChartData(values, censusData) {
   for (var i = 0; i < 15; i++) { // for age <15
     resData[0].censusCount += censusData['age_' + i];
   }
-  
+
   for (i = 15; i <= 25; i++) { // for age 15-25
     resData[1].censusCount += censusData['age_' + i];
   }

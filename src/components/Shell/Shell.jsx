@@ -94,7 +94,7 @@ function onProfileClick(){
     return(
       <Router history={this.props.history}>
           <MuiThemeProvider muiTheme={muiTheme}>
-            <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0}}>
+            <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0, overflow: 'hidden'}}>
 
               <div style={mainContentStyle}>
                 <ReactCSSTransitionGroup

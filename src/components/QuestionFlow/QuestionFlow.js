@@ -77,7 +77,7 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
 
       </ReactCSSTransitionGroup>
 
-      <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'absolute', bottom: '0', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
+      <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'absolute', bottom: '0', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", height: '70px', zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
         if( value < collectionItems.length ) { // If there is a next question
           history.push('/collection/' + collectionId + '/flow/' + value);
         }else {
@@ -93,7 +93,7 @@ let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(obser
 let RenderedBreak = (props) => {
   return(
     <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
-      <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0px 20px 70px 20px' }}>
+      <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0px 20px 20px 20px' }}>
         <h1>{ props.break.title }</h1>
         <ReactMarkdown source={ props.break.text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
         <RaisedButton label="Continue" onClick={props.onContinue} primary />
@@ -111,7 +111,7 @@ let RenderedQuestion = (props) => {
 
   return (
       <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
-        <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 70px 20px' }}>
+        <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0 20px 20px 20px' }}>
           <h1>{ props.question.question }</h1>
 
           {props.question.subtype === "likert" && <LikertButtons onUpdate={(i) => props.onUpdate(i)} value={myVote} />}
