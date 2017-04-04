@@ -39,7 +39,7 @@ const TwitterShareButton = (props) => (
   </TwitterButton>
 )
 
-@inject("CollectionStore", "QuestionStore") @observer class CollectionEnd extends Component {
+@inject("CollectionStore", "QuestionStore", "UserStore") @observer class CollectionEnd extends Component {
 
   constructor() {
     super();
@@ -77,6 +77,12 @@ const TwitterShareButton = (props) => (
 
     if(collection.photo) {
       cardMediaCSS.backgroundImage = 'url(' + collection.photo.replace("localhost:8000", "represent.me") + ')';
+    }
+
+    let messengerRefData = "get_started_with_token";
+    let authToken = this.props.UserStore.getAuthToken();
+    if(authToken) {
+      messengerRefData += "+auth_token=" + authToken;
     }
 
     return (
@@ -123,6 +129,7 @@ const TwitterShareButton = (props) => (
               appId={String(window.authSettings.facebookId)}
               pageId={String(window.authSettings.facebookPageId)}
               size="xlarge"
+              passthroughParams={messengerRefData} 
               /></span>
             <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showMessengerDialog: false})} /></span>
 

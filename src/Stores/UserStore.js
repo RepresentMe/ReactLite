@@ -60,6 +60,10 @@ class UserStore {
     this.getMe();
   }
 
+  getAuthToken() {
+    return this.sessionData.get("authToken") || false;
+  }
+
   authYeti(provider, access_token) {
     window.API.post('/auth-yeti/', { provider, access_token })
       .then(function (response) {
