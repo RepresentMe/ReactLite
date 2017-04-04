@@ -12,26 +12,11 @@ import { white, cyan600, grey300 } from 'material-ui/styles/colors';
 import ReactMarkdown from 'react-markdown';
 import Dialog from 'material-ui/Dialog';
 import $ from 'jquery';
-import DateOfBirth from "../DateOfBirth";
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import TextField from 'material-ui/TextField';
-import GeoService from '../../services/GeoService';
-
+import CompleteProfile from './CompleteProfile';
 
 //let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(observer(({ history, UserStore, CollectionStore, QuestionStore, match }) => {
 
 @inject("CollectionStore", "QuestionStore", "UserStore") @observer class QuestionFlow extends Component {
-
-  constructor() {
-    super();
-    this.state = {
-      completeProfileDialog: false,
-      shownCompleteProfileDialog: true,
-    }
-
-    this.checkProfileComplete = this.checkProfileComplete.bind(this);
-  }
 
   render() {
 
@@ -111,11 +96,7 @@ import GeoService from '../../services/GeoService';
           }
         }}/>
 
-        <Dialog
-          title="Please complete your profile"
-          open={this.state.completeProfileDialog}>
-          <CompleteProfile />
-        </Dialog>
+        <CompleteProfile />
 
       </div>
     );
@@ -124,158 +105,10 @@ import GeoService from '../../services/GeoService';
 
   componentDidMount() {
     questionTextFix(this.props.match.params.orderNumber);
-    this.checkProfileComplete();
   }
 
   componentDidUpdate() {
     questionTextFix(this.props.match.params.orderNumber);
-    this.checkProfileComplete();
-  }
-
-  checkProfileComplete() {
-    if(this.props.UserStore.userData.has("id") && !this.state.shownCompleteProfileDialog) {
-      let profile = this.props.UserStore.userData.toJS();
-      console.log(profile);
-      if(!profile.dob || !profile.address || profile.gender === 0) {
-        this.setState({completeProfileDialog: true, shownCompleteProfileDialog: true})
-      }
-    }
-  }
-
-}
-
-@inject("UserStore") @observer class CompleteProfile extends Component {
-
-  constructor() {
-    super();
-
-    // this.state = {
-    //   ddDOB: UserStore.userData.get("dob"),
-    //   ddGender: UserStore.userData.get("gender"),
-    //   txtPostcode: UserStore.userData.get("address"),
-    // }
-
-    this.state = {
-      ddDOB: null,
-      ddGender: null,
-      txtPostcode: "",
-    }
-
-    this.updateDetails = this.updateDetails.bind(this);
-  }
-
-  componentWillMount() {
-    let {UserStore} = this.props;
-
-    this.state = {
-      ddDOB: UserStore.userData.get("dob") || null,
-      ddGender: UserStore.userData.get("gender") || null,
-      txtPostcode: UserStore.userData.get("address"),
-      problems: [],
-    }
-  }
-
-  updateField(field, newValue) {
-
-    if((field === 'txtPostcode' || field === 'txtFirstName') && newValue.length === 1) { // User has completed entering email
-      this.checkEmail();
-    }
-
-    let newState = {};
-    newState[field] = newValue;
-    this.setState(newState);
-  }
-
-  render() {
-
-    let {UserStore} = this.props;
-
-    return (
-      <div>
-        <p>{"Hey, we've noticed your profile is incomplete. Completing your profile helps your decision makers take us more seriously, please take a moment to review and complete the data missing from your profile:"}</p>
-        {!UserStore.userData.get("dob") && <DateOfBirth onChange={(newValue) => this.updateField('ddDOB', newValue)} value={this.state.ddDOB}/>}
-
-        {UserStore.userData.get("gender") === 0 &&
-          <SelectField
-            floatingLabelText="Gender"
-            value={this.state.ddGender}
-            style={{width: '100%', marginTop: '-15px', overflow: 'hidden'}}
-            onChange={(e, newIndex, newValue) => this.updateField('ddGender', newValue)}
-          >
-            <MenuItem value={1} primaryText="Male" />
-            <MenuItem value={2} primaryText="Female" />
-            <MenuItem value={3} primaryText="Other" />
-            <MenuItem value={0} primaryText="I would rather not say" />
-          </SelectField>
-        }
-
-        {!UserStore.userData.get("address") === "" &&
-          <TextField
-            floatingLabelText="Postcode"
-            style={{width: '100%'}}
-            onChange={(e, newValue) => this.updateField('txtPostcode', newValue)}
-            />
-        }
-
-        {this.state.problems.map((problem, index) => {
-          return (
-            <p key={index} style={{color: 'red', margin: '0', marginBottom: '5px', fontSize: '14px'}}>{problem}</p>
-          );
-        })}
-
-        <RaisedButton label="Continue" onClick={this.updateDetails}/>
-      </div>
-    )
-  }
-
-  updateDetails() {
-
-    let problems = [];
-
-    if(this.state.ddDOB === null) {
-      problems.push("Please enter a valid date of birth!");
-    }
-
-    if(this.state.ddGender === null) {
-      problems.push("Please select your gender, or choose 'I would rather not say'");
-    }
-
-    if(this.state.txtPostcode.length < 2 || this.state.txtPostcode.length > 8) {
-      problems.push("Please enter a valid postcode!");
-    }
-
-    if(problems.length !== 0) {
-      this.setState({problems});
-      return;
-    }
-
-    GeoService.checkPostcode(this.state.txtPostcode)
-      .then(function(response) {
-
-        let location = null;
-
-        if(response.data.status === "OK") {
-          let raw_location = response.data.results[0].geometry.location;
-          location =  {
-            "type": "Point",
-            "coordinates": [raw_location.lng, raw_location.lat]
-          };
-
-          window.API.patch("/auth/me/", {
-            dob: this.state.ddDOB,
-            gender: this.state.ddGender,
-            address: this.state.txtPostcode,
-            location
-          }).then(() => {
-
-          }).catch((error) => {
-            this.setState({problems: [JSON.stringify(error.response.data)]})
-          });
-        }else {
-          this.setState({problems: ["Please ensure you've entered a valid postcode"]});
-        }
-
-      }.bind(this));
   }
 
 }

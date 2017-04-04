@@ -15,7 +15,7 @@ const DateOfBirth = (props) => {
     days.push(i);
   }
 
-  var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
   let thisYear = new Date().getFullYear();
   let years = [];
@@ -46,12 +46,12 @@ const DateOfBirth = (props) => {
       </SelectField>
 
       <SelectField
-        value={props.value === null ? null : selectedDate.getMonth()}
+        value={props.value === null ? null : selectedDate.getMonth() + 1}
         style={style}
         maxHeight={200}
         errorText={props.errorText}
           onChange={(e, index, value) => {
-          selectedDate.setMonth(value);
+          selectedDate.setMonth(value - 1);
           props.onChange(selectedDate.toISOString());
         }}>
         {months.map((value, index) => {
