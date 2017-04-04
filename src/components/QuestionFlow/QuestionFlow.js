@@ -13,6 +13,7 @@ import ReactMarkdown from 'react-markdown';
 import Dialog from 'material-ui/Dialog';
 import $ from 'jquery';
 import CompleteProfile from './CompleteProfile';
+import Paper from 'material-ui/Paper';
 
 //let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(observer(({ history, UserStore, CollectionStore, QuestionStore, match }) => {
 
@@ -46,6 +47,9 @@ import CompleteProfile from './CompleteProfile';
 
     return (
       <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'scroll' }}>
+
+        {(QuestionStore.questions.get(item.object_id).my_vote.length > 0) && <Paper style={{textAlign: 'center', padding: '5px 0', backgroundColor: cyan600, color: white, position: 'absolute', width: '100%'}} zDepth={1}>{"You're already answered this question, have you changed your mind?"}</Paper>}
+
         <div style={{ width: '100%', height: '100%', overflow: 'scroll' }}>
           <ReactCSSTransitionGroup
             transitionName="FlowTransition"
@@ -88,7 +92,7 @@ import CompleteProfile from './CompleteProfile';
           </ReactCSSTransitionGroup>
         </div>
 
-        <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '20px', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", height: '70px', zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
+        <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '25px', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", height: '70px', zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
           if( value < collectionItems.length ) { // If there is a next question
             history.push('/survey/' + collectionId + '/flow/' + value);
           }else {

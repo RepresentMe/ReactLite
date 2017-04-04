@@ -11,6 +11,12 @@ import TextField from 'material-ui/TextField';
 import QuestionPopulationStackedChart from "../charts/QuestionPopulationStackedChart";
 import FacebookImg from './iconmonstr-facebook-5.svg';
 import TwitterImg from './iconmonstr-twitter-5.svg';
+import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
+import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
+import OpenInNew from 'material-ui-community-icons/icons/open-in-new';
+import IconButton from 'material-ui/IconButton';
+import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
+
 import './CollectionEnd.css';
 
 const questionShareLink = (questionId) => {
@@ -76,22 +82,20 @@ const TwitterShareButton = (props) => (
     return (
       <div>
 
-        <Card style={{margin: '10px'}}>
-          <CardMedia overlay={<CardTitle title={ collection.name } subtitle="Thanks for completing this collection, your opinion will now be used as evidence by your representative and decision makers" />}>
+        <Card style={{margin: '0'}} zDepth={0}  >
+          <CardMedia overlay={<CardTitle title={ collection.name } subtitle={ collection.end_text } />}>
             <div style={cardMediaCSS}></div>
           </CardMedia>
-          <CardTitle
-            title="Know someone passionate about this subject?"
-            subtitle="Share this collection and help raise awareness for the causes you care about"
-          />
           <CardActions>
-            <FacebookButton appId={window.authSettings.facebookId} element="span" url={null}><RaisedButton label="Share on Facebook" primary style={{marginBottom: '10px'}} /></FacebookButton>
-            <TwitterButton element="span" url={null}><RaisedButton label="Share on Twitter" primary style={{marginBottom: '10px'}} /></TwitterButton>
-            <RaisedButton label="Embed on Your Site" primary style={{marginBottom: '10px'}} onClick={() => this.setState({showEmbedDialog: true})}/>
+            <div style={{textAlign: 'center'}}>
+              <FacebookButton appId={window.authSettings.facebookId} element="span" url={document.referrer}><IconButton><FacebookBox color={indigo500} /></IconButton></FacebookButton>
+              <TwitterButton element="span" url={document.referrer}><IconButton><TwitterBox color={blue500} /></IconButton></TwitterButton>
+              <IconButton><OpenInNew color={bluegrey500} onClick={() => this.setState({showEmbedDialog: true})}/></IconButton>
+            </div>
           </CardActions>
         </Card>
 
-        {this.props.CollectionStore.items(collectionId) &&
+        {false && this.props.CollectionStore.items(collectionId) &&
 
           <Card style={{margin: '10px', overflow: 'hidden'}}>
             <CardText>
@@ -125,7 +129,7 @@ const TwitterShareButton = (props) => (
         </Dialog>
 
         <Dialog
-            title="Embed this collection on your website"
+            title="Embed this on your website"
             modal={false}
             open={this.state.showEmbedDialog}
             actions={
