@@ -13,14 +13,14 @@ export default class NetworkProgress extends Component {
       axiosRequests: 0
     }
 
-    axios.interceptors.request.use(function (config) {
+    window.API.interceptors.request.use(function (config) {
         this.setState({axiosRequests: this.state.axiosRequests + 1});
         return config;
       }.bind(this), function (error) {
         return Promise.reject(error);
       });
 
-    axios.interceptors.response.use(function (response) {
+    window.API.interceptors.response.use(function (response) {
         if(this.state.axiosRequests === 1) {
           this.setState({axiosRequests: 0});
         }else {

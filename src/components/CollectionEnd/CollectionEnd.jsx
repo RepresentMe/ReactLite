@@ -11,6 +11,7 @@ import TextField from 'material-ui/TextField';
 import QuestionPopulationStackedChart from "../charts/QuestionPopulationStackedChart";
 import FacebookImg from './iconmonstr-facebook-5.svg';
 import TwitterImg from './iconmonstr-twitter-5.svg';
+import './CollectionEnd.css';
 
 const questionShareLink = (questionId) => {
   if(window.self !== window.top) { // In iframe
@@ -96,7 +97,7 @@ const TwitterShareButton = (props) => (
             <CardText>
               {this.props.CollectionStore.items(collectionId).map((collectionItem, index) => {
                 return (
-                  <div style={{width: '50%', float: 'left', height: '170px', zIndex: index, textAlign: 'center'}} key={index}>
+                  <div className="CollectionEndResult" key={index}>
                     <QuestionPopulationStackedChart questionId={collectionItem.object_id} geoId={59} height={100}/>
                     <p style={{margin: '5px'}}>{this.props.QuestionStore.questions.has(collectionItem.object_id) && this.props.QuestionStore.questions.get(collectionItem.object_id).question}</p>
                     <FacebookShareButton url={questionShareLink(collectionItem.object_id)} /> <TwitterShareButton url={questionShareLink(collectionItem.object_id)} />

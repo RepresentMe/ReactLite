@@ -1,0 +1,13 @@
+
+.CollectionEndResult {
+  width: 50%;
+  float: left;
+  height: 170px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 500px) {
+  .CollectionEndResult {
+    width: 100%;
+  }
+}
