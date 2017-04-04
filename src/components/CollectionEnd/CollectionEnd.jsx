@@ -139,7 +139,7 @@ const TwitterShareButton = (props) => (
           >
           Copy the following HTML into the source of your website, no additional setup required!
           <TextField
-            value={'<iframe width="700" height="400" src="https://' + window.location.host + '/collection/' + collection.id + '"></iframe>'}
+            value={'<iframe width="700" height="400" src="https://' + window.location.host + '/survey/' + collection.id + '"></iframe>'}
             fullWidth={true}
             multiLine={true}
           />

@@ -40,7 +40,7 @@ import CompleteProfile from './CompleteProfile';
     let item = collectionItems[orderNumber];
 
     if(!item) {
-      history.push('/collection/' + collectionId + '/end');
+      history.push('/survey/' + collectionId + '/end');
       return null;
     }
 
@@ -67,9 +67,9 @@ import CompleteProfile from './CompleteProfile';
                 }
 
                 if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
-                  history.push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
+                  history.push('/survey/' + collectionId + '/flow/' + (orderNumber + 1));
                 }else {
-                  history.push('/collection/' + collectionId + '/end');
+                  history.push('/survey/' + collectionId + '/end');
                 }
               }} />
 
@@ -78,9 +78,9 @@ import CompleteProfile from './CompleteProfile';
             {item.type === "B" && // If rendering a break
               <RenderedBreak break={item.content_object} onContinue={() => {
                 if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
-                  history.push('/collection/' + collectionId + '/flow/' + (orderNumber + 1));
+                  history.push('/survey/' + collectionId + '/flow/' + (orderNumber + 1));
                 }else {
-                  history.push('/collection/' + collectionId + '/end');
+                  history.push('/survey/' + collectionId + '/end');
                 }
               }} />
             }
@@ -90,9 +90,9 @@ import CompleteProfile from './CompleteProfile';
 
         <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '20px', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", height: '70px', zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
           if( value < collectionItems.length ) { // If there is a next question
-            history.push('/collection/' + collectionId + '/flow/' + value);
+            history.push('/survey/' + collectionId + '/flow/' + value);
           }else {
-            history.push('/collection/' + collectionId + '/end');
+            history.push('/survey/' + collectionId + '/end');
           }
         }}/>
 
