@@ -1,0 +1,7 @@
+.compare-collection-users {
+  border: "1px solid black"
+ }
+
+.compare-collection-users .user-card {
+  float: left
+}

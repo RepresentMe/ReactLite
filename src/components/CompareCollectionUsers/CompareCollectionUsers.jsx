@@ -3,13 +3,21 @@ import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import CollectionSearch from '../CollectionSearch';
 
-var CompareCollectionUsers = inject("CollectionStore")(observer(({ CollectionStore }) => {
+import './style.css';
 
-  return <CompareCollectionUsersView />
+var CompareCollectionUsers = inject("CollectionStore")(observer(({ CollectionStore}) => {
+
+  let viewData = {
+    users: []
+  }
+
+  let userIds = [7, 4895];
+
+  return <CompareCollectionUsersView data={viewData} />
 })) 
 
 const CompareCollectionUsersView = observer(({data})=> {
-  return (<div style={{overflowX}} >
+  return (<div style={{ border: "1px solid black" }} className="compare-collection-users">
     {data.users.map((user) => {
       return (<UserCard style={{float: "left"}}/>)
     })}
@@ -17,9 +25,11 @@ const CompareCollectionUsersView = observer(({data})=> {
 })
 
 const UserCard = observer(({data}) => {
-  return (<div>
+  return (<div className="user-card">
     <div>image</div>
     <div>name</div>
     <div>age</div>
   </div>)
 })
+
+export default CompareCollectionUsers;
