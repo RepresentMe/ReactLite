@@ -28,6 +28,7 @@ export default @inject("UserStore") @observer class CompleteProfile extends Comp
       ddGender: null,
       txtPostcode: "",
       checkedPostcode: false,
+      addressAlreadySet: false,
       postcodeLocation: {},
       step: 0,
       problems: [],
@@ -53,21 +54,21 @@ export default @inject("UserStore") @observer class CompleteProfile extends Comp
     if(this.props.UserStore.userData.has("id") && !this.state.checkedProfile) {
       let profile = this.props.UserStore.userData.toJS();
       if(profile.dob === null || profile.gender === 0 || profile.address === "") {
+        console.log("Check", (profile.address.length > 0 ? true : false))
         this.setState({
           checkedProfile: true,
           shown: true,
           ddDOB: profile.dob || null,
           ddGender: profile.gender || null,
           txtPostcode: profile.address,
-        }, () => {
-          this.getLocation();
+          addressAlreadySet: (profile.address.length > 0 ? true : false),
         });
       }
     }
   }
 
   getLocation() {
-    this.setState({checkPostcode: false}, () => {
+    this.setState({checkedPostcode: false}, () => {
 
       if(this.state.txtPostcode.length < 3) {
         return;
@@ -132,7 +133,7 @@ export default @inject("UserStore") @observer class CompleteProfile extends Comp
         })}
 
         <RaisedButton label="Continue" onClick={this.onContinue} disabled={!this.valueIsAllowed()}/>
-        <p>{"We've noticed your profile is incomplete. Completing your profile helps your decision makers take us more seriously, please take a moment to review and complete the data missing from your profile."}</p>
+        <p>{"We've noticed your profile is incomplete. Completing your profile helps your decision makers take you more seriously."}</p>
 
       </Dialog>
     )
@@ -144,7 +145,11 @@ export default @inject("UserStore") @observer class CompleteProfile extends Comp
     }else if(this.state.step === 1 && this.state.ddGender) {
       return true;
     }else if(this.state.step === 2) {
-      return this.state.checkedPostcode;
+      if(this.state.addressAlreadySet) {
+        return true;
+      }else {
+        return this.state.checkedPostcode;
+      }
     }
 
     return false;
@@ -170,7 +175,7 @@ export default @inject("UserStore") @observer class CompleteProfile extends Comp
       problems.push("Please select your gender, or choose 'I would rather not say'");
     }
 
-    if(this.state.txtPostcode.length < 2 || this.state.txtPostcode.length > 8) {
+    if(!this.state.addressAlreadySet && (this.state.txtPostcode.length < 2 || this.state.txtPostcode.length > 8)) {
       problems.push("Please enter a valid postcode!");
     }
 
@@ -187,8 +192,8 @@ export default @inject("UserStore") @observer class CompleteProfile extends Comp
     window.API.patch("/auth/me/", {
       dob: this.state.ddDOB.substring(0, 10),
       gender: this.state.ddGender,
-      address: this.state.txtPostcode,
-      location: googleLocation,
+      address: (this.state.checkedPostcode ? this.state.txtPostcode : undefined),
+      location: (this.state.checkedPostcode ? googleLocation : undefined),
     }).then((response) => {
       this.setState({shown: false})
     }).catch((error) => {

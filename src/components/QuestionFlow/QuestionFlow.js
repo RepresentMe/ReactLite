@@ -17,6 +17,10 @@ import Paper from 'material-ui/Paper';
 
 //let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(observer(({ history, UserStore, CollectionStore, QuestionStore, match }) => {
 
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 @inject("CollectionStore", "QuestionStore", "UserStore") @observer class QuestionFlow extends Component {
 
   render() {
@@ -48,7 +52,7 @@ import Paper from 'material-ui/Paper';
     return (
       <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'scroll' }}>
 
-        {(QuestionStore.questions.get(item.object_id).my_vote.length > 0) && <Paper style={{textAlign: 'center', padding: '5px 0', backgroundColor: cyan600, color: white, position: 'absolute', width: '100%'}} zDepth={1}>{"You're already answered this question, have you changed your mind?"}</Paper>}
+        {(QuestionStore.questions.get(item.object_id).my_vote.length > 0) && <Paper style={{textAlign: 'center', padding: '5px 0', backgroundColor: cyan600, color: white, position: 'absolute', width: '100%'}} zDepth={1}>{"You answered this in " + monthNames[new Date(QuestionStore.questions.get(item.object_id).my_vote[0].modified_at).getMonth()] + ". Have you changed your mind?"}</Paper>}
 
         <div style={{ width: '100%', height: '100%', overflow: 'scroll' }}>
           <ReactCSSTransitionGroup
@@ -139,7 +143,7 @@ let RenderedQuestion = (props) => {
   return (
       <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
         <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', maxWidth: '400px', padding: '0 20px 40px 20px' }}>
-          <h1 style={{maxWidth: '400px', margin: '10px auto'}} className={"questionTextFix" + props.order}>{ props.question.question }</h1>
+          <h1 style={{maxWidth: '400px', margin: '60px auto 10px auto'}} className={"questionTextFix" + props.order}>{ props.question.question }</h1>
 
           {props.question.subtype === "likert" && <LikertButtons onUpdate={(i) => props.onUpdate(i)} value={myVote} />}
           {props.question.subtype === "mcq" && <MCQButtons onUpdate={(i) => props.onUpdate(i)} question={props.question} />}
@@ -172,7 +176,7 @@ let MCQButtons = (props) => {
   return (
     <div>
       { props.question.choices.map((choice, index) => {
-        return (<RaisedButton primary={!(props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id)} key={index} label={choice.text} style={{display:'block', margin: '10px auto', maxWidth: '400px'}} onClick={() => props.onUpdate(choice.id)}/>);
+        return (<RaisedButton primary={!(props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id)} key={index} label={choice.text} style={{display:'block', margin: '10px auto', maxWidth: '400px', height: '25px'}} overlayStyle={{height: 'auto'}} onClick={() => props.onUpdate(choice.id)}/>);
       })}
     </div>
   )

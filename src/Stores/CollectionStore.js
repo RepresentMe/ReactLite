@@ -14,7 +14,10 @@ class CollectionStore {
         for (let collection of response.data.results) {
           this.collections.set(collection.id, collection);
         }
-      }.bind(this));
+      }.bind(this))
+      .catch(function(error) {
+        console.log(error, error.response.data);
+      });
 
   }
 
@@ -50,7 +53,10 @@ class CollectionStore {
         } else {
           this.collectionItems.set(collectionId, items);
         }
-      }.bind(this));
+      }.bind(this))
+      .catch(function(error) {
+        console.log(error, error.response.data);
+      });
 
     return null;
 
@@ -74,7 +80,10 @@ class CollectionStore {
             }
             this.searchCache.set(search, searchResultSummary);
           }
-        }.bind(this));
+        }.bind(this))
+        .catch(function(error) {
+          console.log(error, error.response.data);
+        });
       return false;
     }
   }
@@ -108,7 +117,10 @@ class CollectionStore {
                 });
             }
           }
-        }.bind(this));
+        }.bind(this))
+        .catch(function(error) {
+          console.log(error, error.response.data);
+        });
 
       }.bind(this));
   }
@@ -120,7 +132,10 @@ class CollectionStore {
         name: title,
       }).then(function (response) { // Once details updated, check for question changes
         this.getCollection(collectionId, true);
-      }.bind(this));
+      }.bind(this))
+      .catch(function(error) {
+        console.log(error, error.response.data);
+      });
   }
 
 }

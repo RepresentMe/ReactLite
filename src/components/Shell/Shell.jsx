@@ -107,7 +107,7 @@ function onProfileClick(){
                   <Route exact path="/" component={CollectionsList}/>
                   <Route exact path="/login" component={Login}/>
                   <Route exact path="/login/:redirect" component={Login}/>
-                  <Route exact path="/authcode/:code/:redirect" component={AuthCode}/>
+                  <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
                   <Route exact path="/login/:redirect/:email" component={Login}/>
                   <Route exact path="/register" component={Register}/>
                   <Route exact path="/register/:redirect" component={Register}/>

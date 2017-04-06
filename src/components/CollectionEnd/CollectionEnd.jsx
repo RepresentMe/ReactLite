@@ -13,7 +13,7 @@ import FacebookImg from './iconmonstr-facebook-5.svg';
 import TwitterImg from './iconmonstr-twitter-5.svg';
 import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-import OpenInNew from 'material-ui-community-icons/icons/open-in-new';
+import CodeTags from 'material-ui-community-icons/icons/code-tags';
 import IconButton from 'material-ui/IconButton';
 import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
 
@@ -39,13 +39,44 @@ const TwitterShareButton = (props) => (
   </TwitterButton>
 )
 
+
+const styles = {
+  smallIcon: {
+    width: 36,
+    height: 36,
+  },
+  mediumIcon: {
+    width: 48,
+    height: 48,
+  },
+  largeIcon: {
+    width: 60,
+    height: 60,
+  },
+  small: {
+    width: 72,
+    height: 72,
+    padding: 16,
+  },
+  medium: {
+    width: 96,
+    height: 96,
+    padding: 24,
+  },
+  large: {
+    width: 120,
+    height: 120,
+    padding: 30,
+  },
+};
+
 @inject("CollectionStore", "QuestionStore", "UserStore") @observer class CollectionEnd extends Component {
 
   constructor() {
     super();
 
     this.state = {
-      showMessengerDialog: false,
+      showMessengerDialog: true,
       showEmbedDialog: false,
     }
   }
@@ -94,9 +125,9 @@ const TwitterShareButton = (props) => (
           </CardMedia>
           <CardActions>
             <div style={{textAlign: 'center'}}>
-              <FacebookButton appId={window.authSettings.facebookId} element="span" url={document.referrer}><IconButton><FacebookBox color={indigo500} /></IconButton></FacebookButton>
-              <TwitterButton element="span" url={document.referrer}><IconButton><TwitterBox color={blue500} /></IconButton></TwitterButton>
-              <IconButton><OpenInNew color={bluegrey500} onClick={() => this.setState({showEmbedDialog: true})}/></IconButton>
+              <FacebookButton appId={window.authSettings.facebookId} element="span" url={document.referrer}><IconButton iconStyle={styles.mediumIcon} style={styles.medium}><FacebookBox color={indigo500} /></IconButton></FacebookButton>
+              <TwitterButton element="span" url={document.referrer}><IconButton iconStyle={styles.mediumIcon} style={styles.medium}><TwitterBox color={blue500} /></IconButton></TwitterButton>
+              <IconButton iconStyle={styles.mediumIcon} style={styles.medium}><CodeTags color={bluegrey500} onClick={() => this.setState({showEmbedDialog: true})}/></IconButton>
             </div>
           </CardActions>
         </Card>
@@ -120,16 +151,16 @@ const TwitterShareButton = (props) => (
         }
 
         <Dialog
-            title="You can now recieve updates on this topic from your messenger inbox"
+            title="Want awesome powers?"
             modal={false}
             open={this.state.showMessengerDialog}
           >
-            Answer daily questions, get updates about subscribed issues and connect with your local policy makers from your messenger inbox<br/><br/>
+            You can vote directly from facebook messenger, making it easy to have your say in important issues as often as you like. Try it out - we think you’ll love it!<br/><br/>
             <span style={{float: 'left'}}><MessengerPlugin
               appId={String(window.authSettings.facebookId)}
               pageId={String(window.authSettings.facebookPageId)}
               size="xlarge"
-              passthroughParams={messengerRefData} 
+              passthroughParams={messengerRefData}
               /></span>
             <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showMessengerDialog: false})} /></span>
 
