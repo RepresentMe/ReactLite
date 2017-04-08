@@ -1,7 +1,39 @@
 .compare-collection-users {
-  border: "1px solid black"
+  overflow-x: scroll;
+  width: auto;
+  white-space: nowrap;
  }
 
 .compare-collection-users .user-card {
-  float: left
+  display: inline-block;
+  padding: 5px 15px;
+  text-align: center;
 }
+
+.compare-collection-users .user-card:nth-child(2n) {
+  background: #f3f3f3;
+}
+
+.compare-collection-users .user-card .photo img {
+  width: 70px;
+  border-radius: 50%;
+}
+
+.compare-collection-users .user-card .name {
+  margin: 7px 0 5px 0;
+}
+
+.compare-collection-users .user-card .age, .compare-collection-users .user-card .location {
+  color: #818a91;
+  font-size: 90%;
+}
+
+.compare-collection-users .user-card .match {
+  margin: 7px 0 0 0;
+  font-weight: bold;
+}
+.compare-collection-users .user-card .match-word {
+  font-weight: normal;
+  font-size: 90%;
+}
+

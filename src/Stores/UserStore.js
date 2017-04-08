@@ -98,6 +98,30 @@ class UserStore {
     location.reload();
   }
 
+  isLoggedIn() {
+    return this.userData.has("id");
+  }
+
+  compareUsers(userAId, userBId) {
+    return window.API.get('/api/compare_users/?usera='+userAId+'&userb='+userBId)
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error, error.response.data);
+      });
+  }
+
+  getUserById(id) {
+    return window.API.get('/api/users/' + id + '/')
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error, error.response.data);
+      });
+  }
+
 }
 
 autorun(() => {
