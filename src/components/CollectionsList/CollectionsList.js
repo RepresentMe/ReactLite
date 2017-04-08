@@ -28,7 +28,7 @@ var CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) =
               { collection.desc }
             </CardText>
             <CardActions>
-              <Link to={ "/collection/" + id }><RaisedButton label="Start" primary /></Link>
+              <Link to={ "/survey/" + id }><RaisedButton label="Start" primary /></Link>
             </CardActions>
           </Card>
         )

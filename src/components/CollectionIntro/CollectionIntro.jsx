@@ -80,8 +80,8 @@ import ReactMarkdown from 'react-markdown';
               <h1>{ collection.name }</h1>
               <ReactMarkdown source={ collection.desc } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} />
 
-                <Link to={ "/collection/" + collection.id + "/flow/0" }><RaisedButton label="Start" primary /></Link>
-                {this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id === this.props.UserStore.userData.get("id") && <Link to={ "/collection/" + collectionId + "/edit" }><RaisedButton label="Edit" primary /></Link>}
+                <Link to={ "/survey/" + collection.id + "/flow/0" }><RaisedButton label="Start" primary /></Link>
+                {this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id === this.props.UserStore.userData.get("id") && <Link to={ "/survey/" + collectionId + "/edit" }><RaisedButton label="Edit" primary /></Link>}
               </div>
             </div>
           </div>

@@ -63,7 +63,7 @@ import Dialog from 'material-ui/Dialog';
             this.props.CollectionStore.createCollection(this.state.title, this.state.description, this.state.endText, this.state.questions)
               .then(function(collectionId) {
                 this.props.QuestionStore.loadCollectionQuestions(collectionId);
-                this.props.push("/collection/" + collectionId + "/edit");
+                this.props.push("/survey/" + collectionId + "/edit");
               }.bind(this)).catch(function(reason) {
                 console.log("FAILED");
                 this.setState({errorMessage: reason});

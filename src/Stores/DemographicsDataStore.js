@@ -4,6 +4,7 @@ class DemographicsDataStore {
 
     usersDemographicsData = observable.shallowMap({});
     questionDemographicsData = observable.shallowMap({});
+    questionWeightedAgeData = observable.shallowMap({});
 
     getUsersDemographicsData(geoId) {
         let reqStr = '/api/users/demographics/';
@@ -32,7 +33,22 @@ class DemographicsDataStore {
             });
     }
 
+    getWeightedQuestionAverageDataByAge(question_id) {
+      if(this.questionWeightedAgeData.has(question_id)) {
+        return this.questionWeightedAgeData.get(question_id);
+      }
 
+      return window.API.get('/api/question_weighted_demographics/?question=' + question_id)
+          .then((response) => {
+            this.questionWeightedAgeData.set(response.data.qid, response.data.data);
+            return response.data.data;
+          })
+          .catch((error) => {
+            console.log(error);
+            return error;
+          });
+
+    }
 
 }
 

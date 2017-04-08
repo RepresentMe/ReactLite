@@ -11,6 +11,13 @@ import TextField from 'material-ui/TextField';
 import QuestionPopulationStackedChart from "../charts/QuestionPopulationStackedChart";
 import FacebookImg from './iconmonstr-facebook-5.svg';
 import TwitterImg from './iconmonstr-twitter-5.svg';
+import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
+import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
+import CodeTags from 'material-ui-community-icons/icons/code-tags';
+import IconButton from 'material-ui/IconButton';
+import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
+
+import './CollectionEnd.css';
 
 const questionShareLink = (questionId) => {
   if(window.self !== window.top) { // In iframe
@@ -32,13 +39,44 @@ const TwitterShareButton = (props) => (
   </TwitterButton>
 )
 
-@inject("CollectionStore", "QuestionStore") @observer class CollectionEnd extends Component {
+
+const styles = {
+  smallIcon: {
+    width: 36,
+    height: 36,
+  },
+  mediumIcon: {
+    width: 48,
+    height: 48,
+  },
+  largeIcon: {
+    width: 60,
+    height: 60,
+  },
+  small: {
+    width: 72,
+    height: 72,
+    padding: 16,
+  },
+  medium: {
+    width: 96,
+    height: 96,
+    padding: 24,
+  },
+  large: {
+    width: 120,
+    height: 120,
+    padding: 30,
+  },
+};
+
+@inject("CollectionStore", "QuestionStore", "UserStore") @observer class CollectionEnd extends Component {
 
   constructor() {
     super();
 
     this.state = {
-      showMessengerDialog: false,
+      showMessengerDialog: true,
       showEmbedDialog: false,
     }
   }
@@ -72,31 +110,35 @@ const TwitterShareButton = (props) => (
       cardMediaCSS.backgroundImage = 'url(' + collection.photo.replace("localhost:8000", "represent.me") + ')';
     }
 
+    let messengerRefData = "get_started_with_token";
+    let authToken = this.props.UserStore.getAuthToken();
+    if(authToken) {
+      messengerRefData += "+auth_token=" + authToken;
+    }
+
     return (
       <div>
 
-        <Card style={{margin: '10px'}}>
-          <CardMedia overlay={<CardTitle title={ collection.name } subtitle="Thanks for completing this collection, your opinion will now be used as evidence by your representative and decision makers" />}>
+        <Card style={{margin: '0'}} zDepth={0}  >
+          <CardMedia overlay={<CardTitle title={ collection.name } subtitle={ collection.end_text } />}>
             <div style={cardMediaCSS}></div>
           </CardMedia>
-          <CardTitle
-            title="Know someone passionate about this subject?"
-            subtitle="Share this collection and help raise awareness for the causes you care about"
-          />
           <CardActions>
-            <FacebookButton appId={window.authSettings.facebookId} element="span" url={null}><RaisedButton label="Share on Facebook" primary style={{marginBottom: '10px'}} /></FacebookButton>
-            <TwitterButton element="span" url={null}><RaisedButton label="Share on Twitter" primary style={{marginBottom: '10px'}} /></TwitterButton>
-            <RaisedButton label="Embed on Your Site" primary style={{marginBottom: '10px'}} onClick={() => this.setState({showEmbedDialog: true})}/>
+            <div style={{textAlign: 'center'}}>
+              <FacebookButton appId={window.authSettings.facebookId} element="span" url={document.referrer}><IconButton iconStyle={styles.mediumIcon} style={styles.medium}><FacebookBox color={indigo500} /></IconButton></FacebookButton>
+              <TwitterButton element="span" url={document.referrer}><IconButton iconStyle={styles.mediumIcon} style={styles.medium}><TwitterBox color={blue500} /></IconButton></TwitterButton>
+              <IconButton iconStyle={styles.mediumIcon} style={styles.medium}><CodeTags color={bluegrey500} onClick={() => this.setState({showEmbedDialog: true})}/></IconButton>
+            </div>
           </CardActions>
         </Card>
 
-        {this.props.CollectionStore.items(collectionId) &&
+        {false && this.props.CollectionStore.items(collectionId) &&
 
           <Card style={{margin: '10px', overflow: 'hidden'}}>
             <CardText>
               {this.props.CollectionStore.items(collectionId).map((collectionItem, index) => {
                 return (
-                  <div style={{width: '50%', float: 'left', height: '170px', zIndex: index, textAlign: 'center'}} key={index}>
+                  <div className="CollectionEndResult" key={index}>
                     <QuestionPopulationStackedChart questionId={collectionItem.object_id} geoId={59} height={100}/>
                     <p style={{margin: '5px'}}>{this.props.QuestionStore.questions.has(collectionItem.object_id) && this.props.QuestionStore.questions.get(collectionItem.object_id).question}</p>
                     <FacebookShareButton url={questionShareLink(collectionItem.object_id)} /> <TwitterShareButton url={questionShareLink(collectionItem.object_id)} />
@@ -109,22 +151,23 @@ const TwitterShareButton = (props) => (
         }
 
         <Dialog
-            title="You can now recieve updates on this topic from your messenger inbox"
+            title="Want awesome powers?"
             modal={false}
             open={this.state.showMessengerDialog}
           >
-            Answer daily questions, get updates about subscribed issues and connect with your local policy makers from your messenger inbox<br/><br/>
+            You can vote directly from facebook messenger, making it easy to have your say in important issues as often as you like. Try it out - we think you’ll love it!<br/><br/>
             <span style={{float: 'left'}}><MessengerPlugin
               appId={String(window.authSettings.facebookId)}
               pageId={String(window.authSettings.facebookPageId)}
               size="xlarge"
+              passthroughParams={messengerRefData}
               /></span>
             <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showMessengerDialog: false})} /></span>
 
         </Dialog>
 
         <Dialog
-            title="Embed this collection on your website"
+            title="Embed this on your website"
             modal={false}
             open={this.state.showEmbedDialog}
             actions={
@@ -138,7 +181,7 @@ const TwitterShareButton = (props) => (
           >
           Copy the following HTML into the source of your website, no additional setup required!
           <TextField
-            value={'<iframe width="700" height="400" src="https://' + window.location.host + '/collection/' + collection.id + '"></iframe>'}
+            value={'<iframe width="700" height="400" src="https://' + window.location.host + '/survey/' + collection.id + '"></iframe>'}
             fullWidth={true}
             multiLine={true}
           />

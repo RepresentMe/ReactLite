@@ -20,11 +20,13 @@ import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import Register from '../Register';
 import JoinGroup from '../JoinGroup';
+import Join from '../Join';
 import { inject, observer } from "mobx-react";
 import Test from '../Test';
 import NetworkProgress from '../NetworkProgress';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import smallLogo from './represent_white_outline.svg';
+import AuthCode from '../AuthCode';
 
 import './Shell.css';
 
@@ -105,16 +107,18 @@ function onProfileClick(){
                   <Route exact path="/" component={CollectionsList}/>
                   <Route exact path="/login" component={Login}/>
                   <Route exact path="/login/:redirect" component={Login}/>
+                  <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
                   <Route exact path="/login/:redirect/:email" component={Login}/>
                   <Route exact path="/register" component={Register}/>
                   <Route exact path="/register/:redirect" component={Register}/>
+                  <Route exact path="/join/:redirect" component={Join}/>
                   <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
                   <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
-                  <Route exact path="/collection/create" component={CreateCollection}/>
-                  <Route exact path="/collection/:collectionId" component={CollectionIntro}/>
-                  <Route exact path="/collection/:collectionId/edit" component={EditCollection}/>
-                  <Route exact path="/collection/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
-                  <Route exact path="/collection/:collectionId/end" component={CollectionEnd}/>
+                  <Route exact path="/survey/create" component={CreateCollection}/>
+                  <Route exact path="/survey/:collectionId" component={CollectionIntro}/>
+                  <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
+                  <Route exact path="/survey/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
+                  <Route exact path="/survey/:collectionId/end" component={CollectionEnd}/>
                   <Route exact path="/test" component={Test}/>
                 </ReactCSSTransitionGroup>
               </div>
@@ -127,7 +131,7 @@ function onProfileClick(){
                       iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
                       iconElementRight={
                         <span>
-                          <div onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}>{this.props.UserStore.userData.has("id") && this.props.UserStore.userData.get("first_name") + ' ' + this.props.UserStore.userData.get("last_name")}</div>
+                          <a onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}>{this.props.UserStore.userData.has("id") && this.props.UserStore.userData.get("first_name") + ' ' + this.props.UserStore.userData.get("last_name")}</a>
                           <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
                       </span>}
                       style={{

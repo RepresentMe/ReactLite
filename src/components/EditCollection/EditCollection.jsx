@@ -106,7 +106,7 @@ import LinearProgress from 'material-ui/LinearProgress';
             <RaisedButton label="Save" primary={true} style={{float: 'left'}} onClick={() => {
               this.props.QuestionStore.updateCollectionQuestions(collectionId, this.state.questions);
               this.props.CollectionStore.updateCollection(collectionId, this.state.title, this.state.description, this.state.endText);
-              this.props.push("/collection/" + collectionId);
+              this.props.push("/survey/" + collectionId);
             }} />
           </div>
       </div>

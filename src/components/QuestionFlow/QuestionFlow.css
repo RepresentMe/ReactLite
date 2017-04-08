@@ -23,8 +23,24 @@
   height: 40px;
   background-size: contain;
   overflow: hidden;
-  float: left;
   margin-left: 15px;
+  display: inline-block;
+}
+
+@media only screen and (max-width: 300px) {
+  .likertButton {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+  }
+}
+
+@media only screen and (max-width: 220px) {
+  .likertButton {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+  }
 }
 
 .likertButton:first-child {
