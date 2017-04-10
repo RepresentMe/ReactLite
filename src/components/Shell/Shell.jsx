@@ -23,10 +23,12 @@ import JoinGroup from '../JoinGroup';
 import Join from '../Join';
 import { inject, observer } from "mobx-react";
 import Test from '../Test';
+import UndividedRender from '../UndividedRender';
 import NetworkProgress from '../NetworkProgress';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import smallLogo from './represent_white_outline.svg';
 import AuthCode from '../AuthCode';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import './Shell.css';
 
@@ -85,11 +87,10 @@ function onProfileClick(){
 
     let mainContentStyle = {
       height: "calc(100% - 28px)",
-      overflow: 'scroll',
       position: "relative"
     }
 
-    if(split_pathname[1] === 'joingroup') {
+    if(split_pathname[1] === 'joingroup' || split_pathname[1] === 'undividedrender') {
       mainContentStyle.height = "100%";
     }
 
@@ -99,28 +100,31 @@ function onProfileClick(){
             <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0, overflow: 'hidden'}}>
 
               <div style={mainContentStyle}>
-                <ReactCSSTransitionGroup
-                  transitionName="QuestionFlowTransition"
-                  transitionEnterTimeout={1000}
-                  transitionLeaveTimeout={1000}>
+                <Scrollbars autoHide>
+                  <ReactCSSTransitionGroup
+                    transitionName="QuestionFlowTransition"
+                    transitionEnterTimeout={1000}
+                    transitionLeaveTimeout={1000}>
 
-                  <Route exact path="/" component={CollectionsList}/>
-                  <Route exact path="/login" component={Login}/>
-                  <Route exact path="/login/:redirect" component={Login}/>
-                  <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
-                  <Route exact path="/login/:redirect/:email" component={Login}/>
-                  <Route exact path="/register" component={Register}/>
-                  <Route exact path="/register/:redirect" component={Register}/>
-                  <Route exact path="/join/:redirect" component={Join}/>
-                  <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
-                  <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
-                  <Route exact path="/survey/create" component={CreateCollection}/>
-                  <Route exact path="/survey/:collectionId" component={CollectionIntro}/>
-                  <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
-                  <Route exact path="/survey/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
-                  <Route exact path="/survey/:collectionId/end" component={CollectionEnd}/>
-                  <Route exact path="/test" component={Test}/>
-                </ReactCSSTransitionGroup>
+                    <Route exact path="/" component={CollectionsList}/>
+                    <Route exact path="/login" component={Login}/>
+                    <Route exact path="/login/:redirect" component={Login}/>
+                    <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
+                    <Route exact path="/login/:redirect/:email" component={Login}/>
+                    <Route exact path="/register" component={Register}/>
+                    <Route exact path="/register/:redirect" component={Register}/>
+                    <Route exact path="/join/:redirect" component={Join}/>
+                    <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
+                    <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
+                    <Route exact path="/survey/create" component={CreateCollection}/>
+                    <Route exact path="/survey/:collectionId" component={CollectionIntro}/>
+                    <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
+                    <Route exact path="/survey/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
+                    <Route exact path="/survey/:collectionId/end" component={CollectionEnd}/>
+                    <Route exact path="/test" component={Test}/>
+                    <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
+                  </ReactCSSTransitionGroup>
+                </Scrollbars>
               </div>
 
                 {split_pathname[1] !== 'joingroup' &&

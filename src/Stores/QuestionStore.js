@@ -24,6 +24,22 @@ class QuestionStore {
     })
   }
 
+  getQuestionById(id) {
+    if(this.questions.has(id)) {
+      return this.questions.get(id);
+    }
+
+    return window.API.get('/api/questions/' + id + '/')
+        .then((response) => {
+          this.questions.set(response.data.id, response.data);
+          return response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          return error;
+        });
+  }
+
   searchQuestions(search) {
     if(this.searchCache.has(search)) {
       return this.searchCache.get(search);

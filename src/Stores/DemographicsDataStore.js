@@ -38,7 +38,7 @@ class DemographicsDataStore {
         return this.questionWeightedAgeData.get(question_id);
       }
 
-      return window.API.get('/api/question_weighted_demographics/?question=' + question_id)
+      return window.API.get('/api/question_weighted_demographics/' + question_id + '/age/')
           .then((response) => {
             this.questionWeightedAgeData.set(response.data.qid, response.data.data);
             return response.data.data;

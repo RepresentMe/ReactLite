@@ -66,6 +66,7 @@
     "query-string": "^4.3.2",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",
+    "react-custom-scrollbars": "^4.0.2",
     "react-dom": "^15.4.2",
     "react-facebook-login": "^3.4.3",
     "react-history": "^0.18.2",
