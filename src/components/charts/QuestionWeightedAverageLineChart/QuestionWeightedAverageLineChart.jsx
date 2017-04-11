@@ -250,7 +250,6 @@ const customTickMap = {
 }
 
 const CustomLikertTicks = (props) => {
-  console.log(props);
 
   return (
     <g>
