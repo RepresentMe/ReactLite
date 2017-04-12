@@ -25,42 +25,51 @@ class QuestionStore {
   }
 
   getQuestionById(id) {
-    if(this.questions.has(id)) {
-      return this.questions.get(id);
-    }
 
-    return window.API.get('/api/questions/' + id + '/')
+    return new Promise((resolve, reject) => { // Return a promise of search results
+      if(this.questions.has(id)) { // Check cache for results, and instantly resolve if exists
+        resolve(this.questions.get(id))
+      }
+
+      window.API.get('/api/questions/' + id + '/')
         .then((response) => {
-          this.questions.set(response.data.id, response.data);
-          return response.data;
+          if(!response.data) {
+            reject("No data")
+          }else {
+            this.questions.set(response.data.id, response.data);
+            resolve(response.data)
+          }
         })
         .catch((error) => {
-          console.log(error);
-          return error;
-        });
+          reject(error)
+        })
+    });
   }
 
   searchQuestions(search) {
-    if(this.searchCache.has(search)) {
-      return this.searchCache.get(search);
-    }else {
+    return new Promise((resolve, reject) => { // Return a promise of search results
+      if(this.searchCache.has(search)) { // Check cache for results, and instantly resolve if exists
+        resolve(this.searchCache.get(search))
+      }
+
       window.API.get('/api/questions/', {params: { search, page_size: 3 } })
-        .then(function (response) {
-          if(!response.data.results[0]) {
-            return;
+        .then((response) => {
+          let searchResultOutput = []
+          if(!response.data.results) {
+            reject("No results found")
           }else {
-            let searchResultSummary = [];
             for(let question of response.data.results) {
-              if(!this.questions.has(question.id)) {
-                this.questions.set(question.id, question);
-              }
-              searchResultSummary = searchResultSummary.concat([question.id]);
+              this.questions.set(question.id, question);
+              searchResultOutput.push(question.id);
             }
-            this.searchCache.set(search, searchResultSummary);
+            this.searchCache.set(search, searchResultOutput)
           }
-        }.bind(this));
-      return false;
-    }
+          resolve(searchResultOutput)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    });
   }
 
   voteQuestionLikert(questionId, value, collection = null) {
