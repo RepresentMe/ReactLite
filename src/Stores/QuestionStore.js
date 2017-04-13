@@ -31,7 +31,7 @@ class QuestionStore {
         resolve(this.questions.get(id))
       }
 
-      window.API.get('/api/questions/' + id + '/')
+      window.API.get(`/api/questions/${id}/`)//' + id + '
         .then((response) => {
           if(!response.data) {
             reject("No data")

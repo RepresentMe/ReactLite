@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
+import { observer, inject } from "mobx-react";
+import { Link } from 'react-router-dom';
+import MessengerPlugin from 'react-messenger-plugin';
+import { FacebookButton, TwitterButton } from "react-social";
+
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
-import { observer, inject } from "mobx-react";
-import { Link } from 'react-router-dom';
-import { FacebookButton, TwitterButton } from "react-social";
-import MessengerPlugin from 'react-messenger-plugin';
 import TextField from 'material-ui/TextField';
-import QuestionPopulationStackedChart from "../charts/QuestionPopulationStackedChart";
-import FacebookImg from './iconmonstr-facebook-5.svg';
-import TwitterImg from './iconmonstr-twitter-5.svg';
 import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 import CodeTags from 'material-ui-community-icons/icons/code-tags';
 import IconButton from 'material-ui/IconButton';
 import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
 
+import QuestionPopulationStackedChart from '../charts/QuestionPopulationStackedChart';
+import CompareCollectionUsers from '../CompareCollectionUsers'
+import DynamicConfigService from '../../services/DynamicConfigService'
+
 import './CollectionEnd.css';
+import FacebookImg from './iconmonstr-facebook-5.svg';
+import TwitterImg from './iconmonstr-twitter-5.svg';
 
 const questionShareLink = (questionId) => {
   if(window.self !== window.top) { // In iframe
@@ -41,33 +45,7 @@ const TwitterShareButton = (props) => (
 
 
 const styles = {
-  smallIcon: {
-    width: 36,
-    height: 36,
-  },
-  mediumIcon: {
-    width: 48,
-    height: 48,
-  },
-  largeIcon: {
-    width: 60,
-    height: 60,
-  },
-  small: {
-    width: 72,
-    height: 72,
-    padding: 16,
-  },
-  medium: {
-    width: 96,
-    height: 96,
-    padding: 24,
-  },
-  large: {
-    width: 120,
-    height: 120,
-    padding: 30,
-  },
+
 };
 
 @inject("CollectionStore", "QuestionStore", "UserStore") @observer class CollectionEnd extends Component {
@@ -77,8 +55,8 @@ const styles = {
 
     this.state = {
       showMessengerDialog: true,
-      showEmbedDialog: false,
     }
+
   }
 
   componentWillMount() {
@@ -86,6 +64,15 @@ const styles = {
     if(!this.props.CollectionStore.collectionItems.has(collectionId)) {
       this.props.CollectionStore.items(collectionId); // Buffers the questions
     }
+
+    this.dynamicConfig = DynamicConfigService;
+    if(this.props.match.params.dynamicConfig) {
+      this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
+    }
+
+    this.setState({
+      showMessengerDialog: this.dynamicConfig.config.survey_end.messenger_prompt
+    })
 
     this.props.CollectionStore.items(collectionId);
   }
@@ -123,14 +110,13 @@ const styles = {
           <CardMedia overlay={<CardTitle title={ collection.name } subtitle={ collection.end_text } />}>
             <div style={cardMediaCSS}></div>
           </CardMedia>
-          <CardActions>
-            <div style={{textAlign: 'center'}}>
-              <FacebookButton appId={window.authSettings.facebookId} element="span" url={document.referrer}><IconButton iconStyle={styles.mediumIcon} style={styles.medium}><FacebookBox color={indigo500} /></IconButton></FacebookButton>
-              <TwitterButton element="span" url={document.referrer}><IconButton iconStyle={styles.mediumIcon} style={styles.medium}><TwitterBox color={blue500} /></IconButton></TwitterButton>
-              <IconButton iconStyle={styles.mediumIcon} style={styles.medium}><CodeTags color={bluegrey500} onClick={() => this.setState({showEmbedDialog: true})}/></IconButton>
-            </div>
-          </CardActions>
         </Card>
+
+        <CollectionEndUserCompare userIds={this.dynamicConfig.config.survey_end.compare_users} />
+
+        <CollectionEndShare collection={collection} />
+
+        <CollectionEndQuestionPieCharts />
 
         {false && this.props.CollectionStore.items(collectionId) &&
 
@@ -166,6 +152,55 @@ const styles = {
 
         </Dialog>
 
+      </div>
+    );
+
+  }
+
+  getQuestionShareLink() {
+
+  }
+
+}
+
+class CollectionEndShare extends Component {
+
+  constructor() {
+    super()
+    this.state = {
+      showEmbedDialog: false
+    }
+  }
+
+  render() {
+    return (
+      <div style={{float: 'left', width: '50%', padding: '10px', boxSizing: 'border-box'}}>
+        <Card containerStyle={{padding: 0}}>
+          <CardText style={{textAlign: 'center', padding: 0}}>
+
+            <FacebookButton appId={window.authSettings.facebookId} element="span" url={document.referrer}>
+            <FlatButton
+              label="Share on Facebook"
+              fullWidth={true}
+              icon={<IconButton style={{padding: 0, height: 'auto'}}><FacebookBox color={indigo500} /></IconButton>}/>
+            </FacebookButton>
+
+            <TwitterButton element="span" url={document.referrer}><FlatButton
+              href="https://github.com/callemall/material-ui"
+              target="_blank"
+              label="Share on Twitter"
+              fullWidth={true}
+              icon={<IconButton style={{padding: 0, height: 'auto'}}><TwitterBox color={blue500} /></IconButton>}/>
+            </TwitterButton>
+
+            <FlatButton
+              onClick={() => this.setState({showEmbedDialog: true})}
+              target="_blank"
+              label="Embed this Survey"
+              fullWidth={true}
+              icon={<IconButton style={{padding: 0, height: 'auto'}}><CodeTags color={bluegrey500} /></IconButton>}/>
+          </CardText>
+        </Card>
         <Dialog
             title="Embed this on your website"
             modal={false}
@@ -181,22 +216,38 @@ const styles = {
           >
           Copy the following HTML into the source of your website, no additional setup required!
           <TextField
-            value={'<iframe width="700" height="400" src="https://' + window.location.host + '/survey/' + collection.id + '"></iframe>'}
+            value={'<iframe width="700" height="400" src="https://' + window.location.host + '/survey/' + this.props.collection.id + '"></iframe>'}
             fullWidth={true}
             multiLine={true}
           />
 
         </Dialog>
-
       </div>
-    );
-
-  }
-
-  getQuestionShareLink() {
-
+    )
   }
 
 }
+
+class CollectionEndQuestionPieCharts extends Component {
+
+  render() {
+    return (
+      <div style={{float: 'left', width: '50%', padding: '10px', boxSizing: 'border-box'}}>
+        <Card>
+          <CardText>
+            <p><i>Pie Charts Here...</i></p>
+          </CardText>
+        </Card>
+      </div>
+    )
+  }
+
+}
+
+const CollectionEndUserCompare = ({userIds}) => (
+  <div style={{float: 'left', width: '50%', padding: '10px', boxSizing: 'border-box'}}>
+    <CompareCollectionUsers userIds={userIds} />
+  </div>
+)
 
 export default CollectionEnd;
