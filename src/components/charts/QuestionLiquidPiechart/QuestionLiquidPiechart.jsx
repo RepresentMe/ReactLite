@@ -1,12 +1,14 @@
 import React from 'react';
 import { inject, observer } from "mobx-react";
 import { observable, reaction } from "mobx";
+import {red400, lightGreenA100, deepPurple300, cyan200, amberA200} from 'material-ui/styles/colors';
 
 import {PieChart, Pie, Sector, Cell, ResponsiveContainer} from 'recharts';
 import LoadingIndicator from '../../LoadingIndicator';
 
 
-const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questionId, labels}) => {
+const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questionId, labels, colors}) => {
+    colors = [red400, lightGreenA100, deepPurple300, cyan200, amberA200];
     labels = ['liquid_high', 'liquid_low', 'liquid_maximum', 'liquid_medium', 'liquid_minimum']
     questionId = 14
     let viewData = observable.shallowObject({
@@ -32,8 +34,8 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
 
       QuestionStore.getQuestionById(questionId)
       .then(function(res) {
-        questionData = labels.map(label =>
-          Object.assign({}, {name: label}, {value: res[label]}))
+        questionData = labels.map((label,i) =>
+          Object.assign({}, {name: label}, {value: res[label]}, {fill: colors[i]}))
         finish();
       })
     }
@@ -44,11 +46,11 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
 // const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
 //                   {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
 
-const PIE_HEIGHT = 300;
+const PIE_HEIGHT = 400;
 
 const QuestionLiquidPiechartView = observer(({data}) => {
 
-  const COLORS = ['red', 'orange', 'yellow', 'navy', 'lime'];
+  //const COLORS = ['red', 'orange', 'yellow', 'navy', 'lime'];
   const RADIAN = Math.PI / 180;
 
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -72,13 +74,14 @@ const QuestionLiquidPiechartView = observer(({data}) => {
 
           <Pie
             data={data.values}
-            labelLine={false}
-            label={renderCustomizedLabel}
+            labelLine={true}
+            label
             innerRadius={30}
             outerRadius={100}
             fill="#8884d8"
             cx={200}
             cy={200}
+            legendType='line'
           >
           	{/* {
             	data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]} key={index}/>)
