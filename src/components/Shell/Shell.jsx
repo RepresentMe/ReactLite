@@ -122,6 +122,7 @@ function onProfileClick(){
                     <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
                     <Route exact path="/survey/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
                     <Route exact path="/survey/:collectionId/end" component={CollectionEnd}/>
+                    <Route exact path="/survey/:collectionId/end/:dynamicConfig" component={CollectionEnd}/>
                     <Route exact path="/test" component={Test}/>
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
                     <Route exact path="/pie" component={QuestionLiquidPiechart}/>
