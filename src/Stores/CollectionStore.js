@@ -33,6 +33,34 @@ class CollectionStore {
       }.bind(this));
   }
 
+  getCollectionItemsById(collectionId) {
+    return new Promise((resolve, reject) => { // Return a promise of search results
+      if(this.collectionItems.has(collectionId)) { // Check cache for results, and instantly resolve if exists
+        resolve(this.collectionItems.get(collectionId))
+      }
+
+      window.API.get('/api/question_collection_items/', {params: { parent: collectionId, ordering: 'order' } })
+        .then((response) => {
+          if(!response.data) {
+            reject("No data")
+          }else {
+            let items = response.data.results;
+            for(let item of items) {
+              if(item.type === 'Q') { // If item is a question, update QuestionStore
+                window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
+                delete item.content_object; // Remove the question data as now stored in QuestionStore
+              }
+            }
+            this.collectionItems.set(collectionId, response.data.results);
+            resolve(response.data.results)
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    });
+  }
+
   items(collectionId, forceUpdate = false) {
 
     if(!forceUpdate && this.collectionItems.has(collectionId)) {

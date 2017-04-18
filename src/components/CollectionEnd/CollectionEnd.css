@@ -1,13 +1,12 @@
-
-.CollectionEndResult {
-  width: 50%;
+.ResponsiveCardContainer {
   float: left;
-  height: 170px;
-  text-align: center;
+  width: 50%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 @media only screen and (max-width: 500px) {
-  .CollectionEndResult {
+  .ResponsiveCardContainer {
     width: 100%;
   }
 }

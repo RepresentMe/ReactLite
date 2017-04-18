@@ -3,6 +3,7 @@ import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import MessengerPlugin from 'react-messenger-plugin';
 import { FacebookButton, TwitterButton } from "react-social";
+import Slider from 'react-slick';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -14,14 +15,17 @@ import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 import CodeTags from 'material-ui-community-icons/icons/code-tags';
 import IconButton from 'material-ui/IconButton';
 import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
+import KeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 
 import QuestionPopulationStackedChart from '../charts/QuestionPopulationStackedChart';
-import CompareCollectionUsers from '../CompareCollectionUsers'
-import DynamicConfigService from '../../services/DynamicConfigService'
+import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart';
+import CompareCollectionUsers from '../CompareCollectionUsers';
+import DynamicConfigService from '../../services/DynamicConfigService';
 
 import './CollectionEnd.css';
-import FacebookImg from './iconmonstr-facebook-5.svg';
-import TwitterImg from './iconmonstr-twitter-5.svg';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const questionShareLink = (questionId) => {
   if(window.self !== window.top) { // In iframe
@@ -30,23 +34,6 @@ const questionShareLink = (questionId) => {
     return "https://share-test.represent.me/scripts/share.php?question=" + questionId + "&redirect=" + encodeURIComponent(location.href);
   }
 }
-
-const FacebookShareButton = (props) => (
-  <FacebookButton appId={window.authSettings.facebookId} element="span" url={props.url}>
-    <img src={FacebookImg} />
-  </FacebookButton>
-)
-
-const TwitterShareButton = (props) => (
-  <TwitterButton appId={window.authSettings.facebookId} element="span" url={props.url}>
-    <img src={TwitterImg} />
-  </TwitterButton>
-)
-
-
-const styles = {
-
-};
 
 @inject("CollectionStore", "QuestionStore", "UserStore") @observer class CollectionEnd extends Component {
 
@@ -62,7 +49,7 @@ const styles = {
   componentWillMount() {
     let collectionId = parseInt(this.props.match.params.collectionId);
     if(!this.props.CollectionStore.collectionItems.has(collectionId)) {
-      this.props.CollectionStore.items(collectionId); // Buffers the questions
+      this.props.CollectionStore.getCollectionItemsById(collectionId);
     }
 
     this.dynamicConfig = DynamicConfigService;
@@ -73,8 +60,6 @@ const styles = {
     this.setState({
       showMessengerDialog: this.dynamicConfig.config.survey_end.messenger_prompt
     })
-
-    this.props.CollectionStore.items(collectionId);
   }
 
   render() {
@@ -116,24 +101,8 @@ const styles = {
 
         <CollectionEndShare collection={collection} />
 
-        <CollectionEndQuestionPieCharts />
-
-        {false && this.props.CollectionStore.items(collectionId) &&
-
-          <Card style={{margin: '10px', overflow: 'hidden'}}>
-            <CardText>
-              {this.props.CollectionStore.items(collectionId).map((collectionItem, index) => {
-                return (
-                  <div className="CollectionEndResult" key={index}>
-                    <QuestionPopulationStackedChart questionId={collectionItem.object_id} geoId={59} height={100}/>
-                    <p style={{margin: '5px'}}>{this.props.QuestionStore.questions.has(collectionItem.object_id) && this.props.QuestionStore.questions.get(collectionItem.object_id).question}</p>
-                    <FacebookShareButton url={questionShareLink(collectionItem.object_id)} /> <TwitterShareButton url={questionShareLink(collectionItem.object_id)} />
-                  </div>
-                )
-              })}
-            </CardText>
-          </Card>
-
+        {this.props.CollectionStore.collectionItems.has(collectionId) &&
+          <CollectionEndQuestionPieCharts items={this.props.CollectionStore.collectionItems.get(collectionId)}/>
         }
 
         <Dialog
@@ -174,7 +143,7 @@ class CollectionEndShare extends Component {
 
   render() {
     return (
-      <div style={{float: 'left', width: '50%', padding: '10px', boxSizing: 'border-box'}}>
+      <ResponsiveCardContainer>
         <Card containerStyle={{padding: 0}}>
           <CardText style={{textAlign: 'center', padding: 0}}>
 
@@ -182,7 +151,7 @@ class CollectionEndShare extends Component {
             <FlatButton
               label="Share on Facebook"
               fullWidth={true}
-              icon={<IconButton style={{padding: 0, height: 'auto'}}><FacebookBox color={indigo500} /></IconButton>}/>
+              icon={<FacebookBox color={indigo500} />}/>
             </FacebookButton>
 
             <TwitterButton element="span" url={document.referrer}><FlatButton
@@ -190,7 +159,7 @@ class CollectionEndShare extends Component {
               target="_blank"
               label="Share on Twitter"
               fullWidth={true}
-              icon={<IconButton style={{padding: 0, height: 'auto'}}><TwitterBox color={blue500} /></IconButton>}/>
+              icon={<TwitterBox color={blue500} />}/>
             </TwitterButton>
 
             <FlatButton
@@ -198,7 +167,7 @@ class CollectionEndShare extends Component {
               target="_blank"
               label="Embed this Survey"
               fullWidth={true}
-              icon={<IconButton style={{padding: 0, height: 'auto'}}><CodeTags color={bluegrey500} /></IconButton>}/>
+              icon={<CodeTags color={bluegrey500} />}/>
           </CardText>
         </Card>
         <Dialog
@@ -222,32 +191,59 @@ class CollectionEndShare extends Component {
           />
 
         </Dialog>
-      </div>
+      </ResponsiveCardContainer>
     )
   }
 
 }
 
 class CollectionEndQuestionPieCharts extends Component {
-
   render() {
+
+    var settings = {
+      dots: true,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: true,
+      prevArrow: <KeyboardArrowLeft/>,
+      nextArrow: <KeyboardArrowRight/>,
+    };
+
     return (
-      <div style={{float: 'left', width: '50%', padding: '10px', boxSizing: 'border-box'}}>
+      <ResponsiveCardContainer>
         <Card>
-          <CardText>
-            <p><i>Pie Charts Here...</i></p>
+          <CardText style={{margin: '0 10px'}}>
+            <Slider {...settings}>
+              {this.props.items.map((item, index) => {
+                if(item.type === "Q") {
+                  return <div key={index}><QuestionLiquidPiechart questionId={item.object_id}/></div>;
+                }
+              })}
+            </Slider>
           </CardText>
         </Card>
-      </div>
+      </ResponsiveCardContainer>
     )
   }
 
 }
 
-const CollectionEndUserCompare = ({userIds}) => (
-  <div style={{float: 'left', width: '50%', padding: '10px', boxSizing: 'border-box'}}>
-    <CompareCollectionUsers userIds={userIds} />
-  </div>
-)
+const CollectionEndUserCompare = ({userIds}) => {
+  if(userIds.length === 0) {
+    return null
+  }else {
+    return (
+    <div style={{float: 'left', width: '50%', padding: '10px', boxSizing: 'border-box'}}>
+      <CompareCollectionUsers userIds={userIds} />
+    </div>
+    )
+  }
+}
+
+const ResponsiveCardContainer = (props) => {
+  return <div {...props} className="ResponsiveCardContainer"/>
+}
 
 export default CollectionEnd;

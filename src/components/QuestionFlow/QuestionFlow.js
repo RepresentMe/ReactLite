@@ -143,7 +143,7 @@ let RenderedQuestion = (props) => {
   return (
       <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
         <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', maxWidth: '400px', padding: '0 20px 40px 20px' }}>
-          <h1 style={{maxWidth: '400px', margin: '60px auto 10px auto'}} className={"questionTextFix" + props.order}>{ props.question.question }</h1>
+          <h1 style={{maxWidth: '400px', margin: '60px auto 30px auto'}} className={"questionTextFix" + props.order}>{ props.question.question }</h1>
 
           {props.question.subtype === "likert" && <LikertButtons onUpdate={(i) => props.onUpdate(i)} value={myVote} />}
           {props.question.subtype === "mcq" && <MCQButtons onUpdate={(i) => props.onUpdate(i)} question={props.question} />}
@@ -176,7 +176,7 @@ let MCQButtons = (props) => {
   return (
     <div>
       { props.question.choices.map((choice, index) => {
-        return (<RaisedButton primary={!(props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id)} key={index} label={choice.text} style={{display:'block', margin: '10px auto', maxWidth: '400px', height: '25px'}} overlayStyle={{height: 'auto'}} onClick={() => props.onUpdate(choice.id)}/>);
+        return (<RaisedButton primary={!(props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id)} key={index} label={choice.text} style={{display:'block', margin: '10px auto', maxWidth: '600px', height: '25px'}} overlayStyle={{height: 'auto'}} onClick={() => props.onUpdate(choice.id)}/>);
       })}
     </div>
   )
