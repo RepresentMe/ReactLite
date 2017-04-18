@@ -38,7 +38,7 @@ if (location.host === 'open.represent.me') { // Test server override defaults
   });
 }else {
   window.API = axios.create({
-    baseURL: 'http://api.represent.me'
+    baseURL: 'http://localhost:8000'
   });
 }
 

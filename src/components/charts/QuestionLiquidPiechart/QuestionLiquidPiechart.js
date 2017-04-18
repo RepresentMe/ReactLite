@@ -7,7 +7,7 @@ import TwoLevelPieChartView from './TwoLevelPieChartComponent';
 import OneLevelPieChartView from './OneLevelPieChartComponent';
 
 
-const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questionId}) => {
+const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questionId, type = 1}) => {
     const likertProps = {
       'liquid_maximum': {name: 'STRONGLY AGREE', color: 'rgb(74,178,70)', direct: 'direct_maximum'},
       'liquid_high': {name: 'AGREE', color: 'rgb(133,202,102)', direct: 'direct_high'},
@@ -62,8 +62,8 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
 
     return (
       <div>
-        <OneLevelPieChartView data={viewData}/>
-        <TwoLevelPieChartView data={viewData}/>
+        {type === 1 && <OneLevelPieChartView data={viewData}/>}
+        {type === 2 && <TwoLevelPieChartView data={viewData}/>}
       </div>
       )
 })
