@@ -11,6 +11,7 @@ class QuestionStore {
 
       if (!forceUpdate && self.questions.has(id)) {
         return resolve(self.questions.get(id));
+        return
       }
 
       window.API.get('/api/questions/', {params: { id: id } })
@@ -29,6 +30,7 @@ class QuestionStore {
     return new Promise((resolve, reject) => { // Return a promise of search results
       if(this.questions.has(id)) { // Check cache for results, and instantly resolve if exists
         resolve(this.questions.get(id))
+        return;
       }
 
       window.API.get(`/api/questions/${id}/`)//' + id + '
@@ -50,6 +52,7 @@ class QuestionStore {
     return new Promise((resolve, reject) => { // Return a promise of search results
       if(this.searchCache.has(search)) { // Check cache for results, and instantly resolve if exists
         resolve(this.searchCache.get(search))
+        return
       }
 
       window.API.get('/api/questions/', {params: { search, page_size: 3 } })

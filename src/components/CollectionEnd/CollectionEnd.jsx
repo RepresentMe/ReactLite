@@ -197,7 +197,7 @@ class CollectionEndShare extends Component {
 
 }
 
-class CollectionEndQuestionPieCharts extends Component {
+@inject("QuestionStore") @observer class CollectionEndQuestionPieCharts extends Component {
   render() {
 
     var settings = {
@@ -218,7 +218,12 @@ class CollectionEndQuestionPieCharts extends Component {
             <Slider {...settings}>
               {this.props.items.map((item, index) => {
                 if(item.type === "Q") {
-                  return <div key={index}><QuestionLiquidPiechart questionId={item.object_id}/></div>;
+                  return (
+                  <div key={index}>
+                    <p style={{textAlign: 'center'}}>{this.props.QuestionStore.questions.get(item.object_id).question}</p>
+                    <QuestionLiquidPiechart questionId={item.object_id}/>
+                  </div>
+                  )
                 }
               })}
             </Slider>
