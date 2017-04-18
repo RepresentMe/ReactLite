@@ -11,6 +11,7 @@ import CertanityStatisticsBarchart from "../charts/CertanityStatisticsBarchart";
 import QuestionWeightedAverageLineChart from '../charts/QuestionWeightedAverageLineChart';
 import QuestionService from "../../services/QuestionService";
 import CompareCollectionUsers from "../CompareCollectionUsers";
+import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart';
 
 const Test = inject("QuestionStore")(({ QuestionStore, location, router, query }) => {
 
@@ -25,10 +26,12 @@ const Test = inject("QuestionStore")(({ QuestionStore, location, router, query }
             {/*<QuestionResultsBarchart data={data}/>*/}
             {/*<CertanityStatisticsBarchart questionId={1399} geoId={59} />*/}
 
-            <CompareCollectionUsers userIds={userIds} />
+            {/* <CompareCollectionUsers userIds={userIds} />*/}
             {/* http://localhost:3000/test?users=7,6736,584,4895 */}
-            
-            <QuestionWeightedAverageLineChart questionId={2504} bucketSize={4} />
+
+            {/* <QuestionWeightedAverageLineChart questionId={2504} bucketSize={4} /> */}
+
+            <QuestionLiquidPiechart questionId={1790}/>
         </div>
     )
 })
