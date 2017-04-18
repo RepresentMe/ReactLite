@@ -63,7 +63,7 @@ const UserCard = observer(({user, compareData}) => {
   }
 
   return (
-    <Card style={{marginBottom: '10px'}}>
+    <Card style={{marginBottom: '20px'}}>
       <CardHeader
         title={name}
         subtitle={user.age + ", " + location}
@@ -85,7 +85,6 @@ const MatchBarchart = observer(({ compareData }) => {
     neutral: 100 *(diffs[2]) / totalCount,
     disagree: 100 *(diffs[3] + diffs[4]) / totalCount
   };
-  console.log('values: ', values);
   return <ResponsiveContainer height={25}>
     <BarChart
       layout="vertical"

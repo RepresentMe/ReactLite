@@ -97,13 +97,13 @@ const questionShareLink = (questionId) => {
           </CardMedia>
         </Card>
 
-        <CollectionEndUserCompare userIds={this.dynamicConfig.config.survey_end.compare_users} />
-
-        <CollectionEndShare collection={collection} />
-
         {this.props.CollectionStore.collectionItems.has(collectionId) &&
           <CollectionEndQuestionPieCharts items={this.props.CollectionStore.collectionItems.get(collectionId)}/>
         }
+
+        <CollectionEndShare collection={collection} />
+
+        <CollectionEndUserCompare userIds={this.dynamicConfig.config.survey_end.compare_users} />
 
         <Dialog
             title="Want awesome powers?"
@@ -202,13 +202,16 @@ class CollectionEndShare extends Component {
 
     var settings = {
       dots: true,
-      infinite: false,
+      infinite: true,
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
       arrows: true,
-      prevArrow: <KeyboardArrowLeft/>,
-      nextArrow: <KeyboardArrowRight/>,
+      prevArrow: <div><KeyboardArrowLeft/></div>,
+      nextArrow: <div><KeyboardArrowRight/></div>,
+      lazyLoad: true,
+      autoplay: true,
+      autoplaySpeed: 5000,
     };
 
     return (
@@ -240,9 +243,9 @@ const CollectionEndUserCompare = ({userIds}) => {
     return null
   }else {
     return (
-    <div style={{float: 'left', width: '50%', padding: '10px', boxSizing: 'border-box'}}>
+    <ResponsiveCardContainer>
       <CompareCollectionUsers userIds={userIds} />
-    </div>
+    </ResponsiveCardContainer>
     )
   }
 }

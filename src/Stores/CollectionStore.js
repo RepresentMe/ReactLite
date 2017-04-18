@@ -37,6 +37,7 @@ class CollectionStore {
     return new Promise((resolve, reject) => { // Return a promise of search results
       if(this.collectionItems.has(collectionId)) { // Check cache for results, and instantly resolve if exists
         resolve(this.collectionItems.get(collectionId))
+        return
       }
 
       window.API.get('/api/question_collection_items/', {params: { parent: collectionId, ordering: 'order' } })

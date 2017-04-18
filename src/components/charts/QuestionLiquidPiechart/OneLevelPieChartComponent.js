@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import {PieChart, Legend, Pie, Tooltip, ResponsiveContainer} from 'recharts';
 import LoadingIndicator from '../../LoadingIndicator';
 
-const PIE_HEIGHT = 150;
+const PIE_HEIGHT = 300;
 
 const CustomTooltip = (props) => {
   const { active } = props;
@@ -24,7 +24,7 @@ const OneLevelPiechartComponent = observer(({data}) => {
 
   const RADIAN = Math.PI / 180;
   const CX = '50%';
-  const CY = 75;
+  const CY = 125;
 
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, value, payload, percent, index }) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 1.45;
@@ -40,7 +40,7 @@ const OneLevelPiechartComponent = observer(({data}) => {
     */
 
     return (
-      <text x={x} y={y} style={{fontSize: 10, fill: 'grey'}} textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
+      <text x={x} y={y} style={{fontSize: 12, fill: 'grey'}} textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
         {`${payload.name}: ${(percent * 100).toFixed(0)}%`}
       </text>
       );
@@ -57,8 +57,8 @@ const OneLevelPiechartComponent = observer(({data}) => {
             data={data.values}
             labelLine={false}
             label={renderCustomizedLabel}
-            innerRadius={20}
-            outerRadius={40}
+            innerRadius={40}
+            outerRadius={80}
             fill="#8884d8"
             cx={CX}
             cy={CY}
