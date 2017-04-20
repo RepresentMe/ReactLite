@@ -29,7 +29,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import smallLogo from './represent_white_outline.svg';
 import AuthCode from '../AuthCode';
 import { Scrollbars } from 'react-custom-scrollbars';
-import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart';
+import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiquidDisplay';
 import CollectionCharts from '../charts/CollectionCharts';
 
 import './Shell.css';
@@ -123,9 +123,10 @@ function onProfileClick(){
                     <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
                     <Route exact path="/survey/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
                     <Route exact path="/survey/:collectionId/end" component={CollectionEnd}/>
+                    <Route exact path="/survey/:collectionId/end/:dynamicConfig" component={CollectionEnd}/>
                     <Route exact path="/test" component={Test}/>
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
-                    <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidPiechart}/>
+                    <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
                     <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
                   </ReactCSSTransitionGroup>
                 </Scrollbars>

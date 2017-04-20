@@ -13,6 +13,16 @@ a:hover {
   color: rgba(0, 172, 193, 0.5);
 }
 
+.FakeLink {
+  cursor: pointer;
+  display: inline-block;
+  color: rgb(0, 172, 193);
+}
+
+.FakeLink:hover {
+  opacity: 0.5;
+}
+
 /* GLOBAL TRANSITION */
 
 .FlowTransition-enter {

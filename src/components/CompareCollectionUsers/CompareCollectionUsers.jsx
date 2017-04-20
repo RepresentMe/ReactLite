@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { observable, extendObservable} from 'mobx';
 import { Link } from 'react-router-dom';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Rectangle, ResponsiveContainer } from 'recharts';
 import LoadingIndicator from '../LoadingIndicator';
@@ -27,12 +28,12 @@ var CompareCollectionUsers = inject("CollectionStore", "UserStore")(observer(({ 
   }
 
   return <CompareCollectionUsersView data={viewData} />
-})) 
+}))
 
 const CompareCollectionUsersView = observer(({data})=> {
   if (!data.isLoggedIn) return <SignInToSeeView />;
   if (data.users.length == 0) return <LoadingIndicator />;
-  return (<div className="compare-collection-users">
+  return (<div>
     {data.users.map((user) => {
       return (<UserCard key={user.id} user={user} compareData={data.compareData.get(user.id)}/>)
     })}
@@ -44,29 +45,46 @@ const UserCard = observer(({user, compareData}) => {
   let location = (user.country_info ? user.country_info.name + (user.region_info ? ', ' : '') : '') + (user.region_info ? user.region_info.name : '');
   let link = "https://app.represent.me/profile/" + user.id + "/" + user.username;
 
-  return (<div className="user-card">
-    <div className="photo"><a href={link} target="_blank"><img src={user.photo} /></a></div>
-    <div className="name"><a href={link} target="_blank">{name}</a></div>
-    <div className="age">{user.age} years old</div>
-    <div className="location">{location}</div>
-    {compareData ? (<div>
-      <div className="match">{Math.floor(100-compareData.difference_percent)}% <span className="match-word">match</span></div>
+//   return (<div className="user-card">
+//     <div className="photo"><a href={link} target="_blank"><img src={user.photo} /></a></div>
+//     <div className="name"><a href={link} target="_blank">{name}</a></div>
+//     <div className="age">{user.age} years old</div>
+//     <div className="location">{location}</div>
+//     {compareData ? (<div>
+//       <div className="match">{Math.floor(100-compareData.difference_percent)}% <span className="match-word">match</span></div>
+//
+//       <div className="match-barchart"><MatchBarchart compareData={compareData} /></div>
+//       </div>) : <LoadingIndicator />}
+//   </div>)
+// })
 
-      <div className="match-barchart"><MatchBarchart compareData={compareData} /></div>
-      </div>) : <LoadingIndicator />}
-  </div>)
+  if(compareData) {
+    name = name + " " + Math.floor(100-compareData.difference_percent) + '%'
+  }
+
+  return (
+    <Card style={{marginBottom: '20px'}}>
+      <CardHeader
+        title={name}
+        subtitle={user.age + ", " + location}
+        avatar={user.photo.replace("localhost:8000", "represent.me")}
+        />
+      <CardText style={{paddingTop: 0}}>
+        {compareData ? (<div className="match-barchart"><MatchBarchart compareData={compareData} /></div>) : <LoadingIndicator />}
+      </CardText>
+    </Card>
+  )
 })
 
 const MatchBarchart = observer(({ compareData }) => {
   let totalCount = 0;
   compareData.difference_distances.map((diff) => totalCount += diff);
   let diffs = compareData.difference_distances;
-  let values = { 
-    agree: 100*(diffs[0] + diffs[1])/ totalCount, 
-    neutral: 100 *(diffs[2]) / totalCount, 
-    disagree: 100 *(diffs[3] + diffs[4]) / totalCount 
+  let values = {
+    agree: 100*(diffs[0] + diffs[1])/ totalCount,
+    neutral: 100 *(diffs[2]) / totalCount,
+    disagree: 100 *(diffs[3] + diffs[4]) / totalCount
   };
-  console.log('values: ', values);
   return <ResponsiveContainer height={25}>
     <BarChart
       layout="vertical"

@@ -25,6 +25,7 @@
   overflow: hidden;
   margin-left: 15px;
   display: inline-block;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 300px) {

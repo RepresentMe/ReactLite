@@ -62,11 +62,11 @@ const styles = {
       <div>
 
         <Paper zDepth={0} style={{ margin: '20px' }}> {/* Collection title, description and end text */}
-          <TextField onChange={(e, newValue) => this.props.textChange('title', newValue)} value={this.props.title} style={styles.textField} floatingLabelText="Collection Title" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} underlineShow={false} />
+          <TextField onChange={(e, newValue) => this.props.textChange('title', newValue)} value={this.props.title} style={styles.textField} floatingLabelText="Survey Title" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} underlineShow={false} />
           <Divider />
-          <TextField onChange={(e, newValue) => this.props.textChange('description', newValue)} value={this.props.description} style={styles.textField} floatingLabelText="Collection Description" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} multiLine={true} underlineShow={false} />
+          <TextField onChange={(e, newValue) => this.props.textChange('description', newValue)} value={this.props.description} style={styles.textField} floatingLabelText="Survey Description" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} multiLine={true} underlineShow={false} />
           <Divider />
-          <TextField onChange={(e, newValue) => this.props.textChange('endText', newValue)} value={this.props.endText} style={styles.textField} floatingLabelText="Ending Text" hintText="Shown at the end of a collection" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} multiLine={true} underlineShow={false} />
+          <TextField onChange={(e, newValue) => this.props.textChange('endText', newValue)} value={this.props.endText} style={styles.textField} floatingLabelText="Ending Text" hintText="Shown at the end of a survey" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} multiLine={true} underlineShow={false} />
         </Paper>
 
         <Paper zDepth={2} style={{ margin: '10px' }}> {/* Drag and drop items toolbar */}

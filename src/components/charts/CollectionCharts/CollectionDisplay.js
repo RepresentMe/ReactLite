@@ -51,21 +51,3 @@ const CollectionCharts = (props) => {
 }
 
 export default CollectionCharts;
-
-/*
-let cardMediaCSS = {
-  background: "linear-gradient(135deg, rgba(250,255,209,1) 0%,rgba(161,255,206,1) 100%)",
-  height: '200px',
-  overflow: 'hidden',
-  backgroundSize: 'cover',
-}
-
-if(collection.photo) {
-  cardMediaCSS.backgroundImage = 'url(' + collection.photo.replace("localhost:8000", "represent.me") + ')';
-}
-
-let messengerRefData = "get_started_with_token";
-let authToken = this.props.UserStore.getAuthToken();
-if(authToken) {
-  messengerRefData += "+auth_token=" + authToken;
-}*/
