@@ -80,6 +80,7 @@
     "react-sortable-hoc": "^0.5.0",
     "react-tap-event-plugin": "^2.0.1",
     "react-tappable": "^0.8.4",
+    "react-transition-group": "^1.1.2",
     "recharts": "^0.20.8",
     "remove": "^0.1.5",
     "slick-carousel": "^1.6.0"

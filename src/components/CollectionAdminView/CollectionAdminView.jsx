@@ -66,10 +66,12 @@ const styles = {
             </ToolbarGroup>
           </Toolbar>
 
-          <SortableQuestions items={this.props.items} useDragHandle={false} lockAxis="y" onSortEnd={({oldIndex, newIndex}) => this.props.sortQuestion(oldIndex, newIndex)} onRemove={this.props.removeQuestion} />
+          <SortableItems items={this.props.items} useDragHandle={false} lockAxis="y" onSortEnd={({oldIndex, newIndex}) => this.props.sortQuestion(oldIndex, newIndex)} onRemove={this.props.removeQuestion} />
         </Paper>
 
-        <QuestionPicker shown={this.state.showQuestionPicker} onQuestionSelected={this.handleQuestionAdd} onClose={() => this.setState({showQuestionPicker: false})} />
+        <QuestionPicker open={this.state.showQuestionPicker} onQuestionSelected={this.handleQuestionAdd} onClose={() => this.setState({showQuestionPicker: false})} />
+
+        <BreakComposer open={this.state.showBreakComposer} onClose={() => this.setState({showBreakComposer: false})}/>
 
       </div>
     )
@@ -93,22 +95,30 @@ const styles = {
       search: '',
       results: [],
     }
+
+    this.handleQuestionSelected = this.handleQuestionSelected.bind(this)
   }
 
   render() {
     return (
-      <Dialog title="Add an Existing Question" actions={<FlatButton label="Cancel" secondary={true} onTouchTap={() => this.props.onClose()} />} modal={false} open={this.props.shown} onRequestClose={() => this.props.onClose()}>
+      <Dialog title="Add an Existing Question" actions={<FlatButton label="Cancel" secondary={true} onTouchTap={() => this.props.onClose()} />} modal={false} open={this.props.open} onRequestClose={() => this.props.onClose()}>
         <TextField value={this.state.search} style={styles.textField} hintText="Question or ID" fullWidth={true} onChange={(e, newValue) => this.setState({search: newValue})} />
         <List>
-          {this.state.results.map((question, index) => <ListItem onClick={() => this.props.onQuestionSelected(question)} key={index} hoverColor={green100} primaryText={this.props.QuestionStore.questions.get(question).question} rightIcon={<Add />}/>)}
+          {this.state.results.map((question, index) => <ListItem onClick={() => this.handleQuestionSelected(question)} key={index} hoverColor={green100} primaryText={this.props.QuestionStore.questions.get(question).question} rightIcon={<Add />}/>)}
         </List>
       </Dialog>
     )
   }
 
+  handleQuestionSelected(question) {
+    this.setState({search: ''}, () => this.props.onQuestionSelected(question))
+  }
+
   componentWillUpdate(nextProps, nextState) {
     if(this.state.search !== nextState.search) { // Search has been updated
-      if(!isNaN(parseFloat(nextState.search)) && isFinite(nextState.search)) { // If numeric, check for question ID
+      if(nextState.search === '') {
+        this.setState({results: []})
+      }else if(!isNaN(parseFloat(nextState.search)) && isFinite(nextState.search)) { // If numeric, check for question ID
 
       }else { // Not numeric, perform a text search
         this.props.QuestionStore.searchQuestions(this.state.search)
@@ -124,8 +134,24 @@ const styles = {
 
 }
 
-const BreakComposer = (props) => {
+class BreakComposer extends Component {
 
+  constructor() {
+    super()
+    this.state = {
+      title: '',
+      body: ''
+    }
+  }
+
+  render() {
+    return (
+      <Dialog title="Add a break" actions={<FlatButton label="Cancel" secondary={true} onTouchTap={() => this.props.onClose()} />} modal={false} open={this.props.open} onRequestClose={() => this.props.onClose()}>
+        <TextField value={this.state.title} style={styles.textField} hintText="Break title" fullWidth={true} onChange={(e, newValue) => this.setState({title: newValue})} />
+        <TextField value={this.state.body} style={styles.textField} hintText="Break body" fullWidth={true} onChange={(e, newValue) => this.setState({body: newValue})} multiLine={true} />
+      </Dialog>
+    )
+  }
 }
 
 // const SortableQuestions = SortableContainer(({items, onRemove}) => {
@@ -136,13 +162,13 @@ const BreakComposer = (props) => {
 //   )
 // });
 
-const SortableQuestions = inject("QuestionStore")(observer(({ QuestionStore, items, onSortEnd }) => {
+const SortableItems = inject("QuestionStore")(observer(SortableContainer(({ QuestionStore, items, onSortEnd }) => {
   return (
     <List>
       {items.map((item, index) => <SortableItem key={`item-${index}`} text={QuestionStore.questions.get(item.object_id).question} index={index}/>)}
     </List>
   )
-}));
+})));
 
 const SortableItem = SortableElement(({text, onSortEnd}) => {
   return (
