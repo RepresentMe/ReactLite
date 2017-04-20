@@ -1,35 +1,45 @@
 import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+
+import ErrorReload from '../ErrorReload';
+
 
 @inject("UserStore", "CollectionStore") @observer class CollectionIntro extends Component {
 
   constructor() {
     super();
     this.state = {
-      collectionImageLoaded: false
+      collection: null,
+      collectionImageLoaded: false,
+      networkError: false
     }
+  }
+
+  componentWillMount() {
+    let { CollectionStore, match } = this.props
+    CollectionStore.getCollectionById(parseInt(match.params.collectionId))
+      .then((collection) => {
+        this.setState({collection})
+      })
+      .catch((error) => {
+        this.setState({networkError: true})
+      })
   }
 
   render() {
 
     let collectionId = parseInt(this.props.match.params.collectionId);
-    let collection = this.props.CollectionStore.collections.get(collectionId);
+    let { collection, networkError } = this.state;
 
-    if(!collectionId) {
-      return null;
-    }
-
-    if(!collection) {
-      this.props.CollectionStore.getCollection(collectionId);
-      return null;
-    }
-
-    if(!this.props.CollectionStore.collectionItems.has(collectionId)) {
-      this.props.CollectionStore.items(collectionId); // Buffers the questions
+    if(networkError) {
+      return <ErrorReload message="We couldn't load this collection!"/>
+    }else if(!collection) {
+      return null
     }
 
     /*

@@ -21,7 +21,7 @@ class CollectionStore {
 
   }
 
-  getCollection(collectionId, forceUpdate = false) {
+  getCollection(collectionId, forceUpdate = false) { // LEGACY DON'T USE, USE getCollectionById INSTEAD
 
     if(!forceUpdate && this.collections.has(collectionId)) {
       return true;
@@ -31,6 +31,28 @@ class CollectionStore {
       .then(function (response) {
         this.collections.set(response.data.results[0].id, response.data.results[0]);
       }.bind(this));
+  }
+
+  getCollectionById(collectionId) {
+    return new Promise((resolve, reject) => { // Return a promise of search results
+      if(this.collections.has(collectionId)) { // Check cache for results, and instantly resolve if exists
+        resolve(this.collections.get(collectionId))
+        return
+      }
+
+      window.API.get('/api/question_collections/' + collectionId + '/')
+        .then((response) => {
+          if(!response.data) {
+            reject("No data")
+          }else {
+            this.collections.set(collectionId, response.data);
+            resolve(response.data)
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    });
   }
 
   getCollectionItemsById(collectionId) {
@@ -62,7 +84,7 @@ class CollectionStore {
     });
   }
 
-  items(collectionId, forceUpdate = false) {
+  items(collectionId, forceUpdate = false) { // LEGACY DON'T USE, USE getCollectionItemsById INSTEAD
 
     if(!forceUpdate && this.collectionItems.has(collectionId)) {
       return this.collectionItems.get(collectionId);

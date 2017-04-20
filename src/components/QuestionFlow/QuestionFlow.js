@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
 import { observer, inject } from "mobx-react";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
 import Tappable from 'react-tappable';
-import './QuestionFlow.css';
+import $ from 'jquery';
+
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 import Slider from 'material-ui/Slider';
 import LinearProgress from 'material-ui/LinearProgress';
 import { white, cyan600, grey300 } from 'material-ui/styles/colors';
 import ReactMarkdown from 'react-markdown';
 import Dialog from 'material-ui/Dialog';
-import $ from 'jquery';
-import CompleteProfile from './CompleteProfile';
 import Paper from 'material-ui/Paper';
+
+import CompleteProfile from './CompleteProfile';
+import ErrorReload from '../ErrorReload';
+
+import './QuestionFlow.css';
 
 //let QuestionFlow = inject("CollectionStore", "QuestionStore", "UserStore")(observer(({ history, UserStore, CollectionStore, QuestionStore, match }) => {
 
@@ -23,24 +27,47 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 
 @inject("CollectionStore", "QuestionStore", "UserStore") @observer class QuestionFlow extends Component {
 
+  constructor() {
+    super()
+    this.state = {
+      collection: null,
+      collectionItems: null,
+      networkError: false,
+    }
+  }
+
+  componentWillMount() {
+    let { CollectionStore, match } = this.props
+    CollectionStore.getCollectionById(parseInt(match.params.collectionId))
+      .then((collection) => {
+        this.setState({collection})
+      })
+      .catch((error) => {
+        this.setState({networkError: true})
+      })
+
+    CollectionStore.getCollectionItemsById(parseInt(match.params.collectionId))
+      .then((collectionItems) => {
+        this.setState({collectionItems})
+      })
+      .catch((error) => {
+        this.setState({networkError: true})
+      })
+  }
+
   render() {
 
     let { history, UserStore, CollectionStore, QuestionStore, match } = this.props;
+    let { collection, collectionItems, networkError } = this.state;
+
+    if(networkError) {
+      return <ErrorReload message="We couldn't load this collection!"/>
+    }else if(!collection || collectionItems === null) {
+      return null
+    }
 
     let collectionId = parseInt(match.params.collectionId);
     let orderNumber = parseInt(match.params.orderNumber);
-    let collection = this.props.CollectionStore.collections.get(collectionId);
-
-    if(!collection) {
-      CollectionStore.getCollection(collectionId);
-      return null;
-    }
-
-    let collectionItems = CollectionStore.items(collectionId); // Question data is stored in QuestionStore, not on collectionItems records
-
-    if(collectionItems === null) {
-      return null;
-    }
 
     let item = collectionItems[orderNumber];
 
@@ -52,7 +79,12 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     return (
       <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'scroll' }}>
 
-        {(QuestionStore.questions.get(item.object_id).my_vote.length > 0) && <Paper style={{textAlign: 'center', padding: '5px 0', backgroundColor: cyan600, color: white, position: 'absolute', width: '100%'}} zDepth={1}>{"You answered this in " + monthNames[new Date(QuestionStore.questions.get(item.object_id).my_vote[0].modified_at).getMonth()] + ". Have you changed your mind?"}</Paper>}
+        {(QuestionStore.questions.get(item.object_id).my_vote.length > 0) &&
+          <Paper style={{textAlign: 'center', padding: '5px 0', backgroundColor: cyan600, color: white, position: 'fixed', width: '100%', zIndex: 100}} zDepth={1}>
+            {"You answered this in " + monthNames[new Date(QuestionStore.questions.get(item.object_id).my_vote[0].modified_at).getMonth()] + ". Have you changed your mind? "}
+            <div className="FakeLink" style={{color: "white"}} onClick={() => history.push('/survey/' + collectionId + '/flow/' + (orderNumber + 1))}>Skip &raquo;</div>
+          </Paper>
+        }
 
         <div style={{ width: '100%', height: '100%', overflow: 'scroll' }}>
           <ReactCSSTransitionGroup
