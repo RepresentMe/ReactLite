@@ -1,5 +1,6 @@
 import { observable, autorun, observe } from 'mobx';
 import Cookies from 'cookies-js';
+import GeoService from '../services/GeoService'
 
 class UserStore {
 
@@ -87,8 +88,29 @@ class UserStore {
   }
 
   register(details) {
-    return window.API.post('/auth-yeti/', details);
+
+    return new Promise((resolve, reject) => { // Return a promise of search results
+
+      if(details.postcode) {
+        GeoService.checkPostcode(details.postcode)
+          .then((response) => {
+
+            if(response.data.status === "OK") {
+              let raw_location = response.data.results[0].geometry.location;
+              location =  {
+                "type": "Point",
+                "coordinates": [raw_location.lng, raw_location.lat]
+              };
+            }
+
+          })
+
+      }
+
+    })
+
   }
+
 
   logout() {
     Cookies.expire("representAuthToken");
@@ -120,6 +142,26 @@ class UserStore {
       .catch(function (error) {
         console.log(error, error.response.data);
       });
+  }
+
+  checkEmail(email) {
+
+    return new Promise((resolve, reject) => { // Return a promise of search results
+      window.API.get('/auth/check_email/?email=' + email)
+        .then((response) => {
+          resolve(response.data.result)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      })
+  }
+
+  checkEmailRegex(email) {
+    if(!RegExp("[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?").test(email)) {
+      return false
+    }
+    return true
   }
 
 }

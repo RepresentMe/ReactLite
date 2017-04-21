@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { inject, observer } from "mobx-react";
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -11,6 +15,7 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { white, cyan600, black, grey700 } from 'material-ui/styles/colors';
+
 import CollectionsList from '../CollectionsList';
 import CollectionIntro from '../CollectionIntro';
 import CollectionEnd from '../CollectionEnd';
@@ -21,17 +26,17 @@ import Login from '../Login';
 import Register from '../Register';
 import JoinGroup from '../JoinGroup';
 import Join from '../Join';
-import { inject, observer } from "mobx-react";
 import Test from '../Test';
 import UndividedRender from '../UndividedRender';
 import NetworkProgress from '../NetworkProgress';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import smallLogo from './represent_white_outline.svg';
 import AuthCode from '../AuthCode';
-import { Scrollbars } from 'react-custom-scrollbars';
 import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiquidDisplay';
 import CollectionCharts from '../charts/CollectionCharts';
 import Links from '../navComponent';
+import CandidateIntro from '../CandidateIntro';
+import CandidateNew from '../CandidateNew';
+
+import smallLogo from './represent_white_outline.svg';
 
 import './Shell.css';
 
@@ -108,8 +113,10 @@ function onProfileClick(){
                     transitionName="QuestionFlowTransition"
                     transitionEnterTimeout={1000}
                     transitionLeaveTimeout={1000}>
-                    <Links/>
+                    {/*}<Links/>*/}
                     <Route exact path="/" component={CollectionsList}/>
+                    <Route exact path="/candidate" component={CandidateIntro}/>
+                    <Route exact path="/candidate/new/:email" component={CandidateNew}/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/login/:redirect" component={Login}/>
                     <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
