@@ -24,8 +24,8 @@ import CompareCollectionUsers from '../CompareCollectionUsers';
 import DynamicConfigService from '../../services/DynamicConfigService';
 
 import './CollectionEnd.css';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+//import "slick-carousel/slick/slick.css";
+//import "slick-carousel/slick/slick-theme.css";
 
 const questionShareLink = (questionId) => {
   if(window.self !== window.top) { // In iframe

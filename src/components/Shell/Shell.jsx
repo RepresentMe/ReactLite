@@ -29,6 +29,9 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import smallLogo from './represent_white_outline.svg';
 import AuthCode from '../AuthCode';
 import { Scrollbars } from 'react-custom-scrollbars';
+import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiquidDisplay';
+import CollectionCharts from '../charts/CollectionCharts';
+import Links from '../navComponent';
 
 import './Shell.css';
 
@@ -73,6 +76,7 @@ function onProfileClick(){
   }
 }
 
+
 @inject("UserStore") @observer export default class Shell extends Component {
 
   render() {
@@ -98,14 +102,13 @@ function onProfileClick(){
       <Router history={this.props.history}>
           <MuiThemeProvider muiTheme={muiTheme}>
             <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0, overflow: 'hidden'}}>
-
               <div style={mainContentStyle}>
                 <Scrollbars autoHide>
                   <ReactCSSTransitionGroup
                     transitionName="QuestionFlowTransition"
                     transitionEnterTimeout={1000}
                     transitionLeaveTimeout={1000}>
-
+                    <Links/>
                     <Route exact path="/" component={CollectionsList}/>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/login/:redirect" component={Login}/>
@@ -124,6 +127,8 @@ function onProfileClick(){
                     <Route exact path="/survey/:collectionId/end/:dynamicConfig" component={CollectionEnd}/>
                     <Route exact path="/test" component={Test}/>
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
+                    <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
+                    <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>

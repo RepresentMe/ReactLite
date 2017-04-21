@@ -31,7 +31,7 @@ const Test = inject("QuestionStore")(({ QuestionStore, location, router, query }
 
             {/* <QuestionWeightedAverageLineChart questionId={2504} bucketSize={4} /> */}
 
-            <QuestionLiquidPiechart questionId={1790}/>
+            <QuestionLiquidPiechart questionId={2087}/>
         </div>
     )
 })
