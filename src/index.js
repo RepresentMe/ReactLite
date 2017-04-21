@@ -16,8 +16,15 @@ import QuestionStore from './Stores/QuestionStore.js';
 import DemographicsDataStore from './Stores/DemographicsDataStore.js';
 import CensusDataStore from './Stores/CensusDataStore.js';
 import AppStatisticsStore from './Stores/AppStatisticsStore.js';
+import ReactGA from 'react-ga';
 
 injectTapEventPlugin();
+
+ReactGA.initialize('UA-59994709-1', {
+  debug: true,
+  titleCase: false
+});
+
 
 window.authSettings = {
   facebookPageId: 1522822621304793,
@@ -61,6 +68,12 @@ window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
     });
   }else {
     history = createHistory();
+      history.listen((location, action) => {
+        console.log('location, action', location, action)
+        ReactGA.set({ page: location.pathname });
+        ReactGA.pageview(location.pathname);
+      }
+    );
   }
 
   ReactDOM.render(

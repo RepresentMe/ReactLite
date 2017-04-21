@@ -71,6 +71,7 @@
     "react-custom-scrollbars": "^4.0.2",
     "react-dom": "^15.4.2",
     "react-facebook-login": "^3.4.3",
+    "react-ga": "^2.2.0",
     "react-history": "^0.18.2",
     "react-markdown": "^2.4.5",
     "react-messenger-plugin": "^1.0.2",
