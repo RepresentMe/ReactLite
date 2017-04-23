@@ -79,7 +79,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     return (
       <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'scroll' }}>
 
-        {(QuestionStore.questions.get(item.object_id).my_vote.length > 0) &&
+        {(item.type === "Q" && QuestionStore.questions.get(item.object_id).my_vote.length > 0) &&
           <Paper style={{textAlign: 'center', padding: '5px 0', backgroundColor: cyan600, color: white, position: 'fixed', width: '100%', zIndex: 100}} zDepth={1}>
             {"You answered this in " + monthNames[new Date(QuestionStore.questions.get(item.object_id).my_vote[0].modified_at).getMonth()] + ". Have you changed your mind? "}
             <div className="FakeLink" style={{color: "white"}} onClick={() => history.push('/survey/' + collectionId + '/flow/' + (orderNumber + 1))}>Skip &raquo;</div>
