@@ -69,7 +69,7 @@ window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
   }else {
     history = createHistory();
       history.listen((location, action) => {
-        console.log('location, action', location, action)
+        //console.log('location, action', location, action)
         ReactGA.set({ page: location.pathname });
         ReactGA.pageview(location.pathname);
       }
