@@ -5,7 +5,7 @@ import difference from 'lodash/difference';
 
 //import TwoLevelPieChartView from './TwoLevelPieChartComponent';
 import OneLevelPieChartView from './OneLevelPieChartComponent';
-
+import OneLevelPieChartTitle from './OneLevelPieChartTitle';
 
 const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questionId, type = 1}) => {
     const likertProps = {
@@ -37,12 +37,15 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
     const fetcher = fetcherGen();
     fetcher.next().value
       .then(question => {
+        console.log(question)
         if (!question){
           //do something
         }
         else if (question.subtype === 'likert'){
+          // //propose to filter out choices with 0 vote, cause they crowd the space
           let sumLikert = 0;
-          const labels = Object.keys(likertProps)
+          let labels = Object.keys(likertProps)
+          labels = labels.filter(label => question[likertProps[label]['direct']] > 0);
           for (let i = 0; i < labels.length; i++) {sumLikert += question[labels[i]]}
           viewData.values = labels.map((label,i) =>
             Object.assign({},
@@ -50,10 +53,12 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
               {name: likertProps[label]['name']},
               {value: (Math.round(question[label]*10000/sumLikert)/100)},
               {fill: likertProps[label]['color']},
-              {direct_vote_count: question[likertProps[label]['direct']]}
-            ));
+              {direct_vote_count: question[likertProps[label]['direct']]},
+              {title: question['question']}
+            )
+          );
           viewData.values = sortValues(viewData.values)
-          console.log('viewData.values', viewData.values)
+        //console.log('viewData.values', viewData.values)
         }
         else if (question.subtype === 'mcq'){
           //propose to filter out choices with 0 vote, cause they crowd the space
@@ -67,16 +72,18 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
               {value: choice.direct_vote_count},
               {fill: colors_mcq[i%colors_mcq.length]},
               {zeroChoices: zeroChoices},
-              {direct_vote_count: choice.direct_vote_count}
+              {direct_vote_count: choice.direct_vote_count},
+              {title: question['question']}
             )
           );
           viewData.values = sortValues(viewData.values)
-          console.log('viewData.values', viewData.values)
+          //console.log('viewData.values', viewData.values)
         }
   })
 
     return (
       <div>
+        <OneLevelPieChartTitle data={viewData}/>
         {type === 1 && <OneLevelPieChartView data={viewData}/>}
         {/* {type === 2 && <TwoLevelPieChartView data={viewData}/>} */}
       </div>
