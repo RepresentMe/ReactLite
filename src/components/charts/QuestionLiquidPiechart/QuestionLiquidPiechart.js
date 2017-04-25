@@ -37,7 +37,7 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
     const fetcher = fetcherGen();
     fetcher.next().value
       .then(question => {
-        console.log(question)
+        //console.log(question)
         if (!question){
           //do something
         }

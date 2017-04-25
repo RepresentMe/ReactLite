@@ -8,13 +8,16 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Rectangle, ResponsiveContainer } 
 import LoadingIndicator from '../LoadingIndicator';
 import Checkbox from 'material-ui/Checkbox';
 import Divider from 'material-ui/Divider';
+import intersection from 'lodash/intersection';
+import difference from 'lodash/difference';
+import Toggle from 'material-ui/Toggle';
 
 const labels = {
-  "strongly_disagree": {label: "Strongly disagree", color: "rgb(244,56,41)"},
-  "disagree": {label: "Disagree", color: "rgb(249,131,117)"},
-  "neutral": {label: "Neutral", color: "rgb(128, 128, 128)"},
+  "strongly_agree": {label: "Strongly Agree", color: "rgb(74,178,70)"},
   "agree": {label: "Agree", color: "rgb(133,202,102)"},
-  "strongly_agree": {label: "Strongly Agree", color: "rgb(74,178,70)"}
+  "neutral": {label: "Neutral", color: "rgb(128, 128, 128)"},
+  "disagree": {label: "Disagree", color: "rgb(249,131,117)"},
+  "strongly_disagree": {label: "Strongly disagree", color: "rgb(244,56,41)"}
 }
 
 const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")(observer(({ CollectionStore, UserStore, QuestionStore, userIds = [7]}) => {
@@ -60,8 +63,50 @@ const CompareCollectionUsersView = observer(({data})=> {
 
   state = {
     //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
-    checked: [true,true,true,true,true]
+    checked: [false,false,false,false,false],
+    user: {
+      name: '',
+      location: '',
+      link: '',
+      concensus: '',
+      count_comments: 0,
+      count_followers: 0,
+      count_group_memberships: 0,
+      count_questions: 0,
+      count_votes: 0
+    }
   }
+  componentWillMount(){
+    const name = this.props.user.first_name ? this.props.user.first_name + ' ' + this.props.user.last_name : this.props.user.username;
+    const location = (this.props.user.country_info ? this.props.user.country_info.name + (this.props.user.region_info ? ', ' : '') : '') + (this.props.user.region_info ? this.props.user.region_info.name : '');
+    const link = "https://app.represent.me/profile/" + this.props.user.id + "/" + this.props.user.username;
+    const count_comments = this.props.user.count_comments
+    const count_followers = this.props.user.count_followers
+    const count_group_memberships = this.props.user.count_group_memberships
+    const count_questions = this.props.user.count_questions
+    const count_votes = this.props.user.count_votes
+
+    const user = Object.assign({},
+      {name},
+      {location},
+      {link},
+      {count_comments},
+      {count_followers},
+      {count_group_memberships},
+      {count_questions},
+      {count_votes}
+    )
+    this.setState({user})
+  }
+
+  componentDidMount(){
+    if(this.props.compareData) {
+      let concensus = Math.floor(100-this.props.compareData.difference_percent) + '%';
+      this.setState({user: {concensus}});
+      console.log('concensus', concensus)
+    }
+  }
+
 
   handleCheck = (e, value) => {
     switch(e.target.value){
@@ -81,82 +126,112 @@ const CompareCollectionUsersView = observer(({data})=> {
     }
   }
   render(){
-    let name = this.props.user.first_name ? this.props.user.first_name + ' ' + this.props.user.last_name : this.props.user.username;
-    const location = (this.props.user.country_info ? this.props.user.country_info.name + (this.props.user.region_info ? ', ' : '') : '') + (this.props.user.region_info ? this.props.user.region_info.name : '');
-    const link = "https://app.represent.me/profile/" + this.props.user.id + "/" + this.props.user.username;
-
-    const count_comments = this.props.user.count_comments
-    const count_followers = this.props.user.count_followers
-    const count_group_memberships = this.props.user.count_group_memberships
-    const count_questions = this.props.user.count_questions
-    const count_votes = this.props.user.count_votes
-    const match_state = {
-      4: 'strongly_disagree',
-      3: 'disagree',
-      2: 'neutral',
-      1: 'agree',
-      0: 'strongly_agree'
+    const name = this.state.user.name;
+    const location = this.state.user.location;
+    const link = this.state.user.link;
+    const count_comments = this.state.user.count_comments
+    const count_followers = this.state.user.count_followers
+    const count_group_memberships = this.state.user.count_group_memberships
+    const count_questions = this.state.user.count_questions
+    const count_votes = this.state.user.count_votes
+    let concensus = ''
+    if(this.props.compareData) {
+     concensus = Math.floor(100-this.props.compareData.difference_percent)
     }
+
     console.log('this.state', this.state)
-    
-    if(this.props.compareData) {
 
+    let display_all = {};
+
+    if(this.props.compareData) {
       let arr =[];
-      arr = this.state.checked.map((elt,i) => {
-        if (elt) return i
-        else return null})
-      console.log('arr', arr)
-      //elt.diffs[i]
-      console.log(this.props.compareData.topic_diffs)
-    }
+      let not_arr =[];
+      this.state.checked.map((elt,i) => {
+        if (elt) arr.push(i.toString())
+        else not_arr.push(i.toString())
+      })
 
-    if(this.props.compareData) {
-      name = name + " " + Math.floor(100-this.props.compareData.difference_percent) + '%'
-    }
+      const keys = Object.keys(this.props.compareData.topic_diffs)
+      //console.log('keys.length', keys.length)
+      let display = {};
+      keys.map((k)=> {
+        let check1 = false;
+        let check2 = false;
+        //if (arr.length < 5) {
+          check1 = arr.map((key,j)=> this.props.compareData.topic_diffs[k].diffs[key] > 0 ? true : false)
+          check1 = check1.includes(true)
+          check2 = not_arr.map((key,j)=> this.props.compareData.topic_diffs[k].diffs[key] === 0 ? true : false)
+          check2 = !check2.includes(false)
+        //}
 
-  return (
+        if (check1 && check2) display = Object.assign(display, {[k]: this.props.compareData.topic_diffs[k]})
+
+      })
+    display_all = Object.assign(display_all, display);
+
+    //sorting inside of Object?
+    // if (Object.keys(display_all).length) {
+    //   display_all.sort((a,b) => {
+    //     let a_sum = a.diffs.reduce((c,d)=> {return c+d}, 0)
+    //     let b_sum = b.diffs.reduce((c,d)=> {return c+d}, 0)
+    //     console.log('a_sum, b_sum', a_sum, b_sum)
+    //     return a_sum - b_sum;
+    //   })
+    // }
+  }
+
+    console.log('result', Object.keys(display_all).length, display_all)
+
+    return (
     <Card style={{marginBottom: '20px'}}>
       <CardHeader
-        title={name}
+        title={`${name} MATCH: ${concensus}%`}
         subtitle={this.props.user.age + ", " + location}
         avatar={this.props.user.photo.replace("localhost:8000", "represent.me")}
         />
       <Divider/>
 
       <CardText style={{paddingTop: 0}}>
+        <p><a href={Link} target='blank'><i>{`Link -> ${name}`}</i></a></p>
         <p>{`Followers: ${count_followers}`}</p>
         <p>{`Authored comments: ${count_comments}`}</p>
         <p>{`Groups: ${count_group_memberships}`}</p>
         <p>{`Questions posted: ${count_questions}`}</p>
         <p>{`Votes: ${count_votes}`}</p>
-        </CardText>
-        <Divider/>
+      </CardText>
+      <Divider/>
       <CardText style={{paddingTop: 0}}>
         {this.props.compareData ? (
           <div>
+            <CardText style={{paddingTop: 0}}>
+              <p style={{fontSize: 14, fontWeight: 'bold'}}>By how much my answers variate from {name}'s?</p>
+            </CardText>
             <MatchBarchart compareData={this.props.compareData} />
             <p>{`Compared over: ${this.props.compareData.questions_counted} questions`}</p>
           </div>) : <LoadingIndicator />}
       </CardText>
-
+      <Divider/>
       {this.props.compareData && (
         <div>
-          <CheckboxComponent label='MAINLY DISAGREE' fill={labels['strongly_disagree']['color']} handleCheck={this.handleCheck} value='disagree' checked={this.state.checked[4]}/>
-          <CheckboxComponent label='MAINLY AGREE' fill={labels['strongly_agree']['color']} handleCheck={this.handleCheck} value='agree' checked={this.state.checked[0]}/>
-          <CheckboxComponent label='NEUTRAL' fill={labels['neutral']['color']} handleCheck={this.handleCheck} value='neutral' checked={this.state.checked[2]}/>
+          <CardText style={{paddingTop: 0}}>
+            <p style={{fontSize: 14, fontWeight: 'bold'}}>Bar height signifies distances in answers:</p>
+          </CardText>
+          <CheckboxComponent label='DISTANCE IN DISAGREE' fill={labels['strongly_disagree']['color']} handleCheck={this.handleCheck} value='disagree' checked={this.state.checked[4]}/>
+          <CheckboxComponent label='DISTANCE IN AGREE' fill={labels['strongly_agree']['color']} handleCheck={this.handleCheck} value='agree' checked={this.state.checked[0]}/>
+          <CheckboxComponent label='IMPORTANT/NEUTRAL' fill={labels['neutral']['color']} handleCheck={this.handleCheck} value='neutral' checked={this.state.checked[2]}/>
         </div>
     )}
 
       <CardText style={{paddingTop: 0}}>
-        {this.props.compareData && (
-          <div>{Object.keys(this.props.compareData.topic_diffs)
+        {Object.keys(display_all).length >0 && (
+          <div>{Object.keys(display_all)//Object.keys(this.props.compareData.topic_diffs)
             .map((d,i)=>
             <li key={`i-${i}`} style={{listStyle: 'none', backgroundColor: i%2 === 0 ? 'rgb(198,199,202)' : 'white'}}>
               <div>
                 <div style={{display: 'inline-block', backgroundColor: 'rgb(242, 242, 242)'}}>
-                  <SmallBarchart values_arr={this.props.compareData.topic_diffs[d]['diffs']}/>
+                  <SmallBarchart values_arr={display_all[d]['diffs']}/> {/* this.props.compareData.topic_diffs[d]['diffs']}/> */}
                 </div>
-                <div style={{display: 'inline-block'}}>
+                <div style={{display: 'inline-block', marginLeft: 5, marginBottom: 2}}>
                   {`Topic: ${d}`}
                 </div>
               </div>
@@ -166,7 +241,6 @@ const CompareCollectionUsersView = observer(({data})=> {
     </Card>
   )
 }}
-//)
 
 const CheckboxComponent = (props) => {
   const handleCheck = (e, value) =>{
@@ -176,7 +250,7 @@ const CheckboxComponent = (props) => {
           <Checkbox onCheck={handleCheck}
               label={props.label}
               labelPosition='right'
-              labelStyle={{color: props.fill, minWidth: 150}}
+              labelStyle={{color: props.fill, minWidth: 180, fontSize: 12, fontWeight: 'bold'}}
               value={props.value}
               checked={props.checked}
               />

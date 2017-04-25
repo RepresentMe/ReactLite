@@ -28,16 +28,18 @@ componentWillMount() {
   if(!this.props.CollectionStore.collectionItems.has(collectionId)) {
     this.props.CollectionStore.getCollectionItemsById(collectionId);
   }
+  //this.props.CollectionStore.getCollection(collectionId);
 }
 
 render() {
   let collectionId = parseInt(this.props.match.params.collectionId);
   let collection = this.props.CollectionStore.collections.get(collectionId);
-  //console.log('collection', collection)
+
   if(!collection) {
+    this.props.CollectionStore.getCollection(collectionId);
     return null;
   }
-
+  //console.log('collection', collection)
     return (
       <div>
         {this.props.CollectionStore.collectionItems.has(collectionId) &&
@@ -52,7 +54,7 @@ render() {
 
 @inject("QuestionStore") @observer class CollectionEndQuestionPieCharts extends React.Component {
   render() {
-
+    //console.log('this.props.collection', this.props.collection)
     return (
       <div>
         <h3 style={{marginLeft: 20, textAlign: 'center', color: 'rgb(0, 172, 193)'}}>{this.props.collection.name}</h3>
@@ -70,15 +72,18 @@ class ResponsiveCardContainer extends React.Component{
   state = {
     activeId: 0
   }
+
   handleMoveLeft = () => {
     const activeId = this.state.activeId;
+    const len = this.props.items.filter((item)=> item.type === "Q").length;
     if (activeId > 0) {this.setState({activeId: activeId-1})}
-    else {this.setState({activeId: this.props.items.length-1})}
-
+    else {this.setState({activeId: len-1})}
   }
+
   handleMoveRight = () => {
     const activeId = this.state.activeId;
-    if (activeId < this.props.items.length-1) {this.setState({activeId: activeId+1})}
+    const len = this.props.items.filter((item)=> item.type === "Q").length;
+    if (activeId < len -1) {this.setState({activeId: activeId+1})}
     else {this.setState({activeId: 0})}
   }
 
@@ -87,13 +92,15 @@ class ResponsiveCardContainer extends React.Component{
   }
 
   render (){
-    //console.log('props', this.props);
+    let {items} = this.props;
+    items = items.filter((item)=> item.type === "Q")
+    //console.log(this.state.activeId, items)
     return (
       <div style={{position: 'relative'}}>
         <ArrowLeftContainer handleMoveLeft={this.handleMoveLeft} style={{left: 10}}/>
         <ArrowRightContainer handleMoveRight={this.handleMoveRight} style={{right: 10}}/>
-        <CardContainer  {...this.props} activeId={this.state.activeId}/>
-        <SliderContainer handleSlider={this.handleSlider} max={this.props.items.length-1} value={this.state.activeId}/>
+        <CardContainer items={items} activeId={this.state.activeId}/>
+        <SliderContainer handleSlider={this.handleSlider} max={items.length-1 > 1 ? items.length-1 : 1} value={this.state.activeId} disabled={items.length-1 === 0}/>
       </div>
     )
 }}
@@ -118,13 +125,14 @@ const SliderContainer = (props) => (
     min={0}
     max={props.max}
     value={props.value}
+    disabled={props.disabled}
     />
 )
 
 const CardContainer = (props) => (
     <div>
       {props.items.map((item, index) => {
-        if(item.type === "Q" && index === props.activeId) {
+        if(index === props.activeId) {
           return (
           <Card style={{padding: 10, margin: 5}} key={index}>
             <QuestionLiquidPiechart questionId={item.object_id}/>

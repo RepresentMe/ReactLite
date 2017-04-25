@@ -32,7 +32,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiquidDisplay';
 import CollectionCharts from '../charts/CollectionCharts';
 import Links from '../navComponent';
-
+//import CompareUsers from '../CompareUsersComponent';
 import './Shell.css';
 
 import {
@@ -129,6 +129,7 @@ function onProfileClick(){
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
                     <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
+                    {/* <Route exact path='/compare' component={CompareUsers}/> */}
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>
