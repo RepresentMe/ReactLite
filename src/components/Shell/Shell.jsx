@@ -33,10 +33,14 @@ import AuthCode from '../AuthCode';
 import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiquidDisplay';
 import CollectionCharts from '../charts/CollectionCharts';
 import Links from '../navComponent';
+
 import CandidateIntro from '../CandidateIntro';
 import CandidateNew from '../CandidateNew';
 
 import smallLogo from './represent_white_outline.svg';
+
+
+//import CompareUsers from '../CompareUsersComponent';
 
 import './Shell.css';
 
@@ -136,6 +140,7 @@ function onProfileClick(){
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
                     <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
+                    {/* <Route exact path='/compare' component={CompareUsers}/> */}
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>
