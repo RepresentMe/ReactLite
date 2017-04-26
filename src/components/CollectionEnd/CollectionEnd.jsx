@@ -22,6 +22,7 @@ import QuestionPopulationStackedChart from '../charts/QuestionPopulationStackedC
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart';
 import CompareCollectionUsers from '../CompareCollectionUsers';
 import DynamicConfigService from '../../services/DynamicConfigService';
+import { ResponsiveCollectionContainer } from '../charts/CollectionCharts/CollectionDisplay';
 
 import './CollectionEnd.css';
 //import "slick-carousel/slick/slick.css";
@@ -98,7 +99,7 @@ const questionShareLink = (questionId) => {
         </Card>
 
         {this.props.CollectionStore.collectionItems.has(collectionId) &&
-          <CollectionEndQuestionPieCharts items={this.props.CollectionStore.collectionItems.get(collectionId)}/>
+          <ResponsiveCollectionContainer items={this.props.CollectionStore.collectionItems.get(collectionId)} />
         }
 
         <CollectionEndShare collection={collection} />

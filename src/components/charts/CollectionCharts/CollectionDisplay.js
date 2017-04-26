@@ -61,14 +61,14 @@ render() {
         {this.props.collection.photo && <Card style={{padding: 1, margin: 5, minHeight: 100, maxHeight: 180, opacity: 0.8}}>
           <img src={this.props.collection.photo} alt={this.props.collection.name} style={{width: '100%', height: '100%'}}/>
         </Card>}
-        <ResponsiveCardContainer {...this.props}/>
+        <ResponsiveCollectionContainer {...this.props}/>
       </div>
     )
   }
 }
 
 
-class ResponsiveCardContainer extends React.Component{
+class ResponsiveCollectionContainer extends React.Component{
   state = {
     activeId: 0
   }
@@ -96,7 +96,7 @@ class ResponsiveCardContainer extends React.Component{
     items = items.filter((item)=> item.type === "Q")
     //console.log(this.state.activeId, items)
     return (
-      <div style={{position: 'relative'}}>
+      <div style={{position: 'relative', overflow: 'hidden'}}>
         <ArrowLeftContainer handleMoveLeft={this.handleMoveLeft} style={{left: 10}}/>
         <ArrowRightContainer handleMoveRight={this.handleMoveRight} style={{right: 10}}/>
         <CardContainer items={items} activeId={this.state.activeId}/>
@@ -144,3 +144,4 @@ const CardContainer = (props) => (
 )
 
 export default CollectionCharts;
+export { ResponsiveCollectionContainer };
