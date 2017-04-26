@@ -186,11 +186,16 @@ let RenderedQuestion = (props) => {
 }
 
 let ProgressIndicator = (props) => {
-
   return (
     <div style={props.style}>
       <p style={{textAlign: 'center', color: cyan600, margin: "5px 0" }}>{props.order + 1} / {props.max}</p>
-      <Slider style={{backgroundColor: grey300, width: '100%', pointerEvents: "all"}} sliderStyle={{backgroundColor: white, color: cyan600, margin: "0"}} max={props.max} min={0} value={props.order} step={1} onChange={props.onChange}/>
+      <Slider style={{backgroundColor: grey300, width: '100%', pointerEvents: "all"}}
+        sliderStyle={{backgroundColor: white, color: cyan600, margin: "0"}}
+        max={props.max}
+        min={0}
+        value={props.order}
+        step={1}
+        onChange={props.onChange}/>
     </div>
   )
 }
@@ -198,21 +203,50 @@ let ProgressIndicator = (props) => {
 let LikertButtons = (props) => {
   let likertJSX = [];
   for (let i = 1; i <= 5; i++) {
-    likertJSX.push(<div className={ "likertButton likertButton" + i + ( props.value && props.value !== i ? " likertButtonDimmed" : "")} key={i} onClick={() => props.onUpdate(i)}></div>);
+    likertJSX.push(<div
+      className={ "likertButton likertButton" + i + ( props.value && props.value !== i ? " likertButtonDimmed" : "")}
+      key={i}
+      onTouchTap={() => props.onUpdate(i)}></div>); //onClick()
   }
   return (<div style={{overflow: 'hidden', textAlign: 'center', margin: '0 auto'}}>{likertJSX.map((item, index) => {return item})}</div>);
 }
 
-let MCQButtons = (props) => {
+//Option #1: Button (bug - doesn't display long text)
+// let MCQButtons = (props) => {
+//   return (
+//     <div>
+//       { props.question.choices.map((choice, index) => {
+//         return (
+//           <RaisedButton
+//             primary={!(props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id)}
+//             key={index}
+//             label={choice.text}
+//             labelStyle={{fontSize: 12}}
+//             style={{display:'block', margin: '5px 0px', maxWidth: '600px', minHeight: '25px'}}
+//             //overlayStyle={{height: 'auto'}}
+//             onTouchTap={() => props.onUpdate(choice.id)}
+//         />);
+//       })}
+//     </div>
+//   )
+// }
 
+//Option #2: Paper
+let MCQButtons = (props) => {
   return (
     <div>
-      { props.question.choices.map((choice, index) => {
-        return (<RaisedButton primary={!(props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id)} key={index} label={choice.text} style={{display:'block', margin: '10px auto', maxWidth: '600px', height: '25px'}} overlayStyle={{height: 'auto'}} onClick={() => props.onUpdate(choice.id)}/>);
+      {props.question.choices.map((choice, index) => {
+        return (
+          <Paper
+            key={`p-${index}`}
+            style={{color: 'rgb(0,172,193)'}}
+            className='mcqButton'
+            zDepth={2}
+            onTouchTap={() => props.onUpdate(choice.id)}
+        >{choice.text}</Paper>);
       })}
     </div>
   )
-
 }
 
 const questionTextFix = (key = "") => {
