@@ -51,3 +51,19 @@
 .likertButtonDimmed {
   opacity: 0.3;
 }
+
+.mcqButton{
+  color: blue;
+  display: block;
+  margin: 5px 0px;
+  max-width: 600px;
+  min-height: 25px;
+  cursor: pointer;
+  padding: 5px;
+  }
+.mcqButton:hover{
+  opacity: 0.5;
+}
+.mcqButton:focus{
+  opacity: 0.5;
+}

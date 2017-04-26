@@ -33,11 +33,13 @@ import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiqu
 import CollectionCharts from '../charts/CollectionCharts';
 import Links from '../navComponent';
 //import CompareUsers from '../CompareUsersComponent';
+import AuthTokenComponent from '../AuthTokenComponent'
 import './Shell.css';
 
 import {
   Router,
   Route,
+  Redirect
 } from 'react-router-dom'
 
 const muiTheme = getMuiTheme({
@@ -129,6 +131,8 @@ function onProfileClick(){
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
                     <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
+                    <Route exact path='/collections/authtoken/:authtokenId/:redirect' component={AuthTokenComponent}/>
+
                     {/* <Route exact path='/compare' component={CompareUsers}/> */}
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
