@@ -38,7 +38,10 @@ import CandidateIntro from '../CandidateIntro';
 import CandidateNew from '../CandidateNew';
 
 import smallLogo from './represent_white_outline.svg';
+
+
 //import CompareUsers from '../CompareUsersComponent';
+
 import AuthTokenComponent from '../AuthTokenComponent'
 
 import './Shell.css';
