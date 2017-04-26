@@ -143,7 +143,7 @@ function onProfileClick(){
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
                     <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
-                    <Route exact path='/collections/authtoken/:authtokenId/:redirect' component={AuthTokenComponent}/>
+                    <Route exact path='/authtoken/:authtoken/:redirect' component={AuthTokenComponent}/>
 
                     {/* <Route exact path='/compare' component={CompareUsers}/> */}
                   </ReactCSSTransitionGroup>

@@ -43,22 +43,36 @@ class UserStore {
   }
 
   getMe() {
-    if(!this.sessionData.get("authToken")) {
-      return false;
-    }
+    return new Promise((resolve, reject) => {
+      if(!this.sessionData.get("authToken")) {
+        reject("Inforrect auth token");
+      }
 
-    window.API.get('/auth/me/')
-      .then(function (response) {
-        this.userData.replace(response.data);
-      }.bind(this));
+      window.API.get('/auth/me/')
+        .then((response) => {
+          this.userData.replace(response.data);
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    });
 
   }
 
   setupAuthToken(authToken) {
-    this.sessionData.set("authToken", authToken);
-    Cookies.set("representAuthToken", authToken, { expires: Infinity });
-    window.API.defaults.headers.common['Authorization'] = "Token " + authToken;
-    this.getMe();
+    return new Promise((resolve, reject) => {
+      this.sessionData.set("authToken", authToken);
+      Cookies.set("representAuthToken", authToken, { expires: Infinity });
+      window.API.defaults.headers.common['Authorization'] = "Token " + authToken;
+      this.getMe()
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    });
   }
 
   getAuthToken() {
