@@ -13,27 +13,37 @@ import QuestionService from "../../services/QuestionService";
 import CompareCollectionUsers from "../CompareCollectionUsers";
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart';
 
-const Test = inject("QuestionStore")(({ QuestionStore, location, router, query }) => {
+const Test = inject("QuestionStore", "CollectionStore")(({ QuestionStore, CollectionStore, location, router, query }) => {
 
-    let querySearch = parse(location.search);
-    let userIds = querySearch.users ? querySearch.users.split(',') : [];
-    console.log('userIds: ', userIds);
-    return (
-        <div>
-            {/*<AnswersOverTimeAreachart />*/}
-            {/*<AgeProfileBarchart geoId={59} />*/}
-            {/*<QuestionPopulationStackedChart questionId={1399} geoId={59} height={100} />*/}
-            {/*<QuestionResultsBarchart data={data}/>*/}
-            {/*<CertanityStatisticsBarchart questionId={1399} geoId={59} />*/}
+    // let querySearch = parse(location.search);
+    // let userIds = querySearch.users ? querySearch.users.split(',') : [];
+    // console.log('userIds: ', userIds);
+    // return (
+    //     <div>
+    //         {/*<AnswersOverTimeAreachart />*/}
+    //         {/*<AgeProfileBarchart geoId={59} />*/}
+    //         {/*<QuestionPopulationStackedChart questionId={1399} geoId={59} height={100} />*/}
+    //         {/*<QuestionResultsBarchart data={data}/>*/}
+    //         {/*}<CertanityStatisticsBarchart questionId={1399} geoId={59} />*/}
+    //
+    //         {/* <CompareCollectionUsers userIds={userIds} />*/}
+    //         {/* http://localhost:3000/test?users=7,6736,584,4895 */}
+    //
+    //         {/* <QuestionWeightedAverageLineChart questionId={2504} bucketSize={4} /> */}
+    //
+    //         {/*}<QuestionLiquidPiechart questionId={2087}/>*/}
+    //     </div>
+    // )
 
-            {/* <CompareCollectionUsers userIds={userIds} />*/}
-            {/* http://localhost:3000/test?users=7,6736,584,4895 */}
+    CollectionStore.getCollectionItemsById(24)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
-            {/* <QuestionWeightedAverageLineChart questionId={2504} bucketSize={4} /> */}
-
-            <QuestionLiquidPiechart questionId={2087}/>
-        </div>
-    )
+    return null;
 })
 
 export default Test;
