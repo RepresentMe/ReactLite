@@ -86,7 +86,8 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
           </Paper>
         }
 
-        <div style={{ width: '100%', height: '100%', overflow: 'scroll' }}>
+        {/* EV: removed overflow: hidden because of strange behaviour */}
+        <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
           <ReactCSSTransitionGroup
             transitionName="FlowTransition"
             transitionEnterTimeout={1000}
@@ -171,9 +172,9 @@ let RenderedQuestion = (props) => {
   if(props.question.my_vote.length > 0) {
     myVote = props.question.my_vote[0].value;
   }
-
+////
   return (
-      <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
+      <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute', overflow: 'hidden' }}>
         <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', maxWidth: '400px', padding: '0 20px 40px 20px' }}>
           <h1 style={{maxWidth: '400px', margin: '60px auto 30px auto'}} className={"questionTextFix" + props.order}>{ props.question.question }</h1>
 
@@ -211,7 +212,7 @@ let LikertButtons = (props) => {
   return (<div style={{overflow: 'hidden', textAlign: 'center', margin: '0 auto'}}>{likertJSX.map((item, index) => {return item})}</div>);
 }
 
-//Option #1: Button (bug - doesn't display long text)
+//EV: Option #1: Button (bug - doesn't display long text)
 // let MCQButtons = (props) => {
 //   return (
 //     <div>
@@ -239,7 +240,7 @@ let MCQButtons = (props) => {
         return (
           <Paper
             key={`p-${index}`}
-            style={{color: 'rgb(0,172,193)'}}
+            style={{color: 'rgb(0,172,193)', marginTop: 7, marginBottom: 7}}
             className='mcqButton'
             zDepth={2}
             onTouchTap={() => props.onUpdate(choice.id)}

@@ -6,6 +6,8 @@ class CollectionStore {
   collections = observable.shallowMap([]);
   collectionItems = observable.shallowMap({});
   searchCache = observable.shallowMap({});
+  next = observable.shallowObject({values: null});
+
 
   constructor() {
 
@@ -21,7 +23,7 @@ class CollectionStore {
 
   }
 
-  getCollection(collectionId, forceUpdate = false) { // LEGACY DON'T USE, USE getCollectionById INSTEAD
+  getCollection(collectionId, forceUpdate = false) {
 
     if(!forceUpdate && this.collections.has(collectionId)) {
       return true;
@@ -33,58 +35,113 @@ class CollectionStore {
       }.bind(this));
   }
 
-  getCollectionById(collectionId) {
-    return new Promise((resolve, reject) => { // Return a promise of search results
-      if(this.collections.has(collectionId)) { // Check cache for results, and instantly resolve if exists
-        resolve(this.collections.get(collectionId))
-        return
-      }
-
-      window.API.get('/api/question_collections/' + collectionId + '/')
-        .then((response) => {
-          if(!response.data) {
-            reject("No data")
-          }else {
-            this.collections.set(collectionId, response.data);
-            resolve(response.data)
-          }
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    });
-  }
+  //EV: initial version of getCollectionItemsById(collectionId), fetches 1st 10 questions
+  // getCollectionItemsById(collectionId) {
+  //   return new Promise((resolve, reject) => { // Return a promise of search results
+  //     if(this.collectionItems.has(collectionId)) { // Check cache for results, and instantly resolve if exists
+  //       resolve(this.collectionItems.get(collectionId))
+  //       return
+  //     }
+  //
+  //     window.API.get('/api/question_collection_items/', {params: { parent: collectionId, ordering: 'order' } })
+  //       .then((response) => {
+  //         console.log(response)
+  //         if(!response.data) {
+  //           reject("No data")
+  //         }else {
+  //           let items = response.data.results;
+  //           for(let item of items) {
+  //             if(item.type === 'Q') { // If item is a question, update QuestionStore
+  //               window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
+  //               delete item.content_object; // Remove the question data as now stored in QuestionStore
+  //             }
+  //           }
+  //           this.collectionItems.set(collectionId, response.data.results);
+  //           resolve(response.data.results)
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         reject(error)
+  //       })
+  //   });
+  // }
 
   getCollectionItemsById(collectionId) {
     return new Promise((resolve, reject) => { // Return a promise of search results
-      if(this.collectionItems.has(collectionId)) { // Check cache for results, and instantly resolve if exists
+      // Check cache for results, and instantly resolve if exists
+      // initially, when next.values is null
+      if(this.collectionItems.has(collectionId) && this.next.values === null) {
+        console.log('resolving')
         resolve(this.collectionItems.get(collectionId))
         return
       }
 
-      window.API.get('/api/question_collection_items/', {params: { parent: collectionId, ordering: 'order' } })
-        .then((response) => {
-          if(!response.data) {
-            reject("No data")
-          }else {
-            let items = response.data.results;
-            for(let item of items) {
-              if(item.type === 'Q') { // If item is a question, update QuestionStore
-                window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
-                delete item.content_object; // Remove the question data as now stored in QuestionStore
+      //First loop - fetches 1st 10 questions
+      if (this.next.values === null){
+        window.API.get('/api/question_collection_items/', {params: { parent: collectionId, ordering: 'order' } })
+          .then((response) => {
+            console.log('response',response)
+            if(!response.data) {
+              reject("No data")
+            } else {
+              let items = response.data.results;
+              let nextString = response.data.next;
+              let index = nextString.indexOf('page=') + 5;
+              this.next.values = nextString.slice(index, index + 1) ;
+
+              console.log('this.next.values (first 10)', this.next.values)
+              for(let item of items) {
+                if(item.type === 'Q') { // If item is a question, update QuestionStore
+                  window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
+                  delete item.content_object; // Remove the question data as now stored in QuestionStore
+                }
               }
+              this.collectionItems.set(collectionId, response.data.results);
+              resolve(response.data.results)
             }
-            this.collectionItems.set(collectionId, response.data.results);
-            resolve(response.data.results)
-          }
-        })
-        .catch((error) => {
-          reject(error)
-        })
+          })
+          .catch((error) => {
+            reject(error)
+          })
+        }
+        //Next loops to fetch new portion of questions
+        else {
+          console.log('fetching next portion of questions')
+          window.API.get('/api/question_collection_items/?page='+ this.next.values) //, {params: { parent: collectionId,  page: this.next.values, ordering: 'order' } })
+            .then((response) => {
+              console.log('response2', response)
+              if(!response.data) {
+                reject("No data")
+              } else {
+                let items = response.data.results;
+                let nextString = response.data.next;
+                let index = nextString.indexOf('page=') + 5;
+                this.next.values = nextString.slice(index, index + 1) ;
+
+
+                for(let item of items) {
+                  if(item.type === 'Q') { // If item is a question, update QuestionStore
+                    window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
+                    delete item.content_object; // Remove the question data as now stored in QuestionStore
+                  }
+                }
+                //EV: initial code: this.collectionItems.set(collectionId, response.data.results);
+                const updatedCollectionItems = [...this.collectionItems.values()[0], ...response.data.results]
+                this.collectionItems.set(collectionId, updatedCollectionItems);
+                console.log('this.next.values - next loop No:', this.next.values)
+                console.log('this.collectionItems from COLLECTION',this.collectionItems)
+                console.log('this.collectionItems from COLLECTION value',this.collectionItems.values()[0])
+                resolve(response.data.results)
+              }
+            })
+            .catch((error) => {
+              reject(error)
+            })
+        }
     });
   }
 
-  items(collectionId, forceUpdate = false) { // LEGACY DON'T USE, USE getCollectionItemsById INSTEAD
+  items(collectionId, forceUpdate = false) {
 
     if(!forceUpdate && this.collectionItems.has(collectionId)) {
       return this.collectionItems.get(collectionId);
@@ -103,6 +160,7 @@ class CollectionStore {
           this.collectionItems.set(collectionId, []);
         } else {
           this.collectionItems.set(collectionId, items);
+          console.log('this.collectionItems from ITEMS',this.collectionItems)
         }
       }.bind(this))
       .catch(function(error) {

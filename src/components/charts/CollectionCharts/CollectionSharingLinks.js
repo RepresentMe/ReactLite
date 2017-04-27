@@ -11,7 +11,7 @@ import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 
 
 const LinksContainer = (props) => (
-    <div>
+    <div className='LinksContainer'>
       {props.children}
     </div>
 )
@@ -20,9 +20,9 @@ class CollectionSharingLinksComponent extends Component {
 
   render() {
     return (
-      <LinksContainer>
-        <Card containerStyle={{padding: 0}}>
-          <CardText style={{textAlign: 'center', padding: 0, color: 'rgb(64, 64, 64)'}}>
+      //<LinksContainer  style={{margin: 0, backgroundColor: 'white'}}>
+        <Card className='LinksContainerInner' containerStyle={{padding: 0, margin: 0, backgroundColor: 'white'}} style={{margin: 0, backgroundColor: 'white'}}>
+          <CardText style={{textAlign: 'center', padding: 0, color: 'rgb(64, 64, 64)', backgroundColor: 'white', marginTop: 0}}>
 
             <FacebookButton appId={window.authSettings.facebookId} element="span" url={document.referrer}>
             <FlatButton
@@ -44,7 +44,7 @@ class CollectionSharingLinksComponent extends Component {
 
           </CardText>
         </Card>
-      </LinksContainer>
+      //</LinksContainer>
     )
   }
 

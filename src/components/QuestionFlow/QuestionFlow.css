@@ -55,7 +55,7 @@
 .mcqButton{
   color: blue;
   display: block;
-  margin: 5px 0px;
+  margin: 0 auto;
   max-width: 600px;
   min-height: 25px;
   cursor: pointer;

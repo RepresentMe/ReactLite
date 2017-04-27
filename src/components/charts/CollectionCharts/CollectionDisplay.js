@@ -6,6 +6,7 @@ import KeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-lef
 import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import IconButton from 'material-ui/IconButton';
 import Slider from 'material-ui/Slider';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import QuestionLiquidPiechart from '../QuestionLiquidPiechart';
 import CollectionSharingLinks from './CollectionSharingLinks';
@@ -30,7 +31,9 @@ componentWillMount() {
   }
   //this.props.CollectionStore.getCollection(collectionId);
 }
-
+handleTap = (collectionId) => {
+  this.props.CollectionStore.getCollectionItemsById(collectionId)
+}
 render() {
   let collectionId = parseInt(this.props.match.params.collectionId);
   let collection = this.props.CollectionStore.collections.get(collectionId);
@@ -43,23 +46,35 @@ render() {
     return (
       <div>
         {this.props.CollectionStore.collectionItems.has(collectionId) &&
-          <CollectionEndQuestionPieCharts collection={collection} items={this.props.CollectionStore.collectionItems.get(collectionId)}/>
+          <CollectionQuestionPieCharts collection={collection}
+              items={this.props.CollectionStore.collectionItems.get(collectionId)}
+              handleTap={() => this.handleTap(collectionId)}
+              />
         }
-
+        <RaisedButton
+          fullWidth={true}
+          label='load more questions'
+          buttonStyle={{backgroundColor: 'lightgrey', marginBottom: 0}}
+          labelColor='rgb(0,172,193)'
+          onTouchTap={()=> this.handleTap(collectionId)}
+        />
         <CollectionSharingLinks collection={collection} />
       </div>
     )
   }
 }
 
-@inject("QuestionStore") @observer class CollectionEndQuestionPieCharts extends React.Component {
+@inject("QuestionStore") @observer class CollectionQuestionPieCharts extends React.Component {
   render() {
     //console.log('this.props.collection', this.props.collection)
     return (
       <div>
         <h3 style={{marginLeft: 20, textAlign: 'center', color: 'rgb(0, 172, 193)'}}>{this.props.collection.name}</h3>
-        {this.props.collection.photo && <Card style={{padding: 1, margin: 5, minHeight: 100, maxHeight: 180, opacity: 0.8}}>
-          <img src={this.props.collection.photo} alt={this.props.collection.name} style={{width: '100%', height: '100%'}}/>
+        {this.props.collection.photo &&
+          <Card style={{padding: 1, margin: 5, marginBottom: 0, minHeight: 100, maxHeight: 180, opacity: 0.8}}>
+          <img  src={this.props.collection.photo}
+                alt={this.props.collection.name}
+                style={{width: '100%', height: '100%'}}/>
         </Card>}
         <ResponsiveCollectionContainer {...this.props}/>
       </div>
@@ -84,7 +99,10 @@ class ResponsiveCollectionContainer extends React.Component{
     const activeId = this.state.activeId;
     const len = this.props.items.filter((item)=> item.type === "Q").length;
     if (activeId < len -1) {this.setState({activeId: activeId+1})}
-    else {this.setState({activeId: 0})}
+    //EV: previous version, iterate over loaded portion of questions:
+    //else {this.setState({activeId: 0})}
+    //EV: propose to use this event to load next portion of questions
+    else {this.props.handleTap()}
   }
 
   handleSlider = (e, value) => {
@@ -94,7 +112,8 @@ class ResponsiveCollectionContainer extends React.Component{
   render (){
     let {items} = this.props;
     items = items.filter((item)=> item.type === "Q")
-    //console.log(this.state.activeId, items)
+    console.log('activeId=', this.state.activeId, items.map(i=> i.object_id))
+
     return (
       <div style={{position: 'relative', overflow: 'hidden'}}>
         <ArrowLeftContainer handleMoveLeft={this.handleMoveLeft} style={{left: 10}}/>
@@ -134,7 +153,7 @@ const CardContainer = (props) => (
       {props.items.map((item, index) => {
         if(index === props.activeId) {
           return (
-          <Card style={{padding: 10, margin: 5}} key={index}>
+          <Card style={{padding: 10, margin: 5, marginBottom: 0}} key={index}>
             <QuestionLiquidPiechart questionId={item.object_id}/>
           </Card>
           )
