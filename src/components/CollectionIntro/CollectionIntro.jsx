@@ -56,6 +56,7 @@ import ErrorReload from '../ErrorReload';
     let imageStyle = {
       height: '100%',
       backgroundSize: 'cover',
+      backgroundPosition: 'center'
     }
 
     let outerStyle = { // Defaults no cover photo

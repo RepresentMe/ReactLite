@@ -35,6 +35,27 @@ class CollectionStore {
       }.bind(this));
   }
 
+  getCollectionById(collectionId) {
+    return new Promise((resolve, reject) => { // Return a promise of search results
+      if(this.collections.has(collectionId)) { // Check cache for results, and instantly resolve if exists
+        resolve(this.collections.get(collectionId))
+        return
+      }
+
+      window.API.get('/api/question_collections/' + collectionId + '/')
+        .then((response) => {
+          if(!response.data) {
+            reject("No data")
+          }else {
+            this.collections.set(collectionId, response.data);
+            resolve(response.data)
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    });
+  }
   //EV: initial version of getCollectionItemsById(collectionId), fetches 1st 10 questions
   // getCollectionItemsById(collectionId) {
   //   return new Promise((resolve, reject) => { // Return a promise of search results
