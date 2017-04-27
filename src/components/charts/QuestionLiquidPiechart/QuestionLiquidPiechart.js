@@ -12,9 +12,9 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
       'liquid_maximum': {name: 'Strongly Agree', color: 'rgb(74,178,70)', direct: 'direct_maximum'},
       'liquid_high': {name: 'Agree', color: 'rgb(133,202,102)', direct: 'direct_high'},
       'liquid_medium': {name: 'Medium', color: 'rgb(128, 128, 128)', direct: 'direct_medium'},
-      'liquid_skipped': {name: 'Skip', color: 'rgb(198,199,202)', direct: 'direct_skipped'},
       'liquid_low': {name: 'Disagree', color: 'rgb(249,131,117)', direct: 'direct_low'},
-      'liquid_minimum': {name: 'Strongly Disagree', color: 'rgb(244,56,41)', direct: 'direct_minimum'}
+      'liquid_minimum': {name: 'Strongly Disagree', color: 'rgb(244,56,41)', direct: 'direct_minimum'},
+      'liquid_skipped': {name: 'Skip', color: 'rgb(198,199,202)', direct: 'direct_skipped'}
     }
     const colors_mcq = ['#0088FE', '#FFBB28', '#a3a375', '#FF8042', '#df64ef', '#38b4c4', '#ff80aa', '#a3a3c2', '#8cff66', '#66b3ff', '#a64dff', '#00ff80'];
     let viewData = observable.shallowObject({
@@ -57,7 +57,7 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
               {title: question['question']}
             )
           );
-          viewData.values = sortValues(viewData.values)
+          //viewData.values = sortValues(viewData.values)
         //console.log('viewData.values', viewData.values)
         }
         else if (question.subtype === 'mcq'){
