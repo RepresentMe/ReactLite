@@ -65,10 +65,10 @@ import './Login.css';
                 textButton="Connect with Facebook"
                 disableMobileRedirect={true}
                 />
-              <p style={{textAlign: 'center', fontSize: '12px'}}>By using the service, you agree to the <a href="https://represent.me/legal/terms/">terms and conditions</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/><br/><a onClick={() => this.props.history.push("/join/" + this.props.match.params.redirect)}>{"Don't have an account?"}</a><br/><a onClick={() => {window.location.href = 'https://app.represent.me/access/forgot-password/'}}>{"Forgotten your password?"}</a></p>
+              <p style={{textAlign: 'center', fontSize: '12px'}}>By using the service, you agree to the <a href="https://represent.me/legal/terms/">terms and conditions</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/><br/><a onClick={() => this.props.history.push("/join/" + this.props.match.params.redirect)} className="FakeLink">{"Don't have an account?"}</a><br/><a onClick={() => {window.location.href = 'https://app.represent.me/access/forgot-password/'}} className="FakeLink">{"Forgotten your password?"}</a></p>
             </Paper>
             {this.props.match.params.redirect && <Paper onClick={() => this.props.history.push("/" + decodeURIComponent(this.props.match.params.redirect))} zDepth={1} style={{padding: '10px 20px', maxWidth: '320px', marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
-              <a>&larr; {"back"}</a>
+              <a className="FakeLink">&larr; {"back"}</a>
             </Paper>}
           </div>
         </div>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { inject, observer } from "mobx-react";
 import { observable, reaction } from "mobx";
+import CircularProgress from 'material-ui/CircularProgress';
+import { cyan600 } from 'material-ui/styles/colors';
 
 let containerStyle = {
     'width': '100%',
@@ -14,7 +16,7 @@ let containerStyle = {
 const LoadingIndicator = (props) => {
     let text = props.text || "Loading...";
     return (
-        <div style={containerStyle}>{text}</div>
+        <div style={containerStyle}><CircularProgress size={80} thickness={5} color={cyan600} /></div>
     )
 }
 

@@ -4,6 +4,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
 import Tappable from 'react-tappable';
 import $ from 'jquery';
+import LoadingIndicator from '../LoadingIndicator';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -63,7 +64,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     if(networkError) {
       return <ErrorReload message="We couldn't load this collection!"/>
     }else if(!collection || collectionItems === null) {
-      return null
+      return <LoadingIndicator/>
     }
 
     let collectionId = parseInt(match.params.collectionId);
@@ -86,7 +87,6 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
           </Paper>
         }
 
-        {/* EV: removed overflow: hidden because of strange behaviour */}
         <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
           <ReactCSSTransitionGroup
             transitionName="FlowTransition"
