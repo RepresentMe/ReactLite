@@ -71,7 +71,7 @@ render() {
       <div>
         <h3 style={{marginLeft: 20, textAlign: 'center', color: 'rgb(0, 172, 193)'}}>{this.props.collection.name}</h3>
         {this.props.collection.photo &&
-          <Card style={{padding: 1, margin: 5, marginBottom: 0, minHeight: 100, maxHeight: 180, opacity: 0.8}}>
+          <Card style={{padding: 1, margin: 10, marginBottom: 0, minHeight: 100, maxHeight: 180, opacity: 0.8}}>
           <img  src={this.props.collection.photo}
                 alt={this.props.collection.name}
                 style={{width: '100%', height: '100%'}}/>
@@ -153,7 +153,7 @@ const CardContainer = (props) => (
       {props.items.map((item, index) => {
         if(index === props.activeId) {
           return (
-          <Card style={{padding: 10, margin: 5, marginBottom: 0}} key={index}>
+          <Card style={{padding: 10, margin: 10, marginBottom: 0}} key={index}>
             <QuestionLiquidPiechart questionId={item.object_id}/>
           </Card>
           )

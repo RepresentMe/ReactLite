@@ -79,6 +79,33 @@ const questionShareLink = (questionId) => {
       backgroundSize: 'cover',
     }
 
+    let imageStyle = {
+      height: '100%',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    }
+
+    let outerStyle = { // Defaults no cover photo
+      height: '100%',
+      color: 'black',
+      transition: 'all 0.5s ease-in-out',
+    }
+
+    let innerStyle = { // Defaults no cover photo
+      height: '100%',
+      overflow: 'scroll',
+    }
+
+    if(collection.photo) { // Override if cover photo
+      outerStyle.backgroundColor = 'rgba(0,0,0,1)';
+      if(this.state.collectionImageLoaded) {
+        imageStyle.backgroundImage = 'url(' + collection.photo.replace("localhost:8000", "represent.me") + ')';
+        outerStyle.backgroundColor = 'rgba(0,0,0,0)';
+      }
+      outerStyle.color = 'white';
+      innerStyle.background = 'radial-gradient(ellipse at center, rgba(0,0,0,0.5) 50%,rgba(0,0,0,1) 100%)';
+    }
+
     if(collection.photo) {
       cardMediaCSS.backgroundImage = 'url(' + collection.photo.replace("localhost:8000", "represent.me") + ')';
     }
@@ -90,38 +117,41 @@ const questionShareLink = (questionId) => {
     }
 
     return (
-      <div>
+      <div style={imageStyle}>
+        <div style={outerStyle}>
+          {collection.photo && <img src={collection.photo.replace("localhost:8000", "represent.me")} style={{display: 'none'}} onLoad={() => {this.setState({collectionImageLoaded: true})}} />}
+          <div style={innerStyle}>
+            <div style={{ overflow: 'hidden', margin: '0 10px', color: 'white' }}>
+              <h1>{ collection.name }</h1>
+              <h3>{ collection.end_text }</h3>
+            </div>
 
-        <Card style={{margin: '0'}} zDepth={0}  >
-          <CardMedia overlay={<CardTitle title={ collection.name } subtitle={ collection.end_text } />}>
-            <div style={cardMediaCSS}></div>
-          </CardMedia>
-        </Card>
+            {this.props.CollectionStore.collectionItems.has(collectionId) &&
+              <ResponsiveCollectionContainer items={this.props.CollectionStore.collectionItems.get(collectionId)} />
+            }
 
-        {this.props.CollectionStore.collectionItems.has(collectionId) &&
-          <ResponsiveCollectionContainer items={this.props.CollectionStore.collectionItems.get(collectionId)} />
-        }
+            <CollectionEndShare collection={collection} />
 
-        <CollectionEndShare collection={collection} />
+            <CollectionEndUserCompare userIds={this.dynamicConfig.config.survey_end.compare_users} />
 
-        <CollectionEndUserCompare userIds={this.dynamicConfig.config.survey_end.compare_users} />
+            <Dialog
+                title="Want awesome powers?"
+                modal={false}
+                open={this.state.showMessengerDialog}
+              >
+                You can vote directly from facebook messenger, making it easy to have your say in important issues as often as you like. Try it out - we think you’ll love it!<br/><br/>
+                <span style={{float: 'left'}}><MessengerPlugin
+                  appId={String(window.authSettings.facebookId)}
+                  pageId={String(window.authSettings.facebookPageId)}
+                  size="xlarge"
+                  passthroughParams={messengerRefData}
+                  /></span>
+                <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showMessengerDialog: false})} /></span>
 
-        <Dialog
-            title="Want awesome powers?"
-            modal={false}
-            open={this.state.showMessengerDialog}
-          >
-            You can vote directly from facebook messenger, making it easy to have your say in important issues as often as you like. Try it out - we think you’ll love it!<br/><br/>
-            <span style={{float: 'left'}}><MessengerPlugin
-              appId={String(window.authSettings.facebookId)}
-              pageId={String(window.authSettings.facebookPageId)}
-              size="xlarge"
-              passthroughParams={messengerRefData}
-              /></span>
-            <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showMessengerDialog: false})} /></span>
+            </Dialog>
 
-        </Dialog>
-
+          </div>
+        </div>
       </div>
     );
 
