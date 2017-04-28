@@ -86,7 +86,8 @@ render() {
 
 class ResponsiveCollectionContainer extends React.Component{
   state = {
-    activeId: 0
+    activeId: 0,
+    pie: true
   }
 
   handleMoveLeft = () => {
@@ -109,19 +110,23 @@ class ResponsiveCollectionContainer extends React.Component{
   handleSlider = (e, value) => {
     this.setState({activeId: value})
   }
+  handleToggle = () => {
+    this.setState({pie:!this.state.pie})
+  }
 
   render (){
-    let {items, pie} = this.props;
+    let {items} = this.props;
+    const pie = this.state.pie;
     items = items.filter((item)=> item.type === "Q")
     console.log('activeId=', this.state.activeId, items.map(i=> i.object_id))
-
+    console.log('this.state.pie', this.state.pie)
     return (
       <div style={{position: 'relative', overflow: 'hidden'}}>
         <ArrowLeftContainer handleMoveLeft={this.handleMoveLeft} style={{left: 10}}/>
         <ArrowRightContainer handleMoveRight={this.handleMoveRight} style={{right: 10}}/>
         <CardContainer items={items} activeId={this.state.activeId} pie={pie}/>
         <SliderContainer handleSlider={this.handleSlider} max={items.length-1 > 1 ? items.length-1 : 1} value={this.state.activeId} disabled={items.length-1 === 0}/>
-        <RadioButtonsContainer pie={pie} handleToggle={this.props.handleToggle}/>
+        <RadioButtonsContainer pie={pie} handleToggle={this.handleToggle}/>
       </div>
     )
 }}
