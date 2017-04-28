@@ -97,7 +97,7 @@ import ErrorReload from '../ErrorReload';
               <h1>{ collection.name }</h1>
               <ReactMarkdown source={ collection.desc } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} />
 
-                <Link to={ "/survey/" + collection.id + "/flow/0/" + this.dynamicConfig.encodeConfig() }><RaisedButton label="Start" primary /></Link>
+                <Link to={ this.props.match.params.dynamicConfig ? ("/survey/" + collection.id + "/flow/0/" + this.dynamicConfig.encodeConfig()) : ("/survey/" + collection.id + "/flow/0/") }><RaisedButton label="Start" primary /></Link>
                 {this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id === this.props.UserStore.userData.get("id") && <Link to={ "/survey/" + collectionId + "/edit" }><RaisedButton label="Edit" primary /></Link>}
               </div>
             </div>

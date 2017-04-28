@@ -41,7 +41,7 @@ import smallLogo from './represent_white_outline.svg';
 
   componentWillUpdate() {
     if(this.props.UserStore.userData.has("id")) { // If user is logged in, redirect
-      if(this.props.match.params.redirect) {
+      if(this.props.match.params.dynamicConfig) {
         this.props.history.push(this.dynamicConfig.getNextRedirect());
       }else {
         this.props.history.push("/");
@@ -115,7 +115,7 @@ import smallLogo from './represent_white_outline.svg';
 
   facebookCallback(result) {
     if(result.accessToken) {
-      this.props.UserStore.authYeti('facebook', result.accessToken);
+      this.props.UserStore.facebookLogin(result.accessToken);
     }
   }
 }

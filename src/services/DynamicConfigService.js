@@ -5,6 +5,9 @@ class DynamicConfigService {
   constructor() {
     this.config = {
       redirects: [],
+      question_flow: {
+        default_public: false,
+      },
       survey_end: {
         messenger_prompt: true,
         compare_users: [],
@@ -15,7 +18,6 @@ class DynamicConfigService {
   setConfigFromRaw(rawConfig) {
     try {
       this.config = merge(this.config, JSON.parse(decodeURIComponent(decodeURIComponent(decodeURIComponent(rawConfig)))))
-      console.log(this.config)
     }catch(e){}
     if(this.config) {
       return true
@@ -58,7 +60,6 @@ class DynamicConfigService {
   getNextConfigWithRedirect(url) {
 
     let parts = url.split("/");
-    console.log(parts)
     let last_part = parts[parts.length - 1];
     let first_two_chars = last_part.substring(0, 2)
     let updated_url = ""
@@ -68,7 +69,6 @@ class DynamicConfigService {
       parts.shift()
       parts.map((part, index) => {
         if(index !== parts.length-1) {
-          console.log("PART", part)
           updated_url = updated_url + part + "/"
         }
       })

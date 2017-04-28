@@ -75,7 +75,7 @@ class QuestionStore {
     });
   }
 
-  voteQuestionLikert(questionId, value, collection = null) {
+  voteQuestionLikert(questionId, value, collection = null, vote_private = true) {
     console.log("VOTE LIKERT");
     if(!this.questions.has(questionId) || !value) {
       return false;
@@ -85,14 +85,14 @@ class QuestionStore {
         object_id: questionId,
         value,
         collection,
-        private: true,
+        private: vote_private,
       })
       .then(function (response) {
         this.loadQuestion(questionId, true);
       }.bind(this));
   }
 
-  voteQuestionMCQ(questionId, value, collection = null) {
+  voteQuestionMCQ(questionId, value, collection = null, vote_private = true) {
     console.log("VOTE MCQ");
     if(!this.questions.has(questionId) || !value) {
       return false;
@@ -102,7 +102,7 @@ class QuestionStore {
         object_id: value,
         value: 5,
         collection,
-        private: true,
+        private: vote_private,
       })
       .then(function (response) {
         this.loadQuestion(questionId, true);

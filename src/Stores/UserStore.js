@@ -88,6 +88,23 @@ class UserStore {
       }.bind(this));
   }
 
+  facebookLogin(access_token) {
+    return new Promise((resolve, reject) => {
+
+      window.API.post('/auth/social_auth/', {provider: 'facebook', access_token})
+        .then((response) => {
+          try {
+            this.setupAuthToken(response.data.auth_token);
+          } catch(e) {
+            reject(e)
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  }
+
   authLogin(username, password) {
     return window.API.post('/auth/login/', { username, password })
       .then(function (response) {
