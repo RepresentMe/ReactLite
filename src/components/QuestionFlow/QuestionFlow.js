@@ -10,7 +10,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import RaisedButton from 'material-ui/RaisedButton';
 import Slider from 'material-ui/Slider';
 import LinearProgress from 'material-ui/LinearProgress';
-import { white, cyan600, grey300 } from 'material-ui/styles/colors';
+import { white, cyan600, grey300, grey600 } from 'material-ui/styles/colors';
 import ReactMarkdown from 'react-markdown';
 import Dialog from 'material-ui/Dialog';
 import Paper from 'material-ui/Paper';
@@ -35,7 +35,10 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
       collection: null,
       collectionItems: null,
       networkError: false,
+      private: true,
     }
+
+    this.togglePrivate = this.togglePrivate.bind(this)
   }
 
   componentWillMount() {
@@ -60,6 +63,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     if(this.props.match.params.dynamicConfig) {
       this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
     }
+    this.setState({private: !this.dynamicConfig.config.question_flow.default_public})
   }
 
   render() {
@@ -86,6 +90,14 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     return (
       <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'scroll' }}>
 
+        <ProgressIndicator togglePrivate={this.togglePrivate} private={this.state.private} key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '25px', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", height: '110px', zIndex: 200, pointerEvents: "none"}} onChange={(event, value) => {
+          if( value < collectionItems.length ) { // If there is a next question
+            this.navigateToItem(value)
+          }else {
+            this.navigateToEnd()
+          }
+        }}/>
+
         {(item.type === "Q" && QuestionStore.questions.get(item.object_id).my_vote.length > 0) &&
           <Paper style={{textAlign: 'center', padding: '5px 0', backgroundColor: cyan600, color: white, position: 'fixed', width: '100%', zIndex: 100}} zDepth={1}>
             {"You answered this in " + monthNames[new Date(QuestionStore.questions.get(item.object_id).my_vote[0].modified_at).getMonth()] + ". Have you changed your mind? "}
@@ -108,9 +120,9 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
                 if(!UserStore.userData.has("id")) { history.push('/login/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname)); return } // User must log in
 
                 if(question.subtype === 'likert') {
-                  QuestionStore.voteQuestionLikert(item.object_id, i, collectionId);
+                  QuestionStore.voteQuestionLikert(item.object_id, i, collectionId, this.state.private);
                 }else if(question.subtype === 'mcq') {
-                  QuestionStore.voteQuestionMCQ(item.object_id, i, collectionId);
+                  QuestionStore.voteQuestionMCQ(item.object_id, i, collectionId, this.state.private);
                 }
 
                 if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
@@ -134,14 +146,6 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 
           </ReactCSSTransitionGroup>
         </div>
-
-        <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '25px', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", height: '70px', zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
-          if( value < collectionItems.length ) { // If there is a next question
-            this.navigateToItem(value)
-          }else {
-            this.navigateToEnd()
-          }
-        }}/>
 
         <CompleteProfile />
 
@@ -176,6 +180,10 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     this.props.history.push('/survey/' + this.props.match.params.collectionId + '/end/' + this.dynamicConfig.encodeConfig())
   }
 
+  togglePrivate() {
+    this.setState({private: !this.state.private})
+  }
+
 }
 
 let RenderedBreak = (props) => {
@@ -200,7 +208,7 @@ let RenderedQuestion = (props) => {
   return (
       <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute', overflow: 'hidden' }}>
         <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', maxWidth: '400px', padding: '0 20px 40px 20px' }}>
-          <h1 style={{maxWidth: '400px', margin: '60px auto 30px auto'}} className={"questionTextFix" + props.order}>{ props.question.question }</h1>
+          <h1 style={{maxWidth: '600px', margin: '60px auto 30px auto'}} className={"questionTextFix" + props.order}>{ props.question.question }</h1>
 
           {props.question.subtype === "likert" && <LikertButtons onUpdate={(i) => props.onUpdate(i)} value={myVote} />}
           {props.question.subtype === "mcq" && <MCQButtons onUpdate={(i) => props.onUpdate(i)} question={props.question} />}
@@ -213,7 +221,11 @@ let RenderedQuestion = (props) => {
 let ProgressIndicator = (props) => {
   return (
     <div style={props.style}>
-      <p style={{textAlign: 'center', color: cyan600, margin: "5px 0" }}>{props.order + 1} / {props.max}</p>
+      <div style={{color: grey600, pointerEvents: 'all'}}>
+        <p style={{width: '30%', display: 'inline-block', textAlign: 'left'}}></p>
+        <p style={{textAlign: 'center', width: '40%', display: 'inline-block' }}>{props.order + 1} / {props.max}</p>
+        <p style={{width: '30%', display: 'inline-block', textAlign: 'right'}}>Voting {props.private ? "privately" : "publicly"} (<span className="FakeLink" onClick={props.togglePrivate}>change</span>)</p>
+      </div>
       <Slider style={{backgroundColor: grey300, width: '100%', pointerEvents: "all"}}
         sliderStyle={{backgroundColor: white, color: cyan600, margin: "0"}}
         max={props.max}

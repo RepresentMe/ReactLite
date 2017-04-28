@@ -45,9 +45,10 @@ if (location.host === 'open.represent.me') { // Test server override defaults
   });
 }else {
   window.API = axios.create({
-    //baseURL: 'http://localhost:8000'
-    baseURL: 'http://api.represent.me'
+    baseURL: 'http://localhost:8000'
+    //baseURL: 'http://api.represent.me'
   });
+  window.authSettings.facebookId = 1665890767015993;
 }
 
 window.stores = {
