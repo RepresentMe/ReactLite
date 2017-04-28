@@ -42,7 +42,7 @@ const questionShareLink = (questionId) => {
     super();
 
     this.state = {
-      showMessengerDialog: true,
+      showMessengerDialog: true
     }
 
   }
@@ -127,7 +127,9 @@ const questionShareLink = (questionId) => {
             </div>
 
             {this.props.CollectionStore.collectionItems.has(collectionId) &&
-              <ResponsiveCollectionContainer items={this.props.CollectionStore.collectionItems.get(collectionId)} />
+              <ResponsiveCollectionContainer
+                items={this.props.CollectionStore.collectionItems.get(collectionId)}
+                />
             }
 
             <CollectionEndShare collection={collection} />
