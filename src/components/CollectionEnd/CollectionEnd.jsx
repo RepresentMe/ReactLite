@@ -42,8 +42,7 @@ const questionShareLink = (questionId) => {
     super();
 
     this.state = {
-      showMessengerDialog: true,
-      pie: true
+      showMessengerDialog: true
     }
 
   }
@@ -62,9 +61,6 @@ const questionShareLink = (questionId) => {
     this.setState({
       showMessengerDialog: this.dynamicConfig.config.survey_end.messenger_prompt
     })
-  }
-  handleToggle = () => {
-    this.setState({pie:!this.state.pie})
   }
 
   render() {
@@ -119,7 +115,7 @@ const questionShareLink = (questionId) => {
     if(authToken) {
       messengerRefData += "+auth_token=" + authToken;
     }
-    console.log('this.state.pie', this.state.pie)
+
     return (
       <div style={imageStyle}>
         <div style={outerStyle}>
@@ -133,8 +129,7 @@ const questionShareLink = (questionId) => {
             {this.props.CollectionStore.collectionItems.has(collectionId) &&
               <ResponsiveCollectionContainer
                 items={this.props.CollectionStore.collectionItems.get(collectionId)}
-                handleToggle={this.handleToggle}
-                pie={this.state.pie}/>
+                />
             }
 
             <CollectionEndShare collection={collection} />
