@@ -86,3 +86,9 @@
   background-color: rgb(0,172,193);
   box-shadow: 0px 0px 3px rgb(0,172,193);
 }
+.activeMCQ{
+  opacity: 0.8;
+  color: grey;
+  background-color: rgb(0,172,193);
+  box-shadow: 0px 0px 3px rgb(0,172,193);
+}
