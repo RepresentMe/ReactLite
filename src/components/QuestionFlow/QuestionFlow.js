@@ -237,10 +237,11 @@ const MCQButtons = (props) => {
   return (
     <div>
       {props.question.choices.map((choice, index) => {
+        let activeMCQ = props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id ? 'activeMCQ' : '';
         return (
           <div
             key={`p-${index}`}
-            className='mcqButton'
+            className={`mcqButton ${activeMCQ}`}
             onTouchTap={() => props.onUpdate(choice.id)}
           >
             {choice.text}
