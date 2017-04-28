@@ -5,9 +5,10 @@ import difference from 'lodash/difference';
 
 //import TwoLevelPieChartView from './TwoLevelPieChartComponent';
 import OneLevelPieChartView from './OneLevelPieChartComponent';
+import BarChartView from './BarChartComponent';
 import OneLevelPieChartTitle from './OneLevelPieChartTitle';
 
-const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questionId, type = 1}) => {
+const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questionId, type = 1, pie}) => {
     const likertProps = {
       'liquid_maximum': {name: 'Strongly Agree', color: 'rgb(74,178,70)', direct: 'direct_maximum'},
       'liquid_high': {name: 'Agree', color: 'rgb(133,202,102)', direct: 'direct_high'},
@@ -47,29 +48,34 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
           let labels = Object.keys(likertProps)
           labels = labels.filter(label => question[likertProps[label]['direct']] > 0);
           for (let i = 0; i < labels.length; i++) {sumLikert += question[labels[i]]}
+          console.log('sumLikert', sumLikert)
           viewData.values = labels.map((label,i) =>
             Object.assign({},
               {full_name: likertProps[label]['name']},
               {name: likertProps[label]['name']},
-              {value: (Math.round(question[label]*10000/sumLikert)/100)},
+              {value: (Math.round(question[label]*1000/sumLikert)/10)},
+              {percentage: (Math.round(question[label]*1000/sumLikert)/10)},
               {fill: likertProps[label]['color']},
               {direct_vote_count: question[likertProps[label]['direct']]},
               {title: question['question']}
             )
           );
           //viewData.values = sortValues(viewData.values)
-        //console.log('viewData.values', viewData.values)
+        console.log('viewData.values', viewData.values)
         }
         else if (question.subtype === 'mcq'){
           //propose to filter out choices with 0 vote, cause they crowd the space
           const choices = question.choices.filter(choice => choice.direct_vote_count > 0)
           const zeroChoices = difference(question.choices, choices)
-
+          let sumMCQ = 0;
+          for (let i = 0; i < choices.length; i++) {sumMCQ += choices[i].direct_vote_count}
+          console.log('sumMCQ', sumMCQ)
           viewData.values = choices.map((choice, i) =>
             Object.assign({},
               {full_name: choice.text},
               {name: choice.text.length > 20 ? choice.text.slice(0,20)+'...' : choice.text},
               {value: choice.direct_vote_count},
+              {percentage: (Math.round(choice.direct_vote_count*1000/sumMCQ)/10)},
               {fill: colors_mcq[i%colors_mcq.length]},
               {zeroChoices: zeroChoices},
               {direct_vote_count: choice.direct_vote_count},
@@ -77,14 +83,18 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
             )
           );
           viewData.values = sortValues(viewData.values)
-          //console.log('viewData.values', viewData.values)
+          console.log('viewData.values', viewData.values)
         }
   })
 
     return (
       <div>
         <OneLevelPieChartTitle data={viewData}/>
-        {type === 1 && <OneLevelPieChartView data={viewData}/>}
+        {
+          pie && type === 1 ?
+          <OneLevelPieChartView data={viewData}/> :
+          <BarChartView data={viewData}/>
+        }
         {/* {type === 2 && <TwoLevelPieChartView data={viewData}/>} */}
       </div>
       )

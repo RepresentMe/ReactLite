@@ -256,19 +256,20 @@ let LikertButtons = (props) => {
 //   )
 // }
 
-//Option #2: Paper
-let MCQButtons = (props) => {
+//Option #2: DIV
+const MCQButtons = (props) => {
   return (
     <div>
       {props.question.choices.map((choice, index) => {
         return (
-          <Paper
+          <div
             key={`p-${index}`}
-            style={{color: 'rgb(0,172,193)', marginTop: 7, marginBottom: 7}}
             className='mcqButton'
-            zDepth={2}
             onTouchTap={() => props.onUpdate(choice.id)}
-        >{choice.text}</Paper>);
+          >
+            {choice.text}
+          </div>
+      );
       })}
     </div>
   )

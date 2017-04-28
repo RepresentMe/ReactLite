@@ -53,17 +53,36 @@
 }
 
 .mcqButton{
-  color: blue;
   display: block;
   margin: 0 auto;
   max-width: 600px;
   min-height: 25px;
   cursor: pointer;
-  padding: 5px;
-  }
+  padding: 7px;
+  background-color: white;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  color: rgb(0,172,193);
+  border: 2px solid lightgrey;
+  box-shadow: 0px 0px 3px lightgrey;
+  border-radius: 5px;
+  transition: color 0.3s ease-in, background-color 0.3s ease-in, opacity 0.3s ease-in;
+}
 .mcqButton:hover{
-  opacity: 0.5;
+  opacity: 0.4;
+  color: white;
+  background-color: rgb(0,172,193);
+  box-shadow: 0px 0px 2px grey;
 }
 .mcqButton:focus{
-  opacity: 0.5;
+  opacity: 0.4;
+  color: white;
+  background-color: rgb(0,172,193);
+  box-shadow: 0px 0px 2px grey;
+}
+.mcqButton:active{
+  opacity: 0.8;
+  color: grey;
+  background-color: rgb(0,172,193);
+  box-shadow: 0px 0px 3px rgb(0,172,193);
 }
