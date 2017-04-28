@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import LoadingIndicator from '../../LoadingIndicator';
 import './barStyle.css';
 
-const CHART_HEIGHT = 350;
+const CHART_HEIGHT = 200;
 
 const BarChartComponent = observer(({data}) => {
 
@@ -11,7 +11,7 @@ const BarChartComponent = observer(({data}) => {
     <div>
       {!data.values && <LoadingIndicator />}
       {data.values &&
-        <div style={{maxHeight: CHART_HEIGHT}}>
+        <div style={{minHeight: CHART_HEIGHT}}>
         {
           data.values.map((d, i) => {
             return (
