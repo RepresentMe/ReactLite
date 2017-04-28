@@ -17,6 +17,7 @@ import Paper from 'material-ui/Paper';
 
 import CompleteProfile from './CompleteProfile';
 import ErrorReload from '../ErrorReload';
+import DynamicConfigService from '../../services/DynamicConfigService';
 
 import './QuestionFlow.css';
 
@@ -54,6 +55,11 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
       .catch((error) => {
         this.setState({networkError: true})
       })
+
+    this.dynamicConfig = DynamicConfigService;
+    if(this.props.match.params.dynamicConfig) {
+      this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
+    }
   }
 
   render() {
@@ -73,7 +79,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     let item = collectionItems[orderNumber];
 
     if(!item) {
-      history.push('/survey/' + collectionId + '/end');
+      this.navigateToEnd()
       return null;
     }
 
@@ -99,7 +105,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 
                 let question = QuestionStore.questions.get(item.object_id);
 
-                if(!UserStore.userData.has("id")) { history.push("/login/" + encodeURIComponent(window.location.pathname.substring(1))); return } // User must log in
+                if(!UserStore.userData.has("id")) { history.push('/login/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname)); return } // User must log in
 
                 if(question.subtype === 'likert') {
                   QuestionStore.voteQuestionLikert(item.object_id, i, collectionId);
@@ -108,9 +114,9 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
                 }
 
                 if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
-                  history.push('/survey/' + collectionId + '/flow/' + (orderNumber + 1));
+                  this.navigateToNextItem()
                 }else {
-                  history.push('/survey/' + collectionId + '/end');
+                  this.navigateToEnd()
                 }
               }} />
 
@@ -119,9 +125,9 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
             {item.type === "B" && // If rendering a break
               <RenderedBreak break={item.content_object} onContinue={() => {
                 if( orderNumber < collectionItems.length - 1 ) { // If there is a next question
-                  history.push('/survey/' + collectionId + '/flow/' + (orderNumber + 1));
+                  this.navigateToNextItem()
                 }else {
-                  history.push('/survey/' + collectionId + '/end');
+                  this.navigateToEnd()
                 }
               }} />
             }
@@ -131,9 +137,9 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 
         <ProgressIndicator key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '25px', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", height: '70px', zIndex: 5, pointerEvents: "none"}} onChange={(event, value) => {
           if( value < collectionItems.length ) { // If there is a next question
-            history.push('/survey/' + collectionId + '/flow/' + value);
+            this.navigateToItem(value)
           }else {
-            history.push('/survey/' + collectionId + '/end');
+            this.navigateToEnd()
           }
         }}/>
 
@@ -150,6 +156,24 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 
   componentDidUpdate() {
     questionTextFix(this.props.match.params.orderNumber);
+  }
+
+  navigateToItem(item) {
+    this.props.history.push('/survey/' + this.props.match.params.collectionId + '/flow/' + item + "/" + this.dynamicConfig.encodeConfig())
+  }
+
+  navigateToNextItem() {
+    let currentItem = parseInt(this.props.match.params.orderNumber)
+    this.props.history.push('/survey/' + this.props.match.params.collectionId + '/flow/' + (currentItem + 1) + "/" + this.dynamicConfig.encodeConfig())
+  }
+
+  navigateToPreviousItem() {
+    let currentItem = parseInt(this.props.match.params.orderNumber)
+    this.props.history.push('/survey/' + this.props.match.params.collectionId + '/flow/' + (currentItem - 1) + "/" + this.dynamicConfig.encodeConfig())
+  }
+
+  navigateToEnd() {
+    this.props.history.push('/survey/' + this.props.match.params.collectionId + '/end/' + this.dynamicConfig.encodeConfig())
   }
 
 }

@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import FacebookLogin from 'react-facebook-login';
+
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import { grey100 } from 'material-ui/styles/colors';
-import smallLogo from './represent_white_outline.svg';
 import Dialog from 'material-ui/Dialog';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+
+import DynamicConfigService from '../../services/DynamicConfigService';
+
 import './Login.css';
+import smallLogo from './represent_white_outline.svg';
 
 @inject("UserStore") @observer export default class Login extends Component {
 
@@ -28,12 +32,17 @@ import './Login.css';
     if(this.props.match.params.email) {
       this.setState({email: decodeURIComponent(this.props.match.params.email)});
     }
+
+    this.dynamicConfig = DynamicConfigService;
+    if(this.props.match.params.dynamicConfig) {
+      this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
+    }
   }
 
   componentWillUpdate() {
     if(this.props.UserStore.userData.has("id")) { // If user is logged in, redirect
       if(this.props.match.params.redirect) {
-        this.props.history.push("/" + decodeURIComponent(this.props.match.params.redirect));
+        this.props.history.push(this.dynamicConfig.getNextRedirect());
       }else {
         this.props.history.push("/");
       }
@@ -65,9 +74,9 @@ import './Login.css';
                 textButton="Connect with Facebook"
                 disableMobileRedirect={true}
                 />
-              <p style={{textAlign: 'center', fontSize: '12px'}}>By using the service, you agree to the <a href="https://represent.me/legal/terms/">terms and conditions</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/><br/><a onClick={() => this.props.history.push("/join/" + this.props.match.params.redirect)} className="FakeLink">{"Don't have an account?"}</a><br/><a onClick={() => {window.location.href = 'https://app.represent.me/access/forgot-password/'}} className="FakeLink">{"Forgotten your password?"}</a></p>
+              <p style={{textAlign: 'center', fontSize: '12px'}}>By using the service, you agree to the <a href="https://represent.me/legal/terms/">terms and conditions</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/><br/><a onClick={() => this.props.history.push("/join/" + this.dynamicConfig.encodeConfig())} className="FakeLink">{"Don't have an account?"}</a><br/><a onClick={() => {window.location.href = 'https://app.represent.me/access/forgot-password/'}} className="FakeLink">{"Forgotten your password?"}</a></p>
             </Paper>
-            {this.props.match.params.redirect && <Paper onClick={() => this.props.history.push("/" + decodeURIComponent(this.props.match.params.redirect))} zDepth={1} style={{padding: '10px 20px', maxWidth: '320px', marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+            {this.dynamicConfig.getNextRedirect() && <Paper onClick={() => this.props.history.push(this.dynamicConfig.getNextRedirect())} zDepth={1} style={{padding: '10px 20px', maxWidth: '320px', marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
               <a className="FakeLink">&larr; {"back"}</a>
             </Paper>}
           </div>

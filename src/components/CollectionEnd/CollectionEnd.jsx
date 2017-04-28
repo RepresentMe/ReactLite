@@ -14,7 +14,7 @@ import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 import CodeTags from 'material-ui-community-icons/icons/code-tags';
 import IconButton from 'material-ui/IconButton';
-import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
+import { indigo500, blue500, bluegrey500, white } from 'material-ui/styles/colors';
 import KeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 
@@ -122,7 +122,7 @@ const questionShareLink = (questionId) => {
           {collection.photo && <img src={collection.photo.replace("localhost:8000", "represent.me")} style={{display: 'none'}} onLoad={() => {this.setState({collectionImageLoaded: true})}} />}
           <div style={innerStyle}>
             <div style={{ overflow: 'hidden', margin: '0 10px', color: 'white' }}>
-              <h1>{ collection.name }</h1>
+              <h1>{ collection.name }<span> <FacebookButton appId={window.authSettings.facebookId} element="span" url={document.referrer}><FacebookBox className="FakeLink" color={indigo500} /></FacebookButton> <TwitterButton className="FakeLink" element="span" url={document.referrer}><TwitterBox color={blue500} /></TwitterButton></span></h1>
               <h3>{ collection.end_text }</h3>
             </div>
 
@@ -185,7 +185,8 @@ class CollectionEndShare extends Component {
               icon={<FacebookBox color={indigo500} />}/>
             </FacebookButton>
 
-            <TwitterButton element="span" url={document.referrer}><FlatButton
+            <TwitterButton element="span" url={document.referrer}>
+            <FlatButton
               href="https://github.com/callemall/material-ui"
               target="_blank"
               label="Share on Twitter"

@@ -45,7 +45,7 @@ class UserStore {
   getMe() {
     return new Promise((resolve, reject) => {
       if(!this.sessionData.get("authToken")) {
-        reject("Inforrect auth token");
+        reject("No auth token");
       }
 
       window.API.get('/auth/me/')

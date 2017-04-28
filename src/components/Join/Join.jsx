@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
+import { observer, inject } from "mobx-react";
 import axios from 'axios';
+import MessengerPlugin from 'react-messenger-plugin';
+import MessengerCheckboxPlugin from '../MessengerCheckboxPlugin';
+
+import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import { cyan600, grey100 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import LinearProgress from 'material-ui/LinearProgress';
-import MessengerPlugin from 'react-messenger-plugin';
 import Checkbox from 'material-ui/Checkbox';
-import MessengerCheckboxPlugin from '../MessengerCheckboxPlugin';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { observer, inject } from "mobx-react";
+
 import DateOfBirth from "../DateOfBirth";
 import GeoService from '../../services/GeoService';
+import DynamicConfigService from '../../services/DynamicConfigService';
+
 
 const styles = {
   floatingLabelText: {
@@ -42,7 +46,10 @@ const styles = {
   }
 
   componentWillMount() {
-
+    this.dynamicConfig = DynamicConfigService;
+    if(this.props.match.params.dynamicConfig) {
+      this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
+    }
   }
 
   render() {
@@ -53,7 +60,7 @@ const styles = {
 
           <h1 style={{marginBottom: 0}}>Join Represent</h1>
 
-          {this.props.match.params.redirect && <a onClick={() => this.props.history.push("/" + decodeURIComponent(this.props.match.params.redirect))}>&larr; {"back"}</a>}
+          {this.dynamicConfig.getNextRedirect() && <a onClick={() => this.props.history.push(this.dynamicConfig.getNextRedirect())}>&larr; {"back"}</a>}
 
           <TextField
             floatingLabelText="Email address"
@@ -107,13 +114,13 @@ const styles = {
         <Dialog open={this.state.emailExists}>
           <p style={{fontWeight: 'bold'}}>{"It looks like you're already signed up to Represent, please login to continue."}</p>
           <FlatButton label="Login" style={{width: '100%'}} backgroundColor={grey100} secondary onClick={() => {
-            this.props.history.push("/login/" + this.props.match.params.redirect + "/" + encodeURIComponent(this.state.txtEmail))
+            this.props.history.push("/login/" + this.dynamicConfig.encodeConfig() + "/" + encodeURIComponent(this.state.txtEmail))
           }} />
         </Dialog>
 
         <Dialog open={this.props.UserStore.userData.has("id")}>
           <p style={{fontWeight: 'bold'}}>{"Sign up was successful, welcome to Represent!"}</p>
-          <FlatButton label="Continue" style={{width: '100%'}} backgroundColor={grey100} secondary onClick={() => this.props.history.push("/" + decodeURIComponent(this.props.match.params.redirect))} />
+          <FlatButton label="Continue" style={{width: '100%'}} backgroundColor={grey100} secondary onClick={() => this.props.history.push(this.dynamicConfig.getNextRedirect())} />
         </Dialog>
 
       </div>
@@ -190,7 +197,13 @@ const styles = {
             gender: this.state.ddGender,
             dob: this.state.ddDOB.substring(0, 10),
           }).then(function(response) {
-            this.props.UserStore.setupAuthToken(response.data.auth_token);
+            this.props.UserStore.setupAuthToken(response.data.auth_token)
+              .then(() => {
+                this.props.history.push(this.dynamicConfig.getNextRedirect())
+              })
+              .catch((error) => {
+                console.log(error)
+              })
 
           }.bind(this)).catch(function(error) {
             this.setState({problems: [JSON.stringify(error.response.data)]})

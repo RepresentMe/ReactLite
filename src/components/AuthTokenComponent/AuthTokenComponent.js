@@ -1,26 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
+import DynamicConfigService from '../../services/DynamicConfigService';
 
-const AuthTokenComponent = inject("UserStore")(observer((props) => {
+@inject("UserStore") @observer class AuthTokenComponent extends Component {
 
-  let authtoken = props.match.params.authtoken;
+  componentWillMount() {
+    let authtoken = this.props.match.params.authtoken;
 
-  props.UserStore.setupAuthToken(authtoken)
-    .then((response) => {
-      if(response.data.access_token) {
-        props.UserStore.setupAuthToken(response.data.access_token);
-        props.history.push("/" + decodeURIComponent(props.match.params.redirect));
-      }else {
-        props.history.push("/login/" + props.match.params.redirect);
-      }
-    }).catch((error) => {
-      props.history.push("/login/" + props.match.params.redirect);
-    })
+    this.dynamicConfig = DynamicConfigService;
+    if(this.props.match.params.dynamicConfig) {
+      this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
+    }
 
-  return (
-    <p>Logging in...</p>
-  );
-}));
+    this.props.UserStore.setupAuthToken(authtoken)
+      .then((response) => {
+        this.props.history.push(this.dynamicConfig.getNextRedirect());
+      }).catch((error) => {
+        console.log(error)
+        //props.history.push("/login/" + props.match.params.redirect);
+      })
+  }
+
+  render() {
+    return <p>Loading...</p>
+  }
+}
 
 
 export default AuthTokenComponent;

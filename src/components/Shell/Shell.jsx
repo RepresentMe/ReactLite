@@ -33,6 +33,7 @@ import AuthCode from '../AuthCode';
 import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiquidDisplay';
 import CollectionCharts from '../charts/CollectionCharts';
 import Links from '../navComponent';
+import DynamicConfigService from '../../services/DynamicConfigService';
 
 import CandidateIntro from '../CandidateIntro';
 import CandidateNew from '../CandidateNew';
@@ -83,8 +84,19 @@ function onProfileClick(){
     this.props.UserStore.toggleUserDialog();
   }else {
     if(this.props.history.location.pathname !== "/login"){
-      this.props.history.push("/login/" + encodeURIComponent(this.props.history.location.pathname.substring(1)));
+      this.navigateToLogin();
     }
+  }
+}
+
+function getDynamicConfig(url) {
+  let parts = url.split("/");
+  let last_part = parts[parts.length - 1];
+  let first_two_chars = last_part.substring(0, 2)
+  if(first_two_chars === "%7") {
+    return last_part;
+  }else {
+    return null;
   }
 }
 
@@ -92,6 +104,12 @@ function onProfileClick(){
 @inject("UserStore") @observer export default class Shell extends Component {
 
   render() {
+
+    let raw_config = getDynamicConfig(this.props.history.location.pathname);
+    this.dynamicConfig = DynamicConfigService;
+    if(raw_config) {
+      this.dynamicConfig.setConfigFromRaw(raw_config)
+    }
 
     let split_pathname = this.props.history.location.pathname.split("/");
 
@@ -121,30 +139,27 @@ function onProfileClick(){
                     transitionEnterTimeout={1000}
                     transitionLeaveTimeout={1000}>
                     {/*}<Links/>*/}
-                    <Route exact path="/" component={CollectionsList}/>
                     <Route exact path="/candidate" component={CandidateIntro}/>
                     <Route exact path="/candidate/new/:email" component={CandidateNew}/>
-                    <Route exact path="/login" component={Login}/>
-                    <Route exact path="/login/:redirect" component={Login}/>
+                    <Route exact path="/login/:dynamicConfig?" component={Login}/>
                     <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
-                    <Route exact path="/login/:redirect/:email" component={Login}/>
+                    <Route exact path="/login/:dynamicConfig/:email" component={Login}/>
                     <Route exact path="/register" component={Register}/>
                     <Route exact path="/register/:redirect" component={Register}/>
-                    <Route exact path="/join/:redirect" component={Join}/>
+                    <Route exact path="/join/:dynamicConfig?" component={Join}/>
                     <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
                     <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
                     <Route exact path="/survey/create" component={CreateCollection}/>
-                    <Route exact path="/survey/:collectionId" component={CollectionIntro}/>
+                    <Route exact path="/survey/:collectionId/:dynamicConfig?" component={CollectionIntro}/>
                     <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
-                    <Route exact path="/survey/:collectionId/flow/:orderNumber" component={QuestionFlow}/>
-                    <Route exact path="/survey/:collectionId/end" component={CollectionEnd}/>
-                    <Route exact path="/survey/:collectionId/end/:dynamicConfig" component={CollectionEnd}/>
+                    <Route exact path="/survey/:collectionId/flow/:orderNumber/:dynamicConfig?" component={QuestionFlow}/>
+                    <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
                     <Route exact path="/test" component={Test}/>
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
                     <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
-                    <Route exact path='/authtoken/:authtoken/:redirect' component={AuthTokenComponent}/>
-
+                    <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
+                    <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
                     {/* <Route exact path='/compare' component={CompareUsers}/> */}
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
@@ -215,6 +230,10 @@ function onProfileClick(){
           </MuiThemeProvider>
       </Router>
     )
+  }
+
+  navigateToLogin() {
+    this.props.history.push('/login/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname))
   }
 
 };
