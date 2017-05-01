@@ -5,15 +5,19 @@ import { Link } from 'react-router-dom';
 import Tappable from 'react-tappable';
 import $ from 'jquery';
 import LoadingIndicator from '../LoadingIndicator';
+import { FacebookButton, TwitterButton } from "react-social";
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Slider from 'material-ui/Slider';
 import LinearProgress from 'material-ui/LinearProgress';
-import { white, cyan600, grey300, grey600 } from 'material-ui/styles/colors';
+import { white, cyan600, grey300, grey600, indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
 import ReactMarkdown from 'react-markdown';
 import Dialog from 'material-ui/Dialog';
 import Paper from 'material-ui/Paper';
+import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
+import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
+import IconButton from 'material-ui/IconButton';
 
 import CompleteProfile from './CompleteProfile';
 import ErrorReload from '../ErrorReload';
@@ -39,6 +43,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     }
 
     this.togglePrivate = this.togglePrivate.bind(this)
+    this.questionShareLink = this.questionShareLink.bind(this)
   }
 
   componentWillMount() {
@@ -87,10 +92,12 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
       return null;
     }
 
+    console.log(this.questionShareLink());
+
     return (
       <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'scroll' }}>
 
-        <ProgressIndicator togglePrivate={this.togglePrivate} private={this.state.private} key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '25px', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", height: '110px', zIndex: 200, pointerEvents: "none"}} onChange={(event, value) => {
+        <ProgressIndicator link={this.questionShareLink()} togglePrivate={this.togglePrivate} private={this.state.private} key={"PROGRESS_SLIDER"} order={orderNumber} max={collectionItems.length} style={{ position: 'fixed', bottom: '25px', width: '100%', left: '0', padding: '20px 20px 10px 20px', boxSizing: 'border-box', background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)", height: '110px', zIndex: 200, pointerEvents: "none"}} onChange={(event, value) => {
           if( value < collectionItems.length ) { // If there is a next question
             this.navigateToItem(value)
           }else {
@@ -184,6 +191,25 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     this.setState({private: !this.state.private})
   }
 
+  questionShareLink() {
+    let orderNumber = parseInt(this.props.match.params.orderNumber)
+    let item = this.state.collectionItems[orderNumber]
+
+    if(item.type === "Q") {
+      if(window.self !== window.top) { // In iframe
+        return "https://share-test.represent.me/scripts/share.php?question=" + item.object_id + "&redirect=" + encodeURIComponent(document.referrer);
+      }else { // Top level
+        return "https://share-test.represent.me/scripts/share.php?question=" + item.object_id + "&redirect=" + encodeURIComponent(location.href);
+      }
+    }else {
+      if(window.self !== window.top) { // In iframe
+        return encodeURIComponent(document.referrer);
+      }else { // Top level
+        return encodeURIComponent(location.href);
+      }
+    }
+  }
+
 }
 
 let RenderedBreak = (props) => {
@@ -222,9 +248,19 @@ let ProgressIndicator = (props) => {
   return (
     <div style={props.style}>
       <div style={{color: grey600, pointerEvents: 'all'}}>
-        <p style={{width: '30%', display: 'inline-block', textAlign: 'left'}}></p>
-        <p style={{textAlign: 'center', width: '40%', display: 'inline-block' }}>{props.order + 1} / {props.max}</p>
-        <p style={{width: '30%', display: 'inline-block', textAlign: 'right'}}>Voting {props.private ? "privately" : "publicly"} (<span className="FakeLink" onClick={props.togglePrivate}>change</span>)</p>
+        <p style={{width: '40%', display: 'inline-block', textAlign: 'left'}}>
+
+          <FacebookButton appId={window.authSettings.facebookId} element="span" url={props.link}>
+            <IconButton style={{padding: 0, margin: "0 10px", width: 'auto', height: 'auto'}}><FacebookBox color={indigo500} /></IconButton>
+          </FacebookButton>
+
+          <TwitterButton element="span" url={props.link}>
+            <IconButton style={{padding: 0, margin: 0, width: 'auto', height: 'auto'}}><TwitterBox color={blue500} /></IconButton>
+          </TwitterButton>
+
+        </p>
+        <p style={{textAlign: 'center', width: '20%', display: 'inline-block' }}>{props.order + 1} / {props.max}</p>
+        <p style={{width: '40%', display: 'inline-block', textAlign: 'right'}}>Voting {props.private ? "privately" : "publicly"} <span className="FakeLink" onClick={props.togglePrivate}>change</span></p>
       </div>
       <Slider style={{backgroundColor: grey300, width: '100%', pointerEvents: "all"}}
         sliderStyle={{backgroundColor: white, color: cyan600, margin: "0"}}
@@ -271,7 +307,7 @@ let LikertButtons = (props) => {
 //Option #2: DIV
 const MCQButtons = (props) => {
   return (
-    <div>
+    <div style={{paddingBottom: '40px'}}>
       {props.question.choices.map((choice, index) => {
         let activeMCQ = props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id ? 'activeMCQ' : '';
         return (
