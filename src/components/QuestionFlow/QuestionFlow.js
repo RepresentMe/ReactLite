@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { observer, inject } from "mobx-react"
 import $ from 'jquery'
+import ReactMarkdown from 'react-markdown';
 
 import {Tabs, Tab} from 'material-ui/Tabs'
 import DonutSmall from 'material-ui/svg-icons/action/donut-small'
@@ -11,6 +12,7 @@ import CheckBox from 'material-ui/svg-icons/toggle/check-box'
 import Info from 'material-ui/svg-icons/action/info'
 import { grey100, cyan600, white } from 'material-ui/styles/colors';
 import Slider from 'material-ui/Slider';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart'
 import './QuestionFlow.css'
@@ -25,7 +27,7 @@ class QuestionFlow extends Component {
   }
 
   render() {
-    let {items, currentItemIndex, onVote, navigateN, activeTab} = this.props
+    let {items, currentItemIndex, onVote, navigateN, activeTab, navigateNext} = this.props
     currentItemIndex = parseInt(currentItemIndex)
 
     if(!items) {
@@ -36,8 +38,8 @@ class QuestionFlow extends Component {
 
     return (
       <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
-        {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)}/>}
-        {this.props.activeTab === 'results' && <QuestionFlowResults questionId={currentItem.object_id}/>}
+        {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)} navigateNext={navigateNext}/>}
+        {this.props.activeTab === 'results' && <QuestionFlowResults item={currentItem}/>}
       </QuestionFlowTabLayout>
     )
   }
@@ -60,9 +62,14 @@ class QuestionFlow extends Component {
 
 }
 
-const QuestionFlowResults = ({questionId}) => {
+const QuestionFlowResults = ({item}) => {
+
+  if(item.type === "B") {
+    return null
+  }
+
   return (
-    <QuestionLiquidPiechart questionId={questionId} />
+    <QuestionLiquidPiechart questionId={item.object_id} />
   )
 }
 
@@ -114,7 +121,7 @@ const MiddleDiv = ({children}) => (
   </div>
 )
 
-const QuestionFlowVote = ({items, index, onVote, sliderChange}) => {
+const QuestionFlowVote = ({items, index, onVote, sliderChange, navigateNext}) => {
   let item = items[index];
 
   return (
@@ -126,7 +133,7 @@ const QuestionFlowVote = ({items, index, onVote, sliderChange}) => {
         transitionLeaveTimeout={1000}
       >
         {item.type === "Q" && <RenderedQuestion id={item.object_id} index={index} onVote={onVote} key={"FlowTransition" + index}/>}
-        {/*item.type === "B" && */}
+        {item.type === "B" && <RenderedBreak title={item.content_object.title} text={item.content_object.text} onContinue={navigateNext}/>}
       </CSSTransitionGroup>
       <SlideNavigation key="SlideNavigation" items={items} onChange={sliderChange} value={index}/>
     </div>
@@ -151,16 +158,14 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 
 }))
 
-// const RenderedBreak = (props) => {
-//   return(
-//     <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute' }}>
-//       <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '0px 20px 40px 20px' }}>
-//         <h1>{ props.break.title }</h1>
-//         <ReactMarkdown source={ props.break.text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
-//         <RaisedButton label="Continue" onClick={props.onContinue} primary />
-//       </div>
-//     </div>  )
-// }
+const RenderedBreak = ({title, text, onContinue}) => (
+  <MiddleDiv>
+    <h1>{ title }</h1>
+    <ReactMarkdown source={ text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
+    <RaisedButton label="Continue" onClick={onContinue} primary />
+  </MiddleDiv>
+)
+
 
 const LikertButtons = ({value, onVote}) => {
   let likertJSX = [];
@@ -201,7 +206,7 @@ class SlideNavigation extends Component {
 
     return (
       <div style={{position: 'absolute', bottom: '0', width: '80%', padding: '0 10%', background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)'}}>
-        <p style={{textAlign: 'center'}}>{(this.state.value + 1)} / {(max + 1)}</p>
+        <p style={{textAlign: 'center'}}>{(this.state.value + 1)} / {max}</p>
         <Slider style={{backgroundColor: grey100, width: '100%', pointerEvents: "all"}}
           sliderStyle={{backgroundColor: white, color: cyan600, margin: "0"}}
           max={max}

@@ -48,7 +48,7 @@ import DynamicConfigService from '../../services/DynamicConfigService';
   }
 
   render() {
-    return <QuestionFlow activeTab={this.state.activeTab} items={this.state.collectionItems} currentItemIndex={this.props.match.params.itemNumber} onVote={this.onVote} navigateN={this.navigateN} navigateTab={this.navigateTab}/>
+    return <QuestionFlow activeTab={this.state.activeTab} items={this.state.collectionItems} currentItemIndex={this.props.match.params.itemNumber} onVote={this.onVote} navigateN={this.navigateN} navigateNext={this.navigateNext} navigateTab={this.navigateTab}/>
   }
 
   onVote(i) {
