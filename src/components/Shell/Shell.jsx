@@ -20,7 +20,7 @@ import CollectionsList from '../CollectionsList';
 import CollectionIntro from '../CollectionIntro';
 import CollectionEnd from '../CollectionEnd';
 import EditCollection from '../EditCollection';
-import QuestionFlow from '../QuestionFlow';
+import SurveyFlow from '../SurveyFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import Register from '../Register';
@@ -152,7 +152,7 @@ function getDynamicConfig(url) {
                     <Route exact path="/survey/create" component={CreateCollection}/>
                     <Route exact path="/survey/:collectionId/:dynamicConfig?" component={CollectionIntro}/>
                     <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
-                    <Route exact path="/survey/:collectionId/flow/:orderNumber/:dynamicConfig?" component={QuestionFlow}/>
+                    <Route exact path="/survey/:surveyId/flow/:itemNumber/answer/:dynamicConfig?" component={SurveyFlow}/>
                     <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
                     <Route exact path="/test" component={Test}/>
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
