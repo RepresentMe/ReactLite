@@ -21,6 +21,7 @@ import DynamicConfigService from '../../services/DynamicConfigService';
     this.navigatePrevious = this.navigatePrevious.bind(this)
     this.navigateN = this.navigateN.bind(this)
     this.navigateTab = this.navigateTab.bind(this)
+    this.navigateEnd = this.navigateEnd.bind(this)
   }
 
   componentWillMount() {
@@ -61,7 +62,11 @@ import DynamicConfigService from '../../services/DynamicConfigService';
   }
 
   navigateNext() {
-    this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) + 1) + '/vote/' + this.dynamicConfig.encodeConfig())
+    if(parseInt(this.props.match.params.itemNumber + 1) > this.state.collectionItems.length) {
+      this.navigateEnd()
+    }else {
+      this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) + 1) + '/vote/' + this.dynamicConfig.encodeConfig())
+    }
   }
 
   navigatePrevious() {
@@ -69,11 +74,19 @@ import DynamicConfigService from '../../services/DynamicConfigService';
   }
 
   navigateN(n) {
-    this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + n + '/vote/' + this.dynamicConfig.encodeConfig())
+    if((n + 1) > this.state.collectionItems.length) {
+      this.navigateEnd()
+    }else {
+      this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + n + '/vote/' + this.dynamicConfig.encodeConfig())
+    }
   }
 
   navigateTab(tab) {
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + this.props.match.params.itemNumber + '/' + tab + '/' + this.dynamicConfig.encodeConfig())
+  }
+
+  navigateEnd() {
+    this.props.history.push('/survey/' + this.props.match.params.surveyId + '/end/' + this.dynamicConfig.encodeConfig())
   }
 }
 
