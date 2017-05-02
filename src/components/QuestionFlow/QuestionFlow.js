@@ -9,8 +9,10 @@ import InsertComment from 'material-ui/svg-icons/editor/insert-comment'
 import Share from 'material-ui/svg-icons/social/share'
 import CheckBox from 'material-ui/svg-icons/toggle/check-box'
 import Info from 'material-ui/svg-icons/action/info'
-import { grey100, cyan600 } from 'material-ui/styles/colors';
+import { grey100, cyan600, white } from 'material-ui/styles/colors';
+import Slider from 'material-ui/Slider';
 
+import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart'
 import './QuestionFlow.css'
 
 class QuestionFlow extends Component {
@@ -18,17 +20,13 @@ class QuestionFlow extends Component {
   constructor() {
     super()
 
-    this.state = {
-      activeTab: 'vote',
-    }
-  }
-
-  componentWillMount() {
-
+    this.sliderChange = this.sliderChange.bind(this)
+    this.handleTabChange = this.handleTabChange.bind(this)
   }
 
   render() {
-    let {items, currentItemIndex, onVote} = this.props
+    let {items, currentItemIndex, onVote, navigateN, activeTab} = this.props
+    currentItemIndex = parseInt(currentItemIndex)
 
     if(!items) {
       return null;
@@ -37,8 +35,9 @@ class QuestionFlow extends Component {
     let currentItem = items[currentItemIndex];
 
     return (
-      <QuestionFlowTabLayout>
-        {this.state.activeTab === 'vote' && <QuestionFlowVote item={currentItem} index={currentItemIndex} onVote={onVote}/>}
+      <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
+        {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)}/>}
+        {this.props.activeTab === 'results' && <QuestionFlowResults questionId={currentItem.object_id}/>}
       </QuestionFlowTabLayout>
     )
   }
@@ -51,9 +50,23 @@ class QuestionFlow extends Component {
     questionTextFix(this.props.currentItemIndex);
   }
 
+  sliderChange(n) {
+    this.props.navigateN(n)
+  }
+
+  handleTabChange(value) {
+    this.props.navigateTab(value)
+  }
+
 }
 
-const QuestionFlowTabLayout = ({children}) => {
+const QuestionFlowResults = ({questionId}) => {
+  return (
+    <QuestionLiquidPiechart questionId={questionId} />
+  )
+}
+
+const QuestionFlowTabLayout = ({children, handleTabChange, activeTab}) => {
 
   let styles = {
     headline: {
@@ -72,20 +85,20 @@ const QuestionFlowTabLayout = ({children}) => {
 
   return (
     <div style={{height: '100%'}}>
-      <Tabs tabItemContainerStyle={styles.tabItemContainerStyle} inkBarStyle={styles.inkBarStyle} style={{height: '100%'}} tabTemplateStyle={{height: '100%'}} contentContainerStyle={{height: 'calc(100% - 48px)', position: 'relative'}}>
-        <Tab icon={<CheckBox/>}>
+      <Tabs value={activeTab} onChange={handleTabChange} tabItemContainerStyle={styles.tabItemContainerStyle} inkBarStyle={styles.inkBarStyle} style={{height: '100%'}} tabTemplateStyle={{height: '100%'}} contentContainerStyle={{height: 'calc(100% - 48px)', position: 'relative', overflow: 'scroll'}}>
+        <Tab icon={<CheckBox/>} value="vote">
           {children}
         </Tab>
-        <Tab icon={<InsertComment/>}>
+        <Tab icon={<InsertComment/>} value="comment">
           {children}
         </Tab>
-        <Tab icon={<Info/>}>
+        <Tab icon={<Info/>} value="info">
           {children}
         </Tab>
-        <Tab icon={<DonutSmall/>}>
+        <Tab icon={<DonutSmall/>} value="results">
           {children}
         </Tab>
-        <Tab icon={<Share/>}>
+        <Tab icon={<Share/>} value="share">
           {children}
         </Tab>
       </Tabs>
@@ -94,38 +107,45 @@ const QuestionFlowTabLayout = ({children}) => {
 }
 
 const MiddleDiv = ({children}) => (
-  <div style={{ display: 'table', width: '100%', height: '100%', position: 'absolute', overflow: 'hidden' }}>
-    <div className="FlowTransition" style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', maxWidth: '400px', padding: '0 10px' }}>
+  <div style={{ display: 'table', width: '100%', height: '100vh', overflow: 'scroll' }}>
+    <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', maxWidth: '400px', padding: '0 10px' }}>
       {children}
     </div>
   </div>
 )
 
-const QuestionFlowVote = ({item, index, onVote}) => {
+const QuestionFlowVote = ({items, index, onVote, sliderChange}) => {
+  let item = items[index];
+
   return (
-    <CSSTransitionGroup
-      transitionName="FlowTransition"
-      transitionEnterTimeout={1000}
-      transitionLeaveTimeout={1000}
-    >
-      {item.type === "Q" && <RenderedQuestion id={item.object_id} index={index} onVote={onVote}/>}
-      {/*item.type === "B" && */}
-    </CSSTransitionGroup>
+    <div style={{height: '100%', overflow: 'scroll'}}>
+      <CSSTransitionGroup
+        transitionName="FlowTransition"
+        transitionAppear={true}
+        transitionEnterTimeout={1000}
+        transitionLeaveTimeout={1000}
+      >
+        {item.type === "Q" && <RenderedQuestion id={item.object_id} index={index} onVote={onVote} key={"FlowTransition" + index}/>}
+        {/*item.type === "B" && */}
+      </CSSTransitionGroup>
+      <SlideNavigation key="SlideNavigation" items={items} onChange={sliderChange} value={index}/>
+    </div>
   )
 }
 
 const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, index, onVote}) => {
 
-  let {question, my_vote, subtype} = QuestionStore.questions.get(id)
+  let {question, my_vote, subtype, choices} = QuestionStore.questions.get(id)
 
   let myVote = null;
-  if(my_vote.length > 0) {myVote = my_vote[0].value}
+  if(my_vote.length > 0 && subtype === 'likert') {myVote = my_vote[0].value}
+  if(my_vote.length > 0 && subtype === 'mcq') {myVote = my_vote[0].object_id}
 
   return (
     <MiddleDiv>
       <h1 className={"questionTextFix-" + index}>{question}</h1>
-      {subtype === "likert" && <LikertButtons onUpdate={null} value={myVote} onVote={onVote}/>}
-      {subtype === "mcq" && <MCQButtons onUpdate={null} question={question} onVote={onVote}/>}
+      {subtype === "likert" && <LikertButtons value={myVote} onVote={onVote}/>}
+      {subtype === "mcq" && <MCQButtons value={myVote} onVote={onVote} choices={choices}/>}
     </MiddleDiv>
   )
 
@@ -142,7 +162,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 //     </div>  )
 // }
 
-let LikertButtons = inject("QuestionStore")(observer(({QuestionStore, value, onVote}) => {
+const LikertButtons = ({value, onVote}) => {
   let likertJSX = [];
   for (let i = 1; i <= 5; i++) {
     likertJSX.push(<div
@@ -150,26 +170,55 @@ let LikertButtons = inject("QuestionStore")(observer(({QuestionStore, value, onV
       key={i}
       onTouchTap={() => onVote(i)}></div>);
   }
-  return (<div style={{overflow: 'hidden', textAlign: 'center', margin: '0 auto'}}>{likertJSX.map((item, index) => {return item})}</div>);
-}))
+  return (<div style={{overflow: 'hidden', textAlign: 'center', margin: '0 auto', marginBottom: '60px'}}>{likertJSX.map((item, index) => {return item})}</div>);
+}
 
-const MCQButtons = (props) => {
-  return (
-    <div style={{paddingBottom: '40px'}}>
-      {props.question.choices.map((choice, index) => {
-        let activeMCQ = props.question.my_vote[0] && props.question.my_vote[0].object_id === choice.id ? 'activeMCQ' : '';
-        return (
-          <div
-            key={`p-${index}`}
-            className={`mcqButton ${activeMCQ}`}
-            onTouchTap={() => props.onUpdate(choice.id)}
-          >
-            {choice.text}
-          </div>
+const MCQButtons = ({choices, value, onVote}) => (
+  <div style={{paddingBottom: '50px'}}>
+    {choices.map((choice, index) => {
+      let activeMCQ = value === choice.id ? 'activeMCQ' : '';
+      return (
+        <div key={`p-${index}`} className={`mcqButton ${activeMCQ}`} onTouchTap={() => onVote(choice.id)}>{choice.text}</div>
       );
-      })}
-    </div>
-  )
+    })}
+  </div>
+)
+
+class SlideNavigation extends Component {
+
+  constructor() {
+    super();
+    this.state = {value: 0,}
+    this.onDragStop = this.onDragStop.bind(this)
+  }
+
+  componentWillMount() {
+    this.setState({value: this.props.value})
+  }
+
+  render() {
+    let max = this.props.items.length
+
+    return (
+      <div style={{position: 'absolute', bottom: '0', width: '80%', padding: '0 10%', background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)'}}>
+        <p style={{textAlign: 'center'}}>{(this.state.value + 1)} / {(max + 1)}</p>
+        <Slider style={{backgroundColor: grey100, width: '100%', pointerEvents: "all"}}
+          sliderStyle={{backgroundColor: white, color: cyan600, margin: "0"}}
+          max={max}
+          min={0}
+          value={this.state.value}
+          step={1}
+          onDragStop={this.onDragStop}
+          onChange={(e, value) => this.setState({value})}
+        />
+      </div>
+    )
+  }
+
+  onDragStop() {
+    this.props.onChange(this.state.value)
+  }
+
 }
 
 const questionTextFix = (key = "") => {

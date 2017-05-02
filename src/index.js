@@ -21,7 +21,7 @@ import ReactGA from 'react-ga';
 injectTapEventPlugin();
 
 ReactGA.initialize('UA-59994709-1', {
-  debug: true,
+  debug: false,
   titleCase: false
 });
 
