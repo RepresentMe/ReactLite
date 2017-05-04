@@ -47,7 +47,7 @@ const renderActiveShape = (props) => {
       </text>
       <text x={10} y={30} textAnchor='start' fill={fill}>{full_name}</text>
       <text x={10} y={30} dy={18} textAnchor='start' fill="#999" style={{fontSize: 12}}>
-        {`Rate ${(percent * 100).toFixed(2)}%`}
+        {`Rate ${(percent * 100).toFixed(1)}%`}
       </text>
       <text x={10} y={30} dy={36} textAnchor='start' fill="#999" style={{fontSize: 12}}>
         {`Direct vote count: ${direct_vote_count}`}

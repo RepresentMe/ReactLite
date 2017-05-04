@@ -8,7 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import DynamicConfigService from '../../services/DynamicConfigService';
 import ErrorReload from '../ErrorReload';
-
+import ReactGA from 'react-ga';
 
 @inject("UserStore", "CollectionStore") @observer class CollectionIntro extends Component {
 
@@ -36,6 +36,13 @@ import ErrorReload from '../ErrorReload';
       this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
     }
   }
+
+  // handleClick = () => {
+  //   ReactGA.event({
+  //     category: 'Naviation',
+  //     action: `Clicked back button`
+  //   });
+  // }
 
   render() {
 
@@ -97,7 +104,23 @@ import ErrorReload from '../ErrorReload';
               <h1>{ collection.name }</h1>
               <ReactMarkdown source={ collection.desc } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} />
 
-                <Link to={ this.props.match.params.dynamicConfig ? ("/survey/" + collection.id + "/flow/0/vote/" + this.dynamicConfig.encodeConfig()) : ("/survey/" + collection.id + "/flow/0/vote/") }><RaisedButton label="Start" primary /></Link>
+                {collection ?
+                  collection.question_count  ?
+                    <Link to={ this.props.match.params.dynamicConfig ?
+                      ("/survey/" + collection.id + "/flow/0/vote/" + this.dynamicConfig.encodeConfig()) :
+                      ("/survey/" + collection.id + "/flow/0/vote/") }
+                    >
+                      <RaisedButton label="Start" primary />
+                    </Link> :
+
+                    <div>
+                      <div> ---------- </div>
+                      <h3 >Sorry, no questions currently in this survey</h3>
+                      <Link to='/'><RaisedButton label="back" style={{borderRadius: 5}} /></Link>
+                    </div>
+
+                 : null
+                }
                 {/*this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id === this.props.UserStore.userData.get("id") && <Link to={ "/survey/" + collectionId + "/edit" }><RaisedButton label="Edit" primary /></Link>*/}
               </div>
             </div>
