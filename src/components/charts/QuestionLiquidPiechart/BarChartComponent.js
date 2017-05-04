@@ -5,38 +5,53 @@ import './barStyle.css';
 
 const CHART_HEIGHT = 200;
 
-const BarChartComponent = observer(({data}) => {
+const BarChartComponent = observer(class BarChartComponent extends React.Component{
+	constructor(){
+		super()
+		this.state = {
+			sorted: null
+		}
+	}
+
+	handleTap = () => {
+		let sorted = this.state.sorted;
+		if (sorted === null) this.setState({sorted: true})
+		else this.setState({sorted: !sorted})
+	}
+
+	render(){
+		//console.log('this.props', this.props)
+		let sorted = []
+		if (this.props.data.values){
+			if (this.state.sorted === null) {sorted = this.props.data.values}
+			else if (this.state.sorted) {sorted = this.props.data.values.sort((a,b)=> b.value-a.value)}
+			else if (!this.state.sorted) {sorted = this.props.data.values.sort((a,b)=> a.value-b.value)}
+		}
 
 	return (
     <div>
-      {!data.values && <LoadingIndicator />}
-      {data.values &&
+      {!this.props.data.values && <LoadingIndicator />}
+      {this.props.data.values &&
         <div style={{minHeight: CHART_HEIGHT}}>
-        {
-          data.values.map((d, i) => {
-            return (
-              <div key={`bar-${i}`} >
-                <ContainerBar {...d}/>
-              </div>
-            )
-          })
+				<div className='message'>{this.state.sorted === null ? <span><i>Click on any bar to sort</i></span> : null}</div>
+				{
+					sorted.map((d, i) => {
+					return (
+						<div key={`bar-${i}`} >
+							<ContainerBar {...d} handleTap={() => this.handleTap()}/>
+						</div>
+					)
+				})
         }
-      </div>}
+				</div>}
     </div>
     );
-  })
+  }})
 
-const ContainerBar = (props) => {
-	return (
-		<div className='bg_bar'>
-		    <Bar {...props}/>
-		    <Percentage {...props}/>
-		</div>
-)}
 
-class Bar extends React.Component {
-  state={
-    activeId: '',
+class ContainerBar extends React.Component{
+	state={
+    activeEltIndex: '',
 		direct_vote_count: ''
   }
   handleMouseEnter = (e) => {
@@ -46,30 +61,43 @@ class Bar extends React.Component {
 	handleMouseLeave = (e) => {
 		this.setState({activeEltIndex: '', direct_vote_count: ''})
 	}
-  render(){
-		const width = Math.round(this.props.percentage*0.7*window.innerWidth/100)
-	  const style = Object.assign({}, {
-	      backgroundColor: this.props.fill,
-	      width: this.state.activeEltIndex ? width*1.1 : width
-	      })
-		const display = this.state.direct_vote_count && window.innerWidth > 800 ?
-			`${this.props.full_name}....Direct vote count: ${this.state.direct_vote_count}` :
-			this.props.full_name
-
-		return (
-		  <div className='bar'
-				title={`Direct vote count: ${this.props.direct_vote_count}`}
-		    style={style}
-		    onMouseEnter={this.handleMouseEnter}
-				onMouseLeave={this.handleMouseLeave}
-		    >
-		     {display}
-		  </div>
+	render(){
+	return (
+		<div className='bg_bar'
+					onMouseEnter={this.handleMouseEnter}
+					onMouseLeave={this.handleMouseLeave}
+					onTouchTap={this.props.handleTap}
+					title={`Direct vote count: ${this.state.direct_vote_count}`}>
+		    <Bar {...this.props}
+					activeEltIndex={this.state.activeEltIndex}
+					direct_vote_count={this.state.direct_vote_count}/>
+		    <Percentage {...this.props}/>
+		</div>
 )}}
 
+
+const Bar = (props) => {
+	const width = Math.round(props.percentage*0.7*window.innerWidth/100)
+  const style = Object.assign({}, {
+      backgroundColor: props.fill,
+      width: props.activeEltIndex ? width*1.1 : width
+      })
+	const display =props.direct_vote_count && window.innerWidth > 800 ?
+		`${props.full_name}....Direct vote count: ${props.direct_vote_count}` :
+		props.full_name
+
+	return (
+	  <div className='bar' style={style}>
+     {display}
+	  </div>
+)}
+
+
 const Percentage = (props) => (
+	//console.log('percentage props', props)
   <div className='percentage' style={{color: props.fill}}>
 		{`${props.percentage}%`}
+		{/* {props.my_vote ? `...My vote` : ''} */}
 	</div>
 )
 

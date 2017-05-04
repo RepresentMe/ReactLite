@@ -121,7 +121,7 @@ class ResponsiveCollectionContainer extends React.Component{
     console.log('activeId=', this.state.activeId, items.map(i=> i.object_id))
     console.log('this.state.pie', this.state.pie)
     return (
-      <div style={{position: 'relative', overflow: 'hidden'}}>
+      <div style={{position: 'relative', overflow: 'hidden', WebkitTransform: 'translate3d(0,0,0)'}}>
         <ArrowLeftContainer handleMoveLeft={this.handleMoveLeft} style={{left: 10}}/>
         <ArrowRightContainer handleMoveRight={this.handleMoveRight} style={{right: 10}}/>
         <CardContainer items={items} activeId={this.state.activeId} pie={pie}/>

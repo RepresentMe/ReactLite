@@ -3,12 +3,12 @@ import { inject } from "mobx-react";
 import { observable } from "mobx";
 import difference from 'lodash/difference';
 
-//import TwoLevelPieChartView from './TwoLevelPieChartComponent';
+import TwoLevelPieChartView from './TwoLevelPieChartComponent';
 import OneLevelPieChartView from './OneLevelPieChartComponent';
 import BarChartView from './BarChartComponent';
 import OneLevelPieChartTitle from './OneLevelPieChartTitle';
 
-const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questionId, type = 1, pie}) => {
+const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questionId, type = 2, pie = true}) => {
     const likertProps = {
       'liquid_maximum': {name: 'Strongly Agree', color: 'rgb(74,178,70)', direct: 'direct_maximum'},
       'liquid_high': {name: 'Agree', color: 'rgb(133,202,102)', direct: 'direct_high'},
@@ -48,7 +48,7 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
           let labels = Object.keys(likertProps)
           labels = labels.filter(label => question[likertProps[label]['direct']] > 0);
           for (let i = 0; i < labels.length; i++) {sumLikert += question[labels[i]]}
-          console.log('sumLikert', sumLikert)
+
           viewData.values = labels.map((label,i) =>
             Object.assign({},
               {full_name: likertProps[label]['name']},
@@ -58,6 +58,8 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
               {fill: likertProps[label]['color']},
               {direct_vote_count: question[likertProps[label]['direct']]},
               {title: question['question']}
+              // ,
+              // {my_vote: question.my_vote.length ? question.my_vote[0].value : null}
             )
           );
           //viewData.values = sortValues(viewData.values)
@@ -69,7 +71,7 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
           const zeroChoices = difference(question.choices, choices)
           let sumMCQ = 0;
           for (let i = 0; i < choices.length; i++) {sumMCQ += choices[i].direct_vote_count}
-          console.log('sumMCQ', sumMCQ)
+
           viewData.values = choices.map((choice, i) =>
             Object.assign({},
               {full_name: choice.text},
@@ -80,22 +82,29 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
               {zeroChoices: zeroChoices},
               {direct_vote_count: choice.direct_vote_count},
               {title: question['question']}
+              // ,
+              // {my_vote: question.my_vote.length ? question.my_vote[0].object_id : null}
             )
           );
           viewData.values = sortValues(viewData.values)
           console.log('viewData.values', viewData.values)
         }
-  })
+    })
+    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
 
     return (
       <div>
         <OneLevelPieChartTitle data={viewData}/>
         {
-          pie && type === 1 ?
+          width > 900 ?
+          pie ?
           <OneLevelPieChartView data={viewData}/> :
+          <BarChartView data={viewData}/> :
+
+          pie ?
+          <TwoLevelPieChartView data={viewData}/> :
           <BarChartView data={viewData}/>
         }
-        {/* {type === 2 && <TwoLevelPieChartView data={viewData}/>} */}
       </div>
       )
 })
