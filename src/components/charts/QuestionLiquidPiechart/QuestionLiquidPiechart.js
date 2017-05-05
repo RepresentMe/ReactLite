@@ -63,12 +63,12 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
             )
           );
           //viewData.values = sortValues(viewData.values)
-        console.log('viewData.values', viewData.values)
+        //console.log('viewData.values', viewData.values)
         }
         else if (question.subtype === 'mcq'){
           //propose to filter out choices with 0 vote, cause they crowd the space
           const choices = question.choices.filter(choice => choice.direct_vote_count > 0)
-          const zeroChoices = difference(question.choices, choices)
+          //const zeroChoices = difference(question.choices, choices)
           let sumMCQ = 0;
           for (let i = 0; i < choices.length; i++) {sumMCQ += choices[i].direct_vote_count}
 
@@ -79,7 +79,7 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
               {value: choice.direct_vote_count},
               {percentage: (Math.round(choice.direct_vote_count*1000/sumMCQ)/10)},
               {fill: colors_mcq[i%colors_mcq.length]},
-              {zeroChoices: zeroChoices},
+              //{zeroChoices: zeroChoices},
               {direct_vote_count: choice.direct_vote_count},
               {title: question['question']}
               // ,
@@ -87,7 +87,7 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
             )
           );
           viewData.values = sortValues(viewData.values)
-          console.log('viewData.values', viewData.values)
+          //console.log('viewData.values', viewData.values)
         }
     })
     const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth

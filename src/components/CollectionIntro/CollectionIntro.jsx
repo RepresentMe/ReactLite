@@ -37,13 +37,6 @@ import ReactGA from 'react-ga';
     }
   }
 
-  // handleClick = () => {
-  //   ReactGA.event({
-  //     category: 'Naviation',
-  //     action: `Clicked back button`
-  //   });
-  // }
-
   render() {
 
     let collectionId = parseInt(this.props.match.params.collectionId);

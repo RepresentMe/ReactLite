@@ -139,7 +139,7 @@ const CompareCollectionUsersView = observer(({data})=> {
      concensus = Math.floor(100-this.props.compareData.difference_percent)
     }
 
-    console.log('this.state', this.state)
+    //console.log('this.state', this.state)
 
     let display_all = {};
 
@@ -157,12 +157,12 @@ const CompareCollectionUsersView = observer(({data})=> {
       keys.map((k)=> {
         let check1 = false;
         let check2 = false;
-        //if (arr.length < 5) {
-          check1 = arr.map((key,j)=> this.props.compareData.topic_diffs[k].diffs[key] > 0 ? true : false)
-          check1 = check1.includes(true)
-          check2 = not_arr.map((key,j)=> this.props.compareData.topic_diffs[k].diffs[key] === 0 ? true : false)
-          check2 = !check2.includes(false)
-        //}
+
+        check1 = arr.map((key,j)=> this.props.compareData.topic_diffs[k].diffs[key] > 0 ? true : false)
+        check1 = check1.includes(true)
+        check2 = not_arr.map((key,j)=> this.props.compareData.topic_diffs[k].diffs[key] === 0 ? true : false)
+        check2 = !check2.includes(false)
+
 
         if (check1 && check2) display = Object.assign(display, {[k]: this.props.compareData.topic_diffs[k]})
 
