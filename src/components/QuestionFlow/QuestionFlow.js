@@ -14,6 +14,7 @@ import { grey100, cyan600, white } from 'material-ui/styles/colors';
 import Slider from 'material-ui/Slider';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart'
 import './QuestionFlow.css'
 
@@ -40,6 +41,7 @@ class QuestionFlow extends Component {
       <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
         {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)} navigateNext={navigateNext}/>}
         {this.props.activeTab === 'results' && <QuestionFlowResults item={currentItem}/>}
+        {this.props.activeTab === 'comments' && <QuestionFlowComments item={currentItem}/>}
       </QuestionFlowTabLayout>
     )
   }
@@ -96,7 +98,7 @@ const QuestionFlowTabLayout = ({children, handleTabChange, activeTab}) => {
         <Tab icon={<CheckBox/>} value="vote">
           {children}
         </Tab>
-        <Tab icon={<InsertComment/>} value="comment">
+        <Tab icon={<InsertComment/>} value="comments">
           {children}
         </Tab>
         <Tab icon={<Info/>} value="info">
