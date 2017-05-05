@@ -48,7 +48,7 @@ import DynamicConfigService from '../../services/DynamicConfigService';
     //currently turned off - function calls 3rd party api to get geo details
     //this.getUserIP();
     const analytics_browser = window.navigator.appCodeName; //Browser details
-    const analytics_os = window.navigator.appVersion; //OS
+    const analytics_os = window.navigator.appVersion.slice(0,100); //OS
     const analytics_parent_url = window.parent.location.href; //parent url (for embed) or current url in other cases
     const session_vars = Object.assign({},
       {
