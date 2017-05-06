@@ -24,12 +24,11 @@ class QuestionCommentsStore {
     this.questionToComments[id] = new QuestionComments();
     const params = {
       question: id,
-      ordering: '-direct_sum',
+      ordering: 'created_at',
       page: 1,
       page_size: 7
     }
     return window.API.get('/api/comments/', {params}).then((res) => {
-      // console.log('comments_result', res.data);
       this.questionToComments[id].addComments(res.data.results);
       return res.data;
     })
