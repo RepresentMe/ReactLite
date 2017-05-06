@@ -18,6 +18,7 @@ import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart'
 import './QuestionFlow.css'
 
+@inject("QuestionStore")
 class QuestionFlow extends Component {
 
   constructor() {
@@ -28,7 +29,7 @@ class QuestionFlow extends Component {
   }
 
   render() {
-    let {items, currentItemIndex, onVote, navigateN, activeTab, navigateNext} = this.props
+    let {items, currentItemIndex, onVote, navigateN, activeTab, navigateNext, QuestionStore} = this.props
     currentItemIndex = parseInt(currentItemIndex)
 
     if(!items) {
@@ -41,7 +42,7 @@ class QuestionFlow extends Component {
       <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
         {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)} navigateNext={navigateNext}/>}
         {this.props.activeTab === 'results' && <QuestionFlowResults item={currentItem}/>}
-        {this.props.activeTab === 'comments' && <QuestionFlowComments question={currentItem}/>}
+        {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)}/>}
       </QuestionFlowTabLayout>
     )
   }

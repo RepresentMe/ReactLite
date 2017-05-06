@@ -7,7 +7,22 @@ import Popover from 'material-ui/Popover/Popover';
 import {Menu, MenuItem} from 'material-ui/Menu';
 import TextField from 'material-ui/TextField';
 
+import {
+  ShareButtons,
+  ShareCounts,
+  generateShareIcon
+} from 'react-share';
+
 import './style.css';
+
+const {
+  FacebookShareButton,
+  TwitterShareButton
+} = ShareButtons;
+
+
+const FacebookIcon = generateShareIcon('facebook');
+const TwitterIcon = generateShareIcon('twitter');
 
 @inject("UserStore", "QuestionCommentsStore")
 @observer
@@ -43,10 +58,48 @@ constructor(props) {
         curAnchorEl: null
       }
     });
-  };
+  }
+
+  clickFB = (e) => {
+    document.getElementsByClassName(`fb-network__share-button${this.props.comment.id}`)[0].click()
+  }
+
+  clickTwitter = (e) => {
+    document.getElementsByClassName(`twitter-network__share-button${this.props.comment.id}`)[0].click()
+  }
+
 
   render() {
-    const { comment, UserStore, onDelete, onReport } = this.props;
+    const { comment, UserStore, onDelete, onReport, question } = this.props
+    const { question_info, id } = comment
+
+    const shareUrl = `https://app.represent.me/question/${question_info.id}/${question.slug}/comment${id}/`;
+    const title = `${comment.user.first_name} ${comment.user.last_name} commented question`
+    const picture = question.ogImage || `https://share.represent.me/graphic/${question.id}.png`
+
+    const fb = (
+    <FacebookShareButton
+      url={shareUrl}
+      title={title}
+      picture={picture}
+      className={`fb-network__share-button${comment.id}`}>
+      <FacebookIcon
+        size={32}
+        round />
+    </FacebookShareButton>
+  )
+
+    const twitter = (
+      <TwitterShareButton
+        url={shareUrl}
+        title={title}
+        className={`twitter-network__share-button${comment.id}`}>
+        <TwitterIcon
+          size={32}
+          round />
+      </TwitterShareButton>
+    )
+
     return (
       <div className="comment">
         {/*<Votes />*/}
@@ -72,7 +125,7 @@ constructor(props) {
             <span className="date">10 Sep</span>
             <span className="dot"> · </span>
             <a className="report" onClick={onReport} >Report</a>
-            {UserStore.isLoggedIn() && UserStore.userData.get("id") == comment.user.id && (<span>
+            {UserStore.isLoggedIn() && UserStore.userData.get("id") === comment.user.id && (<span>
               <span className="dot"> · </span>
               <a className="change-answer" onClick={onDelete} >Delete</a>
             </span>)}
@@ -85,8 +138,15 @@ constructor(props) {
               onRequestClose={this.handleSharePopoverClose}
             >
               <Menu>
-                <MenuItem primaryText="Share in FB" />
-                <MenuItem primaryText="Share in Twitter" />
+                <MenuItem primaryText="Share in FB" 
+                          leftIcon={fb} 
+                          onClick={this.clickFB} 
+                />
+
+                <MenuItem primaryText="Share in Twitter" 
+                          leftIcon={twitter}
+                          onClick={this.clickTwitter} 
+                /> 
               </Menu>
             </Popover>
 
