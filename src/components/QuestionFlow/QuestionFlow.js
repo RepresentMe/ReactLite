@@ -41,7 +41,7 @@ class QuestionFlow extends Component {
       <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
         {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)} navigateNext={navigateNext}/>}
         {this.props.activeTab === 'results' && <QuestionFlowResults item={currentItem}/>}
-        {this.props.activeTab === 'comments' && <QuestionFlowComments item={currentItem}/>}
+        {this.props.activeTab === 'comments' && <QuestionFlowComments question={currentItem}/>}
       </QuestionFlowTabLayout>
     )
   }

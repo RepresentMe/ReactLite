@@ -6,16 +6,16 @@ import RaisedButton from 'material-ui/RaisedButton';
 import './style.css';
 // import postButtonsStyle from './postButton.js'
 
-var comments = [];
-for (var i = 0; i < 10; i++) {
-  comments.push({text: i});  
-}
+// var comments = [];
+// for (var i = 0; i < 10; i++) {
+//   comments.push({text: i});  
+// }
 @inject("QuestionCommentsStore")
 @observer
 class QuestionFlowComments extends Component {
-  // componentWillMount(nextProps) {
-  //   this.props.CollectionStore.getComments()
-  // }
+  componentWillMount(nextProps) {
+    this.props.QuestionCommentsStore.getComments(this.props.question.id)
+  }
 
   render() {
     return (<div className="comments-wrapper">

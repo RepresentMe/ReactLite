@@ -14,15 +14,15 @@ class QuestionCommentsStore {
     //   ])
     // }
   });
-  
+
   constructor() {
 
     console.log('QuestionCommentsStore: INIT'); // called only once, so looks like singleton :p
   }
 
-  getComments() {
+  getComments(id) {
     let params = {
-      question: 1050,
+      question: id,
       ordering: '-direct_sum',
       page: 1,
       page_size: 7
