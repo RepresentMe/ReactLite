@@ -112,3 +112,7 @@
 .comment .content .buttons a.report {
   color: #818a91;
 }
+
+.comment .content .buttons a.delete {
+  color: #F98375;
+}
