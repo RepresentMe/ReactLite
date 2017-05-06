@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { observer, inject } from "mobx-react";
+
+
 
 import './style.css';
 
+@inject("UserStore", "QuestionCommentsStore")
+@observer
 class Comment extends Component {
 
 constructor(props) {
@@ -14,8 +19,16 @@ constructor(props) {
     // this.handleChange = this.handleChange.bind(this)
   }
 
+  confirmDelete() {
+    
+  }
+
+  deleteComment = () => {
+    this.props.QuestionCommentsStore.deleteComment(this.props.comment);
+  }
+
   render() {
-    const { comment } = this.props
+    const { comment, UserStore, onDelete } = this.props
     return (
       <div className="comment">
         {/*<Votes />*/}
@@ -39,6 +52,10 @@ constructor(props) {
             <a className="share">Share</a>
             <span className="dot"> · </span>
             <a className="change-answer">Change my answer</a>
+            {UserStore.isLoggedIn() && UserStore.userData.get("id") == comment.user.id && (<div>
+              <span className="dot"> · </span>
+              <a className="change-answer" onClick={onDelete} >Delete</a>
+            </div>)}
             <span className="dot"> · </span>
             <span className="date">10 Sep</span>
             <span className="dot"> · </span>

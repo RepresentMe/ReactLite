@@ -16,8 +16,6 @@ class QuestionCommentsStore {
   });
 
   constructor() {
-
-    console.log('QuestionCommentsStore: INIT'); // called only once, so looks like singleton :p
   }
 
   getComments(id) {
@@ -45,6 +43,13 @@ class QuestionCommentsStore {
         })
         .catch(err => reject(err))
     })
+  }
+
+  deleteComment(comment) {
+    return window.API.delete(`/api/comments/${comment.id}/`)
+      .then((res) => {
+        return this.questionToComments[comment.question].comments.remove(comment)
+      })
   }
 
 }
