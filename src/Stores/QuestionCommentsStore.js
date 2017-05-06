@@ -1,7 +1,7 @@
 import { observable, autorun, computed } from 'mobx';
 import Promise from 'promise';
 
-let instance = null;
+const instance = null;
 
 class QuestionCommentsStore {
   
@@ -21,7 +21,7 @@ class QuestionCommentsStore {
   }
 
   getComments(id) {
-    let params = {
+    const params = {
       question: id,
       ordering: '-direct_sum',
       page: 1,
@@ -29,6 +29,13 @@ class QuestionCommentsStore {
     }
     window.API.get('/api/comments/', {params}).then((res) => {
       console.log('comments_result', res);
+    })
+  }
+
+  createComment(comment) {
+    console.log('createComment')
+    window.API.post('/api/comments/', comment).then((res) => {
+      console.log('create_comment', res);
     })
   }
 

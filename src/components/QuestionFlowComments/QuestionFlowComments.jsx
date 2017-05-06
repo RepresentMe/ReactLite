@@ -21,11 +21,11 @@ class QuestionFlowComments extends Component {
     return (<div className="comments-wrapper">
       <div className="comments-list">
         {comments.map((comment) => {
-          return <Comment comment={comment} />
+          return <Comment comment={comment}/>
         })}
       </div>
       
-      <AddComment />
+      <AddComment {...this.props}/>
     </div>);
   }
 }

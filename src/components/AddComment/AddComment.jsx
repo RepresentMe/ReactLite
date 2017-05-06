@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 
-// import RaisedButton from 'material-ui/RaisedButton';
-
 import './style.css';
-// import postButtonsStyle from './postButton.js'
 
-// @inject("CollectionStore")
 class AddComment extends Component {
-  // componentWillMount(nextProps) {
-  //   this.props.CollectionStore.getComments()
-  // }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -20,8 +14,13 @@ class AddComment extends Component {
   }
 
   onSend() {
-    console.log('sand clicked')
-    console.log(this.state.comment)
+    const comment = {
+      text: this.state.comment,
+      // question: this.props.question.object_id,
+      question: 824,
+      subtype: 'info'
+    }
+    this.props.QuestionCommentsStore.createComment(comment)
   }
 
   handleChange(e) {
@@ -34,7 +33,6 @@ class AddComment extends Component {
       <div className="add-comment-wrapper">
         <div className="add-comment">
           <button className="add-comment-btn" onClick={this.onSend} >Send</button>
-          {/* TODO <RaisedButton label="Primary" primary={true} />*/}
           <div className="add-comment-area-wrapper">
             <textarea className="add-comment-area" 
                       onChange={this.handleChange}
