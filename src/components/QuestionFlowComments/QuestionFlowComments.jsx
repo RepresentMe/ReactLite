@@ -60,7 +60,7 @@ class QuestionFlowComments extends Component {
       <div className="comments-list">
         {this.props.QuestionCommentsStore.questionToComments[this.questionId].comments.map((comment, i) => {
           
-          return <Comment key={i} comment={comment} question={this.props.question} onDelete={this.showCommentDeleteDialog.bind(this, comment)} />
+          return <Comment key={i} comment={comment} question={this.props.question} onDelete={this.showCommentDeleteDialog.bind(this, comment)} store={this.props.QuestionCommentsStore} />
         })}
         <ConfirmDeleteCommentDialog isOpen={this.state.deleteDialog.isOpen} handleCancle={this.closeCommentDeleteDialog} handleSubmit={this.submitCommentDeleteDialog} />
       </div>
