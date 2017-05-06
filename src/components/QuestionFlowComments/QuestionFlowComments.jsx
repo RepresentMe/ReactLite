@@ -15,7 +15,7 @@ for (var i = 0; i < 10; i++) {
 class QuestionFlowComments extends Component {
   questionId =  1399//this.props.question.id
   componentWillMount(nextProps) {
-    if(!this.props.QuestionCommentsStore.comments[this.questionId]) {
+    if(!this.props.QuestionCommentsStore.questionToComments[this.questionId]) {
       this.props.QuestionCommentsStore.getComments(this.questionId)
     } 
   }
@@ -23,7 +23,7 @@ class QuestionFlowComments extends Component {
   render() {
     return (<div className="comments-wrapper">
       <div className="comments-list">
-        {this.props.QuestionCommentsStore.comments[this.questionId].comments.map((comment) => {
+        {this.props.QuestionCommentsStore.questionToComments[this.questionId].comments.map((comment) => {
           
           return <Comment comment={comment} />
         })}
