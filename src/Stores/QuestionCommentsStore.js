@@ -59,6 +59,14 @@ class QuestionCommentsStore {
       ${text}`
     }
     console.log(data)
+
+    //ToDo temporary code, just not to send many emails to Edd while develepmont process
+    // remove to production
+    return new Promise((resolve) => {
+      resolve()
+    })
+
+    // uncomment for production
     // return window.API.post('/api/email_ed/', data).then((res) => {
     //   return res.data;
     // })

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import AddComment from '../AddComment';
-import Comment from '../Comment';
+import AddComment from './partials/AddComment';
+import Comment from './partials/Comment';
+import ConfirmDeleteCommentDialog from './partials/ConfirmDeleteCommentDialog';
+import ReportDialog from './partials/ReportDialog';
 import './style.css';
 // import postButtonsStyle from './postButton.js'
 
@@ -21,6 +21,9 @@ class QuestionFlowComments extends Component {
       deleteDialog: {
         isOpen: false,
         curComment: null
+      },
+      reportDialog: {
+        isOpen: false
       }
     }
   }
@@ -40,7 +43,7 @@ class QuestionFlowComments extends Component {
     })
   }
 
-  closeCommentDeleteDialog = (buttonClicked) => {
+  closeCommentDeleteDialog = () => {
     this.setState({
       deleteDialog: {
         isOpen: false,
@@ -51,17 +54,41 @@ class QuestionFlowComments extends Component {
 
   submitCommentDeleteDialog = () => {
     this.props.QuestionCommentsStore.deleteComment(this.state.deleteDialog.curComment).then((res)=> {
-      this.closeCommentDeleteDialog(true);
+      this.closeCommentDeleteDialog();
     })
   }
+
+  createReport = (text) => {
+    this.props.QuestionCommentsStore.createReport(text)
+      .then(() => {
+        this.handleCloseReportDialog()
+      })
+  }
+
+  handleOpenReportDialog = () => {
+    this.setState({
+      reportDialog: {
+        isOpen: true
+      }
+    })
+  };
+
+  handleCloseReportDialog = () => {
+    this.setState({
+      reportDialog: {
+        isOpen: false
+      }
+    });
+  };
 
   render() {
     return (<div className="comments-wrapper">
       <div className="comments-list">
         {this.props.QuestionCommentsStore.questionToComments[this.questionId].comments.map((comment, i) => {
           
-          return <Comment key={i} comment={comment} question={this.props.question} onDelete={this.showCommentDeleteDialog.bind(this, comment)} store={this.props.QuestionCommentsStore} />
+          return <Comment key={i} comment={comment} question={this.props.question} onDelete={this.showCommentDeleteDialog.bind(this, comment)} onReport={this.handleOpenReportDialog}/>
         })}
+        <ReportDialog open={this.state.reportDialog.isOpen} handleClose={this.handleCloseReportDialog} createReport={this.createReport}/>
         <ConfirmDeleteCommentDialog isOpen={this.state.deleteDialog.isOpen} handleCancle={this.closeCommentDeleteDialog} handleSubmit={this.submitCommentDeleteDialog} />
       </div>
       
@@ -70,36 +97,6 @@ class QuestionFlowComments extends Component {
   }
 }
 
-class ConfirmDeleteCommentDialog extends Component {
-  actions = [
-    <FlatButton
-      label="Cancel"
-      primary={true}
-      onTouchTap={this.props.handleCancle}
-    />,
-    <FlatButton
-      label="Delete"
-      primary={true}
-      keyboardFocused={true}
-      onTouchTap={this.props.handleSubmit}
-    />,
-  ]
-  render() {
-    const {isOpen, handleCancle} = this.props;
-    return (
-      <Dialog
-        title="Deleting comment"
-        actions={this.actions}
-        modal={false}
-        open={isOpen}
-        onRequestClose={handleCancle}
-      >
-        Do you want to delete comment?
-      </Dialog>
-    )
-  }
-
-}
 
 const Votes = () => {
   return (<div className="votes">
