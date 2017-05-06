@@ -47,6 +47,18 @@ class QuestionCommentsStore {
     })
   }
 
+  createReport(text) {
+    const data = {
+      body: `Sent from page https://app.represent.me/question/824/telepathy-is-a-real-phenomenon/
+      ===========================
+      ${text}`
+    }
+    console.log(data)
+    // return window.API.post('/api/email_ed/', data).then((res) => {
+    //   return res.data;
+    // })
+  }
+
 }
 
 
