@@ -43,7 +43,8 @@ class AddComment extends Component {
             />
           </div>
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 

@@ -3,6 +3,7 @@ import { observer, inject } from "mobx-react";
 
 import RaisedButton from 'material-ui/RaisedButton';
 import AddComment from '../AddComment';
+import Comment from '../Comment';
 import './style.css';
 // import postButtonsStyle from './postButton.js'
 
@@ -23,9 +24,9 @@ class QuestionFlowComments extends Component {
   render() {
     return (<div className="comments-wrapper">
       <div className="comments-list">
-        {this.props.QuestionCommentsStore.questionToComments[this.questionId].comments.map((comment) => {
+        {this.props.QuestionCommentsStore.questionToComments[this.questionId].comments.map((comment, i) => {
           
-          return <Comment comment={comment} />
+          return <Comment key={i} comment={comment} />
         })}
       </div>
       
@@ -34,37 +35,37 @@ class QuestionFlowComments extends Component {
   }
 }
 
-const Comment = ({comment}) => {
-  return (<div className="comment">
-    {/*<Votes />*/}
-    <div className="content">
-      <div className="comment-data">
-        <a className="author">
-          <img src={comment.user.photo} />
-          <span className="name">{comment.user.first_name} {comment.user.last_name}</span>
-        </a>
-        <div className="pull-right">
-          <span className="type text-xs">info</span>
-          <span className="author-answer text-xs s-agree">Strongly disagree</span>
-        </div>
-        <div className="comment-text">
-          <p>{comment.text}</p>
-        </div>
-      </div>
-      <div className="buttons">
-        <a className="reply">Reply</a>
-        <span className="dot"> · </span>
-        <a className="share">Share</a>
-        <span className="dot"> · </span>
-        <a className="change-answer">Change my answer</a>
-        <span className="dot"> · </span>
-        <span className="date">10 Sep</span>
-        <span className="dot"> · </span>
-        <a className="report">Report</a>
-      </div>
-    </div>
-  </div>)
-}
+// const Comment = ({comment}) => {
+//   return (<div className="comment">
+//     {/*<Votes />*/}
+//     <div className="content">
+//       <div className="comment-data">
+//         <a className="author">
+//           <img src={comment.user.photo} />
+//           <span className="name">{comment.user.first_name} {comment.user.last_name}</span>
+//         </a>
+//         <div className="pull-right">
+//           <span className="type text-xs">info</span>
+//           <span className="author-answer text-xs s-agree">Strongly disagree</span>
+//         </div>
+//         <div className="comment-text">
+//           <p>{comment.text}</p>
+//         </div>
+//       </div>
+//       <div className="buttons">
+//         <a className="reply">Reply</a>
+//         <span className="dot"> · </span>
+//         <a className="share">Share</a>
+//         <span className="dot"> · </span>
+//         <a className="change-answer">Change my answer</a>
+//         <span className="dot"> · </span>
+//         <span className="date">10 Sep</span>
+//         <span className="dot"> · </span>
+//         <a className="report">Report</a>
+//       </div>
+//     </div>
+//   </div>)
+// }
 
 const Votes = () => {
   return (<div className="votes">
