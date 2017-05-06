@@ -6,10 +6,10 @@ import AddComment from '../AddComment';
 import './style.css';
 // import postButtonsStyle from './postButton.js'
 
-// var comments = [];
-// for (var i = 0; i < 10; i++) {
-//   comments.push({text: i});  
-// }
+var comments = [];
+for (var i = 0; i < 10; i++) {
+  comments.push({text: i});  
+}
 @inject("QuestionCommentsStore")
 @observer
 class QuestionFlowComments extends Component {
