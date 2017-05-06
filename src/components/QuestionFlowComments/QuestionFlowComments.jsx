@@ -29,7 +29,7 @@ class QuestionFlowComments extends Component {
         })}
       </div>
       
-      <AddComment />
+      <AddComment {...this.props}/>
     </div>);
   }
 }

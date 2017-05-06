@@ -1,11 +1,11 @@
 import { observable, autorun, computed } from 'mobx';
 import Promise from 'promise';
 
-let instance = null;
+const instance = null;
 
 class QuestionCommentsStore {
   
-  comments = observable({
+  questionToComments = observable({
     // 1399: {
     //   page: 1,
     //   page_size: 10,
@@ -21,8 +21,8 @@ class QuestionCommentsStore {
   }
 
   getComments(id) {
-    this.comments[id] = new QuestionComments();
-    let params = {
+    this.questionToComments[id] = new QuestionComments();
+    const params = {
       question: id,
       ordering: '-direct_sum',
       page: 1,
@@ -30,11 +30,17 @@ class QuestionCommentsStore {
     }
     return window.API.get('/api/comments/', {params}).then((res) => {
       // console.log('comments_result', res.data);
-      this.comments[id].addComments(res.data.results);
+      this.questionToComments[id].addComments(res.data.results);
       return res.data;
     })
   }
 
+
+  createComment(comment) {
+    window.API.post('/api/comments/', comment).then((res) => {
+      this.questionToComments[comment.id]
+    })
+  }
 
 }
 
