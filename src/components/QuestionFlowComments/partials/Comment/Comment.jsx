@@ -126,12 +126,6 @@ constructor(props) {
             <span className="date">{moment(comment.modified_at).format('DD MMM')}</span>
             <span className="dot"> · </span>
             <a className="report" onClick={onReport} >Report</a>
-
-            {UserStore.isLoggedIn() && UserStore.userData.get("id") === comment.user.id && (<span>
-              <span className="dot"> · </span>
-              <a className="change-answer" onClick={onDelete} >Delete</a>
-            </span>)}
-
             <span className="dot"> · </span>
             <a className="share" onClick={this.handleSharePopoverOpen}>Share</a>
 
