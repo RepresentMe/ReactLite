@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Popover from 'material-ui/Popover/Popover';
 import {Menu, MenuItem} from 'material-ui/Menu';
 import TextField from 'material-ui/TextField';
+import moment from 'moment'
 
 import {
   ShareButtons,
@@ -122,13 +123,15 @@ constructor(props) {
             <span className="dot"> · </span>
             <a className="change-answer">Change my answer</a>
             <span className="dot"> · </span>
-            <span className="date">10 Sep</span>
+            <span className="date">{moment(comment.modified_at).format('DD MMM')}</span>
             <span className="dot"> · </span>
             <a className="report" onClick={onReport} >Report</a>
+
             {UserStore.isLoggedIn() && UserStore.userData.get("id") === comment.user.id && (<span>
               <span className="dot"> · </span>
               <a className="change-answer" onClick={onDelete} >Delete</a>
             </span>)}
+
             <span className="dot"> · </span>
             <a className="share" onClick={this.handleSharePopoverOpen}>Share</a>
 
@@ -149,6 +152,10 @@ constructor(props) {
                 /> 
               </Menu>
             </Popover>
+            {UserStore.isLoggedIn() && UserStore.userData.get("id") == comment.user.id && (<span>
+              <span className="dot"> · </span>
+              <a className="delete" onClick={onDelete} >Delete</a>
+            </span>)}
 
           </div>
         </div>
