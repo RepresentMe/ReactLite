@@ -33,23 +33,25 @@ window.authSettings = {
   googleMapsAPI: "AIzaSyDZxI6243Bb460yabWL_tyN97NBH6hsnwo",
 }
 
-if (location.host === 'open.represent.me') { // Test server override defaults
+// if (location.host === 'open.represent.me') { // Test server override defaults
   window.authSettings.facebookId = 1499361770335561;
   window.API = axios.create({
     baseURL: 'https://api.represent.me'
   });
-}else if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
-  window.authSettings.facebookId = 1684727181799018;
-  window.API = axios.create({
-    baseURL: 'https://test.represent.me'
-  });
-}else {
-  window.API = axios.create({
-    baseURL: 'http://localhost:8000'
-    //baseURL: 'http://api.represent.me'
-  });
-  window.authSettings.facebookId = 1665890767015993;
-}
+// } 
+// else { // Test server override defaults
+//   window.authSettings.facebookId = 1684727181799018;
+//   window.API = axios.create({
+//     baseURL: 'https://test.represent.me'
+//   });
+// }
+// else {
+//   window.API = axios.create({
+//     baseURL: 'http://localhost:8000'
+//     //baseURL: 'http://api.represent.me'
+//   });
+//   window.authSettings.facebookId = 1665890767015993;
+// }
 
 window.stores = {
   UserStore:              new UserStore(),
