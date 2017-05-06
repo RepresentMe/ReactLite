@@ -13,15 +13,14 @@ class AddComment extends Component {
 
   render() {
     return (
-    <div className="comments-wrapper">
+
       <div className="add-comment-wrapper">
         <div className="add-comment">
           <button className="add-comment-btn">Send</button>
           {/* TODO <RaisedButton label="Primary" primary={true} />*/}
           <div className="add-comment-area-wrapper" ><textarea className="add-comment-area" /></div>
         </div>
-      </div>
-    </div>);
+      </div>);
   }
 }
 
