@@ -75,7 +75,10 @@ class QuestionStore {
     });
   }
 
-  voteQuestionLikert(questionId, value, collection = null, vote_private = true) {
+  voteQuestionLikert(
+    questionId, value, collection = null, vote_private = true,
+    analytics_os = null, analytics_browser = null,
+    analytics_parent_url = null, analytics_location = null) {
     console.log("VOTE LIKERT");
     if(!this.questions.has(questionId) || !value) {
       return false;
@@ -86,23 +89,35 @@ class QuestionStore {
         value,
         collection,
         private: vote_private,
+        analytics_interface: 'collection',
+        analytics_os,
+        analytics_browser,
+        analytics_parent_url,
+        analytics_location
       })
       .then(function (response) {
         this.loadQuestion(questionId, true);
       }.bind(this));
   }
 
-  voteQuestionMCQ(questionId, value, collection = null, vote_private = true) {
+  voteQuestionMCQ(questionId, value, collection = null, vote_private = true,
+    analytics_os = null, analytics_browser = null,
+    analytics_location = null, analytics_parent_url = null) {
     console.log("VOTE MCQ");
     if(!this.questions.has(questionId) || !value) {
       return false;
     }
 
     window.API.post('/api/question_choice_votes/', {
-        object_id: value,
-        value: 5,
+        object_id: questionId,
+        value,
         collection,
         private: vote_private,
+        analytics_interface: 'collection',
+        analytics_os,
+        analytics_browser,
+        analytics_parent_url,
+        analytics_location
       })
       .then(function (response) {
         this.loadQuestion(questionId, true);

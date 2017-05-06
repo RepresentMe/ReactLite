@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { observer, inject } from "mobx-react";
 
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -9,7 +10,8 @@ var comments = [];
 for (var i = 0; i < 10; i++) {
   comments.push({text: i});  
 }
-// @inject("CollectionStore")
+@inject("QuestionCommentsStore")
+@observer
 class QuestionFlowComments extends Component {
   // componentWillMount(nextProps) {
   //   this.props.CollectionStore.getComments()
@@ -18,7 +20,7 @@ class QuestionFlowComments extends Component {
   render() {
     return (<div className="comments-wrapper">
       <div className="comments-list">
-        {comments.map(function(comment) {
+        {this.props.QuestionCommentsStore.comments.map((comment) => {
           return <Comment comment={comment} />
         })}
       </div>
