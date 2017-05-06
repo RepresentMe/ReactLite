@@ -24,6 +24,10 @@ constructor(props) {
     this.setState({open: false});
   };
 
+  createReport = (text) => {
+    this.props.store.createReport(text)
+  }
+
   render() {
     const { comment } = this.props
 
@@ -55,7 +59,7 @@ constructor(props) {
             <span className="dot"> · </span>
             <a className="report" onClick={this.handleOpen} >Report</a>
 
-            <ReportDialog open={this.state.open} handleClose={this.handleClose}/>
+            <ReportDialog open={this.state.open} handleClose={this.handleClose} createReport={this.createReport}/>
 
           </div>
         </div>
@@ -81,6 +85,8 @@ class ReportDialog extends Component {
 
   handleSand = () => {
     console.log(this.state.reportText)
+    const { reportText } = this.state
+    this.props.createReport(reportText)
   }
 
 
