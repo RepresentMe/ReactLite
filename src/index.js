@@ -16,6 +16,7 @@ import QuestionStore from './Stores/QuestionStore.js';
 import DemographicsDataStore from './Stores/DemographicsDataStore.js';
 import CensusDataStore from './Stores/CensusDataStore.js';
 import AppStatisticsStore from './Stores/AppStatisticsStore.js';
+import QuestionCommentsStore from './Stores/QuestionCommentsStore.js';
 import ReactGA from 'react-ga';
 
 injectTapEventPlugin();
@@ -33,23 +34,24 @@ window.authSettings = {
   googleMapsAPI: "AIzaSyDZxI6243Bb460yabWL_tyN97NBH6hsnwo",
 }
 
-if (location.host === 'open.represent.me') { // Test server override defaults
+// if (location.host === 'open.represent.me') { // Test server override defaults
   window.authSettings.facebookId = 1499361770335561;
   window.API = axios.create({
     baseURL: 'https://api.represent.me'
   });
-}else if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
-  window.authSettings.facebookId = 1684727181799018;
-  window.API = axios.create({
-    baseURL: 'https://test.represent.me'
-  });
-}else {
-  window.API = axios.create({
-    baseURL: 'http://localhost:8000'
-    //baseURL: 'http://api.represent.me'
-  });
-  window.authSettings.facebookId = 1665890767015993;
-}
+// }else if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
+//   window.authSettings.facebookId = 1684727181799018;
+//   window.API = axios.create({
+//     baseURL: 'https://test.represent.me'
+//   });
+// }
+// else {
+//   window.API = axios.create({
+//     baseURL: 'http://localhost:8000'
+//     //baseURL: 'http://api.represent.me'
+//   });
+//   window.authSettings.facebookId = 1665890767015993;
+// }
 
 window.stores = {
   UserStore:              new UserStore(),
@@ -58,6 +60,7 @@ window.stores = {
   DemographicsDataStore:  new DemographicsDataStore(),
   CensusDataStore:        new CensusDataStore(),
   AppStatisticsStore:     new AppStatisticsStore(),
+  QuestionCommentsStore:     new QuestionCommentsStore(),
 }
 
 window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
@@ -87,6 +90,7 @@ window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
         DemographicsDataStore={window.stores.DemographicsDataStore}
         CensusDataStore={window.stores.CensusDataStore}
         AppStatisticsStore={window.stores.AppStatisticsStore}
+        QuestionCommentsStore={window.stores.QuestionCommentsStore}
         >
         <Shell history={history}/>
       </Provider>

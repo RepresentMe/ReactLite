@@ -1,0 +1,47 @@
+.add-comment-wrapper {
+  position: absolute;
+  overflow: auto;
+  margin: auto;
+  width: 100%;
+  height: 52px;
+  bottom: 0;
+}
+
+.add-comment {
+  /*position: relative;*/
+  /*left: -50%;*/
+  height: 50px;
+  width: 90%;
+  margin: auto;
+}
+
+.add-comment-area-wrapper {
+  overflow: hidden;
+  height:100%;
+}
+
+.add-comment-area {
+  height:100%;
+  width: 100%;
+  border: 1px solid #eee;
+}
+
+.add-comment-btn {
+  float: right;
+  width: 50px;
+  height: 100%;
+  vertical-align: top;
+  background: #1B8AAE;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.comments-wrapper {
+  position: relative;
+  width: 100%;
+  height: 99%;
+  color: #818a91;
+  font-size: 0.875rem;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background-color: rgba(0, 0, 0, 0.035);
+}
+
