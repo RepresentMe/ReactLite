@@ -21,6 +21,8 @@ class AddComment extends Component {
       subtype: 'info'
     }
     this.props.QuestionCommentsStore.createComment(comment)
+      .then(() => this.setState({comment:''}))
+      .catch(err => console.log(err))
   }
 
   handleChange(e) {
@@ -28,6 +30,7 @@ class AddComment extends Component {
   }
 
   render() {
+    const { comment } = this.state
     return (
 
       <div className="add-comment-wrapper">
@@ -36,6 +39,7 @@ class AddComment extends Component {
           <div className="add-comment-area-wrapper">
             <textarea className="add-comment-area" 
                       onChange={this.handleChange}
+                      value={comment}
             />
           </div>
         </div>

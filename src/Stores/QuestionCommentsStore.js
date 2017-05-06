@@ -37,8 +37,14 @@ class QuestionCommentsStore {
 
 
   createComment(comment) {
-    window.API.post('/api/comments/', comment).then((res) => {
-      this.questionToComments[comment.id]
+    return new Promise((resolve, reject) => {
+      window.API.post('/api/comments/', comment)
+        .then((res) => {
+          console.log(res)
+          this.questionToComments[comment.question].addComments([res.data])
+          resolve()
+        })
+        .catch(err => reject(err))
     })
   }
 
