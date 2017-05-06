@@ -5,7 +5,7 @@ let instance = null;
 
 class QuestionCommentsStore {
   
-  comments = observable.shallowMap({
+  comments = observable({
     // 1399: {
     //   page: 1,
     //   page_size: 10,
@@ -21,17 +21,35 @@ class QuestionCommentsStore {
   }
 
   getComments(id) {
+    this.comments[id] = new QuestionComments();
     let params = {
       question: id,
       ordering: '-direct_sum',
       page: 1,
       page_size: 7
     }
-    window.API.get('/api/comments/', {params}).then((res) => {
-      console.log('comments_result', res);
+    return window.API.get('/api/comments/', {params}).then((res) => {
+      // console.log('comments_result', res.data);
+      this.comments[id].addComments(res.data.results);
+      return res.data;
     })
   }
 
+
+}
+
+
+class QuestionComments {
+  page: 1
+  page_size: 7
+  comments = observable.shallowArray([])
+  constructor(comments = []) {
+    this.addComments(comments)
+  }
+
+  addComments(comments) {
+    this.comments.replace(this.comments.concat(comments));
+  }
 }
 
 // export default instance ? instance : instance = new QuestionCommentsStore();
