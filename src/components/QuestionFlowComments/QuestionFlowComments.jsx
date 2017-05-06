@@ -13,7 +13,7 @@ for (var i = 0; i < 10; i++) {
 @inject("QuestionCommentsStore")
 @observer
 class QuestionFlowComments extends Component {
-  questionId =  1399//this.props.question.id
+  questionId =  824//this.props.question.id
   componentWillMount(nextProps) {
     if(!this.props.QuestionCommentsStore.questionToComments[this.questionId]) {
       this.props.QuestionCommentsStore.getComments(this.questionId)
