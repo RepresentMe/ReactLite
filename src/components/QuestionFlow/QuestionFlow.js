@@ -15,6 +15,7 @@ import Slider from 'material-ui/Slider';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import QuestionFlowComments from '../QuestionFlowComments';
+import QuestionFlowInfo from '../QuestionFlowInfo';
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart'
 import './QuestionFlow.css'
 
@@ -37,12 +38,13 @@ class QuestionFlow extends Component {
     }
 
     let currentItem = items[currentItemIndex];
-
+    let currentQuestion = QuestionStore.questions.get(currentItem.object_id);
     return (
       <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
         {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)} navigateNext={navigateNext}/>}
         {this.props.activeTab === 'results' && <QuestionFlowResults item={currentItem}/>}
-        {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)}/>}
+        {this.props.activeTab === 'comments' && <QuestionFlowComments question={currentQuestion}/>}
+        {this.props.activeTab === 'info' && <QuestionFlowInfo question={currentQuestion}/>}
       </QuestionFlowTabLayout>
     )
   }
