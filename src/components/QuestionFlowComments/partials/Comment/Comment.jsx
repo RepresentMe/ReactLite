@@ -22,8 +22,9 @@ const {
 } = ShareButtons;
 
 
-const FacebookIcon = generateShareIcon('facebook');
-const TwitterIcon = generateShareIcon('twitter');
+const FacebookIcon = generateShareIcon('facebook')
+const TwitterIcon = generateShareIcon('twitter')
+const COMMENT_MAX_SIZE_TO_SHOW = 140
 
 @inject("UserStore", "QuestionCommentsStore")
 @observer
@@ -36,7 +37,9 @@ constructor(props) {
       sharePopover: {
         isOpen: false,
         curAnchorEl: null
-      }
+      },
+      shouldBeTruncated: false,
+      readMore: false
     }
   }
 
@@ -61,12 +64,22 @@ constructor(props) {
     });
   }
 
+  componentWillMount() {
+    if (this.props.comment.text.length > 140) {
+      this.setState({ shouldBeTruncated: true})
+    }
+  }
+
   clickFB = (e) => {
     document.getElementsByClassName(`fb-network__share-button${this.props.comment.id}`)[0].click()
   }
 
   clickTwitter = (e) => {
     document.getElementsByClassName(`twitter-network__share-button${this.props.comment.id}`)[0].click()
+  }
+
+  readMoreClick = () => {
+    this.setState({readMore: true})
   }
 
 
@@ -77,6 +90,13 @@ constructor(props) {
     const shareUrl = `https://app.represent.me/question/${question_info.id}/${question.slug}/comment${id}/`;
     const title = `${comment.user.first_name} ${comment.user.last_name} commented question`
     const picture = question.ogImage || `https://share.represent.me/graphic/${question.id}.png`
+
+    const { shouldBeTruncated, readMore } = this.state
+
+    let truncatedComment
+    if (shouldBeTruncated) {
+      truncatedComment = comment.text.substring(0, COMMENT_MAX_SIZE_TO_SHOW)
+    }
 
     const fb = (
     <FacebookShareButton
@@ -115,7 +135,13 @@ constructor(props) {
               <span className="author-answer text-xs s-agree">Strongly disagree</span>
             </div>
             <div className="comment-text">
-              <p>{comment.text}</p>
+               {
+                shouldBeTruncated ? (
+                 <TruncatedCommentCase readMore={readMore} comment={comment} truncatedComment={truncatedComment} onClick={this.readMoreClick}/>
+                ) : (
+                  <p>{comment.text}</p>
+                )
+               }
             </div>
           </div>
           <div className="buttons">
@@ -157,5 +183,20 @@ constructor(props) {
     );
   }
 }
+
+const TruncatedCommentCase = ({ readMore, comment, truncatedComment, onClick}) => (
+  <div>
+    {
+      readMore ? (
+        <p>{comment.text} 1488</p>
+      ) : (
+        <p> {`${truncatedComment}...`} 
+        <a className="change-answer" onClick={onClick}> Read more</a>
+        </p>
+
+      )
+    }
+  </div>
+)
 
 export default Comment;
