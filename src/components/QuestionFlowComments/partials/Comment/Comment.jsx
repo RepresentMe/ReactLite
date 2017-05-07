@@ -188,7 +188,7 @@ const TruncatedCommentCase = ({ readMore, comment, truncatedComment, onClick}) =
   <div>
     {
       readMore ? (
-        <p>{comment.text} 1488</p>
+        <p>{comment.text}</p>
       ) : (
         <p> {`${truncatedComment}...`} 
         <a className="change-answer" onClick={onClick}> Read more</a>
