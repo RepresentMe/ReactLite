@@ -72,28 +72,15 @@ import DynamicConfigService from '../../services/DynamicConfigService';
   //gets longitude, latitude, and acccuracy in meters
   //gets info from navigator and stores it in localStorage
   getUserLocation = () => {
-    var options = {
-      enableHighAccuracy: true,
-      timeout: 2000,
-      maximumAge: 0
-    };
-    var lat, lon, acc;
-
-    function error(err) {
+    navigator.geolocation.getCurrentPosition(({coords}) => {
+      const { latitude, longitude, accuracy } = coords
+      const location = [latitude, longitude, accuracy]
+      try { localStorage.setItem('location', location) }
+      catch (err) { console.log(err) }
+    },
+    err => {
       console.warn(`ERROR(${err.code}): ${err.message}`);
-    };
-
-    function success(pos) {
-      var crd = pos.coords;
-      lat = crd.latitude;
-      lon = crd.longitude;
-      acc = crd.accuracy;
-
-      let location = [lat, lon, acc]
-      try { localStorage.setItem('location', location); }
-      catch(err) { console.log(err); }
-    };
-    navigator.geolocation.getCurrentPosition(success, error, options);
+    })
   }
 
   //uses 3-party api - limitation 10k requests per hr
@@ -129,7 +116,8 @@ import DynamicConfigService from '../../services/DynamicConfigService';
 
   onVote(i) {
     let question = this.props.QuestionStore.questions.get(this.state.collectionItems[this.props.match.params.itemNumber].object_id)
-    const analytics_location = localStorage.getItem('location').split(',');
+    const userLocation = localStorage.getItem('location')
+    const analytics_location = userLocation ? userLocation.split(',') : null
     const sessionData = [
       question.id, i, this.state.collection.id, true,
       this.state.session_vars.analytics_os,
