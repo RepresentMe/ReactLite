@@ -133,15 +133,15 @@ const QuestionFlowVote = ({items, index, onVote, sliderChange, navigateNext}) =>
 
   return (
     <div style={{height: '100%', overflow: 'scroll'}}>
-      <CSSTransitionGroup
+      {/* <CSSTransitionGroup
         transitionName="FlowTransition"
         transitionAppear={true}
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}
-      >
+      > */}
         {item.type === "Q" && <RenderedQuestion id={item.object_id} index={index} onVote={onVote} key={"FlowTransition" + index}/>}
         {item.type === "B" && <RenderedBreak title={item.content_object.title} text={item.content_object.text} onContinue={navigateNext}/>}
-      </CSSTransitionGroup>
+      {/* </CSSTransitionGroup> */}
       <SlideNavigation key="SlideNavigation" items={items} onChange={sliderChange} value={index}/>
     </div>
   )

@@ -24,7 +24,7 @@ import SurveyFlow from '../SurveyFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import Register from '../Register';
-// import RegisterComponent from '../RegisterNew';
+import RegisterComponent from '../RegisterNew';
 import JoinGroup from '../JoinGroup';
 import Join from '../Join';
 import Test from '../Test';
@@ -42,7 +42,7 @@ import CandidateNew from '../CandidateNew';
 import smallLogo from './represent_white_outline.svg';
 
 
-// import CompareUsers from '../CompareUsersComponent';
+import CompareUsers from '../CompareUsersComponent';
 
 import AuthTokenComponent from '../AuthTokenComponent'
 
@@ -146,7 +146,7 @@ function getDynamicConfig(url) {
                     <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
                     <Route exact path="/login/:dynamicConfig/:email" component={Login}/>
                     <Route exact path="/register" component={Register}/>
-                    {/* <Route exact path="/new" component={RegisterComponent}/> */}
+                    <Route exact path="/new" component={RegisterComponent}/>
                     <Route exact path="/register/:redirect" component={Register}/>
                     <Route exact path="/join/:dynamicConfig?" component={Join}/>
                     <Route exact path="/joingroup/:groupId" component={JoinGroup}/>

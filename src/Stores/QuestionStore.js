@@ -80,6 +80,15 @@ class QuestionStore {
     analytics_os = null, analytics_browser = null,
     analytics_parent_url = null, analytics_location = null) {
     console.log("VOTE LIKERT");
+    console.log('OBJECT=',
+      'questionId', questionId,
+      'value', value,
+      'collection', collection,
+      'vote_private', vote_private,
+      'analytics_os', analytics_os,
+      'analytics_browser', analytics_browser,
+      'analytics_parent_url', analytics_parent_url,
+      'analytics_location', analytics_location)
     if(!this.questions.has(questionId) || !value) {
       return false;
     }
@@ -93,7 +102,7 @@ class QuestionStore {
         analytics_os,
         analytics_browser,
         analytics_parent_url,
-        analytics_location
+        //analytics_location
       })
       .then(function (response) {
         this.loadQuestion(questionId, true);
@@ -113,11 +122,11 @@ class QuestionStore {
         value,
         collection,
         private: vote_private,
-        analytics_interface: 'collection',
-        analytics_os,
-        analytics_browser,
-        analytics_parent_url,
-        analytics_location
+        //analytics_interface: 'collection',
+        //analytics_os,
+        //analytics_browser,
+        //analytics_parent_url,
+        //analytics_location
       })
       .then(function (response) {
         this.loadQuestion(questionId, true);

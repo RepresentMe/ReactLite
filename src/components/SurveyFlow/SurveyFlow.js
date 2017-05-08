@@ -4,7 +4,7 @@ import { observer, inject } from "mobx-react"
 import QuestionFlow from '../QuestionFlow'
 import DynamicConfigService from '../../services/DynamicConfigService';
 
-@inject("CollectionStore", "QuestionStore") @observer class SurveyFlow extends Component {
+@inject("CollectionStore", "QuestionStore", "UserStore") @observer class SurveyFlow extends Component {
 
   constructor() {
     super()
@@ -42,9 +42,6 @@ import DynamicConfigService from '../../services/DynamicConfigService';
     this.setState({activeTab: this.props.match.params.activeTab})
 
     //create session analytics variables
-    //const user = this.props.authToken ? this.props.UserStore.getMe() : null;
-    //const user_id = user ? user.id : null; //id, if user is authed
-    //const url = window.location.href; //current url
     //currently turned off - function calls 3rd party api to get geo details
     //this.getUserIP();
     const analytics_browser = window.navigator.appCodeName; //Browser details
@@ -83,72 +80,43 @@ import DynamicConfigService from '../../services/DynamicConfigService';
     })
   }
 
-  //uses 3-party api - limitation 10k requests per hr
-  /*getUserIP = () => {
-    function parseJSON(response) {
-        return response.json();
-      }
-
-    function checkStatus(response) {
-        if (response.status >= 200 && response.status < 300) {
-          return response;
-        }
-
-        const error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-      }
-
-    function request(url, options) {
-      return fetch(url, options)
-        .then(checkStatus)
-        .then(parseJSON)
-        .then((data) => ({ data }))
-        .catch((err) => ({ err }));
-    }
-
-    request('//freegeoip.net/json/')
-    .then(geo => {
-      this.setState({represent_app_analyticsession: Object.assign(this.state.represent_app_analyticsession, {geo: geo.data})})
-    })
-  }
-*/
-
   onVote(i) {
-    let question = this.props.QuestionStore.questions.get(this.state.collectionItems[this.props.match.params.itemNumber].object_id)
-    const userLocation = localStorage.getItem('location')
-    const analytics_location = userLocation ? userLocation.split(',') : null
-    const sessionData = [
-      question.id, i, this.state.collection.id, true,
-      this.state.session_vars.analytics_os,
-      this.state.session_vars.analytics_browser,
-      this.state.session_vars.analytics_parent_url,
-      analytics_location
-    ]
-    if(question.subtype === 'likert') {
-      this.props.QuestionStore.voteQuestionLikert(
-        ...sessionData
-      )
-    }else if(question.subtype === 'mcq') {
-      this.props.QuestionStore.voteQuestionMCQ(
-        ...sessionData
-      )
+    if(!this.props.UserStore.userData.has("id")){
+      this.props.history.push("/login/" + this.dynamicConfig.encodeConfig())
+    } else {
+      let question = this.props.QuestionStore.questions.get(this.state.collectionItems[this.props.match.params.itemNumber].object_id)
+      const userLocation = localStorage.getItem('location')
+      const analytics_location = userLocation ? userLocation : null
+      const sessionData = [
+        question.id, i, this.state.collection.id, true,
+        this.state.session_vars.analytics_os,
+        this.state.session_vars.analytics_browser,
+        this.state.session_vars.analytics_parent_url,
+        analytics_location
+      ]
+      if(question.subtype === 'likert') {
+        this.props.QuestionStore.voteQuestionLikert(
+          ...sessionData
+        )
+      }else if(question.subtype === 'mcq') {
+        this.props.QuestionStore.voteQuestionMCQ(
+          ...sessionData
+        )
+      }
+      this.navigateNext()
     }
-    this.navigateNext()
   }
 
   navigateNext() {
-    if(parseInt(this.props.match.params.itemNumber + 1) > this.state.collectionItems.length) {
+    if (parseInt(this.props.match.params.itemNumber) + 1 > this.state.collectionItems.length) {
       this.navigateEnd()
     }else {
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) + 1) + '/vote/' + this.dynamicConfig.encodeConfig())
     }
   }
-
   navigatePrevious() {
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) - 1) + '/vote/' + this.dynamicConfig.encodeConfig())
   }
-
   navigateN(n) {
     if((n + 1) > this.state.collectionItems.length) {
       this.navigateEnd()
@@ -156,18 +124,25 @@ import DynamicConfigService from '../../services/DynamicConfigService';
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + n + '/vote/' + this.dynamicConfig.encodeConfig())
     }
   }
-
   navigateTab(tab) {
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + this.props.match.params.itemNumber + '/' + tab + '/' + this.dynamicConfig.encodeConfig())
   }
-
   navigateEnd() {
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/end/' + this.dynamicConfig.encodeConfig())
   }
+  
   render() {
     //console.log('this.state', this.state)
     return (
-        <QuestionFlow activeTab={this.state.activeTab} items={this.state.collectionItems} currentItemIndex={this.props.match.params.itemNumber} onVote={this.onVote} navigateN={this.navigateN} navigateNext={this.navigateNext} navigateTab={this.navigateTab}/>
+        <QuestionFlow
+          activeTab={this.state.activeTab}
+          items={this.state.collectionItems}
+          currentItemIndex={this.props.match.params.itemNumber}
+          onVote={this.onVote}
+          navigateN={this.navigateN}
+          navigateNext={this.navigateNext}
+          navigateTab={this.navigateTab}
+        />
   )}
 }
 

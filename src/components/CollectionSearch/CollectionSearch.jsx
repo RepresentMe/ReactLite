@@ -36,7 +36,7 @@ import { green100 } from 'material-ui/styles/colors';
           {this.state.search.length >= 3 && existingQuestionDialogResults && existingQuestionDialogResults.map((collectionId, index) => {
 
             return (
-              <Link to={ "/collection/" + collectionId } style={{textDecoration: 'none'}} key={index}><ListItem onClick={() => {}}
+              <Link to={ "/survey/" + collectionId } style={{textDecoration: 'none'}} key={index}><ListItem onClick={() => {}}
                 hoverColor={green100}
                 primaryText={this.props.CollectionStore.collections.get(collectionId).name}
                 rightIcon={<ArrowForward />}

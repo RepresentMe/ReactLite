@@ -5,9 +5,19 @@ import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import CollectionSearch from '../CollectionSearch';
 
-var CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) => {
+const styles = {
+  cardStyle: {
+    margin: '10px',
+    maxWidth: 900
+  },
+  imgStyle: {
+    maxWidth: 900
+  }
+}
 
-  if(CollectionStore.collections.size <= 0) {
+const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) => {
+
+  if (CollectionStore.collections.size <= 0) {
     return null;
   }
 
@@ -17,18 +27,29 @@ var CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) =
     <div>
       <div><CollectionSearch /></div>
       {collections.map((collection_obj) => {
-        let id = collection_obj[0];
-        let collection = collection_obj[1];
+        const id = collection_obj[0];
+        const collection = collection_obj[1];
         return (
-          <Card style={{margin: '10px'}} key={ id }>
-            <CardTitle
+          <Card style={styles.cardStyle} key={ id }>
+            {/* <CardTitle
               title={ collection.name }
-            />
+            /> */}
+            <CardMedia
+              overlay={<CardTitle
+                title={collection.name}
+                />}
+            >
+              <img src={collection.photo.replace("localhost:8000", "represent.me")}
+              style={styles.imgStyle}/>
+
+            </CardMedia>
             <CardText>
               { collection.desc }
             </CardText>
             <CardActions>
-              <Link to={ "/survey/" + id }><RaisedButton label="Start" primary /></Link>
+              <Link to={ "/survey/" + id }>
+                <RaisedButton label="Start" primary />
+              </Link>
             </CardActions>
           </Card>
         )
