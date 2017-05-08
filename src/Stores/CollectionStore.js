@@ -6,7 +6,7 @@ class CollectionStore {
   collections = observable.shallowMap([]);
   collectionItems = observable.shallowMap({});
   searchCache = observable.shallowMap({});
-  next = observable.shallowObject({values: null});
+  //next = observable.shallowObject({values: null});
 
 
   constructor() {
@@ -86,10 +86,12 @@ class CollectionStore {
     return new Promise((resolve, reject) => {
       window.API.get('/api/question_collection_items/', {params: { parent: collectionId, ordering: 'order', page } })
         .then((response) => {
-          let items = response.data.results
-          if(items.length < 10) {
+          let items = response.data.results;
+          const count = Math.ceil(response.data.count / 10);
+
+          if(items.length < 10 || page === count) {
             resolve(items)
-          }else {
+          } else {
             this.getCollectionItemsByIdPage(collectionId, page + 1)
               .then((inner_items) => {
                 resolve(items.concat(inner_items))
@@ -97,7 +99,7 @@ class CollectionStore {
               .catch((error) => {
                 reject(error)
               })
-          }
+              }
         })
         .catch((error) => {
           resolve([])
@@ -105,7 +107,7 @@ class CollectionStore {
     })
   }
 
-  // Ev's version
+  // EV's version - page by page
   // getCollectionItemsById(collectionId) {
   //   return new Promise((resolve, reject) => { // Return a promise of search results
   //     // Check cache for results, and instantly resolve if exists

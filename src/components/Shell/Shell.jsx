@@ -24,6 +24,7 @@ import SurveyFlow from '../SurveyFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import Register from '../Register';
+import RegisterComponent from '../RegisterNew';
 import JoinGroup from '../JoinGroup';
 import Join from '../Join';
 import Test from '../Test';
@@ -41,7 +42,7 @@ import CandidateNew from '../CandidateNew';
 import smallLogo from './represent_white_outline.svg';
 
 
-//import CompareUsers from '../CompareUsersComponent';
+import CompareUsers from '../CompareUsersComponent';
 
 import AuthTokenComponent from '../AuthTokenComponent'
 
@@ -145,6 +146,7 @@ function getDynamicConfig(url) {
                     <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
                     <Route exact path="/login/:dynamicConfig/:email" component={Login}/>
                     <Route exact path="/register" component={Register}/>
+                    <Route exact path="/new" component={RegisterComponent}/>
                     <Route exact path="/register/:redirect" component={Register}/>
                     <Route exact path="/join/:dynamicConfig?" component={Join}/>
                     <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
@@ -159,8 +161,8 @@ function getDynamicConfig(url) {
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
                     <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
                     <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
-                    <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
-                    {/* <Route exact path='/compare' component={CompareUsers}/> */}
+                    {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
+                    <Route exact path='/compare' component={CompareUsers}/>
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>
