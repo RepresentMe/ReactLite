@@ -46,7 +46,7 @@ import DynamicConfigService from '../../services/DynamicConfigService';
     //this.getUserIP();
     const analytics_browser = window.navigator.appCodeName; //Browser details
     const analytics_os = window.navigator.appVersion.slice(0,100); //OS
-    const analytics_parent_url = window.parent.location.href; //parent url (for embed) or current url in other cases
+    const analytics_parent_url = window.parent.location.href.slice(0,200); //parent url (for embed) or current url in other cases
     const session_vars = Object.assign({},
       {
         analytics_os,
@@ -98,7 +98,7 @@ import DynamicConfigService from '../../services/DynamicConfigService';
         this.props.QuestionStore.voteQuestionLikert(
           ...sessionData
         )
-      }else if(question.subtype === 'mcq') {
+      } else if(question.subtype === 'mcq') {
         this.props.QuestionStore.voteQuestionMCQ(
           ...sessionData
         )
@@ -108,7 +108,7 @@ import DynamicConfigService from '../../services/DynamicConfigService';
   }
 
   navigateNext() {
-    if (parseInt(this.props.match.params.itemNumber) + 1 > this.state.collectionItems.length) {
+    if (parseInt(this.props.match.params.itemNumber) + 1 === this.state.collectionItems.length) {
       this.navigateEnd()
     }else {
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) + 1) + '/vote/' + this.dynamicConfig.encodeConfig())
@@ -118,7 +118,7 @@ import DynamicConfigService from '../../services/DynamicConfigService';
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) - 1) + '/vote/' + this.dynamicConfig.encodeConfig())
   }
   navigateN(n) {
-    if((n + 1) > this.state.collectionItems.length) {
+    if((n + 1) === this.state.collectionItems.length) {
       this.navigateEnd()
     }else {
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + n + '/vote/' + this.dynamicConfig.encodeConfig())
@@ -130,7 +130,7 @@ import DynamicConfigService from '../../services/DynamicConfigService';
   navigateEnd() {
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/end/' + this.dynamicConfig.encodeConfig())
   }
-  
+
   render() {
     //console.log('this.state', this.state)
     return (
