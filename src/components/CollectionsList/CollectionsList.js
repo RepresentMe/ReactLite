@@ -44,25 +44,28 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 
 
         return (
-          <Link to={ "/survey/" + id }>
+
             <Card style={styles.cardStyle} key={ id }>
 
-              <CardHeader
-                  title={user_name}
-                  subtitle={`${bio} ${location}`}
-                  avatar={photo}
-                  className='cardHeaderStyle'
-              />
-              <CardMedia>
-                <img src={image} className='imgStyle'/>
-              </CardMedia>
-              <CardTitle
-                title={ collection.name }
-              />
+            <Link to={ "/survey/" + id } >
+                <CardHeader
+                    title={user_name}
+                    subtitle={`${bio} ${location}`}
+                    avatar={photo}
+                    className='cardHeaderStyle'
+                />
+                <CardMedia>
+                  <img src={image} className='imgStyle'/>
+                </CardMedia>
+                <CardTitle
+                  title={ collection.name }
+                />
+              </Link>
               <CardText>
                 {collection.desc.slice(0, 200 + collection.desc.indexOf(' ')) + ' '}
                 <Link to={ "/survey/" + id }><i>more...</i></Link>
               </CardText>
+
               <CardActions>
                 <Link to={ "/survey/" + id }>
                   <FlatButton label="Start" primary />
@@ -70,7 +73,7 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
               </CardActions>
 
             </Card>
-          </Link>
+
         )
       })}
       </div>
