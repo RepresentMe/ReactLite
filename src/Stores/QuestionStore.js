@@ -80,15 +80,6 @@ class QuestionStore {
     analytics_os = null, analytics_browser = null,
     analytics_parent_url = null, analytics_location = null) {
     console.log("VOTE LIKERT");
-    console.log('OBJECT=',
-      'questionId', questionId,
-      'value', value,
-      'collection', collection,
-      'vote_private', vote_private,
-      'analytics_os', analytics_os,
-      'analytics_browser', analytics_browser,
-      'analytics_parent_url', analytics_parent_url,
-      'analytics_location', analytics_location)
     if(!this.questions.has(questionId) || !value) {
       return false;
     }
@@ -102,35 +93,35 @@ class QuestionStore {
         analytics_os,
         analytics_browser,
         analytics_parent_url,
-        //analytics_location
+        analytics_location
       })
       .then(function (response) {
         this.loadQuestion(questionId, true);
-      }.bind(this));
+      }.bind(this)).catch(err => console.log('err', err));
   }
 
   voteQuestionMCQ(questionId, value, collection = null, vote_private = true,
     analytics_os = null, analytics_browser = null,
-    analytics_location = null, analytics_parent_url = null) {
+    analytics_parent_url = null, analytics_location = null) {
     console.log("VOTE MCQ");
     if(!this.questions.has(questionId) || !value) {
       return false;
     }
 
     window.API.post('/api/question_choice_votes/', {
-        object_id: questionId,
-        value,
+        object_id: value,
+        value: 5,
         collection,
         private: vote_private,
-        //analytics_interface: 'collection',
-        //analytics_os,
-        //analytics_browser,
-        //analytics_parent_url,
-        //analytics_location
+        analytics_interface: 'collection',
+        analytics_os,
+        analytics_browser,
+        analytics_parent_url,
+        analytics_location
       })
       .then(function (response) {
         this.loadQuestion(questionId, true);
-      }.bind(this));
+      }.bind(this)).catch(err => console.log('err', err));
   }
 
   getCollectionItem(collectionId, questionId) {
@@ -146,13 +137,13 @@ class QuestionStore {
       let oldIndex = this.collectionQuestions.get(collectionId).indexOf(questionId);
       let newIndex = newQuestions.indexOf(questionId);
 
-      if (oldIndex == -1) { // New question has been added to the collection
+      if (oldIndex === -1) { // New question has been added to the collection
         apiQueue.push(window.API.post('/api/question_collection_items/', {
             parent: collectionId,
             question: questionId,
             order: newIndex
           }));
-      }else if(oldIndex != newIndex) { // Existing question order has changed
+      }else if(oldIndex !== newIndex) { // Existing question order has changed
         apiQueue.push(window.API.patch('/api/question_collection_items/' + this.getCollectionItem(collectionId, questionId).id + '/', {
             order: newIndex
           }));
@@ -161,7 +152,7 @@ class QuestionStore {
 
     for(let questionId of this.collectionQuestions.get(collectionId)) { // Loop through existing questions looking for deleted items
       let newIndex = newQuestions.indexOf(questionId);
-      if(newIndex == -1) { // Question has been deleted
+      if(newIndex === -1) { // Question has been deleted
         apiQueue.push(window.API.delete('/api/question_collection_items/' + this.getCollectionItem(collectionId, questionId).id + '/'));
       }
     }
