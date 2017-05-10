@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import AddComment from './partials/AddComment';
 import Comment from './partials/Comment';
+import NoComments from './partials/NoComments';
 import ConfirmDeleteCommentDialog from './partials/ConfirmDeleteCommentDialog';
 import ReportDialog from './partials/ReportDialog';
 import './style.css';
@@ -13,7 +14,7 @@ import './style.css';
 @inject("QuestionCommentsStore")
 @observer
 class QuestionFlowComments extends Component {
-  questionId =  824//this.props.question.id
+  questionId =  823//this.props.question.id
 
   constructor(props) {
     super(props);
@@ -82,15 +83,23 @@ class QuestionFlowComments extends Component {
   };
 
   render() {
+    const { comments } = this.props.QuestionCommentsStore.questionToComments[this.questionId]
     return (<div className="comments-wrapper">
-      <div className="comments-list">
-        {this.props.QuestionCommentsStore.questionToComments[this.questionId].comments.map((comment, i) => {
-          
-          return <Comment key={i} comment={comment} question={this.props.question} onDelete={this.showCommentDeleteDialog.bind(this, comment)} onReport={this.handleOpenReportDialog}/>
-        })}
-        <ReportDialog open={this.state.reportDialog.isOpen} handleClose={this.handleCloseReportDialog} createReport={this.createReport}/>
-        <ConfirmDeleteCommentDialog isOpen={this.state.deleteDialog.isOpen} handleCancle={this.closeCommentDeleteDialog} handleSubmit={this.submitCommentDeleteDialog} />
-      </div>
+      {
+        comments.length ? (
+           <div className="comments-list">
+            {comments.map((comment, i) => {
+              return <Comment key={i} comment={comment} question={this.props.question} onDelete={this.showCommentDeleteDialog.bind(this, comment)} onReport={this.handleOpenReportDialog}/>
+            })}
+            <ReportDialog open={this.state.reportDialog.isOpen} handleClose={this.handleCloseReportDialog} createReport={this.createReport}/>
+            <ConfirmDeleteCommentDialog isOpen={this.state.deleteDialog.isOpen} handleCancle={this.closeCommentDeleteDialog} handleSubmit={this.submitCommentDeleteDialog} />
+          </div>
+        ) : (
+            <NoComments />
+        )
+
+      }
+     
       
       <AddComment {...this.props}/>
     </div>);

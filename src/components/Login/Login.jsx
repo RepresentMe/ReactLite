@@ -41,11 +41,13 @@ import smallLogo from './represent_white_outline.svg';
 
   componentWillUpdate() {
     if(this.props.UserStore.userData.has("id")) { // If user is logged in, redirect
-      if(this.props.match.params.dynamicConfig) {
-        this.props.history.push(this.dynamicConfig.getNextRedirect());
-      }else {
+      //ToDo undestand what and how dynamicConfig??
+      //temporary fix -> redirect to main
+      // if(this.props.match.params.dynamicConfig) {
+      //   this.props.history.push(this.dynamicConfig.getNextRedirect());
+      // }else {
         this.props.history.push("/");
-      }
+      // }
     }
   }
 

@@ -17,7 +17,7 @@ class AddComment extends Component {
     const comment = {
       text: this.state.comment,
       // question: this.props.question.object_id,
-      question: 824,
+      question: 823,
       subtype: 'info'
     }
     this.props.QuestionCommentsStore.createComment(comment)
