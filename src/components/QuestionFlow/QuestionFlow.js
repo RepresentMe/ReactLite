@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { observer, inject } from "mobx-react"
 import $ from 'jquery'
 import ReactMarkdown from 'react-markdown';
@@ -18,6 +17,7 @@ import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionFlowInfo from '../QuestionFlowInfo';
 import QuestionFlowShare from '../QuestionFlowShare';
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart'
+//import ControlledLinearProgess from '../ControlledLinearProgess';
 import './QuestionFlow.css'
 
 @inject("QuestionStore")
@@ -143,6 +143,7 @@ const QuestionFlowVote = ({items, index, onVote, sliderChange, navigateNext}) =>
         {item.type === "B" && <RenderedBreak title={item.content_object.title} text={item.content_object.text} onContinue={navigateNext}/>}
       {/* </CSSTransitionGroup> */}
       <SlideNavigation key="SlideNavigation" items={items} onChange={sliderChange} value={index}/>
+      {/* <ControlledLinearProgess len={items.length} index={index}/> */}
     </div>
   )
 }
