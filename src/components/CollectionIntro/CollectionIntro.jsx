@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DynamicConfigService from '../../services/DynamicConfigService';
 import ErrorReload from '../ErrorReload';
 import ReactGA from 'react-ga';
+import {Helmet} from "react-helmet";
 
 @inject("UserStore", "CollectionStore") @observer class CollectionIntro extends Component {
 
@@ -88,6 +89,12 @@ import ReactGA from 'react-ga';
 
     return (
       <div style={imageStyle}>
+        <Helmet>
+          <meta property="og:url" content="https://openv2.represent.me" />
+          <meta property="og:title" content="Represent: Democracy as it should be. Survey" />
+          <meta property="og:image" content="https://represent.me/assets/img/ogimage.jpg" />
+          <meta property="og:description" content="We’re modernising democracy. Join the Heard. And Survey" />
+        </Helmet>
         <div style={outerStyle}>
           {collection.photo && <img src={collection.photo.replace("localhost:8000", "represent.me")} style={{display: 'none'}} onLoad={() => {this.setState({collectionImageLoaded: true})}} />}
           <div style={innerStyle}>
