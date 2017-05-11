@@ -29,7 +29,7 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
     //sorts the values in ascending and calcs the shift of label display
     //not to crowd the chart space
     const sortValues = (values) => {
-      values = values.sort((a,b) => a.value-b.value)
+      values = values.sort((a,b) => -a.value+b.value)
       let arr = values.map((v) => v.value)
       arr.unshift(0)
       return values.map((v,i)=> Object.assign(v, {prev: arr[i]}))

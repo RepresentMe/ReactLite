@@ -334,15 +334,15 @@ const styles = {
             <p style={{fontSize: '1rem'}}><i>Content on the Represent platform comes from a variety of curuated, 3rd party and user generated sources. To get the most out of Represent we recommend visiting <a href="https://represent.me">represent.me</a> and subscribing to the movements, unions, charities and groups you support.</i></p>
           </div>
         }
-        <Stepper activeStep={stepIndex}>
+        <Stepper activeStep={stepIndex} className='stepper' style={{border: 'none', backgroundColor: 'transparent'}}>
           <Step>
-            <StepLabel>{stepIndex >= 0 ? 'intro' : ''}</StepLabel>
+            {/* <StepLabel>{stepIndex >= 0 ? 'intro' : ''}</StepLabel> */}
           </Step>
           <Step>
-            <StepLabel>{stepIndex >= 1 ? 'details' : ''}</StepLabel>
+            {/* <StepLabel>{stepIndex >= 1 ? 'details' : ''}</StepLabel> */}
           </Step>
           <Step>
-            <StepLabel>{stepIndex === 2 ? 'finish' : ''}</StepLabel>
+            {/* <StepLabel>{stepIndex === 2 ? 'finish' : ''}</StepLabel> */}
           </Step>
         </Stepper>
         <div>
