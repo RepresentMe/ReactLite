@@ -13,8 +13,9 @@ const styles = {
     padding: 10
   },
   cardStyle: {
-    maxWidth: 400,
-    margin: '10px auto'
+    maxWidth: '100%',
+    margin: '1%',
+    cssFloat: 'left'
   }
 }
 

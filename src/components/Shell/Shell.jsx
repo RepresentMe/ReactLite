@@ -57,15 +57,15 @@ import {
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: white,
-    alternateTextColor: cyan600,
+    alternateTextColor: '#1B8AAE',
   },
   slider: {
-    selectionColor: cyan600,
+    selectionColor: '#1B8AAE',
     rippleColor: cyan600,
   },
   raisedButton: {
     textColor: white,
-  },
+  }, 
   flatButton: {
     primaryTextColor: cyan600,
     secondaryTextColor: grey700,

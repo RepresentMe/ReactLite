@@ -26,23 +26,14 @@ const TwitterIcon = generateShareIcon('twitter')
 const WhatsappIcon = generateShareIcon('whatsapp');
 
 const style = {
-  innerPaperStyle: {
-    height: 150,
-    width: '80%',
-    margin: 5,
-    textAlign: 'center',
-    display: 'inline-block'
+  innerPaperStyle: { 
+
   },
-  pageWrapperPaper: {
-    height: '60%',
-    width: '90%',
-    textAlign: 'center',
-    margin: 'auto',
-    marginTop: 15
+  pageWrapperPaper: { 
   },
   textFieldStyle: {
     margin: 30,
-    width: '80%'
+    maxWidth: 400
   },
   button: {
     margin: 12,
@@ -96,7 +87,7 @@ class QuestionFlowShare extends Component {
       picture={imgSrc}
       className='fb-network__share-button'>
       <FacebookIcon
-        size={32}
+        size={28}
         round />
     </FacebookShareButton>
   )
@@ -126,10 +117,14 @@ class QuestionFlowShare extends Component {
     return (
       <div className='share-tab'>
 
-        <Paper style={pageWrapperPaper} zDepth={1}>
+        <Paper style={pageWrapperPaper} zDepth={0}>
+          
+          <Paper style={innerPaperStyle} zDepth={2}>
+            <img src={imgSrc} className='img-share'/>
+          </Paper>
           <Paper style={innerPaperStyle} zDepth={0}>
             <TextField
-              hintText="Type your text here"
+              hintText="Say something about this (optional)"
               multiLine={true}
               fullWidth
               style={textFieldStyle}
@@ -137,9 +132,6 @@ class QuestionFlowShare extends Component {
               value={shareText}
               onChange={this.onInputChange}
             />
-          </Paper>
-          <Paper style={innerPaperStyle} zDepth={0}>
-            <img src={imgSrc} className='img-share'/>
           </Paper>
           <Paper style={innerPaperStyle} zDepth={0}>
              <RaisedButton
