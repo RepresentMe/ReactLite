@@ -4,7 +4,7 @@ php_flag html_errors on
 php_flag  log_errors on
 
 <IfModule mod_headers.c>
-    RequestHeader set X-Prerender-Token "5y5i6U404sQwwmY1kLY9"
+    RequestHeader set X-Prerender-Token "dXMtd2VzdC0yOjExZjk4MTAzLWRmNjQtNGM4ZS1iMDg4LTlmNGI0YjFlNDM1NQ.7v0lNfTFBDjOYk71bMQzDflYvK7LmuRKxf7BAmontGA"
 </IfModule>
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -12,9 +12,9 @@ php_flag  log_errors on
         RewriteCond %{HTTP_USER_AGENT} baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora\ link\ preview|showyoubot|outbrain|pinterest|slackbot|vkShare|W3C_Validator [NC,OR]
         RewriteCond %{QUERY_STRING} _escaped_fragment_
         # Only proxy the request to Prerender if it's a request for HTML
-        RewriteRule ^(?!.*?(\.js|\.css|\.xml|\.less|\.png|\.jpg|\.jpeg|\.gif|\.pdf|\.doc|\.txt|\.ico|\.rss|\.zip|\.mp3|\.rar|\.exe|\.wmv|\.doc|\.avi|\.ppt|\.mpg|\.mpeg|\.tif|\.wav|\.mov|\.psd|\.ai|\.xls|\.mp4|\.m4a|\.swf|\.dat|\.dmg|\.iso|\.flv|\.m4v|\.torrent|\.ttf|\.woff))(.*) http://service.prerender.io/https://openv2.represent.me/$2 [P,L]
-
-        RewriteRule ^static/                   -                          [L]
-        RewriteRule ^                      index.html                     [B,L]
+        RewriteRule ^(?!.*?(\.js|\.css|\.xml|\.less|\.png|\.jpg|\.jpeg|\.gif|\.pdf|\.doc|\.txt|\.ico|\.rss|\.zip|\.mp3|\.rar|\.exe|\.wmv|\.doc|\.avi|\.ppt|\.mpg|\.mpeg|\.tif|\.wav|\.mov|\.psd|\.ai|\.xls|\.mp4|\.m4a|\.swf|\.dat|\.dmg|\.iso|\.flv|\.m4v|\.torrent|\.ttf|\.woff))(.*) http://service.prerender.cloud/http://openv2.represent.me/$2 [P,L]
     </IfModule>
+
+    RewriteRule ^static/                   -                          [L]
+    RewriteRule ^                      index.html                     [B,L]
 </IfModule>
