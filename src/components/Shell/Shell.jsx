@@ -25,6 +25,7 @@ import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import Register from '../Register';
 import RegisterNewUser from '../RegisterNewUser';
+import RegisterNewUserAddDetails from '../RegisterNewUserAddDetails';
 import JoinGroup from '../JoinGroup';
 import Join from '../Join';
 import Test from '../Test';
@@ -160,8 +161,8 @@ function getDynamicConfig(url) {
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
                     <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
                     <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
-                    <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
-                    {/* <Route exact path='/compare' component={CompareUsers}/> */}
+                    {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
+                    <Route exact path='/compare' component={CompareUsers}/>
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>

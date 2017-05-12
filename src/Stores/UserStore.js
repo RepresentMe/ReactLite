@@ -195,7 +195,19 @@ class UserStore {
     return true
   }
 
+  // to find out if I (logged user) am following other user
+  amFollowingUser(myId, theirId) {
+    return window.API.get(`/api/users/?following=${theirId}&user=${myId}/`)
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error, error.response.data);
+      });
+  }
+
 }
+
 
 autorun(() => {
   //window.API.defaults.headers.common['Authorization'] = "Token ff76bcf5e0daf737144f34fcd913a6cd13c96df2";

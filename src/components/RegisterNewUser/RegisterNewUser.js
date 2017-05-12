@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
-import FacebookLogin from 'react-facebook-login';
 
-import TextField from 'material-ui/TextField';
-import Paper from 'material-ui/Paper';
 import { grey100, cyan600 } from 'material-ui/styles/colors';
 import Dialog from 'material-ui/Dialog';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import {Step, Stepper, StepLabel } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
 import DynamicConfigService from '../../services/DynamicConfigService';
-import GeoService from '../../services/GeoService';
+//import GeoService from '../../services/GeoService';
 
 import './RegisterNewUser.css';
 
 import Page1 from './RegisterNewPage1';
 import Page2 from './RegisterNewPage2';
-import Page3 from './RegisterNewPage3';
 
 const styles = {
   containerStyle: {

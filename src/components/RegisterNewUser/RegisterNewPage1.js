@@ -3,7 +3,7 @@ import FacebookLogin from 'react-facebook-login';
 import { Link } from 'react-router-dom';
 
 import TextField from 'material-ui/TextField';
-import { grey100, cyan600, orange500 } from 'material-ui/styles/colors';
+import { grey100, cyan600, orange500, indigo500 } from 'material-ui/styles/colors';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
@@ -12,6 +12,7 @@ import Paper from 'material-ui/Paper';
 //import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 //import MessengerCheckboxPlugin from '../MessengerCheckboxPlugin';
+import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
 import smallLogo from './represent_white_outline.svg';
 import './RegisterNewUser.css';
 
@@ -34,7 +35,9 @@ const styles = {
   },
   facebookLoginStyle: {
     display: 'inline-block',
-    width: '100%'
+    width: '100%',
+    color: 'white',
+    backgroundColor: indigo500
   },
   txtStyle: {
     color: cyan600
@@ -76,23 +79,25 @@ const Page1 = (props) => {
 
         <div>
           {props.agreedTermsValue ? <FacebookLogin
-            cssClass="custom-facebook-login-button"
             appId={String(window.authSettings.facebookId)}
             autoLoad={false}
             fields="name,email,picture"
             callback={props.facebookCallback}
             style={styles.facebookLoginStyle}
             textButton="login with Facebook"
-            buttonStyle={{cursor: 'pointer'}}
+            buttonStyle={{cursor: 'pointer', width: '100%', paddingBottom: 7, paddingTop: 5, textAlign: 'middle'}}
             disableMobileRedirect={true}
+            icon={<FacebookBox color='white' style={{verticalAlign: 'middle', marginRight: 10}}/>}
+
             /> :
 
             <RaisedButton
               label={<span className='fbMockButton'>login with facebook</span>}
               primary={true}
               onTouchTap={attemptNextPage}
-              buttonStyle={{backgroundColor: '#1B8AAE'}}
+              buttonStyle={{backgroundColor: indigo500}}
               style={{width: '100%'}}
+              icon={<FacebookBox color='lightgrey' />}
             />}
         </div>
         <p style={{fontSize: 12, marginTop: 10, marginBottom: 20}}>
@@ -102,13 +107,6 @@ const Page1 = (props) => {
         <p style={{color: orange500}}>{props.problem}</p>
 
         <div>
-          {/* <RaisedButton
-            label='Create an account'
-            onTouchTap={attemptNextPage}
-            style={{width: '100%'}}
-            primary={true}
-            //disabled={!props.agreedTermsValue}
-          /> */}
           <div className='button'
             onTouchTap={attemptNextPage}
             style={{backgroundColor: grey100, color: 'black'}}

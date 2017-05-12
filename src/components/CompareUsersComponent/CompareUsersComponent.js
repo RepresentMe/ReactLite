@@ -7,10 +7,15 @@ import FlatButton from 'material-ui/FlatButton';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Rectangle, ResponsiveContainer } from 'recharts';
 import LoadingIndicator from '../LoadingIndicator';
 import Checkbox from 'material-ui/Checkbox';
-import Divider from 'material-ui/Divider';
-import intersection from 'lodash/intersection';
-import difference from 'lodash/difference';
-import Toggle from 'material-ui/Toggle';
+
+import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
+// import Divider from 'material-ui/Divider';
+// import intersection from 'lodash/intersection';
+// import difference from 'lodash/difference';
+// import Toggle from 'material-ui/Toggle';
+
+
+import './CompareUsers.css';
 
 const labels = {
   "strongly_agree": {label: "Strongly Agree", color: "rgb(74,178,70)"},
@@ -20,14 +25,15 @@ const labels = {
   "strongly_disagree": {label: "Strongly disagree", color: "rgb(244,56,41)"}
 }
 
-const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")(observer(({ CollectionStore, UserStore, QuestionStore, userIds = [7]}) => {
+const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")(observer(({ CollectionStore, UserStore, QuestionStore, userIds = [7,322,45]}) => {
 
-  let userLoggedIn = true //UserStore.isLoggedIn();
-  let currentUserId = 5570//userLoggedIn && UserStore.userData.get("id");
+  let userLoggedIn = UserStore.isLoggedIn(); //true
+  let currentUserId = userLoggedIn && UserStore.userData.get("id"); //5570
   let viewData = observable.shallowObject({
     isLoggedIn: userLoggedIn,
     users: observable.shallowArray([]),
-    compareData: observable.shallowMap()
+    compareData: observable.shallowMap(),
+    //following_users: observable.shallowMap()
   });
 
   if (!userIds.length) console.log('No users specified to compare');
@@ -35,9 +41,10 @@ const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionS
     userIds.map((id) => {
       UserStore.getUserById(id).then((res) => {console.log('userB', res) ; return viewData.users.push(res)})
       UserStore.compareUsers(currentUserId, id).then((res) => {console.log('compare', res); return viewData.compareData.set(id, res)})
+      //UserStore.amFollowingUser(currentUserId, id).then((res) => {console.log('following_users', res); return viewData.following_users.set(id, res)})
     })
   }
-
+  //const me = UserStore.getMe().then(me => console.log('MEEEEEE', me));
   return <CompareCollectionUsersView data={viewData} />
 }))
 
@@ -47,10 +54,11 @@ const CompareCollectionUsersView = observer(({data})=> {
   return (
     <div>
     {data.users.map((user) => {
-      console.log('userA, data', user, data)
+      console.log('userB, data', user, data)
       return (
         <div key={user.id} >
-          <UserCard user={user} compareData={data.compareData.get(user.id)}/>
+          <UserCard user={user}
+            compareData={data.compareData.get(user.id)}/>
         </div>
       )
     })}
@@ -63,50 +71,8 @@ const CompareCollectionUsersView = observer(({data})=> {
 
   state = {
     //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
-    checked: [false,false,false,false,false],
-    user: {
-      name: '',
-      location: '',
-      link: '',
-      concensus: '',
-      count_comments: 0,
-      count_followers: 0,
-      count_group_memberships: 0,
-      count_questions: 0,
-      count_votes: 0
-    }
+    checked: [true,true,false,false,false]
   }
-  componentWillMount(){
-    const name = this.props.user.first_name ? this.props.user.first_name + ' ' + this.props.user.last_name : this.props.user.username;
-    const location = (this.props.user.country_info ? this.props.user.country_info.name + (this.props.user.region_info ? ', ' : '') : '') + (this.props.user.region_info ? this.props.user.region_info.name : '');
-    const link = "https://app.represent.me/profile/" + this.props.user.id + "/" + this.props.user.username;
-    const count_comments = this.props.user.count_comments
-    const count_followers = this.props.user.count_followers
-    const count_group_memberships = this.props.user.count_group_memberships
-    const count_questions = this.props.user.count_questions
-    const count_votes = this.props.user.count_votes
-
-    const user = Object.assign({},
-      {name},
-      {location},
-      {link},
-      {count_comments},
-      {count_followers},
-      {count_group_memberships},
-      {count_questions},
-      {count_votes}
-    )
-    this.setState({user})
-  }
-
-  componentDidMount(){
-    if(this.props.compareData) {
-      let concensus = Math.floor(100-this.props.compareData.difference_percent) + '%';
-      this.setState({user: {concensus}});
-      console.log('concensus', concensus)
-    }
-  }
-
 
   handleCheck = (e, value) => {
     switch(e.target.value){
@@ -125,21 +91,43 @@ const CompareCollectionUsersView = observer(({data})=> {
       default: return
     }
   }
+  changeFollow = () => {
+    //update auth/me/ to follow user
+  }
   render(){
-    const name = this.state.user.name;
-    const location = this.state.user.location;
-    const link = this.state.user.link;
-    const count_comments = this.state.user.count_comments
-    const count_followers = this.state.user.count_followers
-    const count_group_memberships = this.state.user.count_group_memberships
-    const count_questions = this.state.user.count_questions
-    const count_votes = this.state.user.count_votes
-    let concensus = ''
+    if (!this.props.user) return null;
+
+    let name, age, photo, bio,
+      location, count_comments,
+      count_followers, count_following_users,
+      count_group_memberships,
+      count_question_votes, count_votes;
+    if (this.props.user) {
+      name = this.props.user.first_name ? this.props.user.first_name + ' ' + this.props.user.last_name : this.props.user.username;
+      age = this.props.user.age ? this.props.user.age  : '';
+      bio = this.props.user.bio ? this.props.user.bio  : '';
+      photo = this.props.user.photo ? this.props.user.photo.replace("localhost:8000", "represent.me") : `./img/pic${Math.floor(Math.random()*7)}.png`;;
+      location = (this.props.user.country_info ? this.props.user.country_info.name + (this.props.user.region_info ? ', ' : '') : '') + (this.props.user.region_info ? this.props.user.region_info.name : '');
+      count_comments = this.props.user.count_comments
+      count_followers = this.props.user.count_followers
+      count_following_users = this.props.user.count_following_users
+      count_group_memberships = this.props.user.count_group_memberships
+      count_question_votes = this.props.user.count_question_votes
+      count_votes = this.props.user.count_votes
+    }
+    let concensus = '';
     if(this.props.compareData) {
      concensus = Math.floor(100-this.props.compareData.difference_percent)
     }
-
-    //console.log('this.state', this.state)
+    let totalCount = 0;
+    if (this.props.compareData) totalCount = this.props.compareData.difference_distances.reduce((a,b) => a+b,0)
+    let values = {
+      agree: Math.round(1000 *(this.props.compareData.difference_distances[0]) / totalCount)/10+Math.round(1000 *(this.props.compareData.difference_distances[1]) / totalCount)/10,
+      neutral: Math.round(1000 *(this.props.compareData.difference_distances[2]) / totalCount)/10,
+      disagree: Math.round(1000 *(this.props.compareData.difference_distances[3]) / totalCount)/10+Math.round(1000 *(this.props.compareData.difference_distances[4]) / totalCount)/10,
+      };
+    console.log('totalCount.values', totalCount, values)
+    console.log('this.state', this.state)
 
     let display_all = {};
 
@@ -169,75 +157,107 @@ const CompareCollectionUsersView = observer(({data})=> {
       })
     display_all = Object.assign(display_all, display);
 
-    //sorting inside of Object?
-    // if (Object.keys(display_all).length) {
-    //   display_all.sort((a,b) => {
-    //     let a_sum = a.diffs.reduce((c,d)=> {return c+d}, 0)
-    //     let b_sum = b.diffs.reduce((c,d)=> {return c+d}, 0)
-    //     console.log('a_sum, b_sum', a_sum, b_sum)
-    //     return a_sum - b_sum;
-    //   })
-    // }
   }
 
-    console.log('result', Object.keys(display_all).length, display_all)
+    //console.log('result', Object.keys(display_all).length, display_all)
 
     return (
-    <Card style={{marginBottom: '20px'}}>
+      this.props.compareData &&
+      <Card style={{marginBottom: '20px', border: '2px solid grey', boxShadow: '0px 0px 5px grey', height: 800}}>
       <CardHeader
-        title={`${name} MATCH: ${concensus}%`}
-        subtitle={this.props.user.age + ", " + location}
-        avatar={this.props.user.photo.replace("localhost:8000", "represent.me")}
+        title={name}
+        subtitle={age ? age + 'years old, ' + location : location}
+        avatar={photo}
         />
-      <Divider/>
+        {/* <CardText style={{paddingTop: 0}}>
+          <span>{bio ? bio : ''}</span>
+        </CardText> */}
 
-      <CardText style={{paddingTop: 0}}>
-        <p><a href={Link} target='blank'><i>{`Link -> ${name}`}</i></a></p>
-        <p>{`Followers: ${count_followers}`}</p>
-        <p>{`Authored comments: ${count_comments}`}</p>
-        <p>{`Groups: ${count_group_memberships}`}</p>
-        <p>{`Questions posted: ${count_questions}`}</p>
-        <p>{`Votes: ${count_votes}`}</p>
-      </CardText>
-      <Divider/>
-      <CardText style={{paddingTop: 0}}>
-        {this.props.compareData ? (
-          <div>
-            <CardText style={{paddingTop: 0}}>
-              <p style={{fontSize: 14, fontWeight: 'bold'}}>By how much my answers variate from {name}'s?</p>
-            </CardText>
-            <MatchBarchart compareData={this.props.compareData} />
-            <p>{`Compared over: ${this.props.compareData.questions_counted} questions`}</p>
-          </div>) : <LoadingIndicator />}
-      </CardText>
-      <Divider/>
-      {this.props.compareData && (
-        <div>
-          <CardText style={{paddingTop: 0}}>
-            <p style={{fontSize: 14, fontWeight: 'bold'}}>Bar height signifies distances in answers:</p>
-          </CardText>
-          <CheckboxComponent label='DISTANCE IN DISAGREE' fill={labels['strongly_disagree']['color']} handleCheck={this.handleCheck} value='disagree' checked={this.state.checked[4]}/>
-          <CheckboxComponent label='DISTANCE IN AGREE' fill={labels['strongly_agree']['color']} handleCheck={this.handleCheck} value='agree' checked={this.state.checked[0]}/>
-          <CheckboxComponent label='IMPORTANT/NEUTRAL' fill={labels['neutral']['color']} handleCheck={this.handleCheck} value='neutral' checked={this.state.checked[2]}/>
+        {/* in reality need to display if i'm following this user */}
+        <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 10px 0px'}}>
+          { count_following_users ?
+            <FlatButton
+              label="follow"
+              primary={true}
+              style={{border: '1px solid grey', borderRadius: 10, flex: 1, maxWidth: 100}}
+              onTouchTap={this.changeFollow}
+            /> :
+            <FlatButton
+              label="following"
+              primary={false}
+              style={{border: '1px solid grey', borderRadius: 10, flex: 1, maxWidth: 100}}
+              onTouchTap={this.changeFollow}
+              /> }
+          </div>
+
+
+        <div className='container'>
+          <div className='inner'>
+            <p>{count_question_votes}</p>
+            <p>Answers</p>
+          </div>
+          <div className='inner'>
+            <p>{count_followers}</p>
+            <p>Followers</p>
+          </div>
+          <div className='inner'>
+            <p>{count_comments}</p>
+            <p>Comments</p>
+          </div>
         </div>
-    )}
 
-      <CardText style={{paddingTop: 0}}>
-        {Object.keys(display_all).length >0 && (
-          <div>{Object.keys(display_all)//Object.keys(this.props.compareData.topic_diffs)
-            .map((d,i)=>
-            <li key={`i-${i}`} style={{listStyle: 'none', backgroundColor: i%2 === 0 ? 'rgb(198,199,202)' : 'white'}}>
-              <div>
-                <div style={{display: 'inline-block', backgroundColor: 'rgb(242, 242, 242)'}}>
-                  <SmallBarchart values_arr={display_all[d]['diffs']}/> {/* this.props.compareData.topic_diffs[d]['diffs']}/> */}
+      <div style={{backgroundColor: '#e6f7ff'}}>
+        <div>
+          {/* <p style={{fontSize: 14, fontWeight: 'bold'}}>How do I compare to {name}?</p> */}
+          <p style={{fontSize: 30, textAlign: 'center'}}>{`${concensus}%`}</p>
+          <p>avg. agreement</p>
+        </div>
+
+        <div className='containerSmall' style={{justifyContent: 'center'}}>
+          <div className='innerSmall'>
+            <p><span>&#9786;</span>{`${values.agree}%`}</p>
+            <CheckboxComponent label='AGREE' fill={labels['strongly_agree']['color']} handleCheck={this.handleCheck} value='agree' checked={this.state.checked[0]}/>
+          </div>
+          <div className='innerSmall'>
+            <p><span>&#9737;</span>{`${values.neutral}%`}</p>
+            <CheckboxComponent label='NEUTRAL' fill={labels['neutral']['color']} handleCheck={this.handleCheck} value='neutral' checked={this.state.checked[2]}/>
+          </div>
+          <div className='innerSmall'>
+            <p><span>&#9785;</span>{`${values.disagree}%`}</p>
+            <CheckboxComponent label='DISAGREE' fill={labels['strongly_disagree']['color']} handleCheck={this.handleCheck} value='disagree' checked={this.state.checked[4]}/>
+
+          </div>
+        </div>
+
+        <CardText style={{paddingTop: 0}}>
+          {this.props.compareData ? (
+            <div>
+              <MatchBarchart compareData={this.props.compareData} />
+              <CardText style={{paddingTop: 0}}>
+                <p>{`Compared across: ${this.props.compareData.questions_counted} questions`}</p>
+              </CardText>
+            </div>) : <LoadingIndicator />}
+        </CardText>
+
+        <CardText style={{paddingTop: 0}}>
+          {Object.keys(display_all).length >0 && (
+            <div className='barContainer'>
+            {Object.keys(display_all)//Object.keys(this.props.compareData.topic_diffs)
+              .map((d,i)=>
+              <li key={`i-${i}`} style={{listStyle: 'none', backgroundColor: 'transparent'}}>
+                <div>
+                  <div style={{display: 'block', marginLeft: 10, marginBottom: 2}}>
+                    {`On topic: ${d}`}
+                  </div>
+                  <div style={{display: 'block', marginLeft: 10, backgroundColor: 'transparent'}}>
+                    <SmallBarchart values_arr={display_all[d]['diffs']}/> {/* this.props.compareData.topic_diffs[d]['diffs']}/> */}
+                  </div>
+
                 </div>
-                <div style={{display: 'inline-block', marginLeft: 5, marginBottom: 2}}>
-                  {`Topic: ${d}`}
-                </div>
-              </div>
-              </li>)}
-            </div>)}
-      </CardText>
+                </li>)}
+              </div>)}
+        </CardText>
+      </div>
     </Card>
   )
 }}
@@ -250,7 +270,7 @@ const CheckboxComponent = (props) => {
           <Checkbox onCheck={handleCheck}
               label={props.label}
               labelPosition='right'
-              labelStyle={{color: props.fill, minWidth: 180, fontSize: 12, fontWeight: 'bold'}}
+              labelStyle={{color: props.fill, minWidth: 80, fontSize: 12, fontWeight: 'bold'}}
               value={props.value}
               checked={props.checked}
               />
@@ -288,7 +308,7 @@ const MatchBarchart = observer(({ compareData }) => {
   };
 
   return (
-    <ResponsiveContainer minHeight={80} maxWidth={150}>
+    <ResponsiveContainer minHeight={30} maxWidth={150} style={{border: '1px solid red'}}>
     <BarChart
       layout="vertical"
       data={[values]}
@@ -296,11 +316,11 @@ const MatchBarchart = observer(({ compareData }) => {
     >
       <XAxis domain={[0, 100]} hide={true} type="number" />
       <YAxis type="category" hide={true} />
-      <Bar dataKey="strongly_disagree" fill={labels[Object.keys(values)[4]]['color']} />
-      <Bar dataKey="disagree" fill={labels[Object.keys(values)[3]]['color']} />
-      <Bar dataKey="neutral" fill={labels[Object.keys(values)[2]]['color']} />
-      <Bar dataKey="agree" fill={labels[Object.keys(values)[1]]['color']} />
-      <Bar dataKey="strongly_agree" fill={labels[Object.keys(values)[0]]['color']} />
+      <Bar dataKey="strongly_disagree" stackId="1" fill={labels[Object.keys(values)[4]]['color']} />
+      <Bar dataKey="disagree" stackId="1" fill={labels[Object.keys(values)[3]]['color']} />
+      <Bar dataKey="neutral" stackId="1" fill={labels[Object.keys(values)[2]]['color']} />
+      <Bar dataKey="agree" stackId="1" fill={labels[Object.keys(values)[1]]['color']} />
+      <Bar dataKey="strongly_agree" stackId="1" fill={labels[Object.keys(values)[0]]['color']} />
       <Tooltip content={<CustomTooltip/>}/>
     </BarChart>
   </ResponsiveContainer>
@@ -317,18 +337,19 @@ const SmallBarchart = (props) => {
     strongly_disagree: props.values_arr[4]
   };
   return (
-    <ResponsiveContainer minHeight={50} minWidth={50}>
+    <ResponsiveContainer minHeight={20} maxWidth={150}>
     <BarChart
+      layout="vertical"
       barGap={1}
       data={[values]}
     >
-      <YAxis domain={[0, 4]} hide={true} type="number" />
-      <XAxis type="category" hide={true} />
-      <Bar dataKey="strongly_disagree" fill={labels[Object.keys(values)[4]]['color']} />
-      <Bar dataKey="disagree" fill={labels[Object.keys(values)[3]]['color']} />
-      <Bar dataKey="neutral" fill={labels[Object.keys(values)[2]]['color']} />
-      <Bar dataKey="agree" fill={labels[Object.keys(values)[1]]['color']} />
-      <Bar dataKey="strongly_agree" fill={labels[Object.keys(values)[0]]['color']} />
+      <XAxis domain={[0, 4]} hide={true} type="number" />
+      <YAxis type="category" hide={true} />
+      <Bar dataKey="strongly_disagree" stackId='1' fill={labels[Object.keys(values)[4]]['color']} />
+      <Bar dataKey="disagree" stackId='1' fill={labels[Object.keys(values)[3]]['color']} />
+      <Bar dataKey="neutral" stackId='1' fill={labels[Object.keys(values)[2]]['color']} />
+      <Bar dataKey="agree" stackId='1' fill={labels[Object.keys(values)[1]]['color']} />
+      <Bar dataKey="strongly_agree" stackId='1' fill={labels[Object.keys(values)[0]]['color']} />
     </BarChart>
   </ResponsiveContainer>
 )
