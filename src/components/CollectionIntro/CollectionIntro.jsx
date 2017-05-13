@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import {Helmet} from "react-helmet";
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -119,11 +120,26 @@ import ReactGA from 'react-ga';
             </div>
           </div>
         </div>
+        {collection ? <OgTags collection={collection} /> : null}
       </div>
     );
 
   }
 
+}
+
+const OgTags = ({collection}) => {
+  const og = {
+    title: collection.name+' - Represent' || "Represent: Democracy as it should be. Survey",
+    image: collection.photo || 'https://represent.me/assets/img/ogimage.jpg',
+    desc: collection.desc || "We’re modernising democracy. Join the Heard. And Survey"
+  }
+  return (<Helmet>
+    <meta property="og:url" content={og.url} />
+    <meta property="og:title" content={og.title} />
+    <meta property="og:image" content={og.image} />
+    <meta property="og:description" content={og.desc} />
+  </Helmet>)
 }
 
 export default CollectionIntro;

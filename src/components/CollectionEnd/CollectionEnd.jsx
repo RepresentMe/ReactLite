@@ -38,13 +38,20 @@ const questionShareLink = (questionId) => {
 
 @inject("CollectionStore", "QuestionStore", "UserStore") @observer class CollectionEnd extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      showMessengerDialog: true
+      showMessengerDialog: true,
+      showFollowUserDialog: false,
+      showJoinGroupDialog: false,
+      showUserDataDialog: false,
     }
+    this.getCurrentShowingTab();
+    console.log('this.props.UserStore.userData: ', this.props.UserStore.userData, this.props.UserStore.userData.address);
+  }
 
+  getCurrentShowingTab = () => {
   }
 
   componentWillMount() {
@@ -136,6 +143,33 @@ const questionShareLink = (questionId) => {
 
             <CollectionEndUserCompare userIds={this.dynamicConfig.config.survey_end.compare_users} />
 
+            <Dialog
+                title="Want awesome powers?"
+                modal={false}
+                open={this.state.showUserDataDialog}
+              >
+                User data dialog
+                <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showUserDataDialog: false})} /></span>
+
+            </Dialog>
+            <Dialog
+                title="Want awesome powers?"
+                modal={false}
+                open={this.state.showJoinGroupDialog}
+              >
+                Join  group dialog
+                <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showJoinGroupDialog: false})} /></span>
+
+            </Dialog>
+            <Dialog
+                title="Want awesome powers?"
+                modal={false}
+                open={this.state.showFollowUserDialog}
+              >
+                Join  group dialog
+                <span style={{float: 'right'}}><FlatButton label="Continue" style={{marginBottom: '10px'}} onClick={() => this.setState({showFollowUserDialog: false})} /></span>
+
+            </Dialog>
             <Dialog
                 title="Want awesome powers?"
                 modal={false}

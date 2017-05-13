@@ -17,6 +17,7 @@ import DemographicsDataStore from './Stores/DemographicsDataStore.js';
 import CensusDataStore from './Stores/CensusDataStore.js';
 import AppStatisticsStore from './Stores/AppStatisticsStore.js';
 import QuestionCommentsStore from './Stores/QuestionCommentsStore.js';
+import UrlPreviewStore from './Stores/UrlPreviewStore.js';
 import ReactGA from 'react-ga';
 
 injectTapEventPlugin();
@@ -39,7 +40,9 @@ if (location.host === 'open.represent.me') { // Test server override defaults
   window.API = axios.create({
     baseURL: 'https://api.represent.me'
   });
-}else if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me') { // Test server override defaults
+}else 
+if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me' || location.host === 'open.represent.me' || location.host === 'openv2.represent.me') 
+{ // Test server override defaults
   window.authSettings.facebookId = 1684727181799018;
   window.API = axios.create({
     baseURL: 'https://test.represent.me'
@@ -61,6 +64,7 @@ window.stores = {
   CensusDataStore:        new CensusDataStore(),
   AppStatisticsStore:     new AppStatisticsStore(),
   QuestionCommentsStore:     new QuestionCommentsStore(),
+  UrlPreviewStore:     new UrlPreviewStore(),
 }
 
 window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
@@ -91,6 +95,7 @@ window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
         CensusDataStore={window.stores.CensusDataStore}
         AppStatisticsStore={window.stores.AppStatisticsStore}
         QuestionCommentsStore={window.stores.QuestionCommentsStore}
+        UrlPreviewStore={window.stores.UrlPreviewStore}
         >
         <Shell history={history}/>
       </Provider>

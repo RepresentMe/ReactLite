@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { inject, observer } from "mobx-react";
+import { inject, observer, toJS } from "mobx-react";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
-import Add from 'material-ui/svg-icons/content/add';
+
 import Face from 'material-ui/svg-icons/action/face';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -96,19 +94,18 @@ function getDynamicConfig(url) {
   let parts = url.split("/");
   let last_part = parts[parts.length - 1];
   let first_two_chars = last_part.substring(0, 2)
-  if(first_two_chars === "%7") {
+  if (first_two_chars === "%7") {
     return last_part;
-  }else {
+  } else {
     return null;
   }
 }
 
 
-@inject("UserStore") @observer export default class Shell extends Component {
+@inject("UserStore",  "QuestionStore") @observer export default class Shell extends Component {
 
   render() {
-
-    let raw_config = getDynamicConfig(this.props.history.location.pathname);
+    const raw_config = getDynamicConfig(this.props.history.location.pathname);
     this.dynamicConfig = DynamicConfigService;
     if(raw_config) {
       this.dynamicConfig.setConfigFromRaw(raw_config)
@@ -136,6 +133,39 @@ function getDynamicConfig(url) {
           <MuiThemeProvider muiTheme={muiTheme}>
             <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0, overflow: 'hidden'}}>
               <div style={mainContentStyle}>
+
+                {split_pathname[1] !== 'joingroup' &&
+                  <div>
+                    {/* <NetworkProgress /> */}
+                    <AppBar
+                      iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
+                      iconElementRight={
+                        <span>
+                          <a onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}></a>
+                          <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
+                      </span>}
+                      style={{
+                        height: '24px',
+                        padding: 0,
+                      }}
+                      iconStyleLeft={{
+                        margin: '2px 4px'
+                      }}
+                      iconStyleRight={{
+                        marginRight: '8px',
+                        marginTop: '0',
+                      }}
+                      titleStyle={{
+                        margin: 0,
+                        lineHeight: '24px',
+                        fontSize: '16px',
+                        height: '24px',
+                        textAlign: 'center'
+                      }}
+                      />
+                  </div>
+                }
+
                 <Scrollbars autoHide>
                   <ReactCSSTransitionGroup
                     transitionName="QuestionFlowTransition"
@@ -165,41 +195,12 @@ function getDynamicConfig(url) {
                     {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
                     <Route exact path='/compare' component={CompareUsers}/>
                     <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
+                    <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>
 
-                {split_pathname[1] !== 'joingroup' &&
-                  <div>
-                    <NetworkProgress />
-                    <AppBar
-                      title="Represent"
-                      iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
-                      iconElementRight={
-                        <span>
-                          <a onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}>{this.props.UserStore.userData.has("id") && this.props.UserStore.userData.get("first_name") + ' ' + this.props.UserStore.userData.get("last_name")}</a>
-                          <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
-                      </span>}
-                      style={{
-                        height: '24px',
-                        padding: 0,
-                      }}
-                      iconStyleLeft={{
-                        margin: '2px 4px'
-                      }}
-                      iconStyleRight={{
-                        marginRight: '8px',
-                        marginTop: '0',
-                      }}
-                      titleStyle={{
-                        margin: 0,
-                        lineHeight: '24px',
-                        fontSize: '16px',
-                        height: '24px',
-                      }}
-                      />
-                  </div>
-                }
+
 
                 <Dialog
                   title="My Account"
