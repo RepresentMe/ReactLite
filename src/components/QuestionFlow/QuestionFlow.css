@@ -116,4 +116,13 @@
   top: 33px;
   text-align: center;
   padding-top: 6px;
+  padding-bottom: 3px;
+}
+
+.answering-mode-wrapper {
+  position: fixed;
+  top: 2px;
+  left:45%;
+  z-index: 9999;
+  text-align: center;
 }

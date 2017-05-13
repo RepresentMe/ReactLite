@@ -84,7 +84,7 @@ import './SurveyFlow.css'
     })
   }
 
-  onVote(i) {
+  onVote(i, votingMode) {
     if(!this.props.UserStore.userData.has("id")){
       this.props.history.push("/login/" + this.dynamicConfig.encodeConfig())
     } else {
@@ -92,7 +92,7 @@ import './SurveyFlow.css'
       const userLocation = localStorage.getItem('location')
       const analytics_location = userLocation ? userLocation : null
       const sessionData = [
-        question.id, i, this.state.collection.id, true,
+        question.id, i, this.state.collection.id, votingMode,
         this.state.session_vars.analytics_os,
         this.state.session_vars.analytics_browser,
         this.state.session_vars.analytics_parent_url,

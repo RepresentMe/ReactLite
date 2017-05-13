@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { inject, observer } from "mobx-react";
+import { inject, observer, toJS } from "mobx-react";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -94,9 +94,9 @@ function getDynamicConfig(url) {
   let parts = url.split("/");
   let last_part = parts[parts.length - 1];
   let first_two_chars = last_part.substring(0, 2)
-  if(first_two_chars === "%7") {
+  if (first_two_chars === "%7") {
     return last_part;
-  }else {
+  } else {
     return null;
   }
 }
@@ -105,8 +105,7 @@ function getDynamicConfig(url) {
 @inject("UserStore",  "QuestionStore") @observer export default class Shell extends Component {
 
   render() {
-    console.log(this.props)
-    let raw_config = getDynamicConfig(this.props.history.location.pathname);
+    const raw_config = getDynamicConfig(this.props.history.location.pathname);
     this.dynamicConfig = DynamicConfigService;
     if(raw_config) {
       this.dynamicConfig.setConfigFromRaw(raw_config)
@@ -142,7 +141,7 @@ function getDynamicConfig(url) {
                       iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
                       iconElementRight={
                         <span>
-                          <a onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}>{this.props.UserStore.userData.has("id") && this.props.UserStore.userData.get("first_name") + ' ' + this.props.UserStore.userData.get("last_name")}</a>
+                          <a onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}></a>
                           <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
                       </span>}
                       style={{
@@ -161,6 +160,7 @@ function getDynamicConfig(url) {
                         lineHeight: '24px',
                         fontSize: '16px',
                         height: '24px',
+                        textAlign: 'center'
                       }}
                       />
                   </div>
