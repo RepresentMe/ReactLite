@@ -11,6 +11,7 @@ import AccountMultiple from 'mdi-react/AccountMultipleIcon';
 import './QuestionFlowResults.css'
 
 class QuestionFlowResults extends Component {
+
   constructor() {
     super(...arguments)
 
@@ -27,6 +28,7 @@ class QuestionFlowResults extends Component {
   }
 
   render() {
+    console.log('QuestionFlowResults')
     if(this.props.type === "B") {
       return null
     }

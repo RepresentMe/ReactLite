@@ -228,6 +228,13 @@ class UserStore {
       });
     }
 
+  
+  isUserDataComplete(){
+    let userData = this.userData;
+    return userData;
+  }
+
+
   } //end of UserStore
 
 
