@@ -11,3 +11,9 @@
   font-weight: normal;
   text-transform: uppercase;
 }
+.containerStyle {
+  padding: 10px 20px;
+  min-width: 300px;
+  max-width: 400px;
+  margin: 20px auto;
+  }

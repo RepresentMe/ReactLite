@@ -24,7 +24,8 @@ import SurveyFlow from '../SurveyFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import Register from '../Register';
-import RegisterComponent from '../RegisterNew';
+import RegisterNewUser from '../RegisterNewUser';
+import RegisterNewUserAddDetails from '../RegisterNewUserAddDetails';
 import JoinGroup from '../JoinGroup';
 import Join from '../Join';
 import Test from '../Test';
@@ -43,6 +44,7 @@ import smallLogo from './represent_white_outline.svg';
 
 
 import CompareUsers from '../CompareUsersComponent';
+import CompareUsersDetails from '../CompareUsersComponent/CompareUsersDetailsComponent';
 
 import AuthTokenComponent from '../AuthTokenComponent'
 
@@ -134,42 +136,10 @@ function getDynamicConfig(url) {
           <MuiThemeProvider muiTheme={muiTheme}>
             <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0, overflow: 'hidden'}}>
               <div style={mainContentStyle}>
-                <Scrollbars autoHide>
-                  <ReactCSSTransitionGroup
-                    transitionName="QuestionFlowTransition"
-                    transitionEnterTimeout={1000}
-                    transitionLeaveTimeout={1000}>
-                    {/*}<Links/>*/}
-                    <Route exact path="/candidate" component={CandidateIntro}/>
-                    <Route exact path="/candidate/new/:email" component={CandidateNew}/>
-                    <Route exact path="/login/:dynamicConfig?" component={Login}/>
-                    <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
-                    <Route exact path="/login/:dynamicConfig/:email" component={Login}/>
-                    <Route exact path="/register" component={Register}/>
-                    <Route exact path="/new" component={RegisterComponent}/>
-                    <Route exact path="/register/:redirect" component={Register}/>
-                    <Route exact path="/join/:dynamicConfig?" component={Join}/>
-                    <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
-                    <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
-                    <Route exact path="/survey/create" component={CreateCollection}/>
-                    <Route exact path="/survey/:collectionId/:dynamicConfig?" component={CollectionIntro}/>
-                    <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
-                    <Route exact path="/survey/:surveyId/flow/:itemNumber/:activeTab/:dynamicConfig?" component={SurveyFlow}/>
-                    <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
-                    <Route exact path="/test" component={Test}/>
-                    <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
-                    <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
-                    <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
-                    <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
-                    <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
-                    {/* <Route exact path='/compare' component={CompareUsers}/> */}
-                  </ReactCSSTransitionGroup>
-                </Scrollbars>
-              </div>
 
                 {split_pathname[1] !== 'joingroup' &&
                   <div>
-                    <NetworkProgress />
+                    {/* <NetworkProgress /> */}
                     <AppBar
                       title="Represent"
                       iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
@@ -198,6 +168,41 @@ function getDynamicConfig(url) {
                       />
                   </div>
                 }
+
+                <Scrollbars autoHide>
+                  <ReactCSSTransitionGroup
+                    transitionName="QuestionFlowTransition"
+                    transitionEnterTimeout={1000}
+                    transitionLeaveTimeout={1000}>
+                    {/*}<Links/>*/}
+                    <Route exact path="/candidate" component={CandidateIntro}/>
+                    <Route exact path="/candidate/new/:email" component={CandidateNew}/>
+                    <Route exact path="/login/:dynamicConfig?" component={Login}/>
+                    <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
+                    <Route exact path="/login/:dynamicConfig/:email" component={Login}/>
+                    <Route exact path="/register" component={RegisterNewUser}/>
+                    <Route exact path="/register/:redirect" component={RegisterNewUser}/>
+                    <Route exact path="/join/:dynamicConfig?" component={Join}/>
+                    <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
+                    <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
+                    <Route exact path="/survey/create" component={CreateCollection}/>
+                    <Route exact path="/survey/:collectionId/:dynamicConfig?" component={CollectionIntro}/>
+                    <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
+                    <Route exact path="/survey/:surveyId/flow/:itemNumber/:activeTab/:dynamicConfig?" component={SurveyFlow}/>
+                    <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
+                    <Route exact path="/test" component={Test}/>
+                    <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
+                    <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
+                    <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
+                    <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
+                    {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
+                    <Route exact path='/compare' component={CompareUsers}/>
+                    <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
+                  </ReactCSSTransitionGroup>
+                </Scrollbars>
+              </div>
+
+
 
                 <Dialog
                   title="My Account"

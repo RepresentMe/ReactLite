@@ -24,8 +24,8 @@ const BarChartComponent = observer(class BarChartComponent extends React.Compone
 		let sorted = []
 		if (this.props.data.values){
 			if (this.state.sorted === null) {sorted = this.props.data.values}
-			else if (this.state.sorted) {sorted = this.props.data.values.sort((a,b)=> b.value-a.value)}
-			else if (!this.state.sorted) {sorted = this.props.data.values.sort((a,b)=> a.value-b.value)}
+			else if (this.state.sorted) {sorted = this.props.data.values.sort((a,b)=> -b.value+a.value)}
+			else if (!this.state.sorted) {sorted = this.props.data.values.sort((a,b)=> -a.value+b.value)}
 		}
 
 	return (
@@ -82,7 +82,7 @@ const Bar = (props) => {
       backgroundColor: props.fill,
       width: props.activeEltIndex ? width*1.1 : width
       })
-	const display =props.direct_vote_count && window.innerWidth > 800 ?
+	const display = props.direct_vote_count && window.innerWidth > 800 ?
 		`${props.full_name}....Direct vote count: ${props.direct_vote_count}` :
 		props.full_name
 

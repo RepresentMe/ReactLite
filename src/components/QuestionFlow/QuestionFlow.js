@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { observer, inject } from "mobx-react"
 import $ from 'jquery'
 import ReactMarkdown from 'react-markdown';
@@ -88,7 +87,7 @@ const QuestionFlowTabLayout = ({children, handleTabChange, activeTab}) => {
   };
 
   return (
-    <div style={{height: '100%'}}>
+    <div style={{height: '100%'}} className="tabs-wrapper">
       <Tabs value={activeTab} onChange={handleTabChange} tabItemContainerStyle={styles.tabItemContainerStyle} inkBarStyle={styles.inkBarStyle} style={{height: '100%'}} tabTemplateStyle={{height: '100%'}} contentContainerStyle={{height: 'calc(100% - 48px)', position: 'relative', overflow: 'scroll'}}>
         <Tab icon={<CheckBox/>} value="vote">
           {children}
@@ -133,6 +132,7 @@ const QuestionFlowVote = ({items, index, onVote, sliderChange, navigateNext}) =>
         {item.type === "B" && <RenderedBreak title={item.content_object.title} text={item.content_object.text} onContinue={navigateNext}/>}
       {/* </CSSTransitionGroup> */}
       <SlideNavigation key="SlideNavigation" items={items} onChange={sliderChange} value={index}/>
+      {/* <ControlledLinearProgess len={items.length} index={index}/> */}
     </div>
   )
 }

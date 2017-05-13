@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react"
+import {Helmet} from "react-helmet";
 
 import QuestionFlow from '../QuestionFlow'
 import DynamicConfigService from '../../services/DynamicConfigService';
@@ -134,6 +135,7 @@ import DynamicConfigService from '../../services/DynamicConfigService';
   render() {
     //console.log('this.state', this.state)
     return (
+      <div>
         <QuestionFlow
           activeTab={this.state.activeTab}
           items={this.state.collectionItems}
@@ -143,9 +145,25 @@ import DynamicConfigService from '../../services/DynamicConfigService';
           navigateNext={this.navigateNext}
           navigateTab={this.navigateTab}
         />
+        {this.state.collection ? <OgTags collection={this.state.collection} /> : null}
+      </div>
   )}
 }
 
+
+const OgTags = ({collection}) => {
+  const og = {
+    title: collection.name+' - Represent' || "Represent: Democracy as it should be. Survey",
+    image: collection.photo || 'https://represent.me/assets/img/ogimage.jpg',
+    desc: collection.desc || "We’re modernising democracy. Join the Heard. And Survey"
+  }
+  return (<Helmet>
+    <meta property="og:url" content={og.url} />
+    <meta property="og:title" content={og.title} />
+    <meta property="og:image" content={og.image} />
+    <meta property="og:description" content={og.desc} />
+  </Helmet>)
+}
 
 
 export default SurveyFlow

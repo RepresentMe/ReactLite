@@ -195,7 +195,41 @@ class UserStore {
     return true
   }
 
-}
+  // to find out if I (logged user) am following other user
+  amFollowingUser(myId, theirId) {
+    return window.API.get(`/api/following_users/?user=${myId}&following=${theirId}`)
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error, error.response.data);
+      });
+  }
+
+  //to set that  (logged user) follow other user
+  setFollowing(theirId) {
+    return window.API.post(`/api/following_users/`, {following: theirId})
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error, error.response.data);
+      });
+    }
+
+  //to delete the following object that I (logged user) follow other user
+  removeFollowing(followId) {
+    return window.API.delete(`/api/following_users/${followId}`)
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error, error.response.data);
+      });
+    }
+
+  } //end of UserStore
+
 
 autorun(() => {
   //window.API.defaults.headers.common['Authorization'] = "Token ff76bcf5e0daf737144f34fcd913a6cd13c96df2";
