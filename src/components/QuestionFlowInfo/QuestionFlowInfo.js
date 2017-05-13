@@ -21,7 +21,7 @@ class QuestionFlowInfo extends Component {
         <h1>{ question.question }</h1>
         <h3>{ question.description }</h3>
         {question.links.map((link, i) => {
-          return (<div><EmbedlyComponent key={i} url={link.url} /><br/></div>);
+          return (<div key={i}><EmbedlyComponent url={link.url} /><br/></div>);
         })}
       </Paper>
     )
