@@ -20,9 +20,10 @@ const ResultsComponent = inject("QuestionStore")(({ QuestionStore, questionId, t
     });
 
     let {my_vote, subtype} = QuestionStore.questions.get(questionId)
+    //console.log('voted on question', my_vote)
     let myVote = null;
-    if(my_vote.length > 0 && subtype === 'likert') {myVote = my_vote[0].value; console.log('likert', myVote)}
-    if(my_vote.length > 0 && subtype === 'mcq') {myVote = my_vote[0].object_id; ; console.log('MCQ', myVote)}
+    if(my_vote && my_vote.length > 0 && subtype === 'likert') {myVote = my_vote[0].value; console.log('likert', myVote)}
+    if(my_vote && my_vote.length > 0 && subtype === 'mcq') {myVote = my_vote[0].object_id; ; console.log('MCQ', myVote)}
 
     function* fetcherGen(){
       yield QuestionStore.getQuestionById(questionId)
@@ -37,17 +38,20 @@ const ResultsComponent = inject("QuestionStore")(({ QuestionStore, questionId, t
         }
         else if (question.subtype === 'likert'){
           // //propose to filter out choices with 0 vote, cause they crowd the space
-          let sumLikert = 0;
+          let sumLikert = 0, sumAgree = 0, sumDisagree = 0;
           let labels = Object.keys(likertProps)
           for (let i = 0; i < labels.length; i++) {sumLikert += question[labels[i]]}
+          sumAgree = Math.round((question[labels[3]] + question[labels[4]])*1000/sumLikert)/10
+          sumDisagree = Math.round((question[labels[0]] + question[labels[1]])*1000/sumLikert)/10
 
           let result = []
           for (let i = 0; i < labels.length; i++){
-            if (myVote === i+1) {
+            if (myVote !== null && myVote === i+1) {
+              const percentage = myVote < 2 ? sumDisagree : myVote > 2 ? sumAgree : Math.round(question[labels[i]]*1000/sumLikert)/10;
               result.push(Object.assign({},
                 {full_name: likertProps[labels[i]]['name']},
-                {value: (Math.round(question[labels[i]]*1000/sumLikert)/10)},
-                {percentage: (Math.round(question[labels[i]]*1000/sumLikert)/10)},
+                //{value: (Math.round(question[labels[i]]*1000/sumLikert)/10)},
+                {percentage},
                 {fill: likertProps[labels[i]]['color']},
                 // {direct_vote_count: question[likertProps[label]['direct']]},
                 {title: question['question']}
@@ -57,7 +61,7 @@ const ResultsComponent = inject("QuestionStore")(({ QuestionStore, questionId, t
           viewData.values = result;
         }
 
-        else if (question.subtype === 'mcq'){
+        else if (myVote  !== null && question.subtype === 'mcq'){
           //propose to filter out choices with 0 vote, cause they crowd the space
           const choices = question.choices.filter(choice => choice.direct_vote_count > 0)
           //const zeroChoices = difference(question.choices, choices)
@@ -70,7 +74,7 @@ const ResultsComponent = inject("QuestionStore")(({ QuestionStore, questionId, t
             result.push( Object.assign({},
               {full_name: choices[i].text},
               //{name: choice.text.length > 20 ? choice.text.slice(0,20)+'...' : choice.text},
-              {value: choices[i].direct_vote_count},
+              //{value: choices[i].direct_vote_count},
               {percentage: (Math.round(choices[i].direct_vote_count*1000/sumMCQ)/10)},
               {fill: colors_mcq[i%colors_mcq.length]},
               //{zeroChoices: zeroChoices},
@@ -91,7 +95,6 @@ const ResultsComponent = inject("QuestionStore")(({ QuestionStore, questionId, t
     }
   )
 
-const CHART_HEIGHT = 200;
 
 const SmallCard = observer(class SmallCard extends React.Component{
 
@@ -102,7 +105,7 @@ const SmallCard = observer(class SmallCard extends React.Component{
       <div>
         {!this.props.data && <p>HELLO</p>}
         {this.props.data.values &&
-          <div style={{minHeight: CHART_HEIGHT}}>
+          <div style={{minHeight: 200}}>
   			    <Card>
               <div style={{display: 'flex', flexFlow: 'row nowrap', justifyContent: 'spaceBetween'}}>
                 <div style={{flex: 1, margin: 15,  width: 200, height: 250, border: '2px solid black'}}>
@@ -110,10 +113,10 @@ const SmallCard = observer(class SmallCard extends React.Component{
                     <p style={{color: 'white', fontSize: 20, textAlign: 'left'}}>Agree with you</p>
                     <p style={{color: 'white', fontSize: 35, textAlign: 'left'}}>{`${this.props.data.values[0].percentage}%`}</p>
                   </div>
-                <div style={{flex: 1, height: 50, borderBottom: '1px solid grey'}}>
+                <div style={{flex: 1, height: 50, borderBottom: '1px solid grey, fontSize: 14'}}>
                   <p>{this.props.data.values[0].title}</p>
                 </div>
-                <div style={{flex: 1, height: 50, borderBottom: '1px solid grey'}}>
+                <div style={{flex: 1, height: 50, borderBottom: '1px solid grey, fontSize: 14'}}>
                   <p> Details [buttons]</p>
                 </div>
                 </div>
