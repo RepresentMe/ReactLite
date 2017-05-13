@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react"
-
+import Progress from 'react-progressbar'
 import QuestionFlow from '../QuestionFlow'
 import DynamicConfigService from '../../services/DynamicConfigService';
+import './SurveyFlow.css'
 
 @inject("CollectionStore", "QuestionStore", "UserStore") @observer class SurveyFlow extends Component {
 
@@ -132,17 +133,30 @@ import DynamicConfigService from '../../services/DynamicConfigService';
   }
 
   render() {
-    //console.log('this.state', this.state)
+    const items = this.state.collectionItems
+    const currentItemIndex = this.props.match.params.itemNumber
+
+    let completed = 0
+    if (items && items.length) {
+      completed = currentItemIndex / items.length * 100
+      console.log('currentItemIndex:'+currentItemIndex)
+      console.log('items.length:'+items.length)
+      console.log(completed)
+    }
+    
     return (
-        <QuestionFlow
-          activeTab={this.state.activeTab}
-          items={this.state.collectionItems}
-          currentItemIndex={this.props.match.params.itemNumber}
-          onVote={this.onVote}
-          navigateN={this.navigateN}
-          navigateNext={this.navigateNext}
-          navigateTab={this.navigateTab}
-        />
+        <span>
+           <Progress completed={completed} color="#1b8aae"/>
+            <QuestionFlow
+              activeTab={this.state.activeTab}
+              items={items}
+              currentItemIndex={currentItemIndex}
+              onVote={this.onVote}
+              navigateN={this.navigateN}
+              navigateNext={this.navigateNext}
+              navigateTab={this.navigateTab}
+            />
+        </span>
   )}
 }
 

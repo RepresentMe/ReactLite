@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { observer, inject } from "mobx-react"
 import $ from 'jquery'
 import ReactMarkdown from 'react-markdown';
+import FlatButton from 'material-ui/FlatButton';
 
 import {Tabs, Tab} from 'material-ui/Tabs'
 import DonutSmall from 'material-ui/svg-icons/action/donut-small'
@@ -20,6 +20,10 @@ import QuestionFlowShare from '../QuestionFlowShare';
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart'
 import './QuestionFlow.css'
 
+const hiddenBtn ={
+  display: 'none'
+}
+
 @inject("QuestionStore")
 class QuestionFlow extends Component {
 
@@ -28,27 +32,9 @@ class QuestionFlow extends Component {
 
     this.sliderChange = this.sliderChange.bind(this)
     this.handleTabChange = this.handleTabChange.bind(this)
-  }
 
-  render() {
-    let {items, currentItemIndex, onVote, navigateN, activeTab, navigateNext, QuestionStore} = this.props
-    currentItemIndex = parseInt(currentItemIndex)
-
-    if(!items) {
-      return null;
-    }
-
-    let currentItem = items[currentItemIndex];
-    let currentQuestion = QuestionStore.questions.get(currentItem.object_id);
-    return (
-      <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
-        {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)} navigateNext={navigateNext} />}
-        {this.props.activeTab === 'results' && <QuestionFlowResults item={currentItem} />}
-        {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />}
-        {this.props.activeTab === 'info' && <QuestionFlowInfo question={currentQuestion}/>}
-        {this.props.activeTab === 'share' && <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />}
-      </QuestionFlowTabLayout>
-    )
+    this.getNextQuestion = this.getNextQuestion.bind(this)
+    this.getPrevQuestion = this.getPrevQuestion.bind(this)
   }
 
   componentDidMount() {
@@ -65,6 +51,40 @@ class QuestionFlow extends Component {
 
   handleTabChange(value) {
     this.props.navigateTab(value)
+  }
+
+  getNextQuestion() {
+    console.log('getNextQuestion')
+    const { currentItemIndex } = this.props
+    this.props.navigateN(parseInt(currentItemIndex) + 1)
+  }
+
+  getPrevQuestion() {
+    console.log('getPrevQuestion')
+    const { currentItemIndex } = this.props
+    this.props.navigateN(parseInt(currentItemIndex) - 1)
+  }
+
+  render() {
+    let { items, currentItemIndex, onVote, navigateN, activeTab, navigateNext, QuestionStore } = this.props
+    currentItemIndex = parseInt(currentItemIndex)
+
+    if(!items) {
+      return null;
+    }
+
+    const currentItem = items[currentItemIndex];
+    const currentQuestion = QuestionStore.questions.get(currentItem.object_id);
+
+    return (
+      <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
+          {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} navigateNext={navigateNext} getNextQuestion={this.getNextQuestion} getPrevQuestion={this.getPrevQuestion} />}
+          {this.props.activeTab === 'results' && <QuestionFlowResults item={currentItem} />}
+          {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />}
+          {this.props.activeTab === 'info' && <QuestionFlowInfo question={currentQuestion}/>}
+          {this.props.activeTab === 'share' && <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />}
+        </QuestionFlowTabLayout>
+    )
   }
 
 }
@@ -121,16 +141,19 @@ const QuestionFlowTabLayout = ({children, handleTabChange, activeTab}) => {
 }
 
 const MiddleDiv = ({children}) => (
-  <div style={{ display: 'table', width: '100%', height: '100vh', overflow: 'scroll' }}>
+  <div style={{ display: 'table', width: '100%', height: '70vh', overflow: 'scroll' }}>
     <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', maxWidth: '400px', padding: '0 10px' }}>
       {children}
     </div>
   </div>
 )
 
-const QuestionFlowVote = ({items, index, onVote, sliderChange, navigateNext}) => {
-  let item = items[index];
-
+const QuestionFlowVote = ({items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion}) => {
+  const item = items[index];
+  const length = items.length
+  console.log(index)
+  console.log(length)
+  console.log(items)
   return (
     <div style={{height: '100%', overflow: 'scroll'}}>
       {/* <CSSTransitionGroup
@@ -142,7 +165,12 @@ const QuestionFlowVote = ({items, index, onVote, sliderChange, navigateNext}) =>
         {item.type === "Q" && <RenderedQuestion id={item.object_id} index={index} onVote={onVote} key={"FlowTransition" + index}/>}
         {item.type === "B" && <RenderedBreak title={item.content_object.title} text={item.content_object.text} onContinue={navigateNext}/>}
       {/* </CSSTransitionGroup> */}
-      <SlideNavigation key="SlideNavigation" items={items} onChange={sliderChange} value={index}/>
+
+      <div className="nav-buttons">
+        <div><FlatButton style={(index > 0) ? {} : hiddenBtn} label="Prev" onClick={getPrevQuestion}/></div>
+        <div><FlatButton style={(index < length) ? {} : hiddenBtn} label="Next" onClick={getNextQuestion}/></div>
+      </div>
+
     </div>
   )
 }

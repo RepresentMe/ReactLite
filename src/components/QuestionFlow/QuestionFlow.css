@@ -98,3 +98,12 @@
   bottom: 0px;
   width: 100%;
 }
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.hidden {
+  display: none;
+}

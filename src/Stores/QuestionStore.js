@@ -11,7 +11,6 @@ class QuestionStore {
 
       if (!forceUpdate && self.questions.has(id)) {
         return resolve(self.questions.get(id));
-        return
       }
 
       window.API.get('/api/questions/', {params: { id: id } })

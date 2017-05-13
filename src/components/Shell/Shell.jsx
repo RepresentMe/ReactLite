@@ -5,9 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
-import Add from 'material-ui/svg-icons/content/add';
+
 import Face from 'material-ui/svg-icons/action/face';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -102,10 +100,10 @@ function getDynamicConfig(url) {
 }
 
 
-@inject("UserStore") @observer export default class Shell extends Component {
+@inject("UserStore",  "QuestionStore") @observer export default class Shell extends Component {
 
   render() {
-
+    console.log(this.props)
     let raw_config = getDynamicConfig(this.props.history.location.pathname);
     this.dynamicConfig = DynamicConfigService;
     if(raw_config) {
@@ -139,7 +137,6 @@ function getDynamicConfig(url) {
                   <div>
                     {/* <NetworkProgress /> */}
                     <AppBar
-                      title="Represent"
                       iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
                       iconElementRight={
                         <span>
