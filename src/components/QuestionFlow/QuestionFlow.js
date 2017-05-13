@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react"
-import $ from 'jquery'
+import moment from 'moment'
 import ReactMarkdown from 'react-markdown';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -79,7 +79,16 @@ class QuestionFlow extends Component {
 
     return (
       <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
-          {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} navigateNext={navigateNext} getNextQuestion={this.getNextQuestion} getPrevQuestion={this.getPrevQuestion} />}
+          { this.props.activeTab === 'vote' && 
+                <QuestionFlowVote items={items} 
+                                  index={currentItemIndex} 
+                                  onVote={onVote} 
+                                  navigateNext={navigateNext} 
+                                  getNextQuestion={this.getNextQuestion} 
+                                  getPrevQuestion={this.getPrevQuestion} 
+                                  currentQuestion={currentQuestion}
+                />
+          }
           {this.props.activeTab === 'results' && <QuestionFlowResults question={currentQuestion} type={currentItem.type} />}
           {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />}
           {this.props.activeTab === 'info' && <QuestionFlowInfo question={currentQuestion}/>}
@@ -138,11 +147,18 @@ const MiddleDiv = ({children}) => (
   </div>
 )
 
-const QuestionFlowVote = ({items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion}) => {
+const QuestionFlowVote = ({items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion, currentQuestion}) => {
   const item = items[index];
   const { hiddenIcon, icon } = styles
+  const showAnswered = !!currentQuestion.my_vote.length
   return (
-    <div style={{height: '100%', overflow: 'scroll'}}>
+    <div style={{height: '100%'}}>
+      {
+        showAnswered && 
+          <div className="answered">
+            Answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMM')}. Click again to change or confirm
+          </div>
+      }
       {/* <CSSTransitionGroup
         transitionName="FlowTransition"
         transitionAppear={true}
@@ -158,7 +174,7 @@ const QuestionFlowVote = ({items, index, onVote, navigateNext, getNextQuestion, 
           <Left style={ (index < 1) ? hiddenIcon : icon } onClick={getPrevQuestion}/>
         </div>
         <div>
-          <Right style={icon} onClick={getNextQuestion}/>
+          <Right style={Object.assign(icon, { marginRight:'5px' })} onClick={getNextQuestion}/>
         </div>
       </div>
 
