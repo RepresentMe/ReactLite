@@ -114,25 +114,27 @@ import './SurveyFlow.css'
   navigateNext() {
     if (parseInt(this.props.match.params.itemNumber) + 1 === this.state.collectionItems.length) {
       this.navigateEnd()
-    }else {
+    } else {
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) + 1) + '/vote/' + this.dynamicConfig.encodeConfig())
     }
   }
+
   navigatePrevious() {
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) - 1) + '/vote/' + this.dynamicConfig.encodeConfig())
   }
+
   navigateN(n) {
-    console.log(n)
-    console.log(this.state.collectionItems.length)
-    if((n) === this.state.collectionItems.length) {
+    if ((n) === this.state.collectionItems.length) {
       this.navigateEnd()
-    }else {
+    } else {
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + n + '/vote/' + this.dynamicConfig.encodeConfig())
     }
   }
+
   navigateTab(tab) {
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + this.props.match.params.itemNumber + '/' + tab + '/' + this.dynamicConfig.encodeConfig())
   }
+
   navigateEnd() {
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/end/' + this.dynamicConfig.encodeConfig())
   }
@@ -143,8 +145,7 @@ import './SurveyFlow.css'
 
     let completed = 0
     if (items && items.length) {
-      completed = (parseInt(currentItemIndex) + 1) / items.length * 100
-      console.log(completed)
+      completed = currentItemIndex / (items.length - 1) * 100
     }
     
     return (

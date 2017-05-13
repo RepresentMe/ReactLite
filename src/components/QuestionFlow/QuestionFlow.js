@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react"
-import $ from 'jquery'
+import moment from 'moment'
 import ReactMarkdown from 'react-markdown';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -11,8 +11,11 @@ import Share from 'material-ui/svg-icons/social/share'
 import CheckBox from 'material-ui/svg-icons/toggle/check-box'
 import Info from 'material-ui/svg-icons/action/info'
 import { grey100, cyan600, white } from 'material-ui/styles/colors';
-import Slider from 'material-ui/Slider';
 import RaisedButton from 'material-ui/RaisedButton';
+
+import Left from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import Right from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+
 
 import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionFlowInfo from '../QuestionFlowInfo';
@@ -21,8 +24,15 @@ import QuestionFlowResults from '../QuestionFlowResults';
 
 import './QuestionFlow.css'
 
-const hiddenBtn ={
-  display: 'none'
+const styles = {
+  hiddenIcon: {
+    display: 'none'
+  },
+  icon: {
+    width:'50px',
+    height: '50px'
+  }
+  
 }
 
 @inject("QuestionStore")
@@ -36,14 +46,6 @@ class QuestionFlow extends Component {
 
     this.getNextQuestion = this.getNextQuestion.bind(this)
     this.getPrevQuestion = this.getPrevQuestion.bind(this)
-  }
-
-  componentDidMount() {
-    questionTextFix(this.props.currentItemIndex);
-  }
-
-  componentDidUpdate() {
-    questionTextFix(this.props.currentItemIndex);
   }
 
   sliderChange(n) {
@@ -77,7 +79,16 @@ class QuestionFlow extends Component {
 
     return (
       <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
-          {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} navigateNext={navigateNext} getNextQuestion={this.getNextQuestion} getPrevQuestion={this.getPrevQuestion} />}
+          { this.props.activeTab === 'vote' && 
+                <QuestionFlowVote items={items} 
+                                  index={currentItemIndex} 
+                                  onVote={onVote} 
+                                  navigateNext={navigateNext} 
+                                  getNextQuestion={this.getNextQuestion} 
+                                  getPrevQuestion={this.getPrevQuestion} 
+                                  currentQuestion={currentQuestion}
+                />
+          }
           {this.props.activeTab === 'results' && <QuestionFlowResults question={currentQuestion} type={currentItem.type} />}
           {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />}
           {this.props.activeTab === 'info' && <QuestionFlowInfo question={currentQuestion}/>}
@@ -136,11 +147,18 @@ const MiddleDiv = ({children}) => (
   </div>
 )
 
-const QuestionFlowVote = ({items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion}) => {
+const QuestionFlowVote = ({items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion, currentQuestion}) => {
   const item = items[index];
-
+  const { hiddenIcon, icon } = styles
+  const showAnswered = !!currentQuestion.my_vote.length
   return (
-    <div style={{height: '100%', overflow: 'scroll'}}>
+    <div style={{height: '100%'}}>
+      {
+        showAnswered && 
+          <div className="answered">
+            Answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMM')}. Click again to change or confirm
+          </div>
+      }
       {/* <CSSTransitionGroup
         transitionName="FlowTransition"
         transitionAppear={true}
@@ -152,8 +170,12 @@ const QuestionFlowVote = ({items, index, onVote, navigateNext, getNextQuestion, 
       {/* </CSSTransitionGroup> */}
 
       <div className="nav-buttons">
-        <div><FlatButton style={(index > 0) ? {} : hiddenBtn} label="Prev" onClick={getPrevQuestion}/></div>
-        <div><FlatButton label="Next" onClick={getNextQuestion}/></div>
+        <div>
+          <Left style={ (index < 1) ? hiddenIcon : icon } onClick={getPrevQuestion}/>
+        </div>
+        <div>
+          <Right style={Object.assign(icon, { marginRight:'5px' })} onClick={getNextQuestion}/>
+        </div>
       </div>
 
     </div>
@@ -208,12 +230,5 @@ const MCQButtons = ({choices, value, onVote}) => (
     })}
   </div>
 )
-
-const questionTextFix = (key = "") => {
-  let target = $('.questionTextFix-' + key);
-  while(target.height() * 100 / $(document).height() > 20) {
-    target.css('font-size', (parseInt(target.css('font-size')) - 1) + 'px')
-  }
-}
 
 export default QuestionFlow

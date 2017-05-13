@@ -107,3 +107,13 @@
 .hidden {
   display: none;
 }
+
+.answered {
+  background-color: #f2c476;
+  height: auto;
+  width: 100%;
+  position: fixed;
+  top: 33px;
+  text-align: center;
+  padding-top: 6px;
+}
