@@ -38,27 +38,6 @@ class QuestionFlow extends Component {
     this.getPrevQuestion = this.getPrevQuestion.bind(this)
   }
 
-  render() {
-    let {items, currentItemIndex, onVote, navigateN, activeTab, navigateNext, QuestionStore} = this.props
-    currentItemIndex = parseInt(currentItemIndex)
-
-    if(!items) {
-      return null;
-    }
-
-    let currentItem = items[currentItemIndex];
-    let currentQuestion = QuestionStore.questions.get(currentItem.object_id);
-    return (
-      <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
-        {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)} navigateNext={navigateNext} />}
-        {this.props.activeTab === 'results' && <QuestionFlowResults question={currentQuestion} type={currentItem.type} />}
-        {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />}
-        {this.props.activeTab === 'info' && <QuestionFlowInfo question={currentQuestion}/>}
-        {this.props.activeTab === 'share' && <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />}
-      </QuestionFlowTabLayout>
-    )
-  }
-
   componentDidMount() {
     questionTextFix(this.props.currentItemIndex);
   }
@@ -76,19 +55,17 @@ class QuestionFlow extends Component {
   }
 
   getNextQuestion() {
-    console.log('getNextQuestion')
     const { currentItemIndex } = this.props
     this.props.navigateN(parseInt(currentItemIndex) + 1)
   }
 
   getPrevQuestion() {
-    console.log('getPrevQuestion')
     const { currentItemIndex } = this.props
     this.props.navigateN(parseInt(currentItemIndex) - 1)
   }
 
   render() {
-    let { items, currentItemIndex, onVote, navigateN, activeTab, navigateNext, QuestionStore } = this.props
+    let { items, currentItemIndex, onVote, activeTab, navigateNext, QuestionStore } = this.props
     currentItemIndex = parseInt(currentItemIndex)
 
     if(!items) {
@@ -101,7 +78,7 @@ class QuestionFlow extends Component {
     return (
       <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
           {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} navigateNext={navigateNext} getNextQuestion={this.getNextQuestion} getPrevQuestion={this.getPrevQuestion} />}
-          {this.props.activeTab === 'results' && <QuestionFlowResults item={currentItem} />}
+          {this.props.activeTab === 'results' && <QuestionFlowResults question={currentQuestion} type={currentItem.type} />}
           {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />}
           {this.props.activeTab === 'info' && <QuestionFlowInfo question={currentQuestion}/>}
           {this.props.activeTab === 'share' && <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />}
@@ -161,10 +138,7 @@ const MiddleDiv = ({children}) => (
 
 const QuestionFlowVote = ({items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion}) => {
   const item = items[index];
-  const length = items.length
-  console.log(index)
-  console.log(length)
-  console.log(items)
+
   return (
     <div style={{height: '100%', overflow: 'scroll'}}>
       {/* <CSSTransitionGroup
@@ -179,7 +153,7 @@ const QuestionFlowVote = ({items, index, onVote, navigateNext, getNextQuestion, 
 
       <div className="nav-buttons">
         <div><FlatButton style={(index > 0) ? {} : hiddenBtn} label="Prev" onClick={getPrevQuestion}/></div>
-        <div><FlatButton style={(index < length) ? {} : hiddenBtn} label="Next" onClick={getNextQuestion}/></div>
+        <div><FlatButton label="Next" onClick={getNextQuestion}/></div>
       </div>
 
     </div>
@@ -234,43 +208,6 @@ const MCQButtons = ({choices, value, onVote}) => (
     })}
   </div>
 )
-
-class SlideNavigation extends Component {
-
-  constructor() {
-    super();
-    this.state = {value: 0,}
-    this.onDragStop = this.onDragStop.bind(this)
-  }
-
-  componentWillMount() {
-    this.setState({value: this.props.value})
-  }
-
-  render() {
-    let max = this.props.items.length
-
-    return (
-      <div style={{position: 'absolute', bottom: '0', width: '80%', padding: '0 10%', background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%)'}}>
-        <p style={{textAlign: 'center'}}>{(this.state.value + 1)} / {max}</p>
-        <Slider style={{backgroundColor: grey100, width: '100%', pointerEvents: "all"}}
-          sliderStyle={{backgroundColor: white, color: cyan600, margin: "0"}}
-          max={max}
-          min={0}
-          value={this.state.value}
-          step={1}
-          onDragStop={this.onDragStop}
-          onChange={(e, value) => this.setState({value})}
-        />
-      </div>
-    )
-  }
-
-  onDragStop() {
-    this.props.onChange(this.state.value)
-  }
-
-}
 
 const questionTextFix = (key = "") => {
   let target = $('.questionTextFix-' + key);

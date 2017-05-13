@@ -122,7 +122,9 @@ import './SurveyFlow.css'
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) - 1) + '/vote/' + this.dynamicConfig.encodeConfig())
   }
   navigateN(n) {
-    if((n + 1) === this.state.collectionItems.length) {
+    console.log(n)
+    console.log(this.state.collectionItems.length)
+    if((n) === this.state.collectionItems.length) {
       this.navigateEnd()
     }else {
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + n + '/vote/' + this.dynamicConfig.encodeConfig())
@@ -141,9 +143,7 @@ import './SurveyFlow.css'
 
     let completed = 0
     if (items && items.length) {
-      completed = currentItemIndex / items.length * 100
-      console.log('currentItemIndex:'+currentItemIndex)
-      console.log('items.length:'+items.length)
+      completed = (parseInt(currentItemIndex) + 1) / items.length * 100
       console.log(completed)
     }
     
