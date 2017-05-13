@@ -17,7 +17,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionFlowInfo from '../QuestionFlowInfo';
 import QuestionFlowShare from '../QuestionFlowShare';
-import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart'
+import QuestionFlowResults from '../QuestionFlowResults';
+
 import './QuestionFlow.css'
 
 @inject("QuestionStore")
@@ -43,7 +44,7 @@ class QuestionFlow extends Component {
     return (
       <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
         {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)} navigateNext={navigateNext} />}
-        {this.props.activeTab === 'results' && <QuestionFlowResults item={currentItem} />}
+        {this.props.activeTab === 'results' && <QuestionFlowResults question={currentQuestion} type={currentItem.type} />}
         {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />}
         {this.props.activeTab === 'info' && <QuestionFlowInfo question={currentQuestion}/>}
         {this.props.activeTab === 'share' && <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />}
@@ -67,17 +68,6 @@ class QuestionFlow extends Component {
     this.props.navigateTab(value)
   }
 
-}
-
-const QuestionFlowResults = ({item}) => {
-
-  if(item.type === "B") {
-    return null
-  }
-
-  return (
-    <QuestionLiquidPiechart questionId={item.object_id} />
-  )
 }
 
 const QuestionFlowTabLayout = ({children, handleTabChange, activeTab}) => {
