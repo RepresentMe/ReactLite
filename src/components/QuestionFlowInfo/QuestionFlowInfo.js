@@ -4,6 +4,7 @@ import moment from 'moment';
 import Paper from 'material-ui/Paper';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
+import EmbedlyComponent from '../EmbedlyComponent';
 
 const style = {
   minHeight: '300px',
@@ -19,10 +20,8 @@ class QuestionFlowInfo extends Component {
       <Paper zDepth={5} style={style}>
         <h1>{ question.question }</h1>
         <h3>{ question.description }</h3>
-        <h5>{ moment(question.modified_at).format('DD MMM') }</h5>
-        <Author user={question.user} />
-        {question.links.map((link) => {
-          return (<QuestionLink link={link} />);
+        {question.links.map((link, i) => {
+          return (<div><EmbedlyComponent key={i} url={link.url} /><br/></div>);
         })}
       </Paper>
     )
