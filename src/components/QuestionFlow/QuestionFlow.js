@@ -98,7 +98,7 @@ const QuestionFlowTabLayout = ({children, handleTabChange, activeTab}) => {
   };
 
   return (
-    <div style={{height: '100%'}}>
+    <div style={{height: '100%'}} className="tabs-wrapper">
       <Tabs value={activeTab} onChange={handleTabChange} tabItemContainerStyle={styles.tabItemContainerStyle} inkBarStyle={styles.inkBarStyle} style={{height: '100%'}} tabTemplateStyle={{height: '100%'}} contentContainerStyle={{height: 'calc(100% - 48px)', position: 'relative', overflow: 'scroll'}}>
         <Tab icon={<CheckBox/>} value="vote">
           {children}

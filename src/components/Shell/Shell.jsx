@@ -134,6 +134,39 @@ function getDynamicConfig(url) {
           <MuiThemeProvider muiTheme={muiTheme}>
             <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0, overflow: 'hidden'}}>
               <div style={mainContentStyle}>
+
+                {split_pathname[1] !== 'joingroup' &&
+                  <div>
+                    {/* <NetworkProgress /> */}
+                    <AppBar
+                      title="Represent"
+                      iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
+                      iconElementRight={
+                        <span>
+                          <a onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}>{this.props.UserStore.userData.has("id") && this.props.UserStore.userData.get("first_name") + ' ' + this.props.UserStore.userData.get("last_name")}</a>
+                          <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
+                      </span>}
+                      style={{
+                        height: '24px',
+                        padding: 0,
+                      }}
+                      iconStyleLeft={{
+                        margin: '2px 4px'
+                      }}
+                      iconStyleRight={{
+                        marginRight: '8px',
+                        marginTop: '0',
+                      }}
+                      titleStyle={{
+                        margin: 0,
+                        lineHeight: '24px',
+                        fontSize: '16px',
+                        height: '24px',
+                      }}
+                      />
+                  </div>
+                }
+
                 <Scrollbars autoHide>
                   <ReactCSSTransitionGroup
                     transitionName="QuestionFlowTransition"
@@ -166,37 +199,7 @@ function getDynamicConfig(url) {
                 </Scrollbars>
               </div>
 
-                {split_pathname[1] !== 'joingroup' &&
-                  <div>
-                    <NetworkProgress />
-                    <AppBar
-                      title="Represent"
-                      iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
-                      iconElementRight={
-                        <span>
-                          <a onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}>{this.props.UserStore.userData.has("id") && this.props.UserStore.userData.get("first_name") + ' ' + this.props.UserStore.userData.get("last_name")}</a>
-                          <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
-                      </span>}
-                      style={{
-                        height: '24px',
-                        padding: 0,
-                      }}
-                      iconStyleLeft={{
-                        margin: '2px 4px'
-                      }}
-                      iconStyleRight={{
-                        marginRight: '8px',
-                        marginTop: '0',
-                      }}
-                      titleStyle={{
-                        margin: 0,
-                        lineHeight: '24px',
-                        fontSize: '16px',
-                        height: '24px',
-                      }}
-                      />
-                  </div>
-                }
+
 
                 <Dialog
                   title="My Account"
