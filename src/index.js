@@ -44,7 +44,7 @@ window.authSettings = {
 // { // Test server override defaults
 //   window.authSettings.facebookId = 1684727181799018;
 //   window.API = axios.create({
-//     baseURL: 'https://testv2.represent.me'
+//     baseURL: 'https://test.represent.me'
 //   });
 // }
 // else {

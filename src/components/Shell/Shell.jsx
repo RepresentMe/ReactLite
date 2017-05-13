@@ -22,7 +22,8 @@ import SurveyFlow from '../SurveyFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
 import Register from '../Register';
-import RegisterComponent from '../RegisterNew';
+import RegisterNewUser from '../RegisterNewUser';
+import RegisterNewUserAddDetails from '../RegisterNewUserAddDetails';
 import JoinGroup from '../JoinGroup';
 import Join from '../Join';
 import Test from '../Test';
@@ -41,6 +42,7 @@ import smallLogo from './represent_white_outline.svg';
 
 
 import CompareUsers from '../CompareUsersComponent';
+import CompareUsersDetails from '../CompareUsersComponent/CompareUsersDetailsComponent';
 
 import AuthTokenComponent from '../AuthTokenComponent'
 
@@ -175,9 +177,8 @@ function getDynamicConfig(url) {
                     <Route exact path="/login/:dynamicConfig?" component={Login}/>
                     <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
                     <Route exact path="/login/:dynamicConfig/:email" component={Login}/>
-                    <Route exact path="/register" component={Register}/>
-                    <Route exact path="/new" component={RegisterComponent}/>
-                    <Route exact path="/register/:redirect" component={Register}/>
+                    <Route exact path="/register" component={RegisterNewUser}/>
+                    <Route exact path="/register/:redirect" component={RegisterNewUser}/>
                     <Route exact path="/join/:dynamicConfig?" component={Join}/>
                     <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
                     <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
@@ -191,8 +192,10 @@ function getDynamicConfig(url) {
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
                     <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
                     <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
+                    {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
+                    <Route exact path='/compare' component={CompareUsers}/>
+                    <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
                     <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
-                    {/* <Route exact path='/compare' component={CompareUsers}/> */}
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>

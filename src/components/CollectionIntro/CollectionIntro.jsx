@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import {Helmet} from "react-helmet";
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -9,7 +10,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DynamicConfigService from '../../services/DynamicConfigService';
 import ErrorReload from '../ErrorReload';
 import ReactGA from 'react-ga';
-import {Helmet} from "react-helmet";
 
 @inject("UserStore", "CollectionStore") @observer class CollectionIntro extends Component {
 
@@ -89,12 +89,6 @@ import {Helmet} from "react-helmet";
 
     return (
       <div style={imageStyle}>
-        <Helmet>
-          <meta property="og:url" content="https://openv2.represent.me" />
-          <meta property="og:title" content="Represent: Democracy as it should be. Survey" />
-          <meta property="og:image" content="https://represent.me/assets/img/ogimage.jpg" />
-          <meta property="og:description" content="We’re modernising democracy. Join the Heard. And Survey" />
-        </Helmet>
         <div style={outerStyle}>
           {collection.photo && <img src={collection.photo.replace("localhost:8000", "represent.me")} style={{display: 'none'}} onLoad={() => {this.setState({collectionImageLoaded: true})}} />}
           <div style={innerStyle}>
@@ -126,11 +120,26 @@ import {Helmet} from "react-helmet";
             </div>
           </div>
         </div>
+        {collection ? <OgTags collection={collection} /> : null}
       </div>
     );
 
   }
 
+}
+
+const OgTags = ({collection}) => {
+  const og = {
+    title: collection.name+' - Represent' || "Represent: Democracy as it should be. Survey",
+    image: collection.photo || 'https://represent.me/assets/img/ogimage.jpg',
+    desc: collection.desc || "We’re modernising democracy. Join the Heard. And Survey"
+  }
+  return (<Helmet>
+    <meta property="og:url" content={og.url} />
+    <meta property="og:title" content={og.title} />
+    <meta property="og:image" content={og.image} />
+    <meta property="og:description" content={og.desc} />
+  </Helmet>)
 }
 
 export default CollectionIntro;

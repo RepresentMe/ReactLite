@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react"
+
 import Progress from 'react-progressbar'
+import {Helmet} from "react-helmet";
+
 import QuestionFlow from '../QuestionFlow'
 import DynamicConfigService from '../../services/DynamicConfigService';
 import './SurveyFlow.css'
@@ -145,21 +148,35 @@ import './SurveyFlow.css'
     }
     
     return (
-        <span>
-           <Progress completed={completed} color="#1b8aae"/>
-            <QuestionFlow
-              activeTab={this.state.activeTab}
-              items={items}
-              currentItemIndex={currentItemIndex}
-              onVote={this.onVote}
-              navigateN={this.navigateN}
-              navigateNext={this.navigateNext}
-              navigateTab={this.navigateTab}
-            />
-        </span>
+      <span>
+         <Progress completed={completed} color="#1b8aae"/>
+          <QuestionFlow
+            activeTab={this.state.activeTab}
+            items={items}
+            currentItemIndex={currentItemIndex}
+            onVote={this.onVote}
+            navigateN={this.navigateN}
+            navigateNext={this.navigateNext}
+            navigateTab={this.navigateTab}
+          />
+          {this.state.collection ? <OgTags collection={this.state.collection} /> : null}
+      </span>
   )}
 }
 
 
+const OgTags = ({collection}) => {
+  const og = {
+    title: collection.name+' - Represent' || "Represent: Democracy as it should be. Survey",
+    image: collection.photo || 'https://represent.me/assets/img/ogimage.jpg',
+    desc: collection.desc || "We’re modernising democracy. Join the Heard. And Survey"
+  }
+  return (<Helmet>
+    <meta property="og:url" content={og.url} />
+    <meta property="og:title" content={og.title} />
+    <meta property="og:image" content={og.image} />
+    <meta property="og:description" content={og.desc} />
+  </Helmet>)
+}
 
 export default SurveyFlow

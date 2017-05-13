@@ -17,7 +17,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionFlowInfo from '../QuestionFlowInfo';
 import QuestionFlowShare from '../QuestionFlowShare';
-import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart'
+import QuestionFlowResults from '../QuestionFlowResults';
+
 import './QuestionFlow.css'
 
 const hiddenBtn ={
@@ -35,6 +36,27 @@ class QuestionFlow extends Component {
 
     this.getNextQuestion = this.getNextQuestion.bind(this)
     this.getPrevQuestion = this.getPrevQuestion.bind(this)
+  }
+
+  render() {
+    let {items, currentItemIndex, onVote, navigateN, activeTab, navigateNext, QuestionStore} = this.props
+    currentItemIndex = parseInt(currentItemIndex)
+
+    if(!items) {
+      return null;
+    }
+
+    let currentItem = items[currentItemIndex];
+    let currentQuestion = QuestionStore.questions.get(currentItem.object_id);
+    return (
+      <QuestionFlowTabLayout activeTab={activeTab} handleTabChange={this.handleTabChange}>
+        {this.props.activeTab === 'vote' && <QuestionFlowVote items={items} index={currentItemIndex} onVote={onVote} sliderChange={(n) => navigateN(n)} navigateNext={navigateNext} />}
+        {this.props.activeTab === 'results' && <QuestionFlowResults question={currentQuestion} type={currentItem.type} />}
+        {this.props.activeTab === 'comments' && <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />}
+        {this.props.activeTab === 'info' && <QuestionFlowInfo question={currentQuestion}/>}
+        {this.props.activeTab === 'share' && <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />}
+      </QuestionFlowTabLayout>
+    )
   }
 
   componentDidMount() {
@@ -87,17 +109,6 @@ class QuestionFlow extends Component {
     )
   }
 
-}
-
-const QuestionFlowResults = ({item}) => {
-
-  if(item.type === "B") {
-    return null
-  }
-
-  return (
-    <QuestionLiquidPiechart questionId={item.object_id} />
-  )
 }
 
 const QuestionFlowTabLayout = ({children, handleTabChange, activeTab}) => {
