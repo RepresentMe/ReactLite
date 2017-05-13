@@ -198,6 +198,7 @@ function getDynamicConfig(url) {
                     {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
                     <Route exact path='/compare' component={CompareUsers}/>
                     <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
+                    <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>
