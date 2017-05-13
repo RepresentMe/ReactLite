@@ -10,8 +10,9 @@ import InsertComment from 'material-ui/svg-icons/editor/insert-comment'
 import Share from 'material-ui/svg-icons/social/share'
 import CheckBox from 'material-ui/svg-icons/toggle/check-box'
 import Info from 'material-ui/svg-icons/action/info'
-import { grey100, cyan600, white } from 'material-ui/styles/colors';
+import { grey100, cyan600, white, blue500, red500, greenA200 } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
 
 import Left from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import Right from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
@@ -225,10 +226,27 @@ const MCQButtons = ({choices, value, onVote}) => (
     {choices.map((choice, index) => {
       let activeMCQ = value === choice.id ? 'activeMCQ' : '';
       return (
-        <div key={`p-${index}`} className={`mcqButton ${activeMCQ}`} onTouchTap={() => onVote(choice.id)}>{choice.text}</div>
+        <div key={`p-${index}`} className={`mcqButton ${activeMCQ}`} onTouchTap={() => onVote(choice.id)}>
+          <Checkbox selected={activeMCQ} />
+          <span style={{ display:'inline-block', margin: '4px'}}>{choice.text}</span>
+
+        </div>
       );
     })}
   </div>
 )
+
+const Checkbox = ({selected}) => {
+  return (<div style={{float: 'left'}}>
+    {selected ? (<svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="25" viewBox="0 0 25 25" width="25">
+        <path d="M0 0h24v24H0z" fill="none"/>
+        <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>) :
+    (<svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="25" viewBox="0 0 25 25" width="25">
+        <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+    </svg>)}
+  </div>);
+} 
 
 export default QuestionFlow
