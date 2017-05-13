@@ -44,6 +44,7 @@ import smallLogo from './represent_white_outline.svg';
 
 
 import CompareUsers from '../CompareUsersComponent';
+import CompareUsersDetails from '../CompareUsersComponent/CompareUsersDetailsComponent';
 
 import AuthTokenComponent from '../AuthTokenComponent'
 
@@ -163,6 +164,7 @@ function getDynamicConfig(url) {
                     <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
                     {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
                     <Route exact path='/compare' component={CompareUsers}/>
+                    <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>
