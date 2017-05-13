@@ -1,2 +1,2 @@
-import Login from './Login';
-export default Login;
+import a from './LoginComponentNew';
+export default a;

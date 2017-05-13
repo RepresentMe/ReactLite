@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import CollectionSearch from '../CollectionSearch';
-import smallLogo from './represent_white_outline.svg';
+//import smallLogo from './represent_white_outline.svg';
 
 import './CollectionsList.css';
 
