@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Switch } from 'react-router';
 import { inject, observer, toJS } from "mobx-react";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -241,31 +242,33 @@ export default class Shell extends Component {
                     transitionEnterTimeout={1000}
                     transitionLeaveTimeout={1000}>
                     {/*}<Links/>*/}
-                    <Route exact path="/candidate" component={CandidateIntro}/>
-                    <Route exact path="/candidate/new/:email" component={CandidateNew}/>
-                    <Route exact path="/login/:dynamicConfig?" component={RegisterNewUser}/>
-                    <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
-                    <Route exact path="/login/:dynamicConfig/:email" component={RegisterNewUser}/>
-                    <Route exact path="/register" component={RegisterPage}/>
-                    <Route exact path="/register/:redirect" component={RegisterPage}/>
-                    <Route exact path="/join/:dynamicConfig?" component={Join}/>
-                    <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
-                    <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
-                    <Route exact path="/survey/create" component={CreateCollection}/>
-                    <Route exact path="/survey/:collectionId/:dynamicConfig?" component={CollectionIntro}/>
-                    <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
-                    <Route exact path="/survey/:surveyId/flow/:itemNumber/:activeTab/:dynamicConfig?" component={SurveyFlow}/>
-                    <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
-                    <Route exact path="/survey/:collectionId/end2/:dynamicConfig?" component={EndScreen}/>
-                    <Route exact path="/test" component={Test}/>
-                    <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
-                    <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
-                    <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
-                    <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
-                    {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
-                    <Route exact path='/compare' component={CompareUsers}/>
-                    <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
-                    <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
+                    <Switch>
+                      <Route exact path="/candidate" component={CandidateIntro}/>
+                      <Route exact path="/candidate/new/:email" component={CandidateNew}/>
+                      <Route exact path="/login/:dynamicConfig?" component={RegisterNewUser}/>
+                      <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
+                      <Route exact path="/login/:dynamicConfig/:email" component={RegisterNewUser}/>
+                      <Route exact path="/register" component={RegisterPage}/>
+                      <Route exact path="/register/:redirect" component={RegisterPage}/>
+                      <Route exact path="/join/:dynamicConfig?" component={Join}/>
+                      <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
+                      <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
+                      <Route exact path="/survey/create" component={CreateCollection}/>
+                      <Route exact path="/survey/:collectionId/:dynamicConfig?" component={CollectionIntro}/>
+                      <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
+                      <Route exact path="/survey/:surveyId/flow/:itemNumber/:activeTab/:dynamicConfig?" component={SurveyFlow}/>
+                      <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
+                      <Route exact path="/survey/:collectionId/end2/:dynamicConfig?" component={EndScreen}/>
+                      <Route exact path="/test" component={Test}/>
+                      <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
+                      <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
+                      <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
+                      <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
+                      {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
+                      <Route exact path='/compare' component={CompareUsers}/>
+                      <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
+                      <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
+                    </Switch>
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>
