@@ -277,7 +277,7 @@ let LikertButtons = (props) => {
   let likertJSX = [];
   for (let i = 1; i <= 5; i++) {
     likertJSX.push(<div
-      className={ "likertButton likertButton" + i + ( props.value && props.value !== i ? " likertButtonDimmed" : "")}
+      className={ "likertButton likertButton" + i + ( props.value && props.value !== i ? " likertButtonDimmed" : " likertButtonSelected")}
       key={i}
       onTouchTap={() => props.onUpdate(i)}></div>); //onClick()
   }

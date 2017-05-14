@@ -22,6 +22,7 @@
     width: 40px;
     height: 40px;
     background-size: contain;
+    background-repeat: no-repeat !important;
     overflow: hidden;
     margin-left: 15px;
     display: inline-block;
@@ -49,8 +50,16 @@
 }
 
 .likertButtonDimmed {
+    opacity: 0.7;
+    transform: scale(1);
+}
+
+.likertButtonSelected {
     opacity: 0.9;
-    transform: scale(1); 
+    transform: scale(1);
+    border: 2px dotted #1B8AAE;
+    border-radius: 100px;
+    padding: 0;
 }
 
 .mcqButton {
@@ -70,6 +79,7 @@
     transition: all 0.2s ease-in;
 }
 
+
 /*.mcqButton:before {
     content: " ";
     position: relative;
@@ -86,6 +96,7 @@
     color: #1B8AAE;
 }
 
+
 /*.mcqButton:hover:before {
     content: " ";
     position: relative;
@@ -96,12 +107,13 @@
     width: 20px;
     height: 20px;
 }*/
- 
+
 .mcqButton:focus {
     opacity: 0.4;
     color: white;
     background-color: rgb(0, 172, 193);
 }
+
 
 /*.activeMCQ:before {
     content: " ";
@@ -114,6 +126,7 @@
     height: 20px;
 }
 */
+
 .activeMCQ {
     opacity: 0.8;
     color: white;
@@ -122,7 +135,7 @@
 
 .tabs-wrapper > div >div:first-child {
     position: fixed;
-    bottom: 0; 
+    bottom: 0;
 }
 
 .tabs-wrapper > div >div:nth-child(2) {
@@ -194,6 +207,21 @@ a {
     width: 10px;
 }
 
+
+.fb-network__share-button {
+  background-color: #3b5998;
+  height: 36px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #fff !important;
+  border: none;
+  font-family: Roboto, sans-serif;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
 .answered {
     background-color: #f5f5f5;
     color: #999;
@@ -204,16 +232,17 @@ a {
     text-align: center;
     padding-top: 6px;
     padding-bottom: 3px;
+    border-bottom: 2px dotted #1B8AAE;
 }
 
 .answering-mode-wrapper {
-  position: fixed;
-  top: 2px;
-  width: inherit;
-  left: 45%;
-  z-index: 9999;
-  color: #999;
-  text-align: center;
+    position: fixed;
+    top: 2px;
+    width: inherit;
+    left: 45%;
+    z-index: 9999;
+    color: #999;
+    text-align: center;
 }
 
 .answering-mode-wrapper a:hover {
