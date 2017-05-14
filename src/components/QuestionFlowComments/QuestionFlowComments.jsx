@@ -84,12 +84,12 @@ class QuestionFlowComments extends Component {
 
   render() {
     const { comments } = this.props.QuestionCommentsStore.questionToComments[this.questionId]
-    return (<div className="comments-wrapper">
+    return (<div className="comments-wrapper" style={{ textAlign: '-webkit-center' }}>
       {
         comments.length ? (
-           <div className="comments-list">
+          <div className="comments-list" style={{ maxWidth: '600px', textAlign: '-webkit-auto', overflow: 'auto' }}>
             {comments.map((comment, i) => {
-              return <Comment key={i} comment={comment} question={this.props.question} onDelete={this.showCommentDeleteDialog.bind(this, comment)} onReport={this.handleOpenReportDialog}/>
+              return <Comment key={i} comment={comment} question={this.props.question} onDelete={this.showCommentDeleteDialog.bind(this, comment)} onReport={this.handleOpenReportDialog} />
             })}
             <ReportDialog open={this.state.reportDialog.isOpen} handleClose={this.handleCloseReportDialog} createReport={this.createReport}/>
             <ConfirmDeleteCommentDialog isOpen={this.state.deleteDialog.isOpen} handleCancle={this.closeCommentDeleteDialog} handleSubmit={this.submitCommentDeleteDialog} />

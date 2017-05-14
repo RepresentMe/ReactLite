@@ -13,27 +13,30 @@ import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { white, cyan600, black, grey700 } from 'material-ui/styles/colors';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 
 import CollectionsList from '../CollectionsList';
 import CollectionIntro from '../CollectionIntro';
 import CollectionEnd from '../CollectionEnd';
+
+import EndScreen from '../EndScreen';
+
 import EditCollection from '../EditCollection';
 import SurveyFlow from '../SurveyFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
-import Register from '../Register';
-import RegisterNewUser from '../RegisterNewUser';
-import RegisterNewUserAddDetails from '../RegisterNewUserAddDetails';
 import JoinGroup from '../JoinGroup';
 import Join from '../Join';
 import Test from '../Test';
 import UndividedRender from '../UndividedRender';
-import NetworkProgress from '../NetworkProgress';
 import AuthCode from '../AuthCode';
 import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiquidDisplay';
 import CollectionCharts from '../charts/CollectionCharts';
-import Links from '../navComponent';
 import DynamicConfigService from '../../services/DynamicConfigService';
+
+import RegisterNewUser from '../RegisterNewUser';
 
 import CandidateIntro from '../CandidateIntro';
 import CandidateNew from '../CandidateNew';
@@ -51,7 +54,6 @@ import './Shell.css';
 import {
   Router,
   Route,
-  Redirect
 } from 'react-router-dom'
 
 const muiTheme = getMuiTheme({
@@ -80,15 +82,45 @@ const muiTheme = getMuiTheme({
   }
 });
 
-function onProfileClick(){
-  if(this.props.UserStore.userData.has("id")) { // Is user logged in?
-    this.props.UserStore.toggleUserDialog();
-  }else {
-    if(this.props.history.location.pathname !== "/login"){
-      this.navigateToLogin();
+const styles = {
+  avatarStyle: {
+    height: '16px', 
+    width: '16px', 
+    margin: '3px 0px'
+  },
+  leftIconStyle: {
+    height: '20px'
+  },
+  pageWraperStyle: {
+    height: '100%', 
+    position: 'absolute', 
+    width: '100%', 
+    top: 0, 
+    left: 0, 
+    overflow: 'hidden'
+  },
+  appBarStyles: {
+    style: {
+      height: '24px',
+      padding: 0,
+    },
+    iconStyleLeft: {
+      margin: '2px 4px'
+    },
+    iconStyleRight: {
+      marginRight: '8px',
+      marginTop: '0',
+    },
+    titleStyle: {
+      margin: 0,
+      lineHeight: '24px',
+      fontSize: '16px',
+      height: '24px',
+      textAlign: 'center'
     }
   }
 }
+
 
 function getDynamicConfig(url) {
   let parts = url.split("/");
@@ -104,6 +136,21 @@ function getDynamicConfig(url) {
 
 @inject("UserStore",  "QuestionStore") @observer export default class Shell extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.onLogout = this.onLogout.bind(this)
+    this.navigateToLogin = this.navigateToLogin.bind(this)
+  }
+
+  onLogout() {
+    this.props.UserStore.logout()
+  }
+
+  navigateToLogin() {
+    this.props.history.push('/login/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname))
+  }
+
   render() {
     const raw_config = getDynamicConfig(this.props.history.location.pathname);
     this.dynamicConfig = DynamicConfigService;
@@ -112,12 +159,6 @@ function getDynamicConfig(url) {
     }
 
     let split_pathname = this.props.history.location.pathname.split("/");
-
-    // DISABLED HISTORY UPDATE TO STORE AS CAUSES OVERFLOW OF RENDERS
-    // history.listen((location, action) => { // Storing location in UserStore forces a rerender of the Shell each navigation
-    //   this.props.UserStore.userLocation.replace(location);
-    // });
-    //iconElementLeft={this.props.UserStore.userLocation.get("pathname") !== "/" ? <IconButton onClick={() => { history.goBack() }}><ArrowBack color={cyan600} /></IconButton> : null}
 
     let mainContentStyle = {
       height: "calc(100% - 28px)",
@@ -128,40 +169,68 @@ function getDynamicConfig(url) {
       mainContentStyle.height = "100%";
     }
 
+    const { 
+      avatarStyle, 
+      leftIconStyle, 
+      pageWraperStyle, 
+      appBarStyles: { style, iconStyleLeft, iconStyleRight, titleStyle } 
+    } = styles
+
+    const { userData } = this.props.UserStore
+    const userId = userData.get('id')
+    const username = userData.get('username')
+    const photo = userData.get('photo')
+
+    const isAuthenticated = !!userData.get('id')
+
+    const avatar = (
+      <Avatar style={avatarStyle} 
+        icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} 
+        src={this.props.UserStore.userData.has("photo") ? photo.replace("localhost:8000", "represent.me") : null} 
+        backgroundColor={cyan600}
+        onClick={!isAuthenticated ? this.navigateToLogin : null}
+      />
+    )
+
     return(
       <Router history={this.props.history}>
           <MuiThemeProvider muiTheme={muiTheme}>
-            <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0, overflow: 'hidden'}}>
+            <div style={pageWraperStyle}>
               <div style={mainContentStyle}>
 
                 {split_pathname[1] !== 'joingroup' &&
                   <div>
-                    {/* <NetworkProgress /> */}
                     <AppBar
-                      iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
+                      iconElementLeft={
+                          <img  src={smallLogo} 
+                                style={leftIconStyle} 
+                                onClick={() => window.open("https://represent.me",'_blank')}
+                          />
+                      }
                       iconElementRight={
                         <span>
-                          <a onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}></a>
-                          <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
-                      </span>}
-                      style={{
-                        height: '24px',
-                        padding: 0,
-                      }}
-                      iconStyleLeft={{
-                        margin: '2px 4px'
-                      }}
-                      iconStyleRight={{
-                        marginRight: '8px',
-                        marginTop: '0',
-                      }}
-                      titleStyle={{
-                        margin: 0,
-                        lineHeight: '24px',
-                        fontSize: '16px',
-                        height: '24px',
-                        textAlign: 'center'
-                      }}
+                          { isAuthenticated ? (
+                              <IconMenu
+                                iconButtonElement={
+                                   avatar
+                                }
+                                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                              >
+                                <MenuItem primaryText="Edit profile" href="https://app.represent.me/me/edit/main/"/>
+                                <MenuItem primaryText="View my profile" href={`https://app.represent.me/profile/${userId}/${username}/`}/>
+                                <Divider />
+                                <MenuItem primaryText="Logout" onClick={this.onLogout}/>
+                              </IconMenu> ) : (
+                                avatar
+                              )
+                        }
+                        </span>
+                      }
+                      style={style}
+                      iconStyleLeft={iconStyleLeft}
+                      iconStyleRight={iconStyleRight}
+                      titleStyle={titleStyle}
                       />
                   </div>
                 }
@@ -187,6 +256,7 @@ function getDynamicConfig(url) {
                     <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
                     <Route exact path="/survey/:surveyId/flow/:itemNumber/:activeTab/:dynamicConfig?" component={SurveyFlow}/>
                     <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
+                    <Route exact path="/survey/:collectionId/end2/:dynamicConfig?" component={EndScreen}/>
                     <Route exact path="/test" component={Test}/>
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
@@ -200,45 +270,10 @@ function getDynamicConfig(url) {
                 </Scrollbars>
               </div>
 
-
-
-                <Dialog
-                  title="My Account"
-                  actions={
-                    <div>
-                      <FlatButton
-                        label="Logout"
-                        secondary={true}
-                        onTouchTap={() => {
-                          this.props.UserStore.logout();
-                        }}
-                      />
-                      <FlatButton
-                        label="Close"
-                        secondary={true}
-                        onTouchTap={() => {
-                          this.props.UserStore.toggleUserDialog();
-                        }}
-                      />
-                    </div>
-                  }
-                  modal={false}
-                  open={this.props.UserStore.sessionData.get("showUserDialog")}
-                  onRequestClose={() => {
-                    this.props.UserStore.toggleUserDialog();
-                  }}
-                >
-                  <TextField value={this.props.UserStore.userData.get("first_name")} fullWidth={true} id="firstname"/>
-                  <TextField value={this.props.UserStore.userData.get("last_name")} fullWidth={true} id="lastname"/>
-                </Dialog>
               </div>
           </MuiThemeProvider>
       </Router>
     )
-  }
-
-  navigateToLogin() {
-    this.props.history.push('/login/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname))
   }
 
 };

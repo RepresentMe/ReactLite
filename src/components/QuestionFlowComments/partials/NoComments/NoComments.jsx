@@ -16,7 +16,7 @@ class NoComments extends Component {
 
   render() {
     return (
-      <Paper zDepth={4} style={style}>
+      <Paper zDepth={0} style={style}>
         <h3> No comments to this question</h3>
       </Paper>
     );

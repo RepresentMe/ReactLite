@@ -46,7 +46,7 @@ const styles = {
         <TextField hintText="Survey description" style={styles.textField} fullWidth={true} />
         <TextField hintText="End text" style={styles.textField} fullWidth={true} />
 
-        <Paper zDepth={2}> {/* Drag and drop items toolbar */}
+        <Paper zDepth={0}> {/* Drag and drop items toolbar */}
           <Toolbar style={{backgroundColor: cyan600, color: white}}>
             <ToolbarGroup firstChild={true}>
               <ToolbarTitle text="Content (Drag to reorder)" style={{marginLeft: '20px', color: white}} />

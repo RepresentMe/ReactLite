@@ -32,15 +32,17 @@ class DynamicConfigService {
   }
 
   getNextRedirect() {
-    if(this.config.redirects.length === 0) {
-      return null
-    }if(this.config.redirects[0] === "/") {
+    const lastIndex = this.config.redirects.length -1;
+    console.log(this.config.redirects)
+    if (this.config.redirects.length === 0 || !this.config.redirects[lastIndex]) {
+      return "/"
+    } if (this.config.redirects[lastIndex] === "/") {
       return "/" + this.getNextRedirectConfig()
     }else {
-      if(this.config.redirects[0].slice(-1) === "/") {
-        return this.config.redirects[0] + this.getNextRedirectConfig()
+      if (this.config.redirects[lastIndex].slice(-1) === "/") {
+        return this.config.redirects[lastIndex] + this.getNextRedirectConfig()
       }else {
-        return this.config.redirects[0] + "/" + this.getNextRedirectConfig()
+        return this.config.redirects[lastIndex] + "/" + this.getNextRedirectConfig()
       }
     }
   }
@@ -55,7 +57,8 @@ class DynamicConfigService {
     }
   }
 
-  encodeConfig() {
+  encodeConfig(rawConfig) {
+    this.config.redirects.push(rawConfig);
     return encodeURIComponent(JSON.stringify(this.config))
   }
 

@@ -86,7 +86,7 @@ import './SurveyFlow.css'
 
   onVote(i, votingMode) {
     if(!this.props.UserStore.userData.has("id")){
-      this.props.history.push("/login/" + this.dynamicConfig.encodeConfig())
+      this.props.history.push("/login/" + this.dynamicConfig.encodeConfig(this.props.history.location.pathname.substring(0, this.props.history.location.pathname.lastIndexOf('/'))))
     } else {
       let question = this.props.QuestionStore.questions.get(this.state.collectionItems[this.props.match.params.itemNumber].object_id)
       const userLocation = localStorage.getItem('location')
@@ -113,7 +113,8 @@ import './SurveyFlow.css'
 
   navigateNext() {
     if (parseInt(this.props.match.params.itemNumber) + 1 === this.state.collectionItems.length) {
-      this.navigateEnd()
+      // this.navigateEnd()
+      this.navigateEnd2()
     } else {
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) + 1) + '/vote/' + this.dynamicConfig.encodeConfig())
     }
@@ -125,7 +126,8 @@ import './SurveyFlow.css'
 
   navigateN(n) {
     if ((n) === this.state.collectionItems.length) {
-      this.navigateEnd()
+      // this.navigateEnd()
+      this.navigateEnd2()
     } else {
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + n + '/vote/' + this.dynamicConfig.encodeConfig())
     }
@@ -137,6 +139,10 @@ import './SurveyFlow.css'
 
   navigateEnd() {
     this.props.history.push('/survey/' + this.props.match.params.surveyId + '/end/' + this.dynamicConfig.encodeConfig())
+  }
+
+  navigateEnd2() {
+    this.props.history.push('/survey/' + this.props.match.params.surveyId + '/end2/' + this.dynamicConfig.encodeConfig())
   }
 
   render() {

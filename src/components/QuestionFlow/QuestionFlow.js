@@ -86,7 +86,7 @@ class QuestionFlow extends Component {
 
     const currentItem = items[currentItemIndex];
     const currentQuestion = QuestionStore.questions.get(currentItem.object_id);
-
+    const hideInfoTab = currentQuestion.description === '' && !currentQuestion.links.length
     const { tabsContentContainerStyle, tabTemplateStyle } = styles
 
     return (
@@ -118,12 +118,13 @@ class QuestionFlow extends Component {
               }
               
             </Tab>
-            <Tab icon={<Info/>} value="info" className={activeTab === 'info' ? 'menu-tab-active' : 'menu-tab'}>
+            { !hideInfoTab && <Tab icon={<Info/>} value="info" className={activeTab === 'info' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'info') &&
                   <QuestionFlowInfo question={currentQuestion}/>
               }
             </Tab>
+            }
             <Tab icon={<DonutSmall/>} value="results" className={activeTab === 'results' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'results') &&
