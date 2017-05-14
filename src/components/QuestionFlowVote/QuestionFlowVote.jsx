@@ -50,11 +50,11 @@ class QuestionFlowVote extends Component {
     const showAnswered = !!currentQuestion.my_vote.length
     return (
        <div style={{height: '100%'}}>
-          <div className="answering-mode-wrapper">Answering <a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
+          <div className="answering-mode-wrapper small">Answering <a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
           {
             showAnswered && 
-              <div className="answered">
-                Answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMM')} - click to change or confirm.
+              <div className="answered small">
+                Last answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMMM YYYY')}
               </div>
           }
 
@@ -93,7 +93,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 
   return (
     <MiddleDiv>
-      <h1 className={"questionTextFix-" + index}>{question}</h1>
+      <h1 className={"questionText questionTextFix-" + index}>{question}</h1>
       {subtype === "likert" && <LikertButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer}/>}
       {subtype === "mcq" && <MCQButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer} choices={choices}/>}
     </MiddleDiv>
@@ -103,7 +103,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 
 const RenderedBreak = ({title, text, onContinue}) => (
   <MiddleDiv>
-    <h1>{ title }</h1>
+    <h1 className="questionBreak">{ title }</h1>
     <ReactMarkdown source={ text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
     <RaisedButton label="Continue" onClick={onContinue} primary />
   </MiddleDiv>
