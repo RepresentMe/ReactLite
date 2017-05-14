@@ -146,7 +146,7 @@ const styles = {
           textButton="login with Facebook"
           buttonStyle={{cursor: 'pointer', width: '100%', paddingBottom: 7, paddingTop: 5, textAlign: 'middle', margin: '10px auto'}}
           disableMobileRedirect={true}
-          icon={<FacebookBox color='white' style={{verticalAlign: 'middle', marginRight: 10}}/>}
+          icon={<FacebookBox color='white' style={{verticalAlign: 'middle', marginRight: 10, }}/>}
 
           />
 
