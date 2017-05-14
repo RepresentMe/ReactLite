@@ -4,6 +4,7 @@ import CompareCollectionUsers from './partials/CompareUsersComponent';
 import DynamicConfigService from '../../services/DynamicConfigService';
 import JoinGroupDialog from '../JoinGroupDialog';
 import FollowUserDialog from '../FollowUserDialog';
+import MessengerModal from './partials/MessengerModal';
 import MoreUserInfo from '../Components/modals/MoreUserInfo';
 
 @inject("UserStore", "GroupStore") 
@@ -24,6 +25,9 @@ class EndScreen extends Component {
       },
       userDataModal: {
         user: null,
+        isOpen: false
+      },
+      messengerModal: {
         isOpen: false
       }
     }
@@ -85,12 +89,22 @@ class EndScreen extends Component {
               }
             }) 
           } else {
-            // show messenger modal
+            this.checkToShowFollowUserModal()
           }
         })
       })
     } else {
-      // show messenger modal
+      this.checkToShowFollowUserModal()
+    }
+  }
+
+  checkToShowFollowUserModal() {
+    if(true) {
+      this.setState({
+        messengerModal: {
+          isOpen: true
+        }
+      })
     }
   }
 
@@ -105,6 +119,7 @@ class EndScreen extends Component {
         <MoreUserInfo shown={this.state.userDataModal.isOpen} user={this.state.userDataModal.user} />
         <JoinGroupDialog isOpen={this.state.joinGroupModal.isOpen} groupId={this.state.joinGroupModal.groupId}/>
         <FollowUserDialog isOpen={this.state.followUserModal.isOpen} userId={this.state.followUserModal.userId}/>
+        <MessengerModal isOpen={this.state.messengerModal.isOpen} />
       </div>
     );
   }
