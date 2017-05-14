@@ -214,7 +214,7 @@ const styles = {
         window.API.post("/auth/register/", {
           email: this.state.email,
           username: this.generateUsername(this.state.email),
-          password: Math.floor(Math.random() * 1000000000000),
+          password: this.state.password,
           //private mode
           anonymous: this.state.anonymous
         }).then((response) => {
