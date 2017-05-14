@@ -26,28 +26,45 @@ class QuestionFlowVote extends Component {
   
   constructor(props) {
     super(props)
-    //ToDo defHideAnswer bind
     this.state = {
-      votingModePrivate: props.UserStore.userData.get('"defHideAnswers"'),
-      text: props.UserStore.userData.get('"defHideAnswers"') ? 'privately' : 'publicky'
+      votingModePrivate: this.getDefHideAnswers(),
+      text: this.getDefHideAnswers() ? 'privately' : 'publicky'
     }
     this.changeVoteMode = this.changeVoteMode.bind(this)
+    this.getDefHideAnswers = this.getDefHideAnswers.bind(this)
   }
 
   changeVoteMode() {
+    const newValue = !this.state.votingModePrivate
+    const text = this.state.votingModePrivate ? 'publicky' : 'privately'
+    this.setVotingModeState(newValue, text)
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.props.index !== nextProps.index) {
+      const defHideAnswers = this.getDefHideAnswers()
+      const text = defHideAnswers ? 'privately' : 'publicky'
+      this.setVotingModeState(defHideAnswers, text)
+    }
+  }
+
+  setVotingModeState(votingModePrivate, text) {
     this.setState({
-      votingModePrivate: !this.state.votingModePrivate,
-      text: this.state.votingModePrivate ? 'publicky' : 'privately'
+      votingModePrivate: votingModePrivate,
+      text: text
     })
   }
 
-  render() {
+  getDefHideAnswers() {
+    return this.props.UserStore.userData.get("defHideAnswers")
+  }
 
-    console.log(this.props.UserStore.userData.keys())
+  render() {
     const { items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion, currentQuestion } = this.props
     const item = items[index];
     const { hiddenIcon, icon } = styles
     const showAnswered = !!currentQuestion.my_vote.length
+
     return (
        <div style={{height: '100%'}}>
           <div className="answering-mode-wrapper">Answering <a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
