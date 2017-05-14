@@ -13,10 +13,9 @@ class EndScreen extends Component {
   } 
 
   componentDidMount(){
-    this.props.UserStore.getMe().then(data => {
+    this.props.UserStore.getCachedMe().then(data => {
       this.setState({ user: data, openMoreInfo: (!data.dob || data.gender === 0 || data.address === "") ? true : false})
-      console.log(this.state)
-    })
+    }).catch(err => console.log(err))
   }
 
   render() {

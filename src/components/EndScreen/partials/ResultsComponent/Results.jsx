@@ -34,7 +34,7 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
         else if (question.subtype === 'likert' && question.my_vote.length > 0){
           // //propose to filter out choices with 0 vote, cause they crowd the space
           let myVote = null;
-          if (question.my_vote.length > 0) {myVote = question.my_vote[0].value; console.log('likert', myVote)}
+          if (question.my_vote.length > 0) myVote = question.my_vote[0].value; 
           let sumLikert = 0, sumAgree = 0, sumDisagree = 0;
           let labels = Object.keys(likertProps)
           for (let i = 0; i < labels.length; i++) {sumLikert += question[labels[i]]}
