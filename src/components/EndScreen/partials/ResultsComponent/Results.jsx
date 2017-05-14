@@ -1,10 +1,11 @@
 import React from 'react';
 import { inject, observer } from "mobx-react";
 import { observable } from "mobx";
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+
+import SmallCard from '../SmallCard'
 
 
-const ResultsComponent = inject("QuestionStore")(({ QuestionStore, questionId}) => {
+const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
     const likertProps = {
       'liquid_minimum': {name: 'Strongly Disagree', color: 'rgb(244,56,41)', direct: 'direct_minimum'},
       'liquid_low': {name: 'Disagree', color: 'rgb(249,131,117)', direct: 'direct_low'},
@@ -18,14 +19,7 @@ const ResultsComponent = inject("QuestionStore")(({ QuestionStore, questionId}) 
     let viewData = observable.shallowObject({
       values: null
     });
-/*
-    let {my_vote, subtype} = QuestionStore.questions.get(questionId)
-    //console.log('voted on question', my_vote)
-    let myVote = null;
-    if (my_vote.length && my_vote.length > 0 && subtype === 'likert') {myVote = my_vote[0].value; console.log('likert', myVote)}
-    else if (my_vote.length && my_vote.length > 0 && subtype === 'mcq') {myVote = my_vote[0].object_id; ; console.log('MCQ', myVote)}
-    else return null;
-*/
+
     function* fetcherGen(){
       yield QuestionStore.getQuestionById(questionId)
       }
@@ -92,46 +86,12 @@ const ResultsComponent = inject("QuestionStore")(({ QuestionStore, questionId}) 
       })
 
 
-    return (
-      <div>
-        <SmallCard data={viewData}/>
-      </div>
-    )
+      return (
+        <div>
+          <SmallCard data={viewData}/>
+        </div>
+      )
     }
   )
 
-
-const SmallCard = observer(class SmallCard extends React.Component{
-
-	render(){
-		console.log('SmallCard at bottom props', this.props)
-
-  	return (
-      <div>
-        {!this.props.data && <p>HELLO</p>}
-        {this.props.data.values &&
-          <div style={{minHeight: 200}}>
-  			    <Card>
-              <div style={{display: 'flex', flexFlow: 'row nowrap', justifyContent: 'spaceBetween'}}>
-                <div style={{flex: 1, margin: 15,  width: 200, height: 250, border: '2px solid black'}}>
-                  <div style={{flex: 1, borderBottom: '2px solid grey', color: 'white', padding: 10, fontWeight: 'bold', backgroundColor: this.props.data.values[0].fill, minHeight: 70}}>
-                    <p style={{color: 'white', fontSize: 20, textAlign: 'left'}}>Agree with you</p>
-                    <p style={{color: 'white', fontSize: 35, textAlign: 'left'}}>{`${this.props.data.values[0].percentage}%`}</p>
-                  </div>
-                <div style={{flex: 1, height: 50, borderBottom: '1px solid grey, fontSize: 14'}}>
-                  <p>{this.props.data.values[0].title}</p>
-                </div>
-                <div style={{flex: 1, height: 50, borderBottom: '1px solid grey, fontSize: 14'}}>
-                  <p> Details [buttons]</p>
-                </div>
-                </div>
-            </div>
-          </Card>
-  			</div>}
-      </div>
-      );
-    }}
-)
-
-
-export default ResultsComponent;
+  export default Results;

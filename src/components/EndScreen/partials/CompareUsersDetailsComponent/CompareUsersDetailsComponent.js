@@ -1,28 +1,13 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
-import { observable, extendObservable} from 'mobx';
-import { Link } from 'react-router-dom';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { observable } from 'mobx';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Rectangle, ResponsiveContainer } from 'recharts';
-import LoadingIndicator from '../../../../LoadingIndicator';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import LoadingIndicator from '../../../LoadingIndicator';
 import Checkbox from 'material-ui/Checkbox';
-// import { AutoRotatingCarousel, Slide } from 'material-auto-rotating-carousel';
-// import Divider from 'material-ui/Divider';
-// import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-// import { FacebookButton, TwitterButton } from "react-social";
-// import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
-// import Toggle from 'material-ui/Toggle';
-// import Avatar from 'material-ui/Avatar';
 
-// import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
-// import Divider from 'material-ui/Divider';
-// import intersection from 'lodash/intersection';
-// import difference from 'lodash/difference';
-// import Toggle from 'material-ui/Toggle';
-
-//import ResultsComponent from './ResultsComponent';
-import '../CompareUsers.css';
+import '../CompareUsersComponent/CompareUsers.css';
 
 const labels = {
   "strongly_agree": {label: "Strongly Agree", color: "rgb(74,178,70)"},
