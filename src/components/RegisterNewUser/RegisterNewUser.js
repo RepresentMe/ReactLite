@@ -171,8 +171,9 @@ const styles = {
     }
     return false;
   }
-  generateUsername = () => {
-    return (this.state.firstName.toLowerCase() + "_" + this.state.lastName.toLowerCase()).replace(/[`~!@#$%^&*()|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '') + Math.floor(Math.random() * 100);
+  generateUsername = (email) => {
+    // return (this.state.firstName.toLowerCase() + "_" + this.state.lastName.toLowerCase()).replace(/[`~!@#$%^&*()|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '') + Math.floor(Math.random() * 100);
+    return `${email.substring(0, email.indexOf('@'))}_${Math.floor(Math.random() * 100)}`;
   }
   redirectToLogin = () => {
     const email = this.state.email;
@@ -212,7 +213,7 @@ const styles = {
       } else {
         window.API.post("/auth/register/", {
           email: this.state.email,
-          username: this.generateUsername(),
+          username: this.generateUsername(this.state.email),
           password: Math.floor(Math.random() * 1000000000000),
           //private mode
           anonymous: this.state.anonymous
