@@ -20,23 +20,23 @@ import Divider from 'material-ui/Divider';
 import CollectionsList from '../CollectionsList';
 import CollectionIntro from '../CollectionIntro';
 import CollectionEnd from '../CollectionEnd';
+
+import EndScreen from '../EndScreen';
+
 import EditCollection from '../EditCollection';
 import SurveyFlow from '../SurveyFlow';
 import CreateCollection from '../CreateCollection';
 import Login from '../Login';
-import Register from '../Register';
-import RegisterNewUser from '../RegisterNewUser';
-import RegisterNewUserAddDetails from '../RegisterNewUserAddDetails';
 import JoinGroup from '../JoinGroup';
 import Join from '../Join';
 import Test from '../Test';
 import UndividedRender from '../UndividedRender';
-import NetworkProgress from '../NetworkProgress';
 import AuthCode from '../AuthCode';
 import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiquidDisplay';
 import CollectionCharts from '../charts/CollectionCharts';
-import Links from '../navComponent';
 import DynamicConfigService from '../../services/DynamicConfigService';
+
+import RegisterNewUser from '../RegisterNewUser';
 
 import CandidateIntro from '../CandidateIntro';
 import CandidateNew from '../CandidateNew';
@@ -54,7 +54,6 @@ import './Shell.css';
 import {
   Router,
   Route,
-  Redirect
 } from 'react-router-dom'
 
 const muiTheme = getMuiTheme({
@@ -257,6 +256,7 @@ function getDynamicConfig(url) {
                     <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
                     <Route exact path="/survey/:surveyId/flow/:itemNumber/:activeTab/:dynamicConfig?" component={SurveyFlow}/>
                     <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
+                    <Route exact path="/survey/:collectionId/end2/:dynamicConfig?" component={EndScreen}/>
                     <Route exact path="/test" component={Test}/>
                     <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
                     <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
