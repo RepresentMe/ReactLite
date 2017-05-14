@@ -27,8 +27,8 @@ class QuestionFlowVote extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      votingModePrivate: this.getDefHideAnswers(),
-      text: this.getDefHideAnswers() ? 'privately' : 'publickly'
+      votingModePrivate: props.UserStore.userData.get('"defHideAnswers"'),
+      text: props.UserStore.userData.get('"defHideAnswers"') ? 'privately' : 'publicly'
     }
     this.changeVoteMode = this.changeVoteMode.bind(this)
     this.getDefHideAnswers = this.getDefHideAnswers.bind(this)
@@ -36,22 +36,22 @@ class QuestionFlowVote extends Component {
 
   changeVoteMode() {
     const newValue = !this.state.votingModePrivate
-    const text = this.state.votingModePrivate ? 'publickly' : 'privately'
+    const text = this.state.votingModePrivate ? 'publicly' : 'privately'
     this.setVotingModeState(newValue, text)
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (this.props.index !== nextProps.index) {
       const defHideAnswers = this.getDefHideAnswers()
-      const text = defHideAnswers ? 'privately' : 'publickly'
+      const text = defHideAnswers ? 'privately' : 'publicly'
       this.setVotingModeState(defHideAnswers, text)
     }
   }
 
   setVotingModeState(votingModePrivate, text) {
     this.setState({
-      votingModePrivate: votingModePrivate,
-      text: text
+      votingModePrivate: !this.state.votingModePrivate,
+      text: this.state.votingModePrivate ? 'publicly' : 'privately'
     })
   }
 
@@ -67,11 +67,11 @@ class QuestionFlowVote extends Component {
 
     return (
        <div style={{height: '100%'}}>
-          <div className="answering-mode-wrapper">Answering <a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
+          <div className="answering-mode-wrapper small">Answering <a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
           {
             showAnswered && 
-              <div className="answered">
-                Answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMM')}. Click again to change or confirm
+              <div className="answered small">
+                Last answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMMM YYYY')}
               </div>
           }
 
@@ -110,7 +110,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 
   return (
     <MiddleDiv>
-      <h1 className={"questionTextFix-" + index}>{question}</h1>
+      <h1 className={"questionText questionTextFix-" + index}>{question}</h1>
       {subtype === "likert" && <LikertButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer}/>}
       {subtype === "mcq" && <MCQButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer} choices={choices}/>}
     </MiddleDiv>
@@ -120,7 +120,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 
 const RenderedBreak = ({title, text, onContinue}) => (
   <MiddleDiv>
-    <h1>{ title }</h1>
+    <h1 className="questionBreak">{ title }</h1>
     <ReactMarkdown source={ text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
     <RaisedButton label="Continue" onClick={onContinue} primary />
   </MiddleDiv>
