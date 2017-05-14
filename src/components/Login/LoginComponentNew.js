@@ -63,6 +63,7 @@ const styles = {
     if(this.props.UserStore.userData.has("id")) { // If user is logged in, redirect
       //ToDo undestand what and how dynamicConfig??
       //temporary fix -> redirect to main
+      console.log(this.props)
       if(this.props.match.params.dynamicConfig) {
         this.props.history.push(this.dynamicConfig.getNextRedirect());
        }else {
