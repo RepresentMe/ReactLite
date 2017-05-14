@@ -73,6 +73,7 @@ class FollowUserDialog extends Component {
         modal={true}
         open={this.state.isDialogOpen}
         contentStyle={styles.contentStyle}
+        autoScrollBodyContent={true}
       >
         {!user && 'Loading...'}
         {user && <div>
