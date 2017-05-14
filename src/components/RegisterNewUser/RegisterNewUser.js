@@ -213,6 +213,7 @@ const styles = {
           email: this.state.email,
           username: this.generateUsername(),
           password: Math.floor(Math.random() * 1000000000000),
+          //private mode
           anonymous: this.state.anonymous
         }).then((response) => {
           console.log('response from /auth/register/', response)
