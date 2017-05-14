@@ -86,7 +86,7 @@ import './SurveyFlow.css'
 
   onVote(i, votingMode) {
     if(!this.props.UserStore.userData.has("id")){
-      this.props.history.push("/login/" + this.dynamicConfig.encodeConfig())
+      this.props.history.push("/login/" + this.dynamicConfig.encodeConfig(this.props.history.location.pathname.substring(0, this.props.history.location.pathname.lastIndexOf('/'))))
     } else {
       let question = this.props.QuestionStore.questions.get(this.state.collectionItems[this.props.match.params.itemNumber].object_id)
       const userLocation = localStorage.getItem('location')
