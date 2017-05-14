@@ -16,7 +16,7 @@ import Avatar from 'material-ui/Avatar';
 
 import Carousel from 'nuka-carousel';
 
-import ResultsComponent from './ResultsComponent';
+import Results from '../ResultsComponent';
 import './CompareUsers.css';
 
 
@@ -120,7 +120,7 @@ const CompareCollectionUsersView = observer(({data})=> {
         console.log('question', question)
       return (
         <div key={`ques-${i}`} style={{flex: '1', minWidth: 320}}>
-          <ResultsComponent questionId={question.object_id}/>
+          <Results questionId={question.object_id}/>
         </div>
       )
     })

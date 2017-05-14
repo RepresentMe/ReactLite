@@ -40,9 +40,10 @@ import CandidateNew from '../CandidateNew';
 
 import smallLogo from './represent_white_outline.svg';
 
-
-import CompareUsers from '../CompareUsersComponent';
-import CompareUsersDetails from '../CompareUsersComponent/CompareUsersDetailsComponent';
+// import CompareUsers from '../CompareUsersComponent';
+import CompareUsers from '../EndScreen/partials/CompareUsersComponent';
+// import CompareUsersDetails from '../CompareUsersComponent/CompareUsersDetailsComponent';
+import CompareUsersDetails from '../EndScreen/partials/CompareUsersDetailsComponent';
 
 import AuthTokenComponent from '../AuthTokenComponent'
 
