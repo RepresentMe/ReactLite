@@ -249,8 +249,7 @@ export default class Shell extends Component {
                       <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
                       <Route exact path="/login/:dynamicConfig/:email" component={RegisterNewUser}/>
                       <Route exact path="/loginuser/" component={Login}/>
-                      <Route exact path="/loginuser/:dynamicConfig" component={Login}/>
-                      <Route exact path="/loginuser/:dynamicConfig/:email" component={Login}/>
+                      <Route exact path="/loginuser/:email" component={Login}/>
                       <Route exact path="/register" component={RegisterPage}/>
                       <Route exact path="/register/:redirect" component={RegisterPage}/>
                       <Route exact path="/join/:dynamicConfig?" component={Join}/>

@@ -176,7 +176,7 @@ const styles = {
   }
   redirectToLogin = () => {
     const email = this.state.email;
-    if (email) this.props.history.push("/loginuser" + this.dynamicConfig.getNextRedirect() + "/" + encodeURIComponent(email))
+    if (email) this.props.history.push("/loginuser/" + encodeURIComponent(email))
     else this.props.history.push("/loginuser" + this.dynamicConfig.getNextRedirect())
   }
   makeAnonimous = () => {
@@ -279,7 +279,7 @@ const styles = {
                   style={{width: '100%'}}
                   backgroundColor={grey100}
                   secondary onTouchTap={() => {
-                    this.props.history.push("/login/" + this.dynamicConfig.encodeConfig() + "/" + encodeURIComponent(this.state.email))
+                    this.props.history.push("/loginuser/" + encodeURIComponent(this.state.email))
                   }}
                   />
                 </Dialog>}
