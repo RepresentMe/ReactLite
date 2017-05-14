@@ -123,6 +123,7 @@
 .tabs-wrapper > div >div:first-child {
     position: fixed;
     bottom: 0;
+    height: 35px;
 }
 
 .tabs-wrapper > div >div:nth-child(2) {
@@ -132,15 +133,21 @@
 }
 
 .menu-tab {
-    background-color: #1B8AAE !important
+    background-color: #fff !important;
+    border-top: 1px solid #ccc !important;
+    border-right: 1px solid #fff !important;
+    border-left: 1px solid #fff !important;
 }
 
 .menu-tab-active {
-    background-color: white !important
+    background-color: white !important;
+    border-top: 1px solid #fff !important;
+    border-right: 1px solid #ccc !important;
+    border-left: 1px solid #ccc !important;
 }
 
 .menu-tab svg {
-    fill: white !important
+    fill: #999 !important;
 }
 
 .menu-tab-active svg {
@@ -153,6 +160,7 @@
     top: 50%;
     width: 100%;
     justify-content: space-between;
+    z-index: 0;
     color: #999;
     font-size: 0.8em;
     vertical-align: middle;
