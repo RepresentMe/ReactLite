@@ -80,7 +80,27 @@ const muiTheme = getMuiTheme({
   }
 });
 
+const styles = {
+  avatarStyle: {
+    height: '16px', 
+    width: '16px', 
+    margin: '3px 0px'
+  },
+  leftIconStyle: {
+    height: '20px'
+  },
+  pageWraperStyle: {
+    height: '100%', 
+    position: 'absolute', 
+    width: '100%', 
+    top: 0, 
+    left: 0, 
+    overflow: 'hidden'
+  }
+}
+
 function onProfileClick(){
+  console.log('onProfileClick')
   if(this.props.UserStore.userData.has("id")) { // Is user logged in?
     this.props.UserStore.toggleUserDialog();
   }else {
@@ -128,21 +148,27 @@ function getDynamicConfig(url) {
       mainContentStyle.height = "100%";
     }
 
+    const { avatarStyle, leftIconStyle, pageWraperStyle } = styles
+
     return(
       <Router history={this.props.history}>
           <MuiThemeProvider muiTheme={muiTheme}>
-            <div style={{height: '100%', position: 'absolute', width: '100%', top: 0, left: 0, overflow: 'hidden'}}>
+            <div style={pageWraperStyle}>
               <div style={mainContentStyle}>
 
                 {split_pathname[1] !== 'joingroup' &&
                   <div>
                     {/* <NetworkProgress /> */}
                     <AppBar
-                      iconElementLeft={<img src={smallLogo} style={{height: '20px'}} onClick={() => window.open("https://represent.me",'_blank')}/>}
+                      iconElementLeft={
+                          <img  src={smallLogo} 
+                                style={leftIconStyle} 
+                                onClick={() => window.open("https://represent.me",'_blank')}
+                          />
+                      }
                       iconElementRight={
                         <span>
-                          <a onClick={() => onProfileClick.call(this)} style={{color: cyan600, fontSize: '14px', lineHeight: '16px', marginRight: '10px', marginTop: '4px', float: 'left'}}></a>
-                          <Avatar style={{height: '16px', width: '16px', margin: '3px 0px'}} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
+                          <Avatar style={avatarStyle} icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} src={this.props.UserStore.userData.has("photo") ? this.props.UserStore.userData.get("photo").replace("localhost:8000", "represent.me") : null} backgroundColor={cyan600} onClick={() => onProfileClick.call(this)}/>
                       </span>}
                       style={{
                         height: '24px',
