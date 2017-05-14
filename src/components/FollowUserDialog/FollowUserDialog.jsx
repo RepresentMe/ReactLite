@@ -91,7 +91,7 @@ class FollowUserDialog extends Component {
 
         <div className="submit-button-wrapper">
           <FlatButton
-            label="Submit"
+            label="Continue"
             primary={true}
             disabled={false}
             onTouchTap={this.handleDialogClose}
