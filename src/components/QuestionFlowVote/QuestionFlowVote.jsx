@@ -28,7 +28,7 @@ class QuestionFlowVote extends Component {
     super(props)
     this.state = {
       votingModePrivate: this.getDefHideAnswers(),
-      text: this.getDefHideAnswers() ? 'privately' : 'publickly'
+      text: this.getDefHideAnswers() ? 'privately' : 'publicly'
     }
     this.changeVoteMode = this.changeVoteMode.bind(this)
     this.getDefHideAnswers = this.getDefHideAnswers.bind(this)
