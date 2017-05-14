@@ -163,7 +163,7 @@ const styles = {
   }}
   checkPassword = (value) => {
     if (value){
-      if (value.length > 8) {
+      if (value.length > 7) {
         const problems = this.state.problems.filter(p => p !== this.problemList.passwordValidProblem);
         this.setState({passwordValid: true, problems})
         return true;
