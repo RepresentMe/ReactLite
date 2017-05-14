@@ -6,8 +6,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
-import Left from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
-import Right from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import Left from 'material-ui/svg-icons/navigation/arrow-back';
+import Right from 'material-ui/svg-icons/navigation/arrow-forward';
 
 
 const styles = {
@@ -15,9 +15,10 @@ const styles = {
     display: 'none'
   },
   icon: {
-    width:'50px',
-    height: '50px'
-  }
+    width:'20px',
+    height: '20px',
+    fill: '#999',
+  }, 
   
 }
 
@@ -144,7 +145,7 @@ const MCQButtons = ({choices, value, onVote, defHideAnswer}) => (
       let activeMCQ = value === choice.id ? 'activeMCQ' : '';
       return (
         <div key={`p-${index}`} className={`mcqButton ${activeMCQ}`} onTouchTap={() => onVote(choice.id)}>
-          <Checkbox selected={activeMCQ} />
+          <Checkbox style={styles.checkbox} selected={activeMCQ} />
           <span style={{ display:'inline-block', margin: '4px'}}>{choice.text}</span>
         </div>
       );
