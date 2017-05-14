@@ -109,8 +109,13 @@
   display: none;
 }
 
+a {
+  color: #1B8AAE !important;
+}
+
 .answered {
-  background-color: #f2c476;
+  background-color: #f5f5f5;
+  color: #999;
   height: auto;
   width: 100%;
   position: fixed;
@@ -125,5 +130,6 @@
   top: 2px;
   left:45%;
   z-index: 9999;
+  color: #999;
   text-align: center;
 }

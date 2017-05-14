@@ -29,7 +29,7 @@ class QuestionFlowVote extends Component {
     //ToDo defHideAnswer bind
     this.state = {
       votingModePrivate: props.UserStore.userData.get('"defHideAnswers"'),
-      text: props.UserStore.userData.get('"defHideAnswers"') ? 'privately' : 'publicky'
+      text: props.UserStore.userData.get('"defHideAnswers"') ? 'privately' : 'publicly'
     }
     this.changeVoteMode = this.changeVoteMode.bind(this)
   }
@@ -37,7 +37,7 @@ class QuestionFlowVote extends Component {
   changeVoteMode() {
     this.setState({
       votingModePrivate: !this.state.votingModePrivate,
-      text: this.state.votingModePrivate ? 'publicky' : 'privately'
+      text: this.state.votingModePrivate ? 'publicly' : 'privately'
     })
   }
 
@@ -54,7 +54,7 @@ class QuestionFlowVote extends Component {
           {
             showAnswered && 
               <div className="answered">
-                Answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMM')}. Click again to change or confirm
+                Answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMM')} - click to change or confirm.
               </div>
           }
 
