@@ -31,15 +31,27 @@ class JoinGroupDialog extends Component {
     this.state = {
       shouldJoin: false,
       shouldShareEmail: false,
-      isDialogOpen: true
+      isDialogOpen: this.props.isOpen,
+      group: null
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.isOpen && nextProps.groupId && (!this.state.group || nextProps.groupId != this.state.group.id)) {
+      this.props.GroupStore.getGroup(nextProps.groupId).then((res) => {
+        this.setState({
+          isDialogOpen: true,
+          group: res
+        })
+      })
     }
   }
 
   handleDialogClose = () => {
-    const { GroupStore, group } = this.props;
+    const { GroupStore } = this.props;
     if(this.state.shouldJoin) {
       GroupStore.joinGroup({
-        groupId: group.id,
+        groupId: this.state.group.id,
         shareEmail: this.state.shouldShareEmail
       });
     }
@@ -61,54 +73,58 @@ class JoinGroupDialog extends Component {
   }
 
   render() {
-    const { group } = this.props;
+    console.log('RENDER JOIN GROUP', this.state.isDialogOpen, this.props.isOpen);
     return (
       <Dialog
         modal={true}
         open={this.state.isDialogOpen}
         contentStyle={styles.contentStyle}
       >
-        <div className="user-rep-icons-wrapper">
-          <div className="user-rep-icons">
-            <div className="user-icon">
-              <img src="/static/media/represent_white_outline.dbff67a6.svg" />
-            </div>
-            <div className="represent-icon">
-              <img src="/static/media/represent_white_outline.dbff67a6.svg" />
+
+        {!this.state.group && 'Loading...'}
+        {this.state.group && <div>
+          <div className="user-rep-icons-wrapper">
+            <div className="user-rep-icons">
+              <div className="user-icon">
+                <img src={this.state.group.image} />
+              </div>
+              <div className="represent-icon">
+                <img src="/static/media/represent_white_outline.dbff67a6.svg" />
+              </div>
             </div>
           </div>
-        </div>
 
-        <p>
-          We're working with Represent to modernize democracy &nbsp;  
-           <a>Learn more</a>
-        </p>
+          <p>
+            We're working with Represent to modernize democracy &nbsp;  
+            <a>Learn more</a>
+          </p>
 
-        <div>
-          <Checkbox
-            label={`Follow ${group.name} on Represent`}
-            labelPosition='right'
-            style={styles.firstCheckboxStyle}
-            onCheck={this.handleJoinCheckboxCheck}
-            checked={this.state.shouldJoin}
+          <div>
+            <Checkbox
+              label={`Follow ${this.state.group.name} on Represent`}
+              labelPosition='right'
+              style={styles.firstCheckboxStyle}
+              onCheck={this.handleJoinCheckboxCheck}
+              checked={this.state.shouldJoin}
+              />
+            <Checkbox
+              label={`Share my url with ${this.state.group.name}`}
+              labelPosition='right'
+              onCheck={this.handleEmailCheckboxCheck}
+              checked={this.state.shouldShareEmail}
+              />
+          </div>
+
+          <div className="submit-button-wrapper">
+            <FlatButton
+              label="Continue"
+              primary={true}
+              disabled={false}
+              onTouchTap={this.handleDialogClose}
+              style={styles.submitButton}
             />
-          <Checkbox
-            label={`Share my url with ${group.name}`}
-            labelPosition='right'
-            onCheck={this.handleEmailCheckboxCheck}
-            checked={this.state.shouldShareEmail}
-            />
-        </div>
-
-        <div className="submit-button-wrapper">
-          <FlatButton
-            label="Continue"
-            primary={true}
-            disabled={false}
-            onTouchTap={this.handleDialogClose}
-            style={styles.submitButton}
-          />
-        </div>
+          </div>
+        </div>}
       </Dialog>
     )
   }
