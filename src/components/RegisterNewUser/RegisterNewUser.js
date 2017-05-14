@@ -139,6 +139,7 @@ const styles = {
   facebookCallback = (result) => {
     if(result.accessToken) {
       this.props.UserStore.facebookLogin(result.accessToken);
+      this.props.history.push(this.dynamicConfig.getNextRedirect())
     }
   }
   displayProblem = () => {
@@ -175,8 +176,8 @@ const styles = {
   }
   redirectToLogin = () => {
     const email = this.state.email;
-    if (email) this.props.history.push("/login/" + this.dynamicConfig.encodeConfig() + "/" + encodeURIComponent(email))
-    else this.props.history.push("/login/" + this.dynamicConfig.encodeConfig())
+    if (email) this.props.history.push("/loginuser" + this.dynamicConfig.getNextRedirect() + "/" + encodeURIComponent(email))
+    else this.props.history.push("/loginuser" + this.dynamicConfig.getNextRedirect())
   }
   makeAnonimous = () => {
     const anonymous = !this.state.anonymous;
