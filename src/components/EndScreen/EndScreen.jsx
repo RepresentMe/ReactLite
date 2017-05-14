@@ -119,7 +119,7 @@ class EndScreen extends Component {
         <MoreUserInfo shown={this.state.userDataModal.isOpen} user={this.state.userDataModal.user} />
         <JoinGroupDialog isOpen={this.state.joinGroupModal.isOpen} groupId={this.state.joinGroupModal.groupId}/>
         <FollowUserDialog isOpen={this.state.followUserModal.isOpen} userId={this.state.followUserModal.userId}/>
-        <MessengerModal isOpen={this.state.messengerModal.isOpen} />
+        {/*<MessengerModal isOpen={this.state.messengerModal.isOpen} />*/}
       </div>
     );
   }
