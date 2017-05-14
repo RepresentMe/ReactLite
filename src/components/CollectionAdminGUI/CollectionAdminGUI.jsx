@@ -69,7 +69,7 @@ const styles = {
           <TextField onChange={(e, newValue) => this.props.textChange('endText', newValue)} value={this.props.endText} style={styles.textField} floatingLabelText="Ending Text" hintText="Shown at the end of a survey" floatingLabelFocusStyle={styles.floatingLabelText} fullWidth={true} multiLine={true} underlineShow={false} />
         </Paper>
 
-        <Paper zDepth={2} style={{ margin: '10px' }}> {/* Drag and drop items toolbar */}
+        <Paper zDepth={0} style={{ margin: '10px' }}> {/* Drag and drop items toolbar */}
           <Toolbar style={{backgroundColor: cyan600, color: white}}>
             <ToolbarGroup firstChild={true}>
               <ToolbarTitle text="Content (Drag to reorder)" style={{marginLeft: '20px', color: white}} />

@@ -7,6 +7,8 @@ import Chip from 'material-ui/Chip';
 import EmbedlyComponent from '../Components/EmbedlyComponent';
 import MoreText from '../Components/MoreText';
 
+import './QuestionFlowInfo.css';
+
 const style = {
   minHeight: '300px',
   padding: '20px 30px',
@@ -18,9 +20,9 @@ class QuestionFlowInfo extends Component {
   render() {
     const { question } = this.props;
     return (
-      <Paper zDepth={5} style={style}>
-        <h1>{ question.question }</h1>
-        <MoreText text={question.description}/>
+      <Paper zDepth={0} style={style}>
+        <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{ question.question }</h1>
+        <MoreText className="moreText" text={question.description}/>
         {question.links.map((link, i) => {
           return (<div key={i}><EmbedlyComponent url={link.url} /><br/></div>);
         })}

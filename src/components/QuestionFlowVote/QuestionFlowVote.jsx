@@ -110,7 +110,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 
   return (
     <MiddleDiv>
-      <h1 className={"questionText questionTextFix-" + index}>{question}</h1>
+      <h1 className={"questionText questionTextFix-" + index} style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{question}</h1>
       {subtype === "likert" && <LikertButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer}/>}
       {subtype === "mcq" && <MCQButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer} choices={choices}/>}
     </MiddleDiv>
@@ -119,7 +119,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 }))
 
 const RenderedBreak = ({title, text, onContinue}) => (
-  <MiddleDiv>
+  <MiddleDiv style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>
     <h1 className="questionBreak">{ title }</h1>
     <ReactMarkdown source={ text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
     <RaisedButton label="Continue" onClick={onContinue} primary />

@@ -57,7 +57,7 @@ import smallLogo from './represent_white_outline.svg';
       <div style={{height: '100%'}}>
         <div style={{ display: 'table', width: '100%', height: '100%' }}>
           <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', padding: '10px 20px' }}>
-            <Paper zDepth={1} style={{padding: '10px 20px', maxWidth: '320px', marginLeft: 'auto', marginRight: 'auto'}}>
+            <Paper zDepth={0} style={{padding: '10px 20px', maxWidth: '320px', marginLeft: 'auto', marginRight: 'auto'}}>
               <p style={{fontWeight: 'bold', margin: '10px 0'}}><img src={smallLogo} style={{height: '30px', verticalAlign: 'middle', marginRight: '10px', marginTop: '-4px'}} />Please login to continue</p>
               <TextField hintText="Username / email" style={{width: '100%'}}
               value={this.state.email}

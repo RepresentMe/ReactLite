@@ -37,7 +37,7 @@ class MoreText extends Component {
     }
 
     return (
-      <div>
+      <div className="moreText">
         {
           readMore ? (
             <p>{text}</p>

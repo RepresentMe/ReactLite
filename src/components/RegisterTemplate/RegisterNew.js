@@ -323,7 +323,7 @@ const styles = {
     const {joinComplete, stepIndex} = this.state;
     console.log('this.state', this.state)
     return (
-      <Paper zDepth={1} style={styles.containerStyle}>
+      <Paper zDepth={0} style={styles.containerStyle}>
         <p style={{fontWeight: 'bold', margin: '10px 0'}}>
           <img src={smallLogo} style={styles.imgStyle} />
           Please register here

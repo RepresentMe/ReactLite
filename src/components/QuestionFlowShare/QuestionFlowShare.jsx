@@ -119,7 +119,7 @@ class QuestionFlowShare extends Component {
 
         <Paper style={pageWrapperPaper} zDepth={0}>
           
-          <Paper style={innerPaperStyle} zDepth={2}>
+          <Paper style={innerPaperStyle} zDepth={0}>
             <img src={imgSrc} className='img-share'/>
           </Paper>
           <Paper style={innerPaperStyle} zDepth={0}>
