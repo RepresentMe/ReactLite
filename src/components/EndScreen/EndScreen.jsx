@@ -51,9 +51,7 @@ class EndScreen extends Component {
 
   checkToShowJoinGroupModal() { 
     const { GroupStore } = this.props;
-    if(false && 'userData') {
-      // show user data config
-    } else if(this.dynamicConfig.config.survey_end.showJoinGroup_id) {
+    if(this.dynamicConfig.config.survey_end.showJoinGroup_id) {
       GroupStore.getGroup(this.dynamicConfig.config.survey_end.showJoinGroup_id).then((group) => {
         if(group.my_membership) {
           this.setState({

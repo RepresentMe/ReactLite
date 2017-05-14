@@ -118,7 +118,4 @@ class FollowUserDialog extends Component {
   }
 }
 
-            // value={props.value}
-            // checked={props.checked}
-
 export default FollowUserDialog;
