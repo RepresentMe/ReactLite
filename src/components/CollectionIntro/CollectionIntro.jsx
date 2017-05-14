@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DynamicConfigService from '../../services/DynamicConfigService';
 import ErrorReload from '../ErrorReload';
 import ReactGA from 'react-ga';
+import './CollectionIntro.css';
 
 @inject("UserStore", "CollectionStore") @observer class CollectionIntro extends Component {
 
@@ -95,8 +96,8 @@ import ReactGA from 'react-ga';
             <div style={{ display: 'table', width: '100%', height: '100%' }}>
               <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '20px 20px'}}>
 
-              <h1>{ collection.name }</h1>
-              <ReactMarkdown source={ collection.desc } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} />
+                <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{ collection.name }</h1>
+              <ReactMarkdown source={ collection.desc } className="markDownText" renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} />
 
                 {collection ?
                   collection.question_count  ?
