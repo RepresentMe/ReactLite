@@ -46,6 +46,7 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
         const photo = collection.user.photo ? collection.user.photo.replace("localhost:8000", "represent.me") : randomPic;
         const image = collection.photo ? collection.photo.replace("localhost:8000", "represent.me") : null;
         //const link = "https://app.represent.me/profile/" + collection.user.id + "/" + collection.user.username; //our user
+        const subtitle = `${bio.substring(0, location ? 77-location.length : 77)}${bio && '...'} ${location}`
 
         return (
 
@@ -54,7 +55,7 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
             <Link to={ "/survey/" + id } >
                 <CardHeader
                     title={user_name}
-                    subtitle={`${bio} ${location}`}
+                    subtitle={subtitle}
                     avatar={photo}
                     className='cardHeaderStyle'
                 />
