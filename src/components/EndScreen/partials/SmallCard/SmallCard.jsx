@@ -6,7 +6,7 @@ import { Card } from 'material-ui/Card';
 class SmallCard extends Component {
 
 	render(){
-		console.log('SmallCard at bottom props', this.props)
+		// console.log('SmallCard at bottom props', this.props)
 
   	return (
       <div>

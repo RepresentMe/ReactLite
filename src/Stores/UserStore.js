@@ -148,7 +148,7 @@ class UserStore {
     this.sessionData.set("authToken", "");
     this.userData.replace({});
     this.sessionData.set("showUserDialogue", false);
-    location.reload();
+    window.location.replace('/');
   }
 
   isLoggedIn() {
