@@ -56,7 +56,7 @@ const styles = {
 
     this.dynamicConfig = DynamicConfigService;
     if(this.props.match.params.dynamicConfig) {
-      this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
+      // this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
     }
   }
   componentWillUpdate() {
@@ -85,6 +85,7 @@ const styles = {
   facebookCallback = (result) => {
     if(result.accessToken) {
       this.props.UserStore.facebookLogin(result.accessToken);
+      this.props.history.push(this.dynamicConfig.getNextRedirect())
     }
   }
   attemptLogin = () => {
@@ -94,6 +95,7 @@ const styles = {
       }else {
         this.setState({problems: JSON.stringify(error.response.data).replace(/:/g,": ").replace(/[&\/\\#+()$~%.'"*?<>{}\[\]]/g, "").split(",")});
       }
+      this.props.history.push(this.dynamicConfig.getNextRedirect())
     })
   }
   render() {

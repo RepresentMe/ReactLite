@@ -139,7 +139,7 @@ const styles = {
   facebookCallback = (result) => {
     if(result.accessToken) {
       this.props.UserStore.facebookLogin(result.accessToken);
-      this.props.history.push("/loginuser" + this.dynamicConfig.getNextRedirect())
+      this.props.history.push(this.dynamicConfig.getNextRedirect())
     }
   }
   displayProblem = () => {

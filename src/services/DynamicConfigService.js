@@ -33,17 +33,12 @@ class DynamicConfigService {
 
   getNextRedirect() {
     const lastIndex = this.config.redirects.length -1;
-    console.log(this.config.redirects)
-    if (this.config.redirects.length === 0 || !this.config.redirects[lastIndex]) {
+    if (this.config.redirects.length === 0 || !this.config.redirects[0]) {
       return "/"
-    } if (this.config.redirects[lastIndex] === "/") {
+    } if (this.config.redirects[0] === "/") {
       return "/" + this.getNextRedirectConfig()
     }else {
-      if (this.config.redirects[lastIndex].slice(-1) === "/") {
-        return this.config.redirects[lastIndex] + this.getNextRedirectConfig()
-      }else {
-        return this.config.redirects[lastIndex] + "/" + this.getNextRedirectConfig()
-      }
+        return this.config.redirects[0]
     }
   }
 
