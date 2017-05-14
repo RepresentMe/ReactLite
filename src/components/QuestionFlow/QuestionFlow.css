@@ -91,13 +91,29 @@
 
 .tabs-wrapper > div >div:first-child {
   position: fixed;
-  bottom: 2px;
+  bottom: 0;
 }
 
 .tabs-wrapper > div >div:nth-child(2) {
   position: fixed;
   bottom: 0px;
   width: 100%;
+}
+
+.menu-tab {
+  background-color: #1B8AAE !important
+}
+
+.menu-tab-active {
+  background-color: white !important
+}
+
+.menu-tab svg {
+  fill: white !important
+}
+
+.menu-tab-active svg {
+  fill: #1B8AAE !important
 }
 
 .nav-buttons {
@@ -139,9 +155,13 @@ a {
 
 .answering-mode-wrapper {
   position: fixed;
-  top: 3px;  
-  left: 45%;
+  top: 2px;
+  width: 100%;
   z-index: 9999;
   color: #999;
   text-align: center;
+}
+
+.answering-mode-wrapper a:hover {
+  cursor: pointer
 }

@@ -26,28 +26,45 @@ class QuestionFlowVote extends Component {
   
   constructor(props) {
     super(props)
-    //ToDo defHideAnswer bind
     this.state = {
       votingModePrivate: props.UserStore.userData.get('"defHideAnswers"'),
       text: props.UserStore.userData.get('"defHideAnswers"') ? 'privately' : 'publicly'
     }
     this.changeVoteMode = this.changeVoteMode.bind(this)
+    this.getDefHideAnswers = this.getDefHideAnswers.bind(this)
   }
 
   changeVoteMode() {
+    const newValue = !this.state.votingModePrivate
+    const text = this.state.votingModePrivate ? 'publicly' : 'privately'
+    this.setVotingModeState(newValue, text)
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.props.index !== nextProps.index) {
+      const defHideAnswers = this.getDefHideAnswers()
+      const text = defHideAnswers ? 'privately' : 'publicly'
+      this.setVotingModeState(defHideAnswers, text)
+    }
+  }
+
+  setVotingModeState(votingModePrivate, text) {
     this.setState({
       votingModePrivate: !this.state.votingModePrivate,
       text: this.state.votingModePrivate ? 'publicly' : 'privately'
     })
   }
 
-  render() {
+  getDefHideAnswers() {
+    return this.props.UserStore.userData.get("defHideAnswers")
+  }
 
-    console.log(this.props.UserStore.userData.keys())
+  render() {
     const { items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion, currentQuestion } = this.props
     const item = items[index];
     const { hiddenIcon, icon } = styles
     const showAnswered = !!currentQuestion.my_vote.length
+
     return (
        <div style={{height: '100%'}}>
           <div className="answering-mode-wrapper small">Answering <a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
@@ -137,11 +154,11 @@ const MCQButtons = ({choices, value, onVote, defHideAnswer}) => (
 
 const Checkbox = ({selected}) => {
   return (<div style={{float: 'left'}}>
-    {selected ? (<svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="25" viewBox="0 0 25 25" width="25">
+    {selected ? (<svg xmlns="http://www.w3.org/2000/svg" fill="#fff" height="25" viewBox="0 0 25 25" width="25">
         <path d="M0 0h24v24H0z" fill="none"/>
         <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
     </svg>) :
-    (<svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="25" viewBox="0 0 25 25" width="25">
+    (<svg xmlns="http://www.w3.org/2000/svg" fill="#1B8AAE" height="25" viewBox="0 0 25 25" width="25">
         <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
         <path d="M0 0h24v24H0z" fill="none"/>
     </svg>)}
