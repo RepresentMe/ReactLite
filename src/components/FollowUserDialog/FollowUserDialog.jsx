@@ -33,14 +33,28 @@ class FollowUserDialog extends Component {
     super(props)
     this.state = {
       shouldFollow: false,
-      isDialogOpen: true
+      isDialogOpen: false,
+      user: null
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+      console.log('show1', nextProps);
+    if(nextProps.isOpen && nextProps.userId && (!this.state.user || nextProps.userId != this.state.user.id)) {
+      console.log('show2');
+      this.props.UserStore.getUserById(nextProps.userId).then((res) => {
+        this.setState({
+          isDialogOpen: true,
+          user: res
+        })
+      })
     }
   }
 
   handleDialogClose = () => {
-    const { UserStore, user } = this.props;
+    const { UserStore } = this.props;
     if(this.state.shouldFollow) {
-      UserStore.setFollowing(user.id);
+      UserStore.setFollowing(this.state.user.id);
     }
     this.setState({
       isDialogOpen: false
@@ -54,50 +68,53 @@ class FollowUserDialog extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    const userName = `${user.first_name} ${user.last_name}`;
+    const user  = this.state.user;
+    const userName = user && `${user.first_name} ${user.last_name}`;
     return (
       <Dialog
         modal={true}
         open={this.state.isDialogOpen}
         contentStyle={styles.contentStyle}
       >
-        <div className="user-rep-icons-wrapper">
-          <div className="user-rep-icons">
-            <div className="user-icon">
-              <img src="/static/media/represent_white_outline.dbff67a6.svg" />
-            </div>
-            <div className="represent-icon">
-              <img src="/static/media/represent_white_outline.dbff67a6.svg" />
+        {!user && 'Loading...'}
+        {user && <div>
+          <div className="user-rep-icons-wrapper">
+            <div className="user-rep-icons">
+              <div className="user-icon">
+                <img src={user.photo} />
+              </div>
+              <div className="represent-icon">
+                <img src="/static/media/represent_white_outline.dbff67a6.svg" />
+              </div>
             </div>
           </div>
-        </div>
 
-        <p>
-          I'm working with Represent to modernize democracy &nbsp;  
-           <a>Learn more</a>
-        </p>
+          <p>
+            I'm working with Represent to modernize democracy &nbsp;  
+            <a>Learn more</a>
+          </p>
 
-        <div>
-          <Checkbox
-            label={`Follow ${userName}`}
-            labelPosition='right'
-            labelStyle={{ }}
-            style={styles.checkboxStyle}
-            onCheck={this.handleCheckboxCheck}
-            checked={this.state.shouldFollow}
+          <div>
+            <Checkbox
+              label={`Follow ${userName}`}
+              labelPosition='right'
+              labelStyle={{ }}
+              style={styles.checkboxStyle}
+              onCheck={this.handleCheckboxCheck}
+              checked={this.state.shouldFollow}
+              />
+          </div>
+
+          <div className="submit-button-wrapper">
+            <FlatButton
+              label="Continue"
+              primary={true}
+              disabled={false}
+              onTouchTap={this.handleDialogClose}
+              style={styles.submitButton}
             />
-        </div>
-
-        <div className="submit-button-wrapper">
-          <FlatButton
-            label="Continue"
-            primary={true}
-            disabled={false}
-            onTouchTap={this.handleDialogClose}
-            style={styles.submitButton}
-          />
-        </div>
+          </div>
+        </div>}
       </Dialog>
     )
   }
