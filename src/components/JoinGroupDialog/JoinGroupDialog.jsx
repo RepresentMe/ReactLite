@@ -73,7 +73,6 @@ class JoinGroupDialog extends Component {
   }
 
   render() {
-    console.log('RENDER JOIN GROUP', this.state.isDialogOpen, this.props.isOpen);
     return (
       <Dialog
         modal={true}

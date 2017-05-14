@@ -22,7 +22,10 @@ class EndScreen extends Component {
         isOpen: false,
         groupId: null
       },
-      openMoreInfo: false
+      userDataModal: {
+        user: null,
+        isOpen: false
+      }
     }
     
     this.dynamicConfig = DynamicConfigService;
@@ -31,7 +34,22 @@ class EndScreen extends Component {
     }
   }
 
-  componentWillMount() { // WEIRD CODE WRITTED IN LAST NIGHT BEFORE DEPLOY
+  componentWillMount(){ // WEIRD CODE WRITTED IN LAST NIGHT BEFORE DEPLOY
+    this.props.UserStore.getCachedMe().then(data => {
+      if(!this.isUserDataSet(data)) {
+        this.setState({ 
+          userDataModal: {
+            user: data, 
+            isOpen: true
+          }
+        })
+      } else {
+        this.checkToShowJoinGroupModal();
+      }
+    })
+  }
+
+  checkToShowJoinGroupModal() { 
     const { GroupStore } = this.props;
     if(false && 'userData') {
       // show user data config
@@ -78,21 +96,15 @@ class EndScreen extends Component {
     }
   }
 
-  componentDidMount(){
-    this.props.UserStore.getCachedMe().then(data => {
-      this.setState({ 
-        user: data, 
-        openMoreInfo: (!data.dob || data.gender === 0 || data.address === "") ? true : false
-      })
-    })
+  isUserDataSet(user) {
+    return (user.dob && typeof user.gender == 'number' && user.address !== "");
   }
 
   render() {
-    console.log('isSHwoing', this.state);
     return (
       <div>
-        <MoreUserInfo shown={this.state.openMoreInfo} user={this.state.user} />
         <CompareCollectionUsers />
+        <MoreUserInfo shown={this.state.userDataModal.isOpen} user={this.state.userDataModal.user} />
         <JoinGroupDialog isOpen={this.state.joinGroupModal.isOpen} groupId={this.state.joinGroupModal.groupId}/>
         <FollowUserDialog isOpen={this.state.followUserModal.isOpen} userId={this.state.followUserModal.userId}/>
       </div>

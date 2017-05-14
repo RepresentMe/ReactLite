@@ -39,9 +39,7 @@ class FollowUserDialog extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-      console.log('show1', nextProps);
     if(nextProps.isOpen && nextProps.userId && (!this.state.user || nextProps.userId != this.state.user.id)) {
-      console.log('show2');
       this.props.UserStore.getUserById(nextProps.userId).then((res) => {
         this.setState({
           isDialogOpen: true,
