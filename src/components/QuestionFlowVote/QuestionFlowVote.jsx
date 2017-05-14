@@ -27,8 +27,8 @@ class QuestionFlowVote extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      votingModePrivate: props.UserStore.userData.get('"defHideAnswers"'),
-      text: props.UserStore.userData.get('"defHideAnswers"') ? 'privately' : 'publicly'
+      votingModePrivate: this.getDefHideAnswers(),
+      text: this.getDefHideAnswers() ? 'privately' : 'publickly'
     }
     this.changeVoteMode = this.changeVoteMode.bind(this)
     this.getDefHideAnswers = this.getDefHideAnswers.bind(this)
@@ -50,8 +50,8 @@ class QuestionFlowVote extends Component {
 
   setVotingModeState(votingModePrivate, text) {
     this.setState({
-      votingModePrivate: !this.state.votingModePrivate,
-      text: this.state.votingModePrivate ? 'publicly' : 'privately'
+      votingModePrivate: votingModePrivate,
+      text: text
     })
   }
 
