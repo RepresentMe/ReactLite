@@ -18,6 +18,7 @@ import CensusDataStore from './Stores/CensusDataStore.js';
 import AppStatisticsStore from './Stores/AppStatisticsStore.js';
 import QuestionCommentsStore from './Stores/QuestionCommentsStore.js';
 import UrlPreviewStore from './Stores/UrlPreviewStore.js';
+import GroupStore from './Stores/GroupStore.js';
 import ReactGA from 'react-ga';
 
 injectTapEventPlugin();
@@ -65,6 +66,7 @@ window.stores = {
   AppStatisticsStore:     new AppStatisticsStore(),
   QuestionCommentsStore:     new QuestionCommentsStore(),
   UrlPreviewStore:     new UrlPreviewStore(),
+  GroupStore:     new GroupStore(),
 }
 
 window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
@@ -96,6 +98,7 @@ window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
         AppStatisticsStore={window.stores.AppStatisticsStore}
         QuestionCommentsStore={window.stores.QuestionCommentsStore}
         UrlPreviewStore={window.stores.UrlPreviewStore}
+        GroupStore={window.stores.GroupStore}
         >
         <Shell history={history}/>
       </Provider>

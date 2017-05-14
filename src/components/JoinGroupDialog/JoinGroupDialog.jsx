@@ -12,12 +12,9 @@ const styles = {
   contentStyle: {
     width: '400px',
     padding: '10px 20px',
-    textAlign: 'center'
   },
-  checkboxStyle: {
-    margin: '40px auto 0 auto', 
-    minWidth: '200px', 
-    width: '200px'
+  firstCheckboxStyle: {
+    margin: '40px auto 0 auto',
   },
   submitButton: {
     marginTop: '50px',
@@ -26,36 +23,45 @@ const styles = {
   }
 }
 
-@inject("UserStore")
-class FollowUserDialog extends Component {
+@inject("GroupStore")
+class JoinGroupDialog extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      shouldFollow: false,
+      shouldJoin: false,
+      shouldShareEmail: false,
       isDialogOpen: true
     }
   }
 
   handleDialogClose = () => {
-    const { UserStore, user } = this.props;
-    if(this.state.shouldFollow) {
-      UserStore.setFollowing(user.id);
+    const { GroupStore, group } = this.props;
+    if(this.state.shouldJoin) {
+      GroupStore.joinGroup({
+        groupId: group.id,
+        shareEmail: this.state.shouldShareEmail
+      });
     }
     this.setState({
       isDialogOpen: false
     })
   }
 
-  handleCheckboxCheck = (e,value) => {
+  handleJoinCheckboxCheck = (e,value) => {
     this.setState({
-      shouldFollow: value
+      shouldJoin: value
+    })
+  }
+
+  handleEmailCheckboxCheck = (e,value) => {
+    this.setState({
+      shouldShareEmail: value
     })
   }
 
   render() {
-    const { user } = this.props;
-    const userName = `${user.first_name} ${user.last_name}`;
+    const { group } = this.props;
     return (
       <Dialog
         modal={true}
@@ -74,18 +80,23 @@ class FollowUserDialog extends Component {
         </div>
 
         <p>
-          I'm working with Represent to modernize democracy &nbsp;  
+          We're working with Represent to modernize democracy &nbsp;  
            <a>Learn more</a>
         </p>
 
         <div>
           <Checkbox
-            label={`Follow ${userName}`}
+            label={`Follow ${group.name} on Represent`}
             labelPosition='right'
-            labelStyle={{ }}
-            style={styles.checkboxStyle}
-            onCheck={this.handleCheckboxCheck}
-            checked={this.state.shouldFollow}
+            style={styles.firstCheckboxStyle}
+            onCheck={this.handleJoinCheckboxCheck}
+            checked={this.state.shouldJoin}
+            />
+          <Checkbox
+            label={`Share my url with ${group.name}`}
+            labelPosition='right'
+            onCheck={this.handleEmailCheckboxCheck}
+            checked={this.state.shouldShareEmail}
             />
         </div>
 
@@ -103,7 +114,4 @@ class FollowUserDialog extends Component {
   }
 }
 
-            // value={props.value}
-            // checked={props.checked}
-
-export default FollowUserDialog;
+export default JoinGroupDialog;
