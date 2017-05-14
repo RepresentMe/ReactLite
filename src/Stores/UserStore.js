@@ -42,6 +42,20 @@ class UserStore {
 
   }
 
+  getCachedMe(){
+    return new Promise((resolve, reject) => {
+      const user = this.userData.toJS();
+      if (user && user.id) {
+        resolve(user)
+      } else {
+        this.getMe().then((data, err) => {
+            if (err) reject(err)
+            else resolve(data)
+        })
+      }
+    });
+  }
+
   getMe() {
     return new Promise((resolve, reject) => {
       if(!this.sessionData.get("authToken")) {
@@ -148,7 +162,7 @@ class UserStore {
     this.sessionData.set("authToken", "");
     this.userData.replace({});
     this.sessionData.set("showUserDialogue", false);
-    location.reload();
+    window.location.replace('/');
   }
 
   isLoggedIn() {

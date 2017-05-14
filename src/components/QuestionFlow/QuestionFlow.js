@@ -86,7 +86,7 @@ class QuestionFlow extends Component {
 
     const currentItem = items[currentItemIndex];
     const currentQuestion = QuestionStore.questions.get(currentItem.object_id);
-    const hideInfoTab = currentQuestion.description === '' && !currentQuestion.links.length
+    const hideInfoTab = (currentQuestion && currentQuestion.description) === '' && !currentQuestion.links.length
     const { tabsContentContainerStyle, tabTemplateStyle } = styles
 
     return (

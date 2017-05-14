@@ -34,6 +34,7 @@ import CollectionCharts from '../charts/CollectionCharts';
 import DynamicConfigService from '../../services/DynamicConfigService';
 
 import RegisterNewUser from '../RegisterNewUser';
+import RegisterPage from '../RegisterNewUser/RegisterNewPage2';
 
 import CandidateIntro from '../CandidateIntro';
 import CandidateNew from '../CandidateNew';
@@ -242,11 +243,11 @@ export default class Shell extends Component {
                     {/*}<Links/>*/}
                     <Route exact path="/candidate" component={CandidateIntro}/>
                     <Route exact path="/candidate/new/:email" component={CandidateNew}/>
-                    <Route exact path="/login/:dynamicConfig?" component={Login}/>
+                    <Route exact path="/login/:dynamicConfig?" component={RegisterNewUser}/>
                     <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
-                    <Route exact path="/login/:dynamicConfig/:email" component={Login}/>
-                    <Route exact path="/register" component={RegisterNewUser}/>
-                    <Route exact path="/register/:redirect" component={RegisterNewUser}/>
+                    <Route exact path="/login/:dynamicConfig/:email" component={RegisterNewUser}/>
+                    <Route exact path="/register" component={RegisterPage}/>
+                    <Route exact path="/register/:redirect" component={RegisterPage}/>
                     <Route exact path="/join/:dynamicConfig?" component={Join}/>
                     <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
                     <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>

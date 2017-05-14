@@ -13,6 +13,9 @@ import QuestionService from "../../services/QuestionService";
 import CompareCollectionUsers from "../CompareCollectionUsers";
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart';
 
+import FollowUserDialog from '../FollowUserDialog';
+import JoinGroupDialog from '../JoinGroupDialog';
+
 const Test = inject("QuestionStore", "CollectionStore")(({ QuestionStore, CollectionStore, location, router, query }) => {
 
     // let querySearch = parse(location.search);
@@ -35,15 +38,26 @@ const Test = inject("QuestionStore", "CollectionStore")(({ QuestionStore, Collec
     //     </div>
     // )
 
-    CollectionStore.getCollectionItemsById(24)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    // CollectionStore.getCollectionItemsById(24)
+    //   .then((response) => {
+    //     console.log(response)
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //   })
 
-    return null;
+    let user = {
+      id: 7,
+      first_name: 'Ed',
+      last_name: 'Dowding'
+    }
+
+    let group = {
+      id: 6,
+      name: "Represent"
+    }
+    // return <FollowUserDialog user={user} />;
+    return <JoinGroupDialog group={group} />;
 })
 
 export default Test;

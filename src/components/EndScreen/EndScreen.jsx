@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { inject } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import CompareCollectionUsers from './partials/CompareUsersComponent';
 import DynamicConfigService from '../../services/DynamicConfigService';
 import JoinGroupDialog from '../JoinGroupDialog';
 import FollowUserDialog from '../FollowUserDialog';
+import MoreUserInfo from '../Components/modals/MoreUserInfo';
 
 @inject("UserStore", "GroupStore") 
-// @observer 
+@observer
 class EndScreen extends Component {
 
   constructor(props) {
@@ -20,7 +21,8 @@ class EndScreen extends Component {
       followUserModal: {
         isOpen: false,
         groupId: null
-      }
+      },
+      openMoreInfo: false
     }
     
     this.dynamicConfig = DynamicConfigService;
@@ -76,14 +78,20 @@ class EndScreen extends Component {
     }
   }
 
-  checkToShowMessengerModal() {
-
+  componentDidMount(){
+    this.props.UserStore.getCachedMe().then(data => {
+      this.setState({ 
+        user: data, 
+        openMoreInfo: (!data.dob || data.gender === 0 || data.address === "") ? true : false
+      })
+    })
   }
 
   render() {
     console.log('isSHwoing', this.state);
     return (
       <div>
+        <MoreUserInfo shown={this.state.openMoreInfo} user={this.state.user} />
         <CompareCollectionUsers />
         <JoinGroupDialog isOpen={this.state.joinGroupModal.isOpen} groupId={this.state.joinGroupModal.groupId}/>
         <FollowUserDialog isOpen={this.state.followUserModal.isOpen} userId={this.state.followUserModal.userId}/>
