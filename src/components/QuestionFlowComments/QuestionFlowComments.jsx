@@ -14,7 +14,7 @@ import './style.css';
 @inject("QuestionCommentsStore")
 @observer
 class QuestionFlowComments extends Component {
-  questionId =  823//this.props.question.id
+  // questionId =  823//this.props.question.id
 
   constructor(props) {
     super(props);
