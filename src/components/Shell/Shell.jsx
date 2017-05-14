@@ -7,10 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 
 import Face from 'material-ui/svg-icons/action/face';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
-import TextField from 'material-ui/TextField';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { white, cyan600, black, grey700 } from 'material-ui/styles/colors';
 import IconMenu from 'material-ui/IconMenu';
@@ -134,7 +131,8 @@ function getDynamicConfig(url) {
 }
 
 
-@inject("UserStore",  "QuestionStore") @observer export default class Shell extends Component {
+@inject("UserStore",  "QuestionStore") @observer 
+export default class Shell extends Component {
 
   constructor(props) {
     super(props)

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import CompareCollectionUsers from './partials/CompareUsersComponent'
 
 // @inject("CollectionStore", "QuestionStore", "UserStore") 
 // @observer 
@@ -9,11 +9,10 @@ class EndScreen extends Component {
     super(props);
   }
 
-
   render() {
     return (
       <div>
-        New End Screen
+        <CompareCollectionUsers />
       </div>
     );
   }
