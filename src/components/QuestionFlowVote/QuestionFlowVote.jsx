@@ -18,6 +18,8 @@ const styles = {
     width:'20px',
     height: '20px',
     fill: '#999',
+    position: 'absolute',
+    top: '50%'
   }, 
   
 }
@@ -76,17 +78,17 @@ class QuestionFlowVote extends Component {
               </div>
           }
 
+          {/*<div className="nav-buttons">*/}
+            <div>
+              <Left style={ Object.assign({ left:'15px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } onClick={getPrevQuestion}/>
+            </div>
+            <div>
+              <Right style={Object.assign({ right:'15px', float: 'right' }, icon)} onClick={getNextQuestion}/>
+            </div>
+          {/*</div>*/}
+
             {item.type === "Q" && <RenderedQuestion id={item.object_id} index={index} onVote={onVote} key={"FlowTransition" + index} defHideAnswer={this.state.votingModePrivate}/>}
             {item.type === "B" && <RenderedBreak title={item.content_object.title} text={item.content_object.text} onContinue={navigateNext}/>}
-
-          <div className="nav-buttons">
-            <div>
-              <Left style={ (index < 1) ? hiddenIcon : icon } onClick={getPrevQuestion}/>
-            </div>
-            <div>
-              <Right style={Object.assign(icon, { marginRight:'5px' })} onClick={getNextQuestion}/>
-            </div>
-          </div>
 
         </div>
     )

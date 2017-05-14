@@ -1,0 +1,30 @@
+.user-rep-icons-wrapper {
+  width: 100%;
+  text-align: center
+}
+
+
+.user-rep-icons {
+  display: inline-block;
+  width: 70%;
+}
+
+.user-rep-icons img {
+  width: 95px;
+}
+
+.user-icon {
+  float: left;
+}
+
+.represent-icon {
+  float: right;
+}
+
+.submit-button-wrapper {
+  text-align: center;
+}
+
+.submit-button {
+  margin-top: 30px
+}
