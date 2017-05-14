@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import EmbedlyComponent from '../Components/EmbedlyComponent';
+import MoreText from '../Components/MoreText';
 
 const style = {
   minHeight: '300px',
@@ -19,7 +20,7 @@ class QuestionFlowInfo extends Component {
     return (
       <Paper zDepth={5} style={style}>
         <h1>{ question.question }</h1>
-        <h3>{ question.description }</h3>
+        <MoreText text={question.description}/>
         {question.links.map((link, i) => {
           return (<div key={i}><EmbedlyComponent url={link.url} /><br/></div>);
         })}
