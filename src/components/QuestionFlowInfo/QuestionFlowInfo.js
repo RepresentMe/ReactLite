@@ -20,7 +20,7 @@ class QuestionFlowInfo extends Component {
   render() {
     const { question } = this.props;
     return (
-      <Paper zDepth={5} style={style}>
+      <Paper zDepth={0} style={style}>
         <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{ question.question }</h1>
         <MoreText className="moreText" text={question.description}/>
         {question.links.map((link, i) => {
