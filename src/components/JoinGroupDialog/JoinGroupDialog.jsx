@@ -78,6 +78,7 @@ class JoinGroupDialog extends Component {
         modal={true}
         open={this.state.isDialogOpen}
         contentStyle={styles.contentStyle}
+        autoScrollBodyContent={true}
       >
 
         {!this.state.group && 'Loading...'}
