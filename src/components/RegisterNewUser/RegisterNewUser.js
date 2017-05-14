@@ -177,7 +177,7 @@ const styles = {
   redirectToLogin = () => {
     const email = this.state.email;
     if (email) this.props.history.push("/loginuser/" + encodeURIComponent(email))
-    else this.props.history.push("/loginuser" + this.dynamicConfig.getNextRedirect())
+    else this.props.history.push("/loginuser/")
   }
   makeAnonimous = () => {
     const anonymous = !this.state.anonymous;
