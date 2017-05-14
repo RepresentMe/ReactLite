@@ -32,14 +32,16 @@ const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionS
     questions: observable.shallowArray()
   });
 
-  if (!userIds.length) console.log('No users specified to compare');
+  // if (!userIds.length) console.log('No users specified to compare');
   if (userLoggedIn) {
     CollectionStore.getCollectionItemsById(collectionId)
       .then((res) => {
         return viewData.questions.push(res)
       })
     userIds.map((id) => {
-      UserStore.getUserById(id).then((res) => {console.log('userB', res) ; return viewData.users.push(res)})
+      UserStore.getUserById(id).then((res) => { 
+        return viewData.users.push(res)
+      })
       UserStore.amFollowingUser(currentUserId, id).then((res) => {
         let result = res.results[0] ? res.results[0].id : res.count;
         return viewData.following.set(id, result)
@@ -117,7 +119,7 @@ const CompareCollectionUsersView = observer(({data})=> {
       >
     {data.questions.length > 0 &&
       data.questions[0].map((question, i) => {
-        console.log('question', question)
+        // console.log('question', question)
       return (
         <div key={`ques-${i}`} style={{flex: '1', minWidth: 320}}>
           <Results questionId={question.object_id}/>
