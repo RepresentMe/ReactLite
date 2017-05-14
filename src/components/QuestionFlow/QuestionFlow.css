@@ -139,7 +139,11 @@
 .answering-mode-wrapper {
   position: fixed;
   top: 2px;
-  left:45%;
+  width: 100%;
   z-index: 9999;
   text-align: center;
+}
+
+.answering-mode-wrapper a:hover {
+  cursor: pointer
 }
