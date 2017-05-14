@@ -33,7 +33,7 @@ const labels = {
   "strongly_disagree": {label: "Strongly disagree", color: "rgb(244,56,41)"}
 }
 
-const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")(observer(({ CollectionStore, UserStore, QuestionStore, userIds = [100, 7,322,45], collectionId = 24}) => {
+const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")(observer(({ CollectionStore, UserStore, QuestionStore, userIds = [100, 7,322,45], collectionId = 1}) => {
 
   let userLoggedIn = UserStore.isLoggedIn();
   let currentUserId = userLoggedIn && UserStore.userData.get("id");
