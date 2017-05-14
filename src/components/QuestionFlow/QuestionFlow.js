@@ -31,8 +31,12 @@ const styles = {
   icon: {
     width:'50px',
     height: '50px'
+  },
+  inkBarStyle: {
+    display: 'none'
   }
 }
+
 
 @inject("QuestionStore")
 class QuestionFlow extends Component {
@@ -79,7 +83,7 @@ class QuestionFlow extends Component {
     return (
          <div style={{height: '100%'}} className="tabs-wrapper">
           <Tabs value={activeTab} onChange={this.handleTabChange} tabItemContainerStyle={styles.tabItemContainerStyle} inkBarStyle={styles.inkBarStyle} style={{height: '100%'}} tabTemplateStyle={{height: '100%'}} contentContainerStyle={{height: 'calc(100% - 48px)', position: 'relative', overflow: 'scroll'}}>
-            <Tab icon={<CheckBox/>} value="vote">
+            <Tab icon={<CheckBox/>} value="vote" className={activeTab === 'vote' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'vote') &&
                   <QuestionFlowVote items={items} 
@@ -92,26 +96,26 @@ class QuestionFlow extends Component {
                   />
               }
             </Tab>
-            <Tab icon={<InsertComment/>} value="comments">
+            <Tab icon={<InsertComment/>} value="comments" className={activeTab === 'comments' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'comments') &&
                   <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />
               }
               
             </Tab>
-            <Tab icon={<Info/>} value="info">
+            <Tab icon={<Info/>} value="info" className={activeTab === 'info' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'info') &&
                   <QuestionFlowInfo question={currentQuestion}/>
               }
             </Tab>
-            <Tab icon={<DonutSmall/>} value="results">
+            <Tab icon={<DonutSmall/>} value="results" className={activeTab === 'results' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'results') &&
                   <QuestionFlowResults question={currentQuestion} type={currentItem.type} />
               }
             </Tab>
-            <Tab icon={<Share/>} value="share">
+            <Tab icon={<Share/>} value="share" className={activeTab === 'share' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'share') &&
                   <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />
