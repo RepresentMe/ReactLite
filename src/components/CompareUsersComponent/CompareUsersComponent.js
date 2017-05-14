@@ -16,6 +16,7 @@ import Toggle from 'material-ui/Toggle';
 import Avatar from 'material-ui/Avatar';
 
 import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
+import Carousel from 'nuka-carousel';
 // import Divider from 'material-ui/Divider';
 // import intersection from 'lodash/intersection';
 // import difference from 'lodash/difference';
@@ -32,7 +33,7 @@ const labels = {
   "strongly_disagree": {label: "Strongly disagree", color: "rgb(244,56,41)"}
 }
 
-const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")(observer(({ CollectionStore, UserStore, QuestionStore, userIds = [100, 7,322,45], collectionId = 24}) => {
+const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")(observer(({ CollectionStore, UserStore, QuestionStore, userIds = [100, 7,322,45], collectionId = 1}) => {
 
   let userLoggedIn = UserStore.isLoggedIn();
   let currentUserId = userLoggedIn && UserStore.userData.get("id");
@@ -48,16 +49,16 @@ const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionS
   if (userLoggedIn) {
     CollectionStore.getCollectionItemsById(collectionId)
       .then((res) => {
-        //console.log('collection', res);
         return viewData.questions.push(res)
       })
     userIds.map((id) => {
       UserStore.getUserById(id).then((res) => {console.log('userB', res) ; return viewData.users.push(res)})
-      UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
       UserStore.amFollowingUser(currentUserId, id).then((res) => {
         let result = res.results[0] ? res.results[0].id : res.count;
         return viewData.following.set(id, result)
       })
+      UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
+
     })
   }
 
@@ -74,18 +75,32 @@ const CompareCollectionUsersView = observer(({data})=> {
 
   return (
     <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
-      <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime', overflow: 'auto'}}>
+      {/* <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: '90%', maxWidth: '90%', border: '3px solid lime', overflow: 'auto'}}> */}
+      <Carousel
+        autoplay={false}
+        autoplayInterval={1000}
+        //initialSlideHeight={50}
+        slidesToShow={1}
+        slidesToScroll={1}
+        cellAlign="left"
+        cellSpacing={80}
+        dragging={true}
+        slideWidth="280px"
+        speed={2000}
+        style={{minWidth: '90%', maxWidth: '90%', border: '3px solid white', minHeight: 450}}
+        >
       {data.compareData && data.users.map((user) => {
-        console.log('userB, data', user, data)
+        //console.log('userB, data', user, data)
         return (
-          <div key={user.id} style={{flex: '1'}}>
+          <div key={user.id} >
             <UserCardSmall user={user}
               compareData={data.compareData.get(user.id)}
               following={data.following.get(user.id)}/>
           </div>
         )
       })}
-    </div>
+      </Carousel>
+    {/* </div> */}
     <div style={{flex: '1'}}>
     <p>Connect with messenger</p>
       <TwitterButton element="span" url=''> {/* {document.referrer}> */}
@@ -99,7 +114,21 @@ const CompareCollectionUsersView = observer(({data})=> {
       </TwitterButton>
     </div>
 
-    <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime', overflow: 'auto'}}>
+    {/* <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime', overflow: 'auto'}}> */}
+    {/* <div> */}
+    <Carousel
+      autoplay={false}
+      autoplayInterval={1000}
+      //initialSlideHeight={50}
+      slidesToShow={1}
+      slidesToScroll={1}
+      cellAlign="left"
+      cellSpacing={80}
+      dragging={true}
+      slideWidth="280px"
+      speed={2000}
+      style={{minWidth: '90%', maxWidth: '90%', border: '3px solid white', minHeight: 400}}
+      >
     {data.questions.length > 0 &&
       data.questions[0].map((question, i) => {
         console.log('question', question)
@@ -110,7 +139,8 @@ const CompareCollectionUsersView = observer(({data})=> {
       )
     })
       }
-    </div>
+      </Carousel>
+    {/* </div> */}
 
     <CardText>
       <p style={{textAlign: 'left'}}>Your interests</p>
@@ -134,45 +164,10 @@ const CompareCollectionUsersView = observer(({data})=> {
       </div>
 
   </CardText>
-
-  {/* <CompareUsersDetailsComponent user={data.users[7]}
-    compareData={data.compareData.get(7)}
-    following={data.following.get(7)}/> */}
-
-  </div>
+</div>
 
 )
 })
-
-
-//nice, but requires all screen
-// const CompareCollectionUsersView = observer(({data})=> {
-//   if (!data.isLoggedIn) return <SignInToSeeView />;
-//   if (!data.users.length) return <LoadingIndicator />;
-//   return (
-//         <div>
-//         <div style={{height: 200, backgroundColor: 'white'}}>
-//          <AutoRotatingCarousel
-//            label="Get started"
-//            open
-//            autoplay={false}
-//          >{data && data.users.map((user) => {
-//            console.log('userB, data', user, data)
-//            return (
-//            <Slide key={user.id}
-//              media={data.compareData && <UserCardSmall user={user}
-//                compareData={data.compareData.get(user.id)}/>}
-//              mediaBackgroundStyle={{ backgroundColor: 'white' }}
-//              contentStyle={{ backgroundColor: 'white' }}
-//              title="This is a very cool feature"
-//              subtitle="Just using this will blow your mind."
-//            />)})}
-//
-//         </AutoRotatingCarousel>
-//         </div>
-//         </div>
-//       )
-//     })
 
 
 @inject("user", "compareData", "following", 'UserStore') @observer class UserCardSmall extends Component {
@@ -219,7 +214,7 @@ const CompareCollectionUsersView = observer(({data})=> {
 
     return (
       this.props &&
-      <Card style={{margin: '20px', border: '1px solid grey', boxShadow: '0px 0px 5px grey', maxHeight: 500, minHeihgt: 300, minWidth: 280}}>
+      <Card style={{margin: '20px', border: '1px solid grey', boxShadow: '0px 0px 5px grey', maxHeight: 500, minHeihgt: 300, width: 280}}>
       <CardHeader
         title={name}
         subtitle={age ? age + ' years old ' + location + ' ' + bio: location + ' ' + bio}
