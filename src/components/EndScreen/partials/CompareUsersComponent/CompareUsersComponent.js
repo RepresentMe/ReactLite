@@ -76,7 +76,7 @@ const CompareCollectionUsersView = observer(({data})=> {
         dragging={true}
         slideWidth="280px"
         speed={500}
-        style={{minWidth: '90%', maxWidth: '100%', minHeight: 450}}
+        style={{ minHeight: 450}}
         >
       {data.compareData && data.users.map((user) => {
         //console.log('userB, data', user, data)
@@ -106,24 +106,23 @@ const CompareCollectionUsersView = observer(({data})=> {
     {/* <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime', overflow: 'auto'}}> */}
     {/* <div> */}
     <Carousel
-      autoplay={false}
-      autoplayInterval={1000}
-      //initialSlideHeight={50}
+      autoplay={true}
+      autoplayInterval={2000} 
       slidesToShow={1}
       slidesToScroll={1}
       wrapAround={true}
       cellAlign="left"
-      cellSpacing={80}
+      cellSpacing={20}
       dragging={true}
-      slideWidth="280px"
+      slideWidth="240px"
       speed={500}
-      style={{minWidth: '90%', maxWidth: '90%', border: '3px solid white', minHeight: 400}}
+      style={{minHeight: 400}}
       >
     {data.questions.length > 0 &&
       data.questions[0].map((question, i) => {
         console.log('question', question)
       return (
-        <div key={`ques-${i}`} style={{flex: '1', minWidth: 320}}>
+        <div key={`ques-${i}`} style={{}}>
           <Results questionId={question.object_id}/>
         </div>
       )
