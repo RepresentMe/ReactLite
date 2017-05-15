@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { observer } from "mobx-react";
-import { Card } from 'material-ui/Card';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+
 
 @observer
 class SmallCard extends Component {
@@ -12,7 +14,7 @@ class SmallCard extends Component {
         {this.props.data.values &&
           <div style={{minHeight: 200}}>
             <Card>
-              <div style={{display: 'flex', flexFlow: 'row nowrap', justifyContent: 'spaceBetween'}}>
+         {/*      <div style={{display: 'flex', flexFlow: 'row nowrap', justifyContent: 'spaceBetween'}}>
                 <div style={{flex: 1, margin: 15,  width: 200, height: 250, border: '2px solid black'}}>
                   <div style={{flex: 1, borderBottom: '2px solid grey', color: 'white', padding: 10, fontWeight: 'bold', backgroundColor: this.props.data.values[0].fill, minHeight: 70}}>
                     <p style={{color: 'white', fontSize: 20, textAlign: 'left'}}>Agree with you</p>
@@ -26,6 +28,19 @@ class SmallCard extends Component {
                 </div>
                 </div>
             </div>
+          */}
+
+
+
+   <CardText>
+      {this.props.data.values[0].title}
+    </CardText>
+    <CardTitle title="47%" subtitle="Agree with you" style={{backgroundColor: this.props.data.values[0].fill, color: '#ffffff'}} />
+    
+    <CardActions>
+      <FlatButton label="Details" /> 
+    </CardActions>
+   
           </Card>
         </div>}
       </div>
