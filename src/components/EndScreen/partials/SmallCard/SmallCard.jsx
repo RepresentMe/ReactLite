@@ -2,7 +2,21 @@ import React, { Component } from 'react'
 import { observer } from "mobx-react";
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import SvgIcon from 'material-ui/SvgIcon';
 import Divider from 'material-ui/Divider';
+
+import SocialShare from 'material-ui/svg-icons/social/share'; 
+import ChartIcon from 'material-ui/svg-icons/editor/insert-chart';
+
+
+const iconStyles = {
+  marginRight: 10,
+  width: 20,
+  height: 20,
+  position: 'relative',
+  top: '7px',
+  cssFloat: 'right'
+};
 
 @observer
 class SmallCard extends Component {
@@ -12,39 +26,38 @@ class SmallCard extends Component {
       <div>
         {!this.props.data && <p></p>}
         {this.props.data.values &&
-          <div style={{minHeight: 0}}>
-            <Card style={{minHeight: 0}}>
-         {/*      <div style={{display: 'flex', flexFlow: 'row nowrap', justifyContent: 'spaceBetween'}}>
-                <div style={{flex: 1, margin: 15,  width: 200, height: 250, border: '2px solid black'}}>
-                  <div style={{flex: 1, borderBottom: '2px solid grey', color: 'white', padding: 10, fontWeight: 'bold', backgroundColor: this.props.data.values[0].fill, minHeight: 70}}>
-                    <p style={{color: 'white', fontSize: 20, textAlign: 'left'}}>Agree with you</p>
-                    <p style={{color: 'white', fontSize: 35, textAlign: 'left'}}>{`${this.props.data.values[0].percentage}%`}</p>
+          <div style={{   }}>
+            <Card style={{height: 210, width: 240, marginBottom: 10}}>
+          
+                  <div style={{ borderBottom: '1px solid #ccc', color: 'white', padding: '10px 10px 0 10px', backgroundColor: this.props.data.values[0].fill, minHeight: 70}}>
+                    <p style={{color: 'white', fontWeight: 'bold', fontSize: 35, margin: 0, textAlign: 'left'}}>{`${this.props.data.values[0].percentage}%`}</p>
+                    <p style={{color: 'white', fontSize: 14, textAlign: 'left',  margin: 0, fontWeight: '200', opacity: '0.8'}}>Agree with you</p>
                   </div>
-                <div style={{flex: 1, height: 50, borderBottom: '1px solid grey, fontSize: 14'}}>
-                  <p>{this.props.data.values[0].title}</p>
-                </div>
-                <div style={{flex: 1, height: 50, borderBottom: '1px solid grey, fontSize: 14'}}>
-                  <p> Details [buttons]</p>
-                </div>
-                </div>
-            </div>
-          */}
-
-
+                  <div style={{ width: 220, padding: 10, color: '#999', fontSize: 16, textAlign: 'left'}}>
+                    {this.props.data.values[0].title}
+                  </div>
+                  <div style={{position: 'absolute', width: 240, paddingBottom: 10, bottom: 0,  borderTop: '1px solid #ccc',}}>
+                    <SocialShare style={iconStyles} color='#999' hoverColor='#1B8AAE' />
+                    <ChartIcon style={iconStyles} color='#999' hoverColor='#1B8AAE' />
+                    <FlatButton label="Comments" primary={true} /> 
+                  </div>
+                
  
   {/*  <CardText>
     You are in the majority. [OR IF AGREE < 50%]
       You are in the minority. Say why. 
-    </CardText> */}
+    </CardText> 
     <CardTitle title={`${this.props.data.values[0].percentage}%`} subtitle="Agree with you" style={{backgroundColor: this.props.data.values[0].fill, color: 'white'}} />
-    <CardText style={{fontSize: '20px', fontWeight: '200'}}>
+    <CardText style={{fontSize: '16px', fontWeight: '200', color: '#999'}}>
       {this.props.data.values[0].title}
     </CardText>
     <Divider />
     <CardActions>
-      <FlatButton label="Details" primary={true}/> 
-      <FlatButton label="Share" /> 
+      <SocialShare style={iconStyles} color='#999' hoverColor='#1B8AAE' />
+      <ChartIcon style={iconStyles} color='#999' hoverColor='#1B8AAE' />
+      <FlatButton label="Comment" primary={true} /> 
     </CardActions>
+    */}
    
           </Card>
         </div>}

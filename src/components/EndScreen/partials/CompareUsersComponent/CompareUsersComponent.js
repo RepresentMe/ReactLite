@@ -106,7 +106,7 @@ const CompareCollectionUsersView = observer(({data})=> {
     {/* <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime', overflow: 'auto'}}> */}
     {/* <div> */}
     <Carousel
-      autoplay={true}
+      autoplay={false}
       autoplayInterval={2000} 
       slidesToShow={1}
       slidesToScroll={1}
@@ -116,7 +116,7 @@ const CompareCollectionUsersView = observer(({data})=> {
       dragging={true}
       slideWidth="240px"
       speed={500}
-      style={{minHeight: 400}}
+      style={{minHeight: 280}}
       >
     {data.questions.length > 0 &&
       data.questions[0].map((question, i) => {
