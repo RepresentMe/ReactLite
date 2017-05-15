@@ -55,6 +55,16 @@ const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionS
   return <CompareCollectionUsersView data={viewData} />
 }))
 
+const heading = {
+  textAlign: 'left !important',
+  cssFloat: 'left',
+  fontSize: 16,
+  color: '#999',
+  textTransform: 'uppercase',
+  marginBottom: '0.5em',
+  marginTop: '2em',
+};
+
 
 //View of short compare and short questions info
 const CompareCollectionUsersView = observer(({data})=> {
@@ -63,7 +73,8 @@ const CompareCollectionUsersView = observer(({data})=> {
     return <LoadingIndicator />;
 
   return (
-    <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
+    <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', background: '#f5f5fe'}}>
+      <h2 style={heading} >How you compare</h2>
       <Carousel
         autoplay={true}
         autoplayInterval={5000}
@@ -72,7 +83,7 @@ const CompareCollectionUsersView = observer(({data})=> {
         slidesToScroll={1}
         cellAlign="left"
         wrapAround={true}
-        cellSpacing={10}
+        cellSpacing={15}
         dragging={true}
         slideWidth="280px"
         speed={500}
@@ -90,33 +101,29 @@ const CompareCollectionUsersView = observer(({data})=> {
       })}
       </Carousel>
     {/* </div> */}
-    <div style={{flex: '1'}}>
+
+ 
+    <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',}}>
     <p>Connect with messenger</p>
-      <TwitterButton element="span" url=''> {/* {document.referrer}> */}
-        <FlatButton
-          href="https://github.com/callemall/material-ui"
-          target="_blank"
-          label="Send to messenger"
-          fullWidth={true}
-          icon={<TwitterBox color={blue500} />}
-          />
-      </TwitterButton>
     </div>
+ 
 
     {/* <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime', overflow: 'auto'}}> */}
     {/* <div> */}
+
+    <h2 style={heading} >All results</h2>
     <Carousel
-      autoplay={false}
+      autoplay={true}
       autoplayInterval={2000} 
       slidesToShow={1}
       slidesToScroll={1}
       wrapAround={true}
       cellAlign="left"
-      cellSpacing={20}
+      cellSpacing={15}
       dragging={true}
       slideWidth="240px"
       speed={500}
-      style={{minHeight: 280}}
+      style={{minHeight: 260}}
       >
     {data.questions.length > 0 &&
       data.questions[0].map((question, i) => {
@@ -130,6 +137,10 @@ const CompareCollectionUsersView = observer(({data})=> {
       }
       </Carousel>
     {/* </div> */}
+
+
+    <h2 style={heading} >Your interests</h2>
+    <p>Would you like to see more of any of these?</p>
 
     <CardText>
       <p style={{textAlign: 'left'}}>Your interests</p>
