@@ -126,6 +126,7 @@ const styles = {
         joinComplete: true,
         problems: []
       });
+      this.props.history.push(this.dynamicConfig.getNextRedirect())
     }
   };
 
@@ -234,7 +235,6 @@ const styles = {
           console.log('response from /auth/register/', response)
           this.props.UserStore.setupAuthToken(response.data.auth_token)
             .then(() => {
-              this.redirectToLogin();
               return true;
             })
             .catch((error) => {
@@ -257,9 +257,6 @@ const styles = {
       <div>
 
         <div>
-          {joinComplete ? (
-            this.redirectToLogin()
-          ) : (
             <div>
               {stepIndex === 0 && <Page1
                 currentUserCount={this.state.user_count}
@@ -296,7 +293,6 @@ const styles = {
                   />
                 </Dialog>}
             </div>
-          )}
         </div>
 
       </div>
