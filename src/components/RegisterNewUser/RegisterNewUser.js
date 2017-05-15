@@ -77,7 +77,8 @@ const styles = {
       problems: [],
       joinComplete: false,
       stepIndex: 0,
-      anonymous: false
+      anonymous: false,
+      user_count: '17,394'
     }
   this.problemList = {
       fbProblem: 'Please agree to the privacy policy first',
@@ -96,6 +97,15 @@ const styles = {
     if(this.props.match.params.dynamicConfig) {
       this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
     }
+  }
+  componentDidMount(){
+    window.API.get('/user_count/')
+      .then((response) => {
+        console.log('response', response)
+        if(response.data.result) {
+          this.setState({user_count: response.data.result});
+        }
+      }).catch(e => console.log(e));
   }
 
   handleNext = () => {
@@ -216,8 +226,8 @@ const styles = {
           email: this.state.email,
           username: this.generateUsername(this.state.email),
           password: this.state.password,
-          //private mode
-          anonymous: this.state.anonymous
+          defHideAnswers: this.state.anonymous,
+          agreed_terms: this.state.agreedTerms
         }).then((response) => {
           console.log('response from /auth/register/', response)
           this.props.UserStore.setupAuthToken(response.data.auth_token)
@@ -251,6 +261,7 @@ const styles = {
           ) : (
             <div>
               {stepIndex === 0 && <Page1
+                currentUserCount={this.state.user_count}
                 handleInput={this.handleInput}
                 facebookCallback={this.facebookCallback}
                 agreedTerms={this.agreedTerms}
@@ -280,9 +291,7 @@ const styles = {
                   label="Login"
                   style={{width: '100%'}}
                   backgroundColor={grey100}
-                  secondary onTouchTap={() => {
-                    this.props.history.push("/login/" + this.dynamicConfig.encodeConfig() + "/" + encodeURIComponent(this.state.email))
-                  }}
+                  secondary onTouchTap={() => this.redirectToLogin()}
                   />
                 </Dialog>}
             </div>
