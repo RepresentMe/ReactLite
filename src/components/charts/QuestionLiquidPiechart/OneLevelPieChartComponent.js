@@ -10,11 +10,8 @@ const CustomTooltip = (props) => {
   if (active) {
     const { payload } = props;
     return (
-      <div style={{backgroundColor: '#f5f5f5', opacity: 0.8, padding: 5, borderRadius: 5}}>
-
-        <p>{`${payload[0].payload.full_name}: ${Math.round(payload[0].percent*100)}%`}</p>
-        <p>{`Direct vote count: ${payload[0].payload.direct_vote_count}`}</p>
-
+      <div style={{  opacity: 0.8, padding: 5, borderRadius: 5}}>
+        <p>{`${payload[0].payload.direct_vote_count} people`}</p>
       </div>
     );
   }

@@ -33,7 +33,7 @@ const BarChartComponent = observer(class BarChartComponent extends React.Compone
       {!this.props.data.values && <LoadingIndicator />}
       {this.props.data.values &&
         <div style={{minHeight: CHART_HEIGHT}}>
-				<div className='message'>{this.state.sorted === null ? <span><i>Click on any bar to sort</i></span> : null}</div>
+				 
 				{
 					sorted.map((d, i) => {
 					return (
@@ -63,11 +63,7 @@ class ContainerBar extends React.Component{
 	}
 	render(){
 	return (
-		<div className='bg_bar'
-					onMouseEnter={this.handleMouseEnter}
-					onMouseLeave={this.handleMouseLeave}
-					onTouchTap={this.props.handleTap}
-					title={`Direct vote count: ${this.state.direct_vote_count}`}>
+		<div className='bg_bar' >
 		    <Bar {...this.props}
 					activeEltIndex={this.state.activeEltIndex}
 					direct_vote_count={this.state.direct_vote_count}/>

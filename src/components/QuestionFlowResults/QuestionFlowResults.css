@@ -9,9 +9,10 @@
   padding: 0px !important;
   border: 2px solid !important;
   margin: 5px !important;
-  color: grey;
+  color: #999;
+  fill: #999;
 }
 .selectedButton{
-  color: rgb(27, 138, 174);
-  fill: rgb(27, 138, 174);
+  color: #1B8AAE;
+  fill: #1B8AAE;
 }

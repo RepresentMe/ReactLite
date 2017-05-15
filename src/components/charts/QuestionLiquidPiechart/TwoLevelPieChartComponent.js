@@ -50,7 +50,7 @@ const renderActiveShape = (props) => {
         {`Rate ${(percent * 100).toFixed(1)}%`}
       </text>
       <text x={cx} y={30} dy={36} textAnchor='middle' fill="#999" style={{fontSize: 12}}>
-        {`Direct vote count: ${direct_vote_count}`}
+        {`${direct_vote_count} people`}
       </text>
       {/* {zeroChoices &&
         zeroChoices.map((choice, i) => (
