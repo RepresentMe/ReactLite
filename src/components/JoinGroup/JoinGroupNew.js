@@ -176,8 +176,8 @@ const roundUp = (x) => {
   }
   redirectToLogin = () => {
     const email = this.state.email;
-    if (email) this.props.history.push("/login/" + this.dynamicConfig.encodeConfig() + "/" + encodeURIComponent(email))
-    else this.props.history.push("/login/" + this.dynamicConfig.encodeConfig())
+    if (email) this.props.history.push("/loginuser/" + this.dynamicConfig.encodeConfig() + "/" + encodeURIComponent(email))
+    else this.props.history.push("/loginuser/" + this.dynamicConfig.encodeConfig())
   }
 
   joinGroup = () => {
@@ -236,6 +236,8 @@ const roundUp = (x) => {
             address: this.state.postcode,
             username: this.generateUsername(),
             password: Math.floor(Math.random() * 1000000000000),
+            agreed_terms: this.state.agreedTerms,
+            default_share_email: this.state.sharingEmail,
             location,
           }).then((response) => {
             this.props.UserStore.setupAuthToken(response.data.auth_token);

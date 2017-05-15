@@ -59,7 +59,7 @@ const Page1 = (props) => {
       <Paper zDepth={0} className='containerStyle'>
         <img src={smallLogo} style={styles.imgStyle} />
         <p style={{margin: '10px 0'}}>
-          {`Welcome! We're happy to have you join 17,394 others
+          {`Welcome! We're happy to have you join ${props.currentUserCount} others
           who are using Represent to build a better, modern democracy `}
           <Link to="#"><span style={{fontSize: 14}}>Learn more</span></Link>
         </p>

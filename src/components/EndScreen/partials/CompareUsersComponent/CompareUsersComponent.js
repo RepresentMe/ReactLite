@@ -40,7 +40,7 @@ const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionS
         return viewData.questions.push(res)
       })
     userIds.map((id) => {
-      UserStore.getUserById(id).then((res) => { 
+      UserStore.getUserById(id).then((res) => {
         return viewData.users.push(res)
       })
       UserStore.amFollowingUser(currentUserId, id).then((res) => {
@@ -119,7 +119,7 @@ const CompareCollectionUsersView = observer(({data})=> {
       >
     {data.questions.length > 0 &&
       data.questions[0].map((question, i) => {
-        // console.log('question', question)
+        console.log('question', question)
       return (
         <div key={`ques-${i}`} style={{flex: '1', minWidth: 320}}>
           <Results questionId={question.object_id}/>
@@ -192,9 +192,9 @@ const CompareCollectionUsersView = observer(({data})=> {
       count_question_votes = this.props.user.count_question_votes
       count_votes = this.props.user.count_votes
     }
-    let concensus = '';
+    let match = '';
     if(this.props.compareData) {
-     concensus = Math.floor(100-this.props.compareData.difference_percent)
+     match = Math.floor(100-this.props.compareData.difference_percent)
     }
 
 
@@ -202,16 +202,16 @@ const CompareCollectionUsersView = observer(({data})=> {
       this.props &&
       <Card style={{margin: '10px', width: 280}}>
         <Avatar src={photo} size={50} style={{alignSelf: 'center', marginTop: '10px', display: 'block', margin: '0 auto'}}/>
- 
+
         <CardTitle title={name} subtitle={location} style={{textAlign: 'center'}} />
 
         <CardText style={{textAlign: 'center', paddingTop: 0, color: '#ccc'}}>
           {bio}
-        </CardText> 
+        </CardText>
         <CardText style={{backgroundColor: '#e6f7ff', padding: '5px 10px'}}>
           {/* <p style={{fontSize: 14, fontWeight: 'bold'}}>How do I compare to {name}?</p> */}
-          <h2 style={{ fontSize: '60px', margin: '3px 0', textAlign: 'center'}}>{`${concensus}%`}</h2>
-         
+          <h2 style={{ fontSize: '60px', margin: '3px 0', textAlign: 'center'}}>{`${match}%`}</h2>
+
 
          {/*  <p>match <Link to={`/compare/${this.props.user.id}`}>(detail)</Link></p> */}
 
@@ -223,17 +223,17 @@ const CompareCollectionUsersView = observer(({data})=> {
                     onTouchTap={this.removeFollowing}
                   /> :
                   <RaisedButton
-                    label="follow" 
-                    backgroundColor="#1B8AAE" 
+                    label="follow"
+                    backgroundColor="#1B8AAE"
                     onTouchTap={this.setFollowing}
                     /> }
                 </div>
         </CardText>
         <CardActions>
-          <FlatButton 
+          <FlatButton
         label="compare"
-        primary={true} 
-        //onTouchTap={this.compare} 
+        primary={true}
+        //onTouchTap={this.compare}
         />
         </CardActions>
 
