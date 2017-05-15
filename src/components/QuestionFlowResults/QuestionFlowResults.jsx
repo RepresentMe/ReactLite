@@ -16,7 +16,7 @@ class QuestionFlowResults extends Component {
     super(...arguments)
 
     this.state = {
-      pie: true
+      pie: false
     }
   }
 
