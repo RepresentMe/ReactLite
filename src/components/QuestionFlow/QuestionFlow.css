@@ -205,22 +205,7 @@ a {
 
 .mcqBox {
     width: 10px;
-}
-
-
-.fb-network__share-button {
-  background-color: #3b5998;
-  height: 36px;
-  width: 100%;
-  box-sizing: border-box;
-  color: #fff !important;
-  border: none;
-  font-family: Roboto, sans-serif;
-  line-height: 32px;
-  font-size: 14px;
-  font-weight: normal;
-  text-transform: uppercase;
-}
+} 
 
 .answered {
     background-color: #f5f5f5;

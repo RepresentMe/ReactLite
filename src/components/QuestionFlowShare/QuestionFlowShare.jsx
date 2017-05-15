@@ -87,7 +87,7 @@ class QuestionFlowShare extends Component {
       picture={imgSrc}
       className='fb-network__share-button'>
       <FacebookIcon
-        size={28}
+        size={32}
         round />
     </FacebookShareButton>
   )
@@ -136,22 +136,22 @@ class QuestionFlowShare extends Component {
           <Paper style={innerPaperStyle} zDepth={0}>
              <RaisedButton
               onClick={this.clickFB} 
-              label="Post to Facebook"
-              style={button}
-              primary={true}
+              label="Share"
+              style={button} 
+              backgroundColor="#3b5998" 
               icon={fb}
             />
             <RaisedButton
               onClick={this.clickTwitter} 
-              label="Tweet this"
-              style={button}
-              primary={true}
+              label="Tweet"
+              backgroundColor="#1da1f2"
+              style={button} 
               icon={twitter}
             />
             <RaisedButton
               onClick={this.clickWhatsApp} 
-              label="Whats App"
-              primary={true}
+              backgroundColor="#3EAC18"
+              label="WhatsApp" 
               icon={whatsapp}
             />
           </Paper>
