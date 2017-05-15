@@ -95,7 +95,7 @@ const styles = {
   componentWillMount() {
     this.dynamicConfig = DynamicConfigService;
     if(this.props.match.params.dynamicConfig) {
-      this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
+      this.dynamicConfig.setConfigFromRaw(this.dynamicConfig.encodeConfig(this.dynamicConfig.getNextRedirect()))
     }
   }
   componentDidMount(){
@@ -110,6 +110,9 @@ const styles = {
 
   handleNext = () => {
     const {stepIndex} = this.state;
+
+    this.dynamicConfig.setConfigFromRaw(this.dynamicConfig.encodeConfig(this.dynamicConfig.getNextRedirect()))
+
     if (stepIndex === 0){
       this.setState({
         stepIndex: stepIndex + 1,
@@ -187,7 +190,6 @@ const styles = {
   }
   redirectToLogin = () => {
     const email = this.state.email;
-
     if (email) this.props.history.push("/loginuser/" + this.dynamicConfig.encodeConfig(this.dynamicConfig.getNextRedirect()) + "/" + encodeURIComponent(email))
     else this.props.history.push("/loginuser/" + this.dynamicConfig.encodeConfig(this.dynamicConfig.getNextRedirect()))
   }
@@ -251,7 +253,6 @@ const styles = {
 
   render(){
     const {joinComplete, stepIndex} = this.state;
-    console.log('this.state', this.state)
     return (
       <div>
 
