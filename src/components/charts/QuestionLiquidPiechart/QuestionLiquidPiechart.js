@@ -95,11 +95,12 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
     return (
       <div>
         <OneLevelPieChartTitle data={viewData}/>
-        {
+        {/*
           width > 900 ?
           pie ?
           <OneLevelPieChartView data={viewData}/> :
-          <BarChartView data={viewData}/> :
+          <BarChartView data={viewData}/> :*/}
+        {
 
           pie ?
           <TwoLevelPieChartView data={viewData}/> :

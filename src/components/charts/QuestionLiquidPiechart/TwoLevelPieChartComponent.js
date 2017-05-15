@@ -45,11 +45,11 @@ const renderActiveShape = (props) => {
       <text x={ex + (cos >= 0 ? 1 : -1)} y={ey} textAnchor={textAnchor} fill={fill} style={{fontSize: 12}}>
         {`${(percent * 100).toFixed(1)}%`}
       </text>
-      <text x={10} y={30} textAnchor='start' fill={fill}>{full_name}</text>
-      <text x={10} y={30} dy={18} textAnchor='start' fill="#999" style={{fontSize: 12}}>
+      <text x={cx} y={30} textAnchor='middle' fill={fill}>{full_name}</text>
+      <text x={cx} y={30} dy={18} textAnchor='middle' fill="#999" style={{fontSize: 12}}>
         {`Rate ${(percent * 100).toFixed(1)}%`}
       </text>
-      <text x={10} y={30} dy={36} textAnchor='start' fill="#999" style={{fontSize: 12}}>
+      <text x={cx} y={30} dy={36} textAnchor='middle' fill="#999" style={{fontSize: 12}}>
         {`Direct vote count: ${direct_vote_count}`}
       </text>
       {/* {zeroChoices &&
@@ -75,7 +75,7 @@ const TwoLevelPieChart = observer(class TwoLevelPieChart extends React.Component
     });
 
 	render () {
-    const WIDTH = window.innerWidth*0.8;
+    const WIDTH = window.innerWidth;
     const HEIGHT = 400;
 
   	return (
@@ -92,7 +92,7 @@ const TwoLevelPieChart = observer(class TwoLevelPieChart extends React.Component
               innerRadius={55}
               outerRadius={80}
               fill="#8884d8"/>
-            <Legend width={WIDTH*0.8} align='left' wrapperStyle={{ bottom: 10, left: 10, fontSize: 10, backgroundColor: 'transparent', border: 'none', lineHeight: '10px', padding: 10}} />
+            <Legend width={'100%'} align='center' wrapperStyle={{ bottom: 10, left: 10, fontSize: 10, backgroundColor: 'transparent', border: 'none', lineHeight: '10px', padding: 10}} />
          </PieChart>}
       </div>
     );
