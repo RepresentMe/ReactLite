@@ -134,7 +134,7 @@ const LikertButtons = ({value, onVote, defHideAnswer}) => {
   let likertJSX = [];
   for (let i = 1; i <= 5; i++) {
     likertJSX.push(<div
-      className={ "likertButton likertButton" + i + ( value && value !== i ? " likertButtonDimmed" : " likertButtonSelected")}
+      className={ `likertButton likertButton${i} ${(value && value == i) ? 'likertButtonSelected' : 'likertButtonDimmed'}`}
       key={i}
       onTouchTap={() => onVote(i, defHideAnswer)}></div>);
   }
