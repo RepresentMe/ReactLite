@@ -139,6 +139,10 @@
     border: 2px solid #1B8AAE;
 }
 
+.menu-tab, .menu-tab div, .menu-tab-active, .menu-tab-active div {
+    height: 40px !important;
+}
+
 .tabs-wrapper > div >div:first-child {
     position: fixed;
     bottom: 0;
