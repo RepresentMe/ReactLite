@@ -120,7 +120,7 @@ const CompareCollectionUsersView = observer(({data})=> {
       >
     {data.questions.length > 0 &&
       data.questions[0].map((question, i) => {
-        console.log('question', question)
+        {/*console.log('question', question)*/}
       return (
         <div key={`ques-${i}`} style={{}}>
           <Results questionId={question.object_id}/>
