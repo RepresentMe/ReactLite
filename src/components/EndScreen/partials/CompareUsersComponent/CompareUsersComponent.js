@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { observable } from 'mobx';
 import { Link } from 'react-router-dom';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import LoadingIndicator from '../../../LoadingIndicator';
 
@@ -63,19 +64,18 @@ const CompareCollectionUsersView = observer(({data})=> {
 
   return (
     <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
-      {/* <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: '90%', maxWidth: '90%', border: '3px solid lime', overflow: 'auto'}}> */}
       <Carousel
-        autoplay={false}
-        autoplayInterval={1000}
+        autoplay={true}
+        autoplayInterval={5000}
         //initialSlideHeight={50}
         slidesToShow={1}
         slidesToScroll={1}
         cellAlign="left"
-        cellSpacing={80}
+        cellSpacing={10}
         dragging={true}
         slideWidth="280px"
-        speed={2000}
-        style={{minWidth: '90%', maxWidth: '90%', border: '3px solid white', minHeight: 450}}
+        speed={500}
+        style={{minWidth: '90%', maxWidth: '100%', minHeight: 450}}
         >
       {data.compareData && data.users.map((user) => {
         //console.log('userB, data', user, data)
@@ -114,7 +114,7 @@ const CompareCollectionUsersView = observer(({data})=> {
       cellSpacing={80}
       dragging={true}
       slideWidth="280px"
-      speed={2000}
+      speed={500}
       style={{minWidth: '90%', maxWidth: '90%', border: '3px solid white', minHeight: 400}}
       >
     {data.questions.length > 0 &&
@@ -200,63 +200,51 @@ const CompareCollectionUsersView = observer(({data})=> {
 
     return (
       this.props &&
-      <Card style={{margin: '20px', border: '1px solid grey', boxShadow: '0px 0px 5px grey', maxHeight: 500, minHeihgt: 300, width: 280}}>
-      <CardHeader
-        title={name}
-        subtitle={age ? age + ' years old ' + location + ' ' + bio: location + ' ' + bio}
-        avatar={<Avatar src={photo} style={{alignSelf: 'center', display: 'block', margin: '5px auto'}}/>}
-        subtitleStyle={{display: 'block', width: '150%', textAlign: 'center'}}
-        titleStyle={{display: 'block', width: '150%', textAlign: 'center'}}
-        />
+      <Card style={{margin: '10px', width: 280}}>
+        <Avatar src={photo} size={50} style={{alignSelf: 'center', marginTop: '10px', display: 'block', margin: '0 auto'}}/>
+ 
+        <CardTitle title={name} subtitle={location} style={{textAlign: 'center'}} />
 
-        <Divider/>
-        <div style={{backgroundColor: '#e6f7ff', padding: 15}}>
-        <div>
+        <CardText style={{textAlign: 'center', paddingTop: 0, color: '#ccc'}}>
+          {bio}
+        </CardText> 
+        <CardText style={{backgroundColor: '#e6f7ff', padding: '5px 10px'}}>
           {/* <p style={{fontSize: 14, fontWeight: 'bold'}}>How do I compare to {name}?</p> */}
-          <p style={{fontSize: 30, textAlign: 'center'}}>{`${concensus}%`}</p>
-          <p>match<Link to={`/compare/${this.props.user.id}`}>(detail)</Link></p>
+          <h2 style={{ fontSize: '60px', margin: '3px 0', textAlign: 'center'}}>{`${concensus}%`}</h2>
+         
 
-        {/* in reality need to display if i'm following this user */}
-        <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 10px 0px'}}>
-          { this.props && this.props.following > 0 ?
-            <FlatButton
-              label="following"
-              primary={true}
-              style={{border: '2px solid green', borderRadius: 10, flex: 1, maxWidth: 120, color: 'green'}}
-              onTouchTap={this.removeFollowing}
-            /> :
-            <FlatButton
-              label="follow"
-              primary={false}
-              style={{border: '2px solid navy', borderRadius: 10, flex: 1, maxWidth: 120, color: 'navy'}}
-              onTouchTap={this.setFollowing}
-              /> }
-          </div>
-        </div>
-    </div>
-    <Divider/>
-    <div style={{display: 'flex', flexFlow: 'row nowrap', width: '100%', alignItems: 'middle'}}>
-      <FlatButton
-        label="follow"
-        primary={false}
-        style={{flex: 1, maxWidth: 100}}
-        onTouchTap={this.setFollowing}
-        disabled={this.props && this.props.following > 0}
-        />
-      <FlatButton
+         {/*  <p>match <Link to={`/compare/${this.props.user.id}`}>(detail)</Link></p> */}
+
+              {/* in reality need to display if i'm following this user */}
+              <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 10px 0px'}}>
+                { this.props && this.props.following > 0 ?
+                  <FlatButton
+                    label="following"
+                    onTouchTap={this.removeFollowing}
+                  /> :
+                  <RaisedButton
+                    label="follow" 
+                    backgroundColor="#1B8AAE" 
+                    onTouchTap={this.setFollowing}
+                    /> }
+                </div>
+        </CardText>
+        <CardActions>
+          <FlatButton 
         label="compare"
-        primary={true}
-        style={{flex: 1, maxWidth: 100}}
-        //onTouchTap={this.compare}
+        primary={true} 
+        //onTouchTap={this.compare} 
         />
-    </div>
+        </CardActions>
+
+
     </Card>
   )
 }}
 
 const SignInToSeeView = () => {
   return (<div className="sign-in-to-see">
-    Sign in to compare your answers to other users
+    ..
   </div>)
 }
 

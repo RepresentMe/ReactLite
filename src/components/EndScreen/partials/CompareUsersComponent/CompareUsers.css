@@ -36,3 +36,9 @@
   overflow-x: hidden;
   background-color: #e6ffff;
 }
+
+.sign-in-to-see {
+  text-align: center;
+  margin: 20px;
+  color: #999;
+}
