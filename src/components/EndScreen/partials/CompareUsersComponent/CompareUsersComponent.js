@@ -71,6 +71,7 @@ const CompareCollectionUsersView = observer(({data})=> {
         slidesToShow={1}
         slidesToScroll={1}
         cellAlign="left"
+        wrapAround={true}
         cellSpacing={10}
         dragging={true}
         slideWidth="280px"
@@ -110,6 +111,7 @@ const CompareCollectionUsersView = observer(({data})=> {
       //initialSlideHeight={50}
       slidesToShow={1}
       slidesToScroll={1}
+      wrapAround={true}
       cellAlign="left"
       cellSpacing={80}
       dragging={true}
