@@ -44,7 +44,7 @@ const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionS
         return viewData.users.push(res)
       })
       UserStore.amFollowingUser(currentUserId, id).then((res) => {
-        let result = res.results[0] ? res.results[0].id : res.count;
+        let result = res.results.length > 0 ? res.results[0].id : 0;
         return viewData.following.set(id, result)
       })
       UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
@@ -84,7 +84,7 @@ const CompareCollectionUsersView = observer(({data})=> {
           <div key={user.id} >
             <UserCardSmall user={user}
               compareData={data.compareData.get(user.id)}
-              following={data.following.get(user.id)}/>
+              following={observable(data.following.get(user.id))}/>
           </div>
         )
       })}
@@ -159,18 +159,26 @@ const CompareCollectionUsersView = observer(({data})=> {
 })
 
 
-@inject("user", "compareData", "following", 'UserStore') @observer class UserCardSmall extends Component {
-
-  state = {
-    //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
-    checked: [true,true,false,false,false]
+@inject("user", "compareData", 'following', 'UserStore') 
+@observer 
+class UserCardSmall extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
+      checked: [true,true,false,false,false]
+    }
   }
+ 
 
   setFollowing = () => {
-    this.props.UserStore.setFollowing(this.props.compareData.userb)
+    this.props.UserStore.setFollowing(this.props.compareData.userb).then((res) => {
+      this.props.following.set(res.id);
+    })
   }
   removeFollowing = () => {
-    this.props.UserStore.removeFollowing(this.props.following)
+    this.props.UserStore.removeFollowing(this.props.following.value);
+    this.props.following.set(0);
   }
   render(){
     // if (!this.props.user) return null;
@@ -198,7 +206,6 @@ const CompareCollectionUsersView = observer(({data})=> {
      match = Math.floor(100-this.props.compareData.difference_percent)
     }
 
-
     return (
       this.props &&
       <Card style={{margin: '10px', width: 280}}>
@@ -218,7 +225,7 @@ const CompareCollectionUsersView = observer(({data})=> {
 
               {/* in reality need to display if i'm following this user */}
               <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 10px 0px'}}>
-                { this.props && this.props.following > 0 ?
+                { this.props.following.get() > 0 ?
                   <FlatButton
                     label="following"
                     onTouchTap={this.removeFollowing}

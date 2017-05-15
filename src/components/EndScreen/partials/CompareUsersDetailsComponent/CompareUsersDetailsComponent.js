@@ -72,7 +72,8 @@ const CompareCollectionUsersView = observer(({data})=> {
 
   state = {
     //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
-    checked: [true,true,false,true,true]
+    checked: [true,true,false,true,true],
+    following: this.props.following
   }
 
   handleCheck = (e, value) => {
@@ -96,7 +97,10 @@ const CompareCollectionUsersView = observer(({data})=> {
     this.props.UserStore.setFollowing(this.props.compareData.userb)
   }
   removeFollowing = () => {
-    this.props.UserStore.removeFollowing(this.props.following)
+    this.props.UserStore.removeFollowing(this.state.following)
+    this.setState({
+      following: 0
+    })
   }
   render(){
     if (!this.props.user) return null;
@@ -179,7 +183,7 @@ const CompareCollectionUsersView = observer(({data})=> {
 
         {/* in reality need to display if i'm following this user */}
         <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 10px 0px'}}>
-        { this.props && this.props.following > 0 ?
+        { this.state.following > 0 ?
           <FlatButton
             label="following"
             primary={true}

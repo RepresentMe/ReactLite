@@ -233,7 +233,7 @@ class UserStore {
 
   //to delete the following object that I (logged user) follow other user
   removeFollowing(followId) {
-    return window.API.delete(`/api/following_users/${followId}`)
+    return window.API.delete(`/api/following_users/${followId}/`)
       .then(function (response) {
         return response.data;
       })
