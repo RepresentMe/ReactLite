@@ -10,10 +10,10 @@ class SmallCard extends Component {
 	render(){
   	return (
       <div>
-        {!this.props.data && <p>HELLO</p>}
+        {!this.props.data && <p></p>}
         {this.props.data.values &&
-          <div style={{minHeight: 200}}>
-            <Card>
+          <div style={{minHeight: 500}}>
+            <Card style={{minHeight: 300}}>
          {/*      <div style={{display: 'flex', flexFlow: 'row nowrap', justifyContent: 'spaceBetween'}}>
                 <div style={{flex: 1, margin: 15,  width: 200, height: 250, border: '2px solid black'}}>
                   <div style={{flex: 1, borderBottom: '2px solid grey', color: 'white', padding: 10, fontWeight: 'bold', backgroundColor: this.props.data.values[0].fill, minHeight: 70}}>
@@ -32,11 +32,12 @@ class SmallCard extends Component {
 
 
 
-   <CardText>
+
+    <CardTitle title="47%" subtitle="Agree with you" style={{backgroundColor: this.props.data.values[0].fill, color: 'white'}} />
+    <CardText style={{fontSize: '20px', fontWeight: '200'}}>
       {this.props.data.values[0].title}
     </CardText>
-    <CardTitle title="47%" subtitle="Agree with you" style={{backgroundColor: this.props.data.values[0].fill, color: '#ffffff'}} />
-    
+    <Divider />
     <CardActions>
       <FlatButton label="Details" /> 
     </CardActions>
