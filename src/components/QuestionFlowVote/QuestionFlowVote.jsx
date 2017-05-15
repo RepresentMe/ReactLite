@@ -113,7 +113,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 
   return (
     <MiddleDiv>
-      <h1 className={"questionText questionTextFix-" + index} style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{question}</h1>
+      <p className={"questionText questionTextFix-" + index} style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{question}</p>
       {subtype === "likert" && <LikertButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer}/>}
       {subtype === "mcq" && <MCQButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer} choices={choices}/>}
     </MiddleDiv>
