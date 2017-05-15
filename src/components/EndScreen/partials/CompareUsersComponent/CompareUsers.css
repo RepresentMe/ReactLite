@@ -42,3 +42,9 @@
   margin: 20px;
   color: #999;
 }
+
+.fb-send-to-messenger {
+  width: 175px;
+  margin: 7px auto;
+  display: block;
+}

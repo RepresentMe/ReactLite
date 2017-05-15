@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import LoadingIndicator from '../../../LoadingIndicator';
+import MessengerPlugin from 'react-messenger-plugin';
 
 import Divider from 'material-ui/Divider';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
@@ -67,107 +68,126 @@ const heading = {
 
 
 //View of short compare and short questions info
-const CompareCollectionUsersView = observer(({data})=> {
-  if (!data.isLoggedIn) return <SignInToSeeView />;
-  if (!data.questions.length || !data.users.length || !data.following || !data.compareData)
-    return <LoadingIndicator />;
-
-  return (
-    <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', background: '#f5f5fe'}}>
-      <h2 style={heading} >How you compare</h2>
-      <Carousel
-        autoplay={true}
-        autoplayInterval={5000}
-        //initialSlideHeight={50}
-        slidesToShow={1}
-        slidesToScroll={1}
-        cellAlign="left"
-        wrapAround={true}
-        cellSpacing={15}
-        dragging={true}
-        slideWidth="280px"
-        speed={500}
-        style={{ minHeight: 450}}
-        >
-      {data.compareData && data.users.map((user) => {
-        //console.log('userB, data', user, data)
-        return (
-          <div key={user.id} >
-            <UserCardSmall user={user}
-              compareData={data.compareData.get(user.id)}
-              following={observable(data.following.get(user.id))}/>
-          </div>
-        )
-      })}
-      </Carousel>
-    {/* </div> */}
-
- 
-    <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',}}>
-    <p>Connect with messenger</p>
-    </div>
- 
-
-    {/* <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime', overflow: 'auto'}}> */}
-    {/* <div> */}
-
-    <h2 style={heading} >All results</h2>
-    <Carousel
-      autoplay={true}
-      autoplayInterval={2000} 
-      slidesToShow={1}
-      slidesToScroll={1}
-      wrapAround={true}
-      cellAlign="left"
-      cellSpacing={15}
-      dragging={true}
-      slideWidth="240px"
-      speed={500}
-      style={{minHeight: 260}}
-      >
-    {data.questions.length > 0 &&
-      data.questions[0].map((question, i) => {
-        {/*console.log('question', question)*/}
-      return (
-        <div key={`ques-${i}`} style={{}}>
-          <Results questionId={question.object_id}/>
-        </div>
-      )
-    })
-      }
-      </Carousel>
-    {/* </div> */}
+@inject("UserStore")
+@observer
+class CompareCollectionUsersView extends Component {
+  render() {
+    const {data, UserStore} = this.props;
+  
+    if (!data.isLoggedIn) return <SignInToSeeView />;
+    if (!data.questions.length || !data.users.length || !data.following || !data.compareData)
+      return <LoadingIndicator />;
 
 
-    <h2 style={heading} >Your interests</h2>
-    <p>Would you like to see more of any of these?</p>
+    let messengerRefData = "get_started_with_token";
+    const authToken = this.props.UserStore.getAuthToken();
+    if(authToken) {
+      messengerRefData += "+auth_token=" + authToken;
+    }
 
-    <CardText>
-      <p style={{textAlign: 'left'}}>Your interests</p>
-      <p style={{textAlign: 'left'}}>Would you like to see more of any of these?</p>
-      <a href='#' style={{textDecoration: 'underline'}}>(Browse all topics)</a>
 
-      <div style={{marginTop: 10}}>
-        <Toggle
-          label="Politics"
-          style={{marginBottom: 0, }}
-        />
-        <Toggle
-          label="War"
-          style={{marginBottom: 0}}
-        />
-        <Toggle
-          label="Education"
-          defaultToggled={true}
-          style={{marginBottom: 0}}
+    return (
+      <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', background: '#f5f5fe'}}>
+        <h2 style={heading} >How you compare</h2>
+        <Carousel
+          autoplay={true}
+          autoplayInterval={5000}
+          //initialSlideHeight={50}
+          slidesToShow={1}
+          slidesToScroll={1}
+          cellAlign="left"
+          wrapAround={true}
+          cellSpacing={15}
+          dragging={true}
+          slideWidth="280px"
+          speed={500}
+          style={{ minHeight: 450}}
+          >
+        {data.compareData && data.users.map((user) => {
+          //console.log('userB, data', user, data)
+          return (
+            <div key={user.id} >
+              <UserCardSmall user={user}
+                compareData={data.compareData.get(user.id)}
+                following={observable(data.following.get(user.id))}/>
+            </div>
+          )
+        })}
+        </Carousel>
+      {/* </div> */}
+
+  
+      <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc', width: '200px', textAlign: 'center'}}>
+        <MessengerPlugin
+          appId={String(window.authSettings.facebookId)}
+          pageId={String(window.authSettings.facebookPageId)}
+          size="xlarge"
+          passthroughParams={messengerRefData}
         />
       </div>
+  
 
-  </CardText>
-</div>
+      {/* <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime', overflow: 'auto'}}> */}
+      {/* <div> */}
 
-)
-})
+      <h2 style={heading} >All results</h2>
+      <Carousel
+        autoplay={true}
+        autoplayInterval={2000} 
+        slidesToShow={1}
+        slidesToScroll={1}
+        wrapAround={true}
+        cellAlign="left"
+        cellSpacing={15}
+        dragging={true}
+        slideWidth="240px"
+        speed={500}
+        style={{minHeight: 260}}
+        >
+      {data.questions.length > 0 &&
+        data.questions[0].map((question, i) => {
+          {/*console.log('question', question)*/}
+        return (
+          <div key={`ques-${i}`} style={{}}>
+            <Results questionId={question.object_id}/>
+          </div>
+        )
+      })
+        }
+        </Carousel>
+      {/* </div> */}
+
+
+      <h2 style={heading} >Your interests</h2>
+      <p>Would you like to see more of any of these?</p>
+
+      <CardText>
+        <p style={{textAlign: 'left'}}>Your interests</p>
+        <p style={{textAlign: 'left'}}>Would you like to see more of any of these?</p>
+        <a href='#' style={{textDecoration: 'underline'}}>(Browse all topics)</a>
+
+        <div style={{marginTop: 10}}>
+          <Toggle
+            label="Politics"
+            style={{marginBottom: 0, }}
+          />
+          <Toggle
+            label="War"
+            style={{marginBottom: 0}}
+          />
+          <Toggle
+            label="Education"
+            defaultToggled={true}
+            style={{marginBottom: 0}}
+          />
+        </div>
+
+    </CardText>
+  </div>
+
+  )
+  }
+}
 
 
 @inject("user", "compareData", 'following', 'UserStore') 
