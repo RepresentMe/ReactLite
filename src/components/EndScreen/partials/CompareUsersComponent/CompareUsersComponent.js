@@ -17,44 +17,57 @@ import Toggle from 'material-ui/Toggle';
 import Avatar from 'material-ui/Avatar';
 
 import Carousel from 'nuka-carousel';
+import DynamicConfigService from '../../../../services/DynamicConfigService';
 
 import Results from '../ResultsComponent';
 import './CompareUsers.css';
 
+@inject("CollectionStore", "UserStore", "QuestionStore")
+@observer
+class CompareCollectionUsers extends Component {
 
-const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")(observer(({ CollectionStore, UserStore, QuestionStore, userIds = [100, 7,322,45], collectionId = 1}) => {
+  // componentWilReceiveProps(nextProps) {
+    // if(nextProps.userIds.peek() != this.props.userIds) {
 
-  let userLoggedIn = UserStore.isLoggedIn();
-  let currentUserId = userLoggedIn && UserStore.userData.get("id");
-  let viewData = observable.shallowObject({
-    isLoggedIn: userLoggedIn,
-    users: observable.shallowArray([]),
-    compareData: observable.shallowMap(),
-    following: observable.shallowMap(),
-    questions: observable.shallowArray()
-  });
+    // }
+  // }
 
-  // if (!userIds.length) console.log('No users specified to compare');
-  if (userLoggedIn) {
-    CollectionStore.getCollectionItemsById(collectionId)
-      .then((res) => {
-        return viewData.questions.push(res)
+  render() {
+    const { CollectionStore, UserStore, QuestionStore, collectionId = 1} = this.props;
+    const propUserIds = this.props.userIds.peek();
+    const userIds = (propUserIds.length && propUserIds) || [100, 7,322,45];
+    let userLoggedIn = UserStore.isLoggedIn();
+    let currentUserId = userLoggedIn && UserStore.userData.get("id");
+    let viewData = observable.shallowObject({
+      isLoggedIn: userLoggedIn,
+      users: observable.shallowArray([]),
+      compareData: observable.shallowMap(),
+      following: observable.shallowMap(),
+      questions: observable.shallowArray()
+    });
+
+    // if (!userIds.length) console.log('No users specified to compare');
+    if (userLoggedIn) {
+      CollectionStore.getCollectionItemsById(collectionId)
+        .then((res) => {
+          return viewData.questions.push(res)
+        })
+      userIds.map((id) => {
+        UserStore.getUserById(id).then((res) => {
+          return viewData.users.push(res)
+        })
+        UserStore.amFollowingUser(currentUserId, id).then((res) => {
+          let result = res.results.length > 0 ? res.results[0].id : 0;
+          return viewData.following.set(id, result)
+        })
+        UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
+
       })
-    userIds.map((id) => {
-      UserStore.getUserById(id).then((res) => {
-        return viewData.users.push(res)
-      })
-      UserStore.amFollowingUser(currentUserId, id).then((res) => {
-        let result = res.results.length > 0 ? res.results[0].id : 0;
-        return viewData.following.set(id, result)
-      })
-      UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
+    }
 
-    })
+    return <CompareCollectionUsersView data={viewData} />
   }
-
-  return <CompareCollectionUsersView data={viewData} />
-}))
+}
 
 const heading = {
   textAlign: 'left !important',

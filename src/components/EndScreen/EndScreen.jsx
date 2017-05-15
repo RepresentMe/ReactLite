@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { observable } from 'mobx';
 import { observer, inject } from "mobx-react";
 import CompareCollectionUsers from './partials/CompareUsersComponent';
 import DynamicConfigService from '../../services/DynamicConfigService';
@@ -113,9 +114,10 @@ class EndScreen extends Component {
   }
 
   render() {
+    const usersToCompare = observable.shallowArray(this.dynamicConfig.config.survey_end.compare_users)
     return (
       <div>
-        <CompareCollectionUsers />
+        <CompareCollectionUsers userIds={usersToCompare}/>
         <MoreUserInfo shown={this.state.userDataModal.isOpen} user={this.state.userDataModal.user} />
         <JoinGroupDialog isOpen={this.state.joinGroupModal.isOpen} groupId={this.state.joinGroupModal.groupId}/>
         <FollowUserDialog isOpen={this.state.followUserModal.isOpen} userId={this.state.followUserModal.userId}/>
