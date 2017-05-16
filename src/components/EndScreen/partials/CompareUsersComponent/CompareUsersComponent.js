@@ -8,12 +8,14 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 
 import LoadingIndicator from '../../../LoadingIndicator';
+
 import MessengerPlugin from 'react-messenger-plugin';
 
 import Divider from 'material-ui/Divider';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 import { TwitterButton } from "react-social";
 import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
+
 import Toggle from 'material-ui/Toggle';
 import Avatar from 'material-ui/Avatar';
 
@@ -69,19 +71,17 @@ class CompareCollectionUsers extends Component {
           }
           getCollectionTags();
 
-      userIds.map((id) => {
-        UserStore.getUserById(id).then((res) => {
-          return viewData.users.push(res)
+        UserStore.amFollowingUsers(currentUserId, userIds).then(res => {
+          const results = res.results;
+          results.forEach(({ following, id }) => viewData.following.set(following, id))
         })
-        UserStore.amFollowingUser(currentUserId, id).then((res) => {
-          let result = res.results.length > 0 ? res.results[0].id : 0;
-          return viewData.following.set(id, result)
-        })
-        UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
+        userIds.forEach(id => {
+          UserStore.getUserById(id).then(res => {
+            viewData.users.push(res)
+          })
 
-
+        UserStore.compareUsers(currentUserId, id).then(res => {viewData.compareData.set(id, res)})
       })
-
     }
 
     return <CompareCollectionUsersView data={viewData} />
@@ -175,9 +175,9 @@ class CompareCollectionUsersView extends Component {
         })}
         </Carousel>
 
+      
 
-
-      <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc', width: '200px', textAlign: 'center'}}>
+      <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 10, textAlign: 'center'}}>
         <MessengerPlugin
           appId={String(window.authSettings.facebookId)}
           pageId={String(window.authSettings.facebookPageId)}
@@ -246,7 +246,6 @@ class CompareCollectionUsersView extends Component {
 }
 
 
-//<<<<<<< HEAD
 @inject("user", "compareData", 'following', 'UserStore')
 @observer
 class UserCardSmall extends Component {
@@ -278,24 +277,16 @@ class UserCardSmall extends Component {
   render(){
     // if (!this.props.user) return null;
     if (!this.props.user) return <LoadingIndicator />;
-    let name, age, photo, bio,
-      location, count_comments,
-      count_followers, count_following_users,
-      count_group_memberships,
-      count_question_votes, count_votes;
-    if (this.props.user) {
-      name = this.props.user.first_name ? this.props.user.first_name + ' ' + this.props.user.last_name : this.props.user.username;
-      age = this.props.user.age ? this.props.user.age  : '';
-      bio = this.props.user.bio ? this.props.user.bio  : '';
-      photo = this.props.user.photo ? this.props.user.photo.replace("localhost:8000", "represent.me") : `./img/pic${Math.floor(Math.random()*7)}.png`;;
-      location = (this.props.user.country_info ? this.props.user.country_info.name + (this.props.user.region_info ? ', ' : '') : '') + (this.props.user.region_info ? this.props.user.region_info.name : '');
-      count_comments = this.props.user.count_comments
-      count_followers = this.props.user.count_followers
-      count_following_users = this.props.user.count_following_users
-      count_group_memberships = this.props.user.count_group_memberships
-      count_question_votes = this.props.user.count_question_votes
-      count_votes = this.props.user.count_votes
-    }
+
+    const { user } = this.props
+
+    const name = user.first_name ? `${user.first_name} ${user.last_name}` : user.username;
+    const age = user.age ? user.age  : '';
+    const bio = user.bio ? user.bio  : '';
+    const photo = user.photo ? user.photo.replace("localhost:8000", "represent.me") : `./img/pic${Math.floor(Math.random()*7)}.png`;;
+    const location = (user.country_info ? user.country_info.name + (user.region_info ? ', ' : '') : '') + (user.region_info ? user.region_info.name : '');
+    const { count_comments, count_followers, count_following_users, count_group_memberships, count_question_votes, count_votes } = user
+
     let match = '';
     if(this.props.compareData) {
      match = Math.floor(100-this.props.compareData.difference_percent)

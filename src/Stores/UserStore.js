@@ -220,6 +220,18 @@ class UserStore {
       });
   }
 
+  amFollowingUsers(myId, theirIds) {
+    const idsString = JSON.stringify(theirIds).slice(1, -1);
+    console.log(idsString)
+    return window.API.get(`/api/following_users/?user=${myId}&following__id__in=${idsString}`)
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error, error.response.data);
+      });
+  }
+
   //to set that  (logged user) follow other user
   setFollowing(theirId) {
     return window.API.post(`/api/following_users/`, {following: theirId})
