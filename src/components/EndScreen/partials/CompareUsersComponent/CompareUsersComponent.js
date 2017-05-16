@@ -15,7 +15,8 @@ import Divider from 'material-ui/Divider';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 import { TwitterButton } from "react-social";
 import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
-
+import IconButton from 'material-ui/IconButton';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 import Toggle from 'material-ui/Toggle';
 import Avatar from 'material-ui/Avatar';
 
@@ -25,6 +26,17 @@ import DynamicConfigService from '../../../../services/DynamicConfigService';
 import Results from '../ResultsComponent';
 import CompareUsersDetailsComponent from '../CompareUsersDetailsComponent';
 import './CompareUsers.css';
+
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+
+
+const labels = {
+  "strongly_agree": {label: "Strongly Agree", color: "rgb(74,178,70)"},
+  "agree": {label: "Agree", color: "rgb(133,202,102)"},
+  "neutral": {label: "Neutral", color: "rgb(128, 128, 128)"},
+  "disagree": {label: "Disagree", color: "rgb(249,131,117)"},
+  "strongly_disagree": {label: "Strongly disagree", color: "rgb(244,56,41)"}
+}
 
 @inject("CollectionStore", "UserStore", "QuestionStore")
 @observer
@@ -164,7 +176,7 @@ class CompareCollectionUsersView extends Component {
           dragging={true}
           slideWidth="280px"
           speed={500}
-          style={{ minHeight: 450}}
+          style={{ minHeight: 480}}
           >
         {data.compareData && data.users.map((user) => {
           //console.log('userB, data', user, data)
@@ -287,14 +299,16 @@ class UserCardSmall extends Component {
     const { count_comments, count_followers, count_following_users, count_group_memberships, count_question_votes, count_votes } = user
 
     let match = '';
+    let questions_counted = null;
     if(this.props.compareData) {
-     match = Math.floor(100-this.props.compareData.difference_percent)
+     match = Math.floor(100-this.props.compareData.difference_percent);
+     questions_counted = this.props.compareData.questions_counted;
     }
 
     return (
       this.props &&
       <Card style={{margin: '10px', width: 280}}>
-        <Avatar src={photo} size={50} style={{alignSelf: 'center', marginTop: '10px', display: 'block', margin: '0 auto'}}/>
+        <Avatar src={photo} size={50} style={{alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px'}}/>
 
         <CardTitle title={name} subtitle={location} style={{textAlign: 'center'}} />
 
@@ -305,6 +319,12 @@ class UserCardSmall extends Component {
           {/* <p style={{fontSize: 14, fontWeight: 'bold'}}>How do I compare to {name}?</p> */}
           <h2 style={{ fontSize: '60px', margin: '3px 0', textAlign: 'center'}}>{`${match}%`}</h2>
 
+          {this.props.compareData ? (
+            <div>
+              <MatchBarchart compareData={this.props.compareData} />
+              <p>{`Compared across: ${questions_counted} questions`}</p>
+              </div>
+            ) : <p></p>}
 
          {/*  <p>match <Link to={`/compare/${this.props.user.id}`}>(detail)</Link></p> */}
 
@@ -360,8 +380,40 @@ class UserCardSmall extends Component {
 
     </Card>
   )
-}}import IconButton from 'material-ui/IconButton';
-import ClearIcon from 'material-ui/svg-icons/content/clear';
+}}
+
+
+const MatchBarchart = observer(({ compareData }) => {
+  let totalCount = 0;
+  compareData.difference_distances.map((diff) => totalCount += diff);
+  let diffs = compareData.difference_distances;
+  let values = {
+    strongly_agree: Math.round(1000*(diffs[0])/ totalCount)/10,
+    agree: Math.round(1000*(diffs[1])/ totalCount)/10,
+    neutral: Math.round(1000 *(diffs[2]) / totalCount)/10,
+    disagree: Math.round(1000 *(diffs[3]) / totalCount)/10,
+    strongly_disagree: Math.round(1000*(diffs[4])/ totalCount)/10
+  };
+
+  return (
+    <ResponsiveContainer minHeight={30} maxWidth={150} style={{border: '1px solid red'}}>
+    <BarChart
+      layout="vertical"
+      data={[values]}
+      barGap={1}
+    >
+      <XAxis domain={[0, 100]} hide={true} type="number" />
+      <YAxis type="category" hide={true} />
+      <Bar dataKey="strongly_disagree" stackId="1" fill={labels[Object.keys(values)[4]]['color']} />
+      <Bar dataKey="disagree" stackId="1" fill={labels[Object.keys(values)[3]]['color']} />
+      <Bar dataKey="neutral" stackId="1" fill={labels[Object.keys(values)[2]]['color']} />
+      <Bar dataKey="agree" stackId="1" fill={labels[Object.keys(values)[1]]['color']} />
+      <Bar dataKey="strongly_agree" stackId="1" fill={labels[Object.keys(values)[0]]['color']} />
+      {/* <Tooltip content={<CustomTooltip/>}/> */}
+    </BarChart>
+  </ResponsiveContainer>
+)
+})
 
 const SignInToSeeView = () => {
   return (<div className="sign-in-to-see">
