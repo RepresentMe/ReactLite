@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import { observer } from 'mobx-react'
+import { observable } from 'mobx'
 
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart';
 import QuestionResultsBarchart from '../charts/QuestionResultsBarchart';
@@ -7,51 +9,67 @@ import ChartBar from 'mdi-react/ChartBarIcon';
 import ChartPie from 'mdi-react/ChartPieIcon';
 import MapMarker from 'mdi-react/MapMarkerIcon';
 import AccountMultiple from 'mdi-react/AccountMultipleIcon';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import './QuestionFlowResults.css'
 
+@observer
 class QuestionFlowResults extends Component {
 
+  showingTabIndex = observable("map"); // bar, map, people
   constructor() {
     super(...arguments)
 
-    this.state = {
-      pie: false
-    }
+    // this.state = {
+    //   pie: false
+    // }
   }
 
   changeGraph = (type) => {
-    const pieChart = type === "bar" ? false : true;
+    this.showingTabIndex.set(type)
+    // const pieChart = type === "bar" ? false : true;
 
-    if (this.state.pie != pieChart)
-      this.setState({pie: pieChart})
+    // if (this.state.pie != pieChart)
+    //   this.setState({pie: pieChart})
   }
 
   render() {
-    console.log('QuestionFlowResults')
-    if(this.props.type === "B") {
+    const { question, type } = this.props;
+    if(type === "B") {
       return null
     }
+    const curTab = this.showingTabIndex.get();
     return (
       <div>
-        <QuestionLiquidPiechart questionId={this.props.question.id} pie={this.state.pie}/>
+        {(curTab == 'pie' || curTab == 'bar') && <QuestionLiquidPiechart questionId={question.id} pie={curTab == 'pie'}/>}
+        {(curTab == 'map' || curTab == 'people') && <PlaceholderScreen tab={this.showingTabIndex} question={question} />}
         <div className="buttonBoxing">
-          <IconButton tooltip="Coming soon" touch={true} tooltipPosition="top-center" className="buttonBorder">
-            <AccountMultiple />
+          <IconButton onClick={e => this.changeGraph("people")} touch={true} tooltipPosition="top-center" className={curTab == 'people' ? "buttonBorder selectedButton" : "buttonBorder"}>
+            <AccountMultiple className={curTab == 'people' ? "selectedButton" : ""} />
           </IconButton>
-          <IconButton onClick={e => this.changeGraph("bar")} className={!this.state.pie ? "buttonBorder selectedButton" : "buttonBorder"}>
-            <ChartBar className={!this.state.pie ? "selectedButton" : ""}/>
+          <IconButton onClick={e => this.changeGraph("bar")} className={curTab == 'bar' ? "buttonBorder selectedButton" : "buttonBorder"}>
+            <ChartBar className={curTab == 'bar' ? "selectedButton" : ""}/>
           </IconButton>
-          <IconButton onClick={e => this.changeGraph("pie")} className={this.state.pie ? "buttonBorder selectedButton" : "buttonBorder"}>
-            <ChartPie className={this.state.pie ? "selectedButton" : ""}/>
+          <IconButton onClick={e => this.changeGraph("pie")} className={curTab == 'pie' ? "buttonBorder selectedButton" : "buttonBorder"}>
+            <ChartPie className={curTab == 'pie' ? "selectedButton" : ""}/>
           </IconButton>
-          <IconButton tooltip="Coming soon" touch={true} tooltipPosition="top-center" className="buttonBorder">
-            <MapMarker />
+          <IconButton onClick={e => this.changeGraph("map")} touch={true} tooltipPosition="top-center"  className={curTab == 'map' ? "buttonBorder selectedButton" : "buttonBorder"}>
+            <MapMarker className={curTab == 'map' ? "selectedButton" : ""} />
           </IconButton>
         </div>
       </div>
     )
   }
 }
+
+const PlaceholderScreen = observer(({tab, question}) => {
+  return (<div>
+    <div style={{display:'block', maxWidth: '350px', margin:'0 auto', textAlign: 'center'}}>
+      <img style={{width: 350}} src={tab.get() == 'map' ?'https://d2ppvlu71ri8gs.cloudfront.net/items/3i3K071k3Q1e0j1A3e2R/Screen%20Shot%202017-05-16%20at%2013.15.45.png?v=d446acf2' : 'https://d2ppvlu71ri8gs.cloudfront.net/items/1m3Q3U3o02263K04470G/Image%202017-05-16%20at%201.13.37%20pm.png?v=3c947268'} />
+      <p style={{margin:'30px 0 0 0'}}>This feature isn't available just here (yet!) but you can still see the result looking something like the image above over at the main site: <a style={{textDecoration: 'underline'}} href="https://represent.me">represent.me</a></p>
+      <RaisedButton label="Take me there >" style={{margin: '40px 0 20px'}} backgroundColor="#3b5998" href={`https://app.represent.me/question/${question.id}/${question.slug}/`} />
+    </div>
+  </div>)
+})
 
 export default QuestionFlowResults
