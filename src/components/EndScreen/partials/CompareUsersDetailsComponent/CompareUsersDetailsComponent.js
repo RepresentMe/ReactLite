@@ -217,7 +217,7 @@ const CompareCollectionUsersView = observer(({data})=> {
 // =======
       <div>
         {!this.props.compareData || !this.props.compareData.topic_diffs ? <p>rendering</p> :
-        <Card style={{marginBottom: '20px', border: 'none', minHeight: 500}}>
+        <Card style={{marginBottom: '20px', border: 'none', minHeight: 500, minWidth: 450, width: 450, maxWidth: 450, margin: 0}}>
         <CardHeader
           title={name}
           subtitle={age ? age + ' years old, ' + location : location}

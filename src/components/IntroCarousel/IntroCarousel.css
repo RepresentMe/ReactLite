@@ -1,0 +1,26 @@
+.containerStyleIntro {
+  padding: 10px;
+  width: 100%;
+}
+
+.cardStyleIntro {
+  max-width: 280px;
+  min-width: 250px;
+  margin: 10px;
+  display: inline-block;
+  vertical-align: top;
+  min-height: 300px;
+  max-height: 300px;
+}
+
+/*for small screens*/
+@media screen and (max-width: 419px) {
+   .cardStyleIntro {
+    max-width: 250px;
+    margin: 10px auto;
+    display: block;
+    }
+}
+.imgStyle:hover{
+  opacity: 0.8;
+}

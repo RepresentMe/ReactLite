@@ -1,30 +1,64 @@
 import React, { Component } from 'react'
 import { observer } from "mobx-react";
-import { Card } from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import Avatar from 'material-ui/Avatar';
+import IconButton from 'material-ui/IconButton';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 
+
+import '../IntroCarousel.css';
 
 const IntroCarouselCard = (props) => {
 
+  const randomPic = `/img/pic${Math.floor(Math.random()*7)}.png`;
+  const img = props.img ? props.img.replace("localhost:8000", "represent.me") : randomPic;
 
   	return (
       <div>
         {!props && <p>LOADING</p>}
-        {props &&
-          <div style={{minHeight: 200}}>
-            <Card>
-              <div style={{display: 'flex', flexFlow: 'row nowrap', justifyContent: 'spaceBetween'}}>
-                <div style={{flex: 1, margin: 15,  width: 200, minHeight: 250, border: '2px solid black'}}>
-                  <div style={{flex: 1, borderBottom: '2px solid grey', color: 'white', padding: 10, fontWeight: 'bold', minHeight: 70}}>
-										{props.num}
-                  </div>
+        {props && (
+          <div>
+            <Card
+              className='cardStyleIntro'
+              style={{display: 'inlineBlock'}}>
 
+            <CardHeader
+                  avatar={<Avatar
+                    src={img}
+                    size={30}
+                    style={{
+                      height: '80px',
+                      width: '80px',
+                      verticalAlign: 'middle',
+                      margin: 10,
+                      marginLeft: '35%',
+                      borderRadius: 5
+                    }}
+                  />}
+                  className='cardHeaderStyleIntro'
+              />
+
+              <CardActions>
+                <IconButton onTouchTap={() => props.removeCard(props.id)}
+                  style={{position: 'absolute', right: 0, top: -130, color: 'grey'}}
+                  >
+                  <ClearIcon />
+                </IconButton>
+              </CardActions>
+
+              <CardText style={{wordWrap: 'break-word'}}>
+              {props.text ?
+                <div>
+                  {props.text.slice(0, 250 + props.text.indexOf(' ')) + ' '}
+                  {/* <Link to={ "/survey/" + id }><i>more...</i></Link> */}
                 </div>
-            </div>
-          </Card>
-        </div>}
-      </div>
-    )
-  }
+                : null}
+              </CardText>
 
+            </Card>
+          </div>)
+  }
+  </div>)}
 
 export default IntroCarouselCard;

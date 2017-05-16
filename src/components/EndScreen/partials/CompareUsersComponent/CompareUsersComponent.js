@@ -341,7 +341,9 @@ class UserCardSmall extends Component {
         </CardActions>
         <Dialog
           autoScrollBodyContent={true}
-          open={this.state.compareDetails}>
+          open={this.state.compareDetails}
+          style={{padding: 5, minWidth: 680, maxWidth: 680, width: 680, overflow: 'auto', overflowX: 'hidden'}}>
+
           <div>
             <CompareUsersDetailsComponent userIds={[this.props.user.id]}/>
             <FlatButton
