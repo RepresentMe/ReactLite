@@ -72,7 +72,7 @@ const CompareCollectionUsersView = observer(({data})=> {
 
   state = {
     //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
-    checked: [true,true,false,true,true],
+    checked: [true,true,true,true,true],
     following: this.props.following
   }
 
@@ -110,6 +110,7 @@ const CompareCollectionUsersView = observer(({data})=> {
       count_question_votes, count_votes;
       let match = '';
       let totalCount = 0;
+      let values_for_bars = 0;
       let values = null;
       let display_all = {};
 
@@ -145,9 +146,10 @@ const CompareCollectionUsersView = observer(({data})=> {
         neutral: Math.round(1000 *(this.props.compareData.difference_distances[2]) / totalCount)/10,
         disagree: Math.round(1000 *(this.props.compareData.difference_distances[3]) / totalCount)/10+Math.round(1000 *(this.props.compareData.difference_distances[4]) / totalCount)/10,
         };
-        console.log('values', values)
+        console.log('values', values, values_for_bars)
     }
     console.log('totalCount.values', totalCount)
+    console.log('totalCount_for_bars', values_for_bars)
 
     if(this.props.compareData) {
       let arr =[];
@@ -183,38 +185,7 @@ const CompareCollectionUsersView = observer(({data})=> {
     console.log('result', Object.keys(display_all).length, display_all)
   }
     return (
-// <<<<<<< HEAD
-//       this.props.compareData &&
-//       <Card style={{marginBottom: '20px', border: '2px solid grey', boxShadow: '0px 0px 5px grey', height: 800}}>
-//       <CardHeader
-//         title={name}
-//         subtitle={age ? age + ' years old, ' + location : location}
-//         avatar={photo}
-//         />
-//
-//         {/* in reality need to display if i'm following this user */}
-//         <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 10px 0px'}}>
-//         { this.state.following > 0 ?
-//           <FlatButton
-//             label="following"
-//             primary={true}
-//             style={{border: '2px solid green', borderRadius: 10, flex: 1, maxWidth: 120, color: 'green'}}
-//             onTouchTap={this.removeFollowing}
-//           /> :
-//           <FlatButton
-//             label="follow"
-//             primary={false}
-//             style={{border: '2px solid navy', borderRadius: 10, flex: 1, maxWidth: 120, color: 'navy'}}
-//             onTouchTap={this.setFollowing}
-//             /> }
-//           </div>
-//
-//
-//         <div className='container'>
-//           <div className='inner'>
-//             <p>{count_question_votes}</p>
-//             <p>Answers</p>
-// =======
+
       <div>
         {!this.props.compareData || !this.props.compareData.topic_diffs ? <p>rendering</p> :
         <Card style={{marginBottom: '20px', border: 'none', minHeight: 500, minWidth: 450, width: 450, maxWidth: 450, margin: 0}}>
@@ -267,7 +238,7 @@ const CompareCollectionUsersView = observer(({data})=> {
             <p>{`Compared across: ${this.props.compareData.questions_counted} questions`}</p>
           </div>
 
-          <div className='containerSmall' style={{justifyContent: 'center', paddingTop: 0}}>
+          {/* <div className='containerSmall' style={{justifyContent: 'center', paddingTop: 0}}>
             <div className='innerSmall'>
               <p><img src='/icons/happy_face1.png'/>{` ${values.agree}%`}</p>
               <CheckboxComponent label='AGREE' fill={labels['strongly_agree']['color']} handleCheck={this.handleCheck} value='agree' checked={this.state.checked[0]}/>
@@ -281,7 +252,7 @@ const CompareCollectionUsersView = observer(({data})=> {
               <CheckboxComponent label='DISAGREE' fill={labels['strongly_disagree']['color']} handleCheck={this.handleCheck} value='disagree' checked={this.state.checked[4]}/>
 
             </div>
-          </div>
+          </div> */}
 
           {this.props.compareData ? (
             <div>
@@ -313,20 +284,20 @@ const CompareCollectionUsersView = observer(({data})=> {
   )
 }}
 
-const CheckboxComponent = (props) => {
-  const handleCheck = (e, value) =>{
-    props.handleCheck(e, value)
-  }
-  return <div style={{display: 'inline-block'}}>
-          <Checkbox onCheck={handleCheck}
-              label={props.label}
-              labelPosition='right'
-              labelStyle={{color: props.fill, minWidth: 80, fontSize: 12, fontWeight: 'bold'}}
-              value={props.value}
-              checked={props.checked}
-              />
-        </div>
-}
+// const CheckboxComponent = (props) => {
+//   const handleCheck = (e, value) =>{
+//     props.handleCheck(e, value)
+//   }
+//   return <div style={{display: 'inline-block'}}>
+//           <Checkbox onCheck={handleCheck}
+//               label={props.label}
+//               labelPosition='right'
+//               labelStyle={{color: props.fill, minWidth: 80, fontSize: 12, fontWeight: 'bold'}}
+//               value={props.value}
+//               checked={props.checked}
+//               />
+//         </div>
+// }
 
 const CustomTooltip = (props) => {
   const { active } = props;
@@ -379,6 +350,7 @@ const MatchBarchart = observer(({ compareData }) => {
 })
 
 const SmallBarchart = (props) => {
+
 
   let values = {
     strongly_agree: props.values_arr[0],

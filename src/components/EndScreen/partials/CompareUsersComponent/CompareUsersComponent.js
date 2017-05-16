@@ -61,18 +61,18 @@ class CompareCollectionUsers extends Component {
           return viewData.questions.push(res)
         })
 
-        const getCollectionTags = (collectionId) => {
-            window.API.get('/api/tags/?ordering=-followers_count')
-              .then((response) => {
-                if(response.data.results) {
-                  return viewData.collection_tags.push(response.data.results);
-                }
-              })
-              .catch((error) => {
-                console.log(error, error.response.data);
-              })
-          }
-          getCollectionTags();
+        // const getCollectionTags = (collectionId) => {
+        //     window.API.get('/api/tags/?ordering=-followers_count')
+        //       .then((response) => {
+        //         if(response.data.results) {
+        //           return viewData.collection_tags.push(response.data.results);
+        //         }
+        //       })
+        //       .catch((error) => {
+        //         console.log(error, error.response.data);
+        //       })
+        //   }
+        //   getCollectionTags();
 
         UserStore.amFollowingUsers(currentUserId, userIds).then(res => {
           const results = res.results;
@@ -110,25 +110,25 @@ class CompareCollectionUsersView extends Component {
     tagsOpened: false
   }
 
-  openTags = () => {
-    const tagsOpened = !this.state.tagsOpened;
-    this.setState({tagsOpened})
-  }
-  followTag = (tagId, following) => {
-    if (following) {
-        window.API.post(`/api/tags/${tagId}/follow/`)
-          .then((response) => {})
-          .catch((error) => {
-            console.log(error);
-          })
-      }
-      else {
-        window.API.post(`/api/tags/${tagId}/unfollow/`)
-          .then((response) => {})
-          .catch((error) => {
-            console.log(error);
-          })
-      }}
+  // openTags = () => {
+  //   const tagsOpened = !this.state.tagsOpened;
+  //   this.setState({tagsOpened})
+  // }
+  // followTag = (tagId, following) => {
+  //   if (following) {
+  //       window.API.post(`/api/tags/${tagId}/follow/`)
+  //         .then((response) => {})
+  //         .catch((error) => {
+  //           console.log(error);
+  //         })
+  //     }
+  //     else {
+  //       window.API.post(`/api/tags/${tagId}/unfollow/`)
+  //         .then((response) => {})
+  //         .catch((error) => {
+  //           console.log(error);
+  //         })
+  //     }}
 
   render() {
     const {data, UserStore} = this.props;
@@ -144,10 +144,10 @@ class CompareCollectionUsersView extends Component {
       messengerRefData += "+auth_token=" + authToken;
     }
 
-    let tagsLength = 3;
-    if (data.collection_tags && this.state.tagsOpened){
-      tagsLength = data.collection_tags[0].length;
-    }
+    // let tagsLength = 3;
+    // if (data.collection_tags && this.state.tagsOpened){
+    //   tagsLength = data.collection_tags[0].length;
+    // }
 
     return (
       <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', background: '#f5f5fe'}}>
@@ -220,12 +220,10 @@ class CompareCollectionUsersView extends Component {
 
 
 
-      <h2 style={heading} >Your interests</h2>
+      {/* <h2 style={heading} >Your interests</h2>
       <p>Would you like to see more of any of these?</p>
-
-
       <CardText>
-        <a href='#' style={{textDecoration: 'underline'}} onTouchTap={this.openTags}>(Browse all topics)</a>
+        <a href='#' style={{textDecoration: 'underline'}} onTouchTap={this.openTags}>See all</a>
         {this.props.data.collection_tags[0] && this.props.data.collection_tags[0].length &&
           this.props.data.collection_tags[0].slice(0, tagsLength).map((tag, i) => {
 
@@ -240,7 +238,7 @@ class CompareCollectionUsersView extends Component {
             </div>
           )
         })}
-    </CardText>
+    </CardText> */}
   </div>
 
 )}

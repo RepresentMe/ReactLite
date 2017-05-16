@@ -30,14 +30,14 @@ class SmallCard extends Component {
           <div style={{   }}>
             <Card style={{height: 280, width: 240, marginBottom: 10}}>
 
-                <div style={{ borderBottom: '1px solid #ccc', color: 'white', padding: '10px 10px 0 10px', backgroundColor: this.props.data.values[0].fill, minHeight: 70}}>
-                  <div style={{flex: 1, borderBottom: '1px solid #ccc', color: 'white', padding: 10, fontWeight: 'bold', backgroundColor: this.props.data.values[0].fill, minHeight: 70}}>
-										{this.props.data.values[0].full_name ? <p style={{color: 'white', fontSize: 16, textAlign: 'left'}}>{`You've answered: ${this.props.data.values[0].full_name}`}</p> :
+                <div style={{ borderBottom: '1px solid #ccc', color: 'white', padding: '5px 10px 0 10px', backgroundColor: this.props.data.values[0].fill, minHeight: 100, maxHeight: 140}}>
+                  <div style={{flex: 1, color: 'white', padding: 0, fontWeight: 'bold', backgroundColor: 'transparent', minHeight: 100, maxHeight: 140, width: 220}}>
+										{this.props.data.values[0].full_name ? <p style={{color: 'white', fontSize: 14, textAlign: 'left'}}>{`You've answered: ${this.props.data.values[0].full_name}`}</p> :
 										<p style={{color: 'black', fontSize: 16, textAlign: 'left'}}>You didn't answer this question</p>}
                     <p style={{color: 'white', fontWeight: 'bold', fontSize: 35, margin: 0, textAlign: 'left'}}>{`${this.props.data.values[0].percentage}%`}</p>
                     <p style={{color: 'white', fontSize: 14, textAlign: 'left',  margin: 0, fontWeight: '200', opacity: '0.8'}}>Agree with you</p>
                   </div>
-                  <div style={{ width: 220, padding: 10, color: '#999', fontSize: 16, textAlign: 'left', wordWrap: 'break-word'}}>
+                  <div style={{ width: 220, padding: 10, marginTop: 15, color: '#999', fontSize: 16, textAlign: 'left', wordWrap: 'break-word'}}>
                     {this.props.data.values[0].title}
                   </div>
                   <div style={{position: 'absolute', left: 0, width: 240, paddingBottom: 10, bottom: 0,  borderTop: '1px solid #ccc',}}>
