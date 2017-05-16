@@ -17,7 +17,7 @@ const labels = {
   "strongly_disagree": {label: "Strongly disagree", color: "rgb(244,56,41)"}
 }
 
-const CompareCollectionUsers = inject("UserStore", "QuestionStore")(observer(({ UserStore, QuestionStore, match, userIds = [match.params.userId]}) => {
+const CompareCollectionUsers = inject("UserStore", "QuestionStore")(observer(({ UserStore, QuestionStore, userIds}) => {
 
   let userLoggedIn = UserStore.isLoggedIn();
   let currentUserId = userLoggedIn && UserStore.userData.get("id");
@@ -33,7 +33,7 @@ const CompareCollectionUsers = inject("UserStore", "QuestionStore")(observer(({ 
 
     userIds.map((id) => {
       UserStore.getUserById(id).then((res) => {console.log('userB', res) ; return viewData.users.push(res)})
-      UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
+      UserStore.compareUsers(currentUserId, id).then((res) => {console.log('compareData', res); return viewData.compareData.set(id, res)})
       UserStore.amFollowingUser(currentUserId, id).then((res) => {
         let result = res.results[0] ? res.results[0].id : res.count;
         return viewData.following.set(id, result)
@@ -48,18 +48,18 @@ const CompareCollectionUsers = inject("UserStore", "QuestionStore")(observer(({ 
 
 //View of short compare and short questions info
 const CompareCollectionUsersView = observer(({data})=> {
-  console.log(data)
   if (!data.isLoggedIn) return <SignInToSeeView />;
   if (!data.users.length || !data.following || !data.compareData)
     return <LoadingIndicator />;
 
   return (
     <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
-      <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime'}}>
+      <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420}}>
       {<div style={{flex: '1', minWidth: 320}}>
         <CompareInDetail user={data.users[0]}
           compareData={data.compareData.get(data.users[0].id)}
-          following={data.following.get(data.users[0].id)}/>
+          following={data.following.get(data.users[0].id)}
+          />
       </div>
     }
 
@@ -68,7 +68,7 @@ const CompareCollectionUsersView = observer(({data})=> {
 })
 
 
-@inject("user", "compareData", "following") @observer class CompareInDetail extends Component {
+@inject("user", "compareData", "following", 'UserStore') @observer class CompareInDetail extends Component {
 
   state = {
     //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
@@ -99,14 +99,21 @@ const CompareCollectionUsersView = observer(({data})=> {
     this.props.UserStore.removeFollowing(this.props.following)
   }
   render(){
-    if (!this.props.user) return null;
-
     let name, age, photo, bio,
       location, count_comments,
       count_followers, count_following_users,
       count_group_memberships,
       count_question_votes, count_votes;
-    if (this.props.user) {
+      let match = '';
+      let totalCount = 0;
+      let values = null;
+      let display_all = {};
+
+    if (!this.props && !this.props.compareData.topic_diffs) return null;
+
+    else {
+
+    if (this.props) {
       name = this.props.user.first_name ? this.props.user.first_name + ' ' + this.props.user.last_name : this.props.user.username;
       age = this.props.user.age ? this.props.user.age  : '';
       bio = this.props.user.bio ? this.props.user.bio  : '';
@@ -119,24 +126,24 @@ const CompareCollectionUsersView = observer(({data})=> {
       count_question_votes = this.props.user.count_question_votes
       count_votes = this.props.user.count_votes
     }
-    let concensus = '';
-    if(this.props.compareData) {
-     concensus = Math.floor(100-this.props.compareData.difference_percent)
+
+    if(this.props.compareData && this.props.compareData.topic_diffs) {
+     match = Math.floor(100-this.props.compareData.difference_percent)
+     console.log('match', match)
     }
-    let totalCount = 0;
-    if (this.props.compareData) totalCount = this.props.compareData.difference_distances.reduce((a,b) => a+b,0)
-    let values = null;
-    if (this.props.compareData) {
+
+    if (this.props.compareData && this.props.compareData.topic_diffs) totalCount = this.props.compareData.difference_distances.reduce((a,b) => a+b,0)
+
+    if (this.props.compareData && this.props.compareData.topic_diffs) {
+
       values = {
         agree: Math.round(1000 *(this.props.compareData.difference_distances[0]) / totalCount)/10+Math.round(1000 *(this.props.compareData.difference_distances[1]) / totalCount)/10,
         neutral: Math.round(1000 *(this.props.compareData.difference_distances[2]) / totalCount)/10,
         disagree: Math.round(1000 *(this.props.compareData.difference_distances[3]) / totalCount)/10+Math.round(1000 *(this.props.compareData.difference_distances[4]) / totalCount)/10,
         };
+        console.log('values', values)
     }
     console.log('totalCount.values', totalCount)
-    console.log('this.state', this.state)
-
-    let display_all = {};
 
     if(this.props.compareData) {
       let arr =[];
@@ -147,7 +154,11 @@ const CompareCollectionUsersView = observer(({data})=> {
       })
 
       const keys = Object.keys(this.props.compareData.topic_diffs)
-      //console.log('keys.length', keys.length)
+      let ids = []
+      keys.forEach(k => ids.push(this.props.compareData.topic_diffs[k].id))
+      console.log('keys.length', keys.length, keys, ids)
+
+
       let display = {};
       keys.map((k)=> {
         let check1 = false;
@@ -165,104 +176,103 @@ const CompareCollectionUsersView = observer(({data})=> {
     display_all = Object.assign(display_all, display);
 
   }
-
-    //console.log('result', Object.keys(display_all).length, display_all)
-
+    console.log('result', Object.keys(display_all).length, display_all)
+  }
     return (
-      this.props.compareData &&
-      <Card style={{marginBottom: '20px', border: '2px solid grey', boxShadow: '0px 0px 5px grey', height: 800}}>
-      <CardHeader
-        title={name}
-        subtitle={age ? age + ' years old, ' + location : location}
-        avatar={photo}
-        />
+      <div>
+        {!this.props.compareData || !this.props.compareData.topic_diffs ? <p>rendering</p> :
+        <Card style={{marginBottom: '20px', border: 'none', minHeight: 500}}>
+        <CardHeader
+          title={name}
+          subtitle={age ? age + ' years old, ' + location : location}
+          avatar={photo}
+          />
 
-        {/* in reality need to display if i'm following this user */}
-        <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 10px 0px'}}>
-        { this.props && this.props.following > 0 ?
-          <FlatButton
-            label="following"
-            primary={true}
-            style={{border: '2px solid green', borderRadius: 10, flex: 1, maxWidth: 120, color: 'green'}}
-            onTouchTap={this.removeFollowing}
-          /> :
-          <FlatButton
-            label="follow"
-            primary={false}
-            style={{border: '2px solid navy', borderRadius: 10, flex: 1, maxWidth: 120, color: 'navy'}}
-            onTouchTap={this.setFollowing}
-            /> }
+          {/* in reality need to display if i'm following this user */}
+          <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 5px 0px'}}>
+          { this.props && this.props.following > 0 ?
+            <FlatButton
+              label="following"
+              primary={true}
+              style={{border: '2px solid green', borderRadius: 10, flex: 1, maxWidth: 120, color: 'green'}}
+              onTouchTap={this.removeFollowing}
+            /> :
+            <FlatButton
+              label="follow"
+              primary={false}
+              style={{border: '2px solid navy', borderRadius: 10, flex: 1, maxWidth: 120, color: 'navy'}}
+              onTouchTap={this.setFollowing}
+              /> }
+            </div>
+
+
+          <div className='container'>
+            <div className='inner'>
+              <p>{count_question_votes}<br/>
+                <span>Answers</span>
+              </p>
+            </div>
+            <div className='inner'>
+              <p>{count_followers}<br/>
+              <span>Followers</span>
+              </p>
+            </div>
+            <div className='inner'>
+              <p>{count_comments}<br/>
+                <span>Comments</span>
+              </p>
+            </div>
           </div>
 
+        <div style={{backgroundColor: '#e6f7ff', padding: 10}}>
+          <div>
+            <p style={{fontSize: 26, textAlign: 'center'}}>{`${match}% average agreement`}</p>
+            <p>{`Compared across: ${this.props.compareData.questions_counted} questions`}</p>
+          </div>
 
-        <div className='container'>
-          <div className='inner'>
-            <p>{count_question_votes}</p>
-            <p>Answers</p>
-          </div>
-          <div className='inner'>
-            <p>{count_followers}</p>
-            <p>Followers</p>
-          </div>
-          <div className='inner'>
-            <p>{count_comments}</p>
-            <p>Comments</p>
-          </div>
-        </div>
+          <div className='containerSmall' style={{justifyContent: 'center', paddingTop: 0}}>
+            <div className='innerSmall'>
+              <p><img src='/icons/happy_face1.png'/>{` ${values.agree}%`}</p>
+              <CheckboxComponent label='AGREE' fill={labels['strongly_agree']['color']} handleCheck={this.handleCheck} value='agree' checked={this.state.checked[0]}/>
+            </div>
+            <div className='innerSmall'>
+              <p><img src='/icons/toll1.png'/>{` ${values.neutral}%`}</p>
+              <CheckboxComponent label='NEUTRAL' fill={labels['neutral']['color']} handleCheck={this.handleCheck} value='neutral' checked={this.state.checked[2]}/>
+            </div>
+            <div className='innerSmall'>
+              <p><img src='/icons/sad_face1.png'/>{` ${values.disagree}%`}</p>
+              <CheckboxComponent label='DISAGREE' fill={labels['strongly_disagree']['color']} handleCheck={this.handleCheck} value='disagree' checked={this.state.checked[4]}/>
 
-      <div style={{backgroundColor: '#e6f7ff', padding: 15}}>
-        <div>
-          {/* <p style={{fontSize: 14, fontWeight: 'bold'}}>How do I compare to {name}?</p> */}
-          <p style={{fontSize: 30, textAlign: 'center'}}>{`${concensus}%`}</p>
-          <p>avg. agreement</p>
-        </div>
-
-        <div className='containerSmall' style={{justifyContent: 'center'}}>
-          <div className='innerSmall'>
-            <p><span>&#9786;</span>{`${values.agree}%`}</p>
-            <CheckboxComponent label='AGREE' fill={labels['strongly_agree']['color']} handleCheck={this.handleCheck} value='agree' checked={this.state.checked[0]}/>
+            </div>
           </div>
-          <div className='innerSmall'>
-            <p><span>&#9737;</span>{`${values.neutral}%`}</p>
-            <CheckboxComponent label='NEUTRAL' fill={labels['neutral']['color']} handleCheck={this.handleCheck} value='neutral' checked={this.state.checked[2]}/>
-          </div>
-          <div className='innerSmall'>
-            <p><span>&#9785;</span>{`${values.disagree}%`}</p>
-            <CheckboxComponent label='DISAGREE' fill={labels['strongly_disagree']['color']} handleCheck={this.handleCheck} value='disagree' checked={this.state.checked[4]}/>
 
-          </div>
-        </div>
-
-        <CardText style={{paddingTop: 0}}>
           {this.props.compareData ? (
             <div>
               <MatchBarchart compareData={this.props.compareData} />
-              <CardText style={{paddingTop: 0}}>
-                <p>{`Compared across: ${this.props.compareData.questions_counted} questions`}</p>
-              </CardText>
-            </div>) : <LoadingIndicator />}
-        </CardText>
+              </div>) : <p></p>}
 
-        <CardText style={{paddingTop: 0}}>
-          {Object.keys(display_all).length >0 && (
-            <div className='barContainer'>
-            {Object.keys(display_all)//Object.keys(this.props.compareData.topic_diffs)
-              .map((d,i)=>
-              <li key={`i-${i}`} style={{listStyle: 'none', backgroundColor: 'transparent'}}>
-                <div>
-                  <div style={{display: 'block', marginLeft: 10, marginBottom: 2}}>
-                    {`On topic: ${d}`}
-                  </div>
-                  <div style={{display: 'block', marginLeft: 10, backgroundColor: 'transparent'}}>
-                    <SmallBarchart values_arr={display_all[d]['diffs']}/> {/* this.props.compareData.topic_diffs[d]['diffs']}/> */}
-                  </div>
 
-                </div>
-                </li>)}
-              </div>)}
-        </CardText>
-      </div>
-    </Card>
+          <CardText style={{paddingTop: 0}}>
+            {Object.keys(display_all).length >0 && (
+              <div className='barContainer'>
+              {Object.keys(display_all)//Object.keys(this.props.compareData.topic_diffs)
+                .map((d,i)=> {
+
+                  return <li key={`i-${i}`} style={{listStyle: 'none', backgroundColor: 'transparent'}}>
+                    <div>
+                      <div style={{display: 'block', marginLeft: 10, marginBottom: 2}}>
+                        {`On topic: ${d}`}
+                      </div>
+                      <div style={{display: 'block', marginLeft: 10, backgroundColor: 'transparent'}}>
+                        <SmallBarchart values_arr={display_all[d]['diffs']}/> {/* this.props.compareData.topic_diffs[d]['diffs']}/> */}
+                      </div>
+                      </div>
+                    </li>})}
+                </div>)}
+          </CardText>
+        </div>
+      </Card>}
+    </div>
   )
 }}
 

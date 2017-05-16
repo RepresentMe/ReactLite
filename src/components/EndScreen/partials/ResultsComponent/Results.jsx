@@ -31,7 +31,7 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
         if (!question){
           //do something
         }
-        else if (question.subtype === 'likert' && question.my_vote.length > 0){
+        else if (question.my_vote.length > 0 && question.subtype === 'likert'){
           // //propose to filter out choices with 0 vote, cause they crowd the space
           let myVote = null;
           if (question.my_vote.length > 0) {myVote = question.my_vote[0].value;}
@@ -81,6 +81,16 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
               {title: question['question']}
             ))
           }}
+          viewData.values = result;
+        }
+        //if didn't answer that question
+        else if (!question.my_vote.length){
+          let result = []
+          result.push( Object.assign({},
+            {full_name: null},
+            {percentage: null},
+            {fill: 'white'},
+            {title: question['question']}))
           viewData.values = result;
         }
       })
