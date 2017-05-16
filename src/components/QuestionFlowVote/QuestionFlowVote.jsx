@@ -32,7 +32,7 @@ class QuestionFlowVote extends Component {
     super(props)
     this.state = {
       votingModePrivate: this.getDefHideAnswers(),
-      text: this.getDefHideAnswers() ? 'privately' : 'publicly'
+      text: this.getDefHideAnswers() ? 'private' : 'public'
     }
     this.changeVoteMode = this.changeVoteMode.bind(this)
     this.getDefHideAnswers = this.getDefHideAnswers.bind(this)
@@ -40,14 +40,14 @@ class QuestionFlowVote extends Component {
 
   changeVoteMode() {
     const newValue = !this.state.votingModePrivate
-    const text = this.state.votingModePrivate ? 'publicly' : 'privately'
+    const text = this.state.votingModePrivate ? 'public' : 'private'
     this.setVotingModeState(newValue, text)
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (this.props.index !== nextProps.index) {
       const defHideAnswers = this.getDefHideAnswers()
-      const text = defHideAnswers ? 'privately' : 'publicly'
+      const text = defHideAnswers ? 'private' : 'public'
       this.setVotingModeState(defHideAnswers, text)
     }
   }
@@ -71,7 +71,7 @@ class QuestionFlowVote extends Component {
 
     return (
        <div style={{height: '100%'}}>
-          <div className="answering-mode-wrapper small">Answering <a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
+          <div className="answering-mode-wrapper small"><a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
           {
             showAnswered && 
               <div className="answered small">
@@ -80,10 +80,10 @@ class QuestionFlowVote extends Component {
           }
 
           {/*<div className="nav-buttons">*/}
-            <div>
+            <div className="nav-arrows">
               <Left style={ Object.assign({ left:'15px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } onClick={getPrevQuestion}/>
             </div>
-            <div>
+            <div className="nav-arrows">
               <Right style={Object.assign({ right:'15px', float: 'right' }, icon)} onClick={getNextQuestion}/>
             </div>
           {/*</div>*/}

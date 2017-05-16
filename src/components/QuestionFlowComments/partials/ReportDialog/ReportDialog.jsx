@@ -31,12 +31,11 @@ class ReportDialog extends Component {
 
     const actions = [
       <FlatButton
-        label="Cancel"
-        primary={true}
+        label="Cancel" 
         onTouchTap={handleClose}
       />,
       <FlatButton
-        label="Sand"
+        label="Send" 
         primary={true}
         onTouchTap={this.handleSand}
       />,
