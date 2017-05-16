@@ -175,7 +175,7 @@ class CompareCollectionUsersView extends Component {
         })}
         </Carousel>
 
-      
+
 
       <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 10, textAlign: 'center'}}>
         <MessengerPlugin
@@ -333,22 +333,36 @@ class UserCardSmall extends Component {
         <Dialog
           autoScrollBodyContent={true}
           open={this.state.compareDetails}
-          style={{padding: 5, minWidth: 680, maxWidth: 680, width: 680, overflow: 'auto', overflowX: 'hidden'}}>
+          style={{padding: 5, minWidth: 680, maxWidth: 680, width: 680, overflow: 'auto', position: 'none', display: 'block', margin: 'auto'}}
+          contentStyle={{width: 500}}
+          bodyStyle={{padding: 0, overflowX: 'hidden'}}>
 
           <div>
-            <CompareUsersDetailsComponent userIds={[this.props.user.id]}/>
+          <CardActions>
+            <IconButton onTouchTap={this.compare}
+              style={{position: 'absolute', right: 5, top: 15, color: 'grey'}}
+              >
+              <ClearIcon />
+            </IconButton>
+          </CardActions>
+
+          <CompareUsersDetailsComponent userIds={[this.props.user.id]}/>
+
+          <CardActions>
             <FlatButton
               label="back"
               primary={false}
               onTouchTap={this.compare}
               />
+          </CardActions>
           </div>
 
         </Dialog>
 
     </Card>
   )
-}}
+}}import IconButton from 'material-ui/IconButton';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 const SignInToSeeView = () => {
   return (<div className="sign-in-to-see">

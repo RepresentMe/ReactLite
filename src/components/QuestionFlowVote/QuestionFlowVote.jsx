@@ -69,9 +69,16 @@ class QuestionFlowVote extends Component {
     const { hiddenIcon, icon } = styles
     const showAnswered = !!currentQuestion.my_vote.length
 
+
+ 
+
+
     return (
        <div style={{height: '100%'}}>
-          <div className="answering-mode-wrapper small"><a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
+          <div className="answering-mode-wrapper small">
+          <a onClick={this.changeVoteMode}>{ this.state.text }</a>
+          <IndoIcon onClick={() => this.isPrivacyInfoModalOpen.set(true)} style={{width:15, height:15,verticalAlign: 'middle',margin: '-3px 0 0 4px', cursor: 'pointer'}} />
+          </div>
           {
             showAnswered && 
               <div className="answered small">

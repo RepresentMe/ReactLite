@@ -26,18 +26,24 @@ const {
 const FacebookIcon = generateShareIcon('facebook')
 const TwitterIcon = generateShareIcon('twitter')
 
-@inject("UserStore", "QuestionCommentsStore")
+@inject("UserStore", "QuestionCommentsStore", "RoutingStore")
 @observer
 class Comment extends Component {
 
-constructor(props) {
+  constructor(props) {
 
-  super(props)
+    super(props)
     this.state = {
       sharePopover: {
         isOpen: false,
         curAnchorEl: null
       }
+    }
+    const routeElems = props.RoutingStore.location.pathname.split('/');
+    this.route = {
+      collectionId: routeElems[2],
+      questionIndex: routeElems[4],
+      dynamicConfig: routeElems[6]
     }
   }
 
@@ -70,8 +76,12 @@ constructor(props) {
     document.getElementsByClassName(`twitter-network__share-button${this.props.comment.id}`)[0].click()
   }
 
+  changeMyAnswer = () => {
+    this.props.RoutingStore.push(`/survey/${this.route.collectionId}/flow/${this.route.questionIndex}/vote/${this.route.dynamicConfig}`)
+  }
+
   render() {
-    const { comment, UserStore, onDelete, onReport, question } = this.props
+    const { RoutingStore, comment, UserStore, onDelete, onReport, question } = this.props
     const { question_info, id } = comment
 
     const shareUrl = `https://app.represent.me/question/${question_info.id}/${question.slug}/comment${id}/`;
@@ -99,7 +109,8 @@ constructor(props) {
           size={32}
           round />
       </TwitterShareButton>
-    )
+    ) 
+    
 
     return (
       <div className="comment">
@@ -121,7 +132,7 @@ constructor(props) {
           <div className="buttons">
             <a className="reply">Reply</a>
             <span className="dot"> · </span>
-            <a className="change-answer">Change my answer</a>
+            <a className="change-answer" onClick={this.changeMyAnswer}>Change my answer</a>
             <span className="dot"> · </span>
             <span className="date">{moment(comment.modified_at).format('DD MMM')}</span>
             <span className="dot"> · </span>
