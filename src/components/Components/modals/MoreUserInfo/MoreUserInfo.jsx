@@ -17,6 +17,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import GeoService from '../../../../services/GeoService';
+import Autocomplete from 'react-google-autocomplete';
 
 const customContentStyle = {
   width: '97vw', 
@@ -35,6 +36,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
       ddDOB: null,
       ddGender: null,
       txtPostcode: "",
+      address: null,
       checkedPostcode: false,
       step: 0,
       problems: [],
@@ -92,7 +94,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
       problems.push("Please select your gender, or choose 'I would rather not say'");
     }
 
-    if (!this.state.checkedPostcode && (this.state.txtPostcode.length < 2 || this.state.txtPostcode.length > 8)) {
+    if (!this.state.address['geometry']) {
       problems.push("Please enter a valid postcode!");
     }
 
@@ -101,16 +103,22 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
       return;
     }
 
-    let googleLocation = {
-      "type": "Point",
-      "coordinates": [this.state.lng, this.state.lat],
-    };
+    const locLat = this.state.address['geometry']['location'].lat();
+    const locLon = this.state.address['geometry']['location'].lng();
+    let location = null;
+    if (!!locLat) {
+        location = {
+            "type": "Point",
+            "coordinates": [locLon, locLat]
+        };
+    }
+    const address = this.state.address.formatted_address;
 
     window.API.patch("/auth/me/", {
       dob: this.state.ddDOB.substring(0, 10),
       gender: this.state.ddGender,
-      address: (this.state.checkedPostcode ? this.state.txtPostcode : undefined),
-      location: (this.state.checkedPostcode ? googleLocation : undefined),
+      address: address,
+      location: location,
     }).then((response) => {
       this.setState({ shown: false })
     }).catch((error) => {
@@ -144,12 +152,15 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
 
         <p style={{ margin: 0}}><strong>Please verify your profile.</strong><br/> <em>Your personal information safe and not for sale.</em></p>
 
-        <TextField
-          floatingLabelText="Postcode"
-          style={{ width: '100%' }}
-          floatingLabelFocusStyle={{ color: cyan600 }}
-          defaultValue={this.state.txtPostcode}
-          onChange={(e, newValue) => this.updateField('txtPostcode', newValue)}
+        <Autocomplete
+            style={{width: '90%', zIndex: 99999999}}
+            onPlaceSelected={(place) => {
+              this.setState({
+                address: place
+              })
+            }}
+            types={['(regions)']}
+            componentRestrictions={{}}
         />
 
         <DateOfBirth onChange={(newValue) => this.updateField('ddDOB', newValue)} value={this.state.ddDOB} />
