@@ -229,7 +229,6 @@ const styles = {
           email: this.state.email,
           username: this.generateUsername(this.state.email),
           password: this.state.password,
-          defHideAnswers: this.state.anonymous,
           agreed_terms: this.state.agreedTerms
         }).then((response) => {
           console.log('response from /auth/register/', response)

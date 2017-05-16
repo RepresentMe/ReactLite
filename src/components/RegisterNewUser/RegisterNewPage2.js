@@ -63,18 +63,18 @@ const Page2 = (props) => {
           errorStyle={styles.errorStyle}
           onChange={(e, newValue) => props.handleInput('password', newValue)}
           />
-        <Checkbox onCheck={props.makeAnonimous}
+        {/* <Checkbox onCheck={props.makeAnonimous}
             label='Make my answers anonymous by default'
             labelPosition='right'
             style={{margin: '10px 0px'}}
             labelStyle={{fontSize: '0.8rem', fontWeight: 'bold'}}
             value={props.anonymous}
             checked={props.anonymous}
-            />
-        <p style={{textAlign: 'center', fontSize: '12px', textAlign: 'left'}}>
+            /> */}
+        {/* <p style={{textAlign: 'center', fontSize: '12px', textAlign: 'left'}}>
           If you are hoping to represent people or let people
           copy your votes, you should probably leave unticked.
-        </p>
+        </p> */}
 
         <RaisedButton
           label={<span className='fbMockButton'>create my account</span>}

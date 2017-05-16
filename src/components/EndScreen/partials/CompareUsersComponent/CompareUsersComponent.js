@@ -37,7 +37,10 @@ class CompareCollectionUsers extends Component {
   // }
 
   render() {
-    const { CollectionStore, UserStore, QuestionStore, collectionId = 1} = this.props;
+    let { CollectionStore, UserStore, QuestionStore, collectionId = 1} = this.props;
+    const path = window.location.pathname;
+    const parsed = parseInt(path.slice(path.indexOf('survey/') + 7, path.indexOf('survey/', path.indexOf('survey/') + 8) + path.indexOf('/')))
+    collectionId = parsed ? parsed : 1
     const propUserIds = this.props.userIds.peek();
     const userIds = (propUserIds.length && propUserIds) || [100, 7,322,45];
     let userLoggedIn = UserStore.isLoggedIn();
@@ -142,7 +145,7 @@ class CompareCollectionUsersView extends Component {
     }
 
     let tagsLength = 3;
-    if (data.collection_tags[0].length && this.state.tagsOpened){
+    if (data.collection_tags && this.state.tagsOpened){
       tagsLength = data.collection_tags[0].length;
     }
 
@@ -222,8 +225,6 @@ class CompareCollectionUsersView extends Component {
 
 
       <CardText>
-        <p style={{textAlign: 'left'}}>Your interests</p>
-        <p style={{textAlign: 'left'}}>Would you like to see more of any of these?</p>
         <a href='#' style={{textDecoration: 'underline'}} onTouchTap={this.openTags}>(Browse all topics)</a>
         {this.props.data.collection_tags[0] && this.props.data.collection_tags[0].length &&
           this.props.data.collection_tags[0].slice(0, tagsLength).map((tag, i) => {
