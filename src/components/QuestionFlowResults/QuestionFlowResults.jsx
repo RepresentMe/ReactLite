@@ -16,7 +16,7 @@ import './QuestionFlowResults.css'
 @observer
 class QuestionFlowResults extends Component {
 
-  showingTabIndex = observable("map"); // bar, map, people
+  showingTabIndex = observable("pie"); // bar, map, people
   constructor() {
     super(...arguments)
 
@@ -41,8 +41,6 @@ class QuestionFlowResults extends Component {
     const curTab = this.showingTabIndex.get();
     return (
       <div>
-        {(curTab == 'pie' || curTab == 'bar') && <QuestionLiquidPiechart questionId={question.id} pie={curTab == 'pie'}/>}
-        {(curTab == 'map' || curTab == 'people') && <PlaceholderScreen tab={this.showingTabIndex} question={question} />}
         <div className="buttonBoxing">
           <IconButton onClick={e => this.changeGraph("people")} touch={true} tooltipPosition="top-center" className={curTab == 'people' ? "buttonBorder selectedButton" : "buttonBorder"}>
             <AccountMultiple className={curTab == 'people' ? "selectedButton" : ""} />
@@ -57,6 +55,9 @@ class QuestionFlowResults extends Component {
             <MapMarker className={curTab == 'map' ? "selectedButton" : ""} />
           </IconButton>
         </div>
+        {(curTab == 'pie' || curTab == 'bar') && <QuestionLiquidPiechart questionId={question.id} pie={curTab == 'pie'}/>}
+        {(curTab == 'map' || curTab == 'people') && <PlaceholderScreen tab={this.showingTabIndex} question={question} />}
+        
       </div>
     )
   }
@@ -67,7 +68,7 @@ const PlaceholderScreen = observer(({tab, question}) => {
     <div style={{display:'block', maxWidth: '350px', margin:'0 auto', textAlign: 'center'}}>
       <img style={{width: 350}} src={tab.get() == 'map' ?'https://d2ppvlu71ri8gs.cloudfront.net/items/3i3K071k3Q1e0j1A3e2R/Screen%20Shot%202017-05-16%20at%2013.15.45.png?v=d446acf2' : 'https://d2ppvlu71ri8gs.cloudfront.net/items/1m3Q3U3o02263K04470G/Image%202017-05-16%20at%201.13.37%20pm.png?v=3c947268'} />
       <p style={{margin:'30px 0 0 0'}}>This feature isn't available just here (yet!) but you can still see the result looking something like the image above over at the main site: <a style={{textDecoration: 'underline'}} href="https://represent.me">represent.me</a></p>
-      <RaisedButton label="Take me there >" style={{margin: '40px 0 20px'}} backgroundColor="#3b5998" href={`https://app.represent.me/question/${question.id}/${question.slug}/`} />
+      <RaisedButton label="Take me there" style={{margin: '40px 0 20px'}} backgroundColor="#1B8AAE" href={`https://app.represent.me/question/${question.id}/${question.slug}/`} />
     </div>
   </div>)
 })

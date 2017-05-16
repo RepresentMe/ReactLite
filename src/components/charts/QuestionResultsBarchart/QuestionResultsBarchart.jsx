@@ -19,7 +19,7 @@ const QuestionResultsBarchart = inject("AppStatisticsStore")(observer(({ AppStat
 const SELECTED_BAR_BACKGROUND = '#1B8AAE';
 const BAR_BACKGROUND = '#e6e6e6';
 const BAR_HEIGHT = 24;
-const BAR_MATGIN_TOP = 7;
+const BAR_MATGIN_TOP = 27;
 
 const QuestionResultsBarchartView = observer(({ data }) => {
   return (
