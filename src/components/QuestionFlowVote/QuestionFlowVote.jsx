@@ -32,7 +32,7 @@ class QuestionFlowVote extends Component {
     super(props)
     this.state = {
       votingModePrivate: this.getDefHideAnswers(),
-      text: this.getDefHideAnswers() ? 'privately' : 'publicly'
+      text: this.getDefHideAnswers() ? 'private' : 'public'
     }
     this.changeVoteMode = this.changeVoteMode.bind(this)
     this.getDefHideAnswers = this.getDefHideAnswers.bind(this)
@@ -40,14 +40,14 @@ class QuestionFlowVote extends Component {
 
   changeVoteMode() {
     const newValue = !this.state.votingModePrivate
-    const text = this.state.votingModePrivate ? 'publicly' : 'privately'
+    const text = this.state.votingModePrivate ? 'public' : 'private'
     this.setVotingModeState(newValue, text)
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (this.props.index !== nextProps.index) {
       const defHideAnswers = this.getDefHideAnswers()
-      const text = defHideAnswers ? 'privately' : 'publicly'
+      const text = defHideAnswers ? 'private' : 'public'
       this.setVotingModeState(defHideAnswers, text)
     }
   }
@@ -69,9 +69,16 @@ class QuestionFlowVote extends Component {
     const { hiddenIcon, icon } = styles
     const showAnswered = !!currentQuestion.my_vote.length
 
+
+ 
+
+
     return (
        <div style={{height: '100%'}}>
-          <div className="answering-mode-wrapper small">Answering <a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
+          <div className="answering-mode-wrapper small">
+          <a onClick={this.changeVoteMode}>{ this.state.text }</a>
+          <IndoIcon onClick={() => this.isPrivacyInfoModalOpen.set(true)} style={{width:15, height:15,verticalAlign: 'middle',margin: '-3px 0 0 4px', cursor: 'pointer'}} />
+          </div>
           {
             showAnswered && 
               <div className="answered small">
@@ -80,10 +87,10 @@ class QuestionFlowVote extends Component {
           }
 
           {/*<div className="nav-buttons">*/}
-            <div>
+            <div className="nav-arrows">
               <Left style={ Object.assign({ left:'15px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } onClick={getPrevQuestion}/>
             </div>
-            <div>
+            <div className="nav-arrows">
               <Right style={Object.assign({ right:'15px', float: 'right' }, icon)} onClick={getNextQuestion}/>
             </div>
           {/*</div>*/}
@@ -259,5 +266,11 @@ const Checkbox = ({selected, isHovered}) => {
   </div>);
 } 
 
+const IndoIcon = (props) => {
+  return <svg xmlns="http://www.w3.org/2000/svg" fill="#444" height="24" viewBox="0 0 24 24" width="24" {...props}>
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+  </svg>
+}
 
 export default QuestionFlowVote;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,15 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import GeoService from '../../../../services/GeoService';
+
+const customContentStyle = {
+  width: '97vw',
+  height: '98vh',
+  maxWidth: '600px',
+  padding: '10px !Important',
+  
+};
+
 
 export default @observer @inject("UserStore") class MoreUserInfo extends Component {
 
@@ -115,9 +124,11 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
       <Dialog
         open={this.state.shown}
         onRequestClose={this.closeModal}
+        modal={false}
+        contentStyle={customContentStyle}
         autoScrollBodyContent={true}>
 
-        <p>Your age and location helps us make sure your voice is heard by representatives, and helps show who wants what where. Improve.</p>
+        <p style={{ margin: 0}}><strong>Please verify your profile.</strong><br/> <em>Your personal information safe and not for sale.</em></p>
 
         <TextField
           floatingLabelText="Postcode"
@@ -146,9 +157,9 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
           );
         })}
 
-        <div style={{float: 'right'}}>
-          <RaisedButton label="Skip for now" onClick={this.closeModal} primary={true} style={{marginRight: '10px'}}/>
-          <RaisedButton label="Continue" onClick={this.updateDetails} />
+        <div>
+          <FlatButton label="Skip" onClick={this.closeModal} style={{marginRight: '10px', color: '#999'}}/>
+          <FlatButton label="Continue" primary={true} onClick={this.updateDetails} />
         </div>
       </Dialog>
     )
