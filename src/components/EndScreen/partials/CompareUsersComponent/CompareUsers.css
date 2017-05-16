@@ -31,9 +31,8 @@
 }
 .barContainer{
   width: 100%;
-  height: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 300px;
+  overflow: hidden;
   background-color: #e6ffff;
 }
 
@@ -42,6 +41,7 @@
   margin: 20px;
   color: #999;
 }
+
 
 .fb-send-to-messenger {
   width: 175px;

@@ -41,8 +41,8 @@ if (location.host === 'open.represent.me') { // Test server override defaults
   window.API = axios.create({
     baseURL: 'https://api.represent.me'
   });
-}else 
-// if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me' || location.host === 'open.represent.me' || location.host === 'openv2.represent.me') 
+}else
+// if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me' || location.host === 'open.represent.me' || location.host === 'openv2.represent.me')
 { // Test server override defaults
   window.authSettings.facebookId = 1684727181799018;
   window.API = axios.create({

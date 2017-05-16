@@ -31,7 +31,7 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
         if (!question){
           //do something
         }
-        else if (question.subtype === 'likert' && question.my_vote.length > 0){
+        else if (question.my_vote.length > 0 && question.subtype === 'likert'){
           // //propose to filter out choices with 0 vote, cause they crowd the space
           let myVote = null;
           if (question.my_vote.length > 0) {myVote = question.my_vote[0].value;}
@@ -45,8 +45,9 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
           for (let i = 0; i < labels.length; i++){
             if (myVote !== null && myVote === i+1) {
               const percentage = myVote < 2 ? sumDisagree : myVote > 2 ? sumAgree : Math.round(question[labels[i]]*1000/sumLikert)/10;
+              const full_name = likertProps[labels[i]]['name'] === "Medium" ? "Neutral" : likertProps[labels[i]]['name']
               result.push(Object.assign({},
-                {full_name: likertProps[labels[i]]['name']},
+                {full_name},
                 //{value: (Math.round(question[labels[i]]*1000/sumLikert)/10)},
                 {percentage},
                 {fill: likertProps[labels[i]]['color']},
@@ -81,6 +82,16 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
               {title: question['question']}
             ))
           }}
+          viewData.values = result;
+        }
+        //if didn't answer that question
+        else if (!question.my_vote.length){
+          let result = []
+          result.push( Object.assign({},
+            {full_name: null},
+            {percentage: null},
+            {fill: 'white'},
+            {title: question['question']}))
           viewData.values = result;
         }
       })

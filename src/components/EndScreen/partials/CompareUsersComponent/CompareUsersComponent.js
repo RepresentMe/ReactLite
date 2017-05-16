@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import {Card, CardHeader, CardText, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
 
 import LoadingIndicator from '../../../LoadingIndicator';
 import MessengerPlugin from 'react-messenger-plugin';
@@ -20,6 +21,7 @@ import Carousel from 'nuka-carousel';
 import DynamicConfigService from '../../../../services/DynamicConfigService';
 
 import Results from '../ResultsComponent';
+import CompareUsersDetailsComponent from '../CompareUsersDetailsComponent';
 import './CompareUsers.css';
 
 @inject("CollectionStore", "UserStore", "QuestionStore")
@@ -43,7 +45,8 @@ class CompareCollectionUsers extends Component {
       users: observable.shallowArray([]),
       compareData: observable.shallowMap(),
       following: observable.shallowMap(),
-      questions: observable.shallowArray()
+      questions: observable.shallowArray(),
+      collection_tags: observable.shallowArray([])
     });
 
     // if (!userIds.length) console.log('No users specified to compare');
@@ -52,6 +55,20 @@ class CompareCollectionUsers extends Component {
         .then((res) => {
           return viewData.questions.push(res)
         })
+
+        const getCollectionTags = (collectionId) => {
+            window.API.get('/api/tags/?ordering=-followers_count')
+              .then((response) => {
+                if(response.data.results) {
+                  return viewData.collection_tags.push(response.data.results);
+                }
+              })
+              .catch((error) => {
+                console.log(error, error.response.data);
+              })
+          }
+          getCollectionTags();
+
       userIds.map((id) => {
         UserStore.getUserById(id).then((res) => {
           return viewData.users.push(res)
@@ -62,7 +79,9 @@ class CompareCollectionUsers extends Component {
         })
         UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
 
+
       })
+
     }
 
     return <CompareCollectionUsersView data={viewData} />
@@ -81,12 +100,36 @@ const heading = {
 
 
 //View of short compare and short questions info
-@inject("UserStore")
+@inject("UserStore", "data")
 @observer
 class CompareCollectionUsersView extends Component {
+  state={
+    tagsOpened: false
+  }
+
+  openTags = () => {
+    const tagsOpened = !this.state.tagsOpened;
+    this.setState({tagsOpened})
+  }
+  followTag = (tagId, following) => {
+    if (following) {
+        window.API.post(`/api/tags/${tagId}/follow/`)
+          .then((response) => {})
+          .catch((error) => {
+            console.log(error);
+          })
+      }
+      else {
+        window.API.post(`/api/tags/${tagId}/unfollow/`)
+          .then((response) => {})
+          .catch((error) => {
+            console.log(error);
+          })
+      }}
+
   render() {
     const {data, UserStore} = this.props;
-  
+
     if (!data.isLoggedIn) return <SignInToSeeView />;
     if (!data.questions.length || !data.users.length || !data.following || !data.compareData)
       return <LoadingIndicator />;
@@ -98,6 +141,10 @@ class CompareCollectionUsersView extends Component {
       messengerRefData += "+auth_token=" + authToken;
     }
 
+    let tagsLength = 3;
+    if (data.collection_tags[0].length && this.state.tagsOpened){
+      tagsLength = data.collection_tags[0].length;
+    }
 
     return (
       <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', background: '#f5f5fe'}}>
@@ -127,9 +174,9 @@ class CompareCollectionUsersView extends Component {
           )
         })}
         </Carousel>
-      {/* </div> */}
 
-  
+
+
       <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc', width: '200px', textAlign: 'center'}}>
         <MessengerPlugin
           appId={String(window.authSettings.facebookId)}
@@ -138,15 +185,13 @@ class CompareCollectionUsersView extends Component {
           passthroughParams={messengerRefData}
         />
       </div>
-  
 
-      {/* <div style={{display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420, border: '3px solid lime', overflow: 'auto'}}> */}
-      {/* <div> */}
+
 
       <h2 style={heading} >All results</h2>
       <Carousel
         autoplay={true}
-        autoplayInterval={2000} 
+        autoplayInterval={2000}
         slidesToShow={1}
         slidesToScroll={1}
         wrapAround={true}
@@ -155,65 +200,65 @@ class CompareCollectionUsersView extends Component {
         dragging={true}
         slideWidth="240px"
         speed={500}
-        style={{minHeight: 260}}
+        style={{minHeight: 400}}
         >
+
       {data.questions.length > 0 &&
         data.questions[0].map((question, i) => {
-          {/*console.log('question', question)*/}
-        return (
+          return (
           <div key={`ques-${i}`} style={{}}>
             <Results questionId={question.object_id}/>
+
           </div>
         )
       })
         }
         </Carousel>
-      {/* </div> */}
+
 
 
       <h2 style={heading} >Your interests</h2>
       <p>Would you like to see more of any of these?</p>
 
+
       <CardText>
         <p style={{textAlign: 'left'}}>Your interests</p>
         <p style={{textAlign: 'left'}}>Would you like to see more of any of these?</p>
-        <a href='#' style={{textDecoration: 'underline'}}>(Browse all topics)</a>
+        <a href='#' style={{textDecoration: 'underline'}} onTouchTap={this.openTags}>(Browse all topics)</a>
+        {this.props.data.collection_tags[0] && this.props.data.collection_tags[0].length &&
+          this.props.data.collection_tags[0].slice(0, tagsLength).map((tag, i) => {
 
-        <div style={{marginTop: 10}}>
-          <Toggle
-            label="Politics"
-            style={{marginBottom: 0, }}
-          />
-          <Toggle
-            label="War"
-            style={{marginBottom: 0}}
-          />
-          <Toggle
-            label="Education"
-            defaultToggled={true}
-            style={{marginBottom: 0}}
-          />
-        </div>
-
+          return (
+            <div key={`tag-${i}`} style={{marginTop: 10}}>
+              <Toggle
+                defaultToggled={tag.following}
+                label={tag.text}
+                style={{marginBottom: 0, }}
+                onToggle={() => this.followTag(tag.id, tag.following)}
+              />
+            </div>
+          )
+        })}
     </CardText>
   </div>
 
-  )
-  }
+)}
 }
 
 
-@inject("user", "compareData", 'following', 'UserStore') 
-@observer 
+//<<<<<<< HEAD
+@inject("user", "compareData", 'following', 'UserStore')
+@observer
 class UserCardSmall extends Component {
   constructor(props) {
     super(props);
     this.state = {
       //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
-      checked: [true,true,false,false,false]
+      checked: [true,true,false,false,false],
+      compareDetails: false
     }
   }
- 
+
 
   setFollowing = () => {
     this.props.UserStore.setFollowing(this.props.compareData.userb).then((res) => {
@@ -224,6 +269,12 @@ class UserCardSmall extends Component {
     this.props.UserStore.removeFollowing(this.props.following.value);
     this.props.following.set(0);
   }
+  compare = () => {
+    console.log('this.props.user.id', this.props.user.id)
+    const compareDetails = !this.state.compareDetails;
+    this.setState({compareDetails})
+  }
+
   render(){
     // if (!this.props.user) return null;
     if (!this.props.user) return <LoadingIndicator />;
@@ -285,10 +336,22 @@ class UserCardSmall extends Component {
           <FlatButton
         label="compare"
         primary={true}
-        //onTouchTap={this.compare}
+        onTouchTap={this.compare}
         />
         </CardActions>
+        <Dialog
+          autoScrollBodyContent={true}
+          open={this.state.compareDetails}>
+          <div>
+            <CompareUsersDetailsComponent userIds={[this.props.user.id]}/>
+            <FlatButton
+              label="back"
+              primary={false}
+              onTouchTap={this.compare}
+              />
+          </div>
 
+        </Dialog>
 
     </Card>
   )
