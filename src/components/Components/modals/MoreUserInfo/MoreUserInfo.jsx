@@ -24,7 +24,16 @@ const customContentStyle = {
   maxWidth: '600px', 
 };
 
-
+const autocompleteStyle = {
+  height: '44px',
+  fontSize: '15px',
+  borderTop: 0,
+  width: '100%',
+  zIndex: 99999999,
+  borderLeft: 0,
+  borderRight: 0,
+  borderBottom: '1px solid #e4e4e4'
+}
 
 
 export default @observer @inject("UserStore") class MoreUserInfo extends Component {
@@ -153,7 +162,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         <p style={{ margin: 0}}><strong>Please verify your profile.</strong><br/> <em>Your personal information safe and not for sale.</em></p>
 
         <Autocomplete
-            style={{width: '90%', zIndex: 99999999}}
+            style={autocompleteStyle}
             onPlaceSelected={(place) => {
               this.setState({
                 address: place
