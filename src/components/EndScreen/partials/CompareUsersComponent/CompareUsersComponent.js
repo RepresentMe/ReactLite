@@ -175,9 +175,9 @@ class CompareCollectionUsersView extends Component {
         })}
         </Carousel>
 
+      
 
-
-      <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc', width: '200px', textAlign: 'center'}}>
+      <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 10, textAlign: 'center'}}>
         <MessengerPlugin
           appId={String(window.authSettings.facebookId)}
           pageId={String(window.authSettings.facebookPageId)}
