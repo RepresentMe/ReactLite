@@ -7,11 +7,6 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import LoadingIndicator from '../../../LoadingIndicator';
-
-import Divider from 'material-ui/Divider';
-import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-import { TwitterButton } from "react-social";
-import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
 import Toggle from 'material-ui/Toggle';
 import Avatar from 'material-ui/Avatar';
 
@@ -21,7 +16,8 @@ import Results from '../ResultsComponent';
 import './CompareUsers.css';
 
 
-const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")(observer(({ CollectionStore, UserStore, QuestionStore, userIds = [100, 7,322,45], collectionId = 1}) => {
+const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionStore")
+      (observer(({ CollectionStore, UserStore, QuestionStore, userIds = [100, 7, 322, 45], collectionId = 1}) => {
 
   let userLoggedIn = UserStore.isLoggedIn();
   let currentUserId = userLoggedIn && UserStore.userData.get("id");
@@ -39,15 +35,16 @@ const CompareCollectionUsers = inject("CollectionStore", "UserStore", "QuestionS
       .then((res) => {
         return viewData.questions.push(res)
       })
-    userIds.map((id) => {
-      UserStore.getUserById(id).then((res) => {
-        return viewData.users.push(res)
+    UserStore.amFollowingUsers(currentUserId, userIds).then(res => {
+      const results = res.results;
+      results.forEach(({ following, id }) => viewData.following.set(following, id))
+    })
+    userIds.forEach(id => {
+      UserStore.getUserById(id).then(res => {
+        viewData.users.push(res)
       })
-      UserStore.amFollowingUser(currentUserId, id).then((res) => {
-        let result = res.results.length > 0 ? res.results[0].id : 0;
-        return viewData.following.set(id, result)
-      })
-      UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
+
+      UserStore.compareUsers(currentUserId, id).then(res => {viewData.compareData.set(id, res)})
 
     })
   }
@@ -194,24 +191,16 @@ class UserCardSmall extends Component {
   render(){
     // if (!this.props.user) return null;
     if (!this.props.user) return <LoadingIndicator />;
-    let name, age, photo, bio,
-      location, count_comments,
-      count_followers, count_following_users,
-      count_group_memberships,
-      count_question_votes, count_votes;
-    if (this.props.user) {
-      name = this.props.user.first_name ? this.props.user.first_name + ' ' + this.props.user.last_name : this.props.user.username;
-      age = this.props.user.age ? this.props.user.age  : '';
-      bio = this.props.user.bio ? this.props.user.bio  : '';
-      photo = this.props.user.photo ? this.props.user.photo.replace("localhost:8000", "represent.me") : `./img/pic${Math.floor(Math.random()*7)}.png`;;
-      location = (this.props.user.country_info ? this.props.user.country_info.name + (this.props.user.region_info ? ', ' : '') : '') + (this.props.user.region_info ? this.props.user.region_info.name : '');
-      count_comments = this.props.user.count_comments
-      count_followers = this.props.user.count_followers
-      count_following_users = this.props.user.count_following_users
-      count_group_memberships = this.props.user.count_group_memberships
-      count_question_votes = this.props.user.count_question_votes
-      count_votes = this.props.user.count_votes
-    }
+
+    const { user } = this.props
+
+    const name = user.first_name ? `${user.first_name} ${user.last_name}` : user.username;
+    const age = user.age ? user.age  : '';
+    const bio = user.bio ? user.bio  : '';
+    const photo = user.photo ? user.photo.replace("localhost:8000", "represent.me") : `./img/pic${Math.floor(Math.random()*7)}.png`;;
+    const location = (user.country_info ? user.country_info.name + (user.region_info ? ', ' : '') : '') + (user.region_info ? user.region_info.name : '');
+    const { count_comments, count_followers, count_following_users, count_group_memberships, count_question_votes, count_votes } = user
+
     let match = '';
     if(this.props.compareData) {
      match = Math.floor(100-this.props.compareData.difference_percent)
