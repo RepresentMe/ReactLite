@@ -5,6 +5,7 @@ import { observable } from "mobx"
 import ReactMarkdown from 'react-markdown';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
 
 
 import Left from 'material-ui/svg-icons/navigation/arrow-back';
@@ -26,8 +27,10 @@ const styles = {
 }
 
 @inject("UserStore")
+@observer
 class QuestionFlowVote extends Component {
-  
+
+  isPrivacyInfoModalOpen = observable(false)
   constructor(props) {
     super(props)
     this.state = {
@@ -71,7 +74,11 @@ class QuestionFlowVote extends Component {
 
     return (
        <div style={{height: '100%'}}>
-          <div className="answering-mode-wrapper small">Answering <a onClick={this.changeVoteMode}>{ this.state.text }</a></div>
+          <div className="answering-mode-wrapper small">
+            Answering&nbsp;
+            <a onClick={this.changeVoteMode}>{ this.state.text }</a>
+            <IndoIcon onClick={() => this.isPrivacyInfoModalOpen.set(true)} style={{width:15, height:15,verticalAlign: 'middle',margin: '-3px 0 0 4px', cursor: 'pointer'}} />
+          </div>
           {
             showAnswered && 
               <div className="answered small">
@@ -90,11 +97,27 @@ class QuestionFlowVote extends Component {
 
             {item.type === "Q" && <RenderedQuestion id={item.object_id} index={index} onVote={onVote} key={"FlowTransition" + index} defHideAnswer={this.state.votingModePrivate}/>}
             {item.type === "B" && <RenderedBreak title={item.content_object.title} text={item.content_object.text} onContinue={navigateNext}/>}
-
+            <PrivacyModalDialog isOpen={this.isPrivacyInfoModalOpen} />
         </div>
     )
   }
 }
+
+const PrivacyModalDialog = observer(({ isOpen }) => {
+  return (<Dialog
+      title="Dialog With Actions"
+      modal={false}
+      open={isOpen.get()}
+      onRequestClose={() => isOpen.set(false)}
+      bodyStyle={{}}
+      style={{}}
+      contentStyle={{width: '600px'}}
+      bodyStyle={{}}
+    >
+      The actions in this window were passed in as an array of React objects.
+  </Dialog>)
+})
+
 
 const MiddleDiv = ({children}) => (
   <div style={{ display: 'table', width: '100%', height: '70vh', overflow: 'scroll' }}>
@@ -259,5 +282,11 @@ const Checkbox = ({selected, isHovered}) => {
   </div>);
 } 
 
+const IndoIcon = (props) => {
+  return <svg xmlns="http://www.w3.org/2000/svg" fill="#444" height="24" viewBox="0 0 24 24" width="24" {...props}>
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+  </svg>
+}
 
 export default QuestionFlowVote;

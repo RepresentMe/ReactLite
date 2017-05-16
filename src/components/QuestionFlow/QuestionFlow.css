@@ -261,7 +261,7 @@ a {
 
 .answering-mode-wrapper {
     position: fixed;
-    top: 2px;
+    top: 4px;
     width: inherit;
     left: 45%;
     z-index: 9999;

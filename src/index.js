@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
 import Shell from './components/Shell';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Provider } from 'mobx-react';
@@ -67,6 +68,7 @@ window.stores = {
   QuestionCommentsStore:     new QuestionCommentsStore(),
   UrlPreviewStore:     new UrlPreviewStore(),
   GroupStore:     new GroupStore(),
+  RoutingStore: new RouterStore()
 }
 
 window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
@@ -86,6 +88,7 @@ window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
       }
     );
   }
+  history = syncHistoryWithStore(history, window.stores.RoutingStore);
 
   ReactDOM.render(
     <div>
@@ -99,6 +102,7 @@ window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
         QuestionCommentsStore={window.stores.QuestionCommentsStore}
         UrlPreviewStore={window.stores.UrlPreviewStore}
         GroupStore={window.stores.GroupStore}
+        RoutingStore={window.stores.RoutingStore}
         >
         <Shell history={history}/>
       </Provider>
