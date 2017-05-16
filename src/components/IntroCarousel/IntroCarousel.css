@@ -6,11 +6,11 @@
 .cardStyleIntro {
   max-width: 280px;
   min-width: 250px;
-  margin: 10px;
+  padding: 10px;
   display: inline-block;
   vertical-align: top;
-  min-height: 300px;
-  max-height: 300px;
+  min-height: 350px;
+  max-height: 350px;
 }
 
 /*for small screens*/

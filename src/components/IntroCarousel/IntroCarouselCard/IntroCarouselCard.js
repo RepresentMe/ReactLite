@@ -31,8 +31,7 @@ const IntroCarouselCard = (props) => {
                       height: '80px',
                       width: '80px',
                       verticalAlign: 'middle',
-                      margin: 10,
-                      marginLeft: '35%',
+                      position: 'none', display: 'block', margin: '0 auto',
                       borderRadius: 5
                     }}
                   />}
@@ -47,7 +46,7 @@ const IntroCarouselCard = (props) => {
                 </IconButton>
               </CardActions>
 
-              <CardText style={{wordWrap: 'break-word'}}>
+              <CardText style={{wordWrap: 'break-word', marginTop: 0}}>
               {props.text ?
                 <div>
                   {props.text.slice(0, 250 + props.text.indexOf(' ')) + ' '}
