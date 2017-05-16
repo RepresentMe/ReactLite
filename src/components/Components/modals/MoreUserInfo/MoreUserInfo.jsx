@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+ 
 import { Link } from 'react-router-dom';
 import Tappable from 'react-tappable';
 
@@ -19,12 +19,11 @@ import TextField from 'material-ui/TextField';
 import GeoService from '../../../../services/GeoService';
 
 const customContentStyle = {
-  width: '97vw',
-  height: '98vh',
-  maxWidth: '600px',
-  padding: '10px !Important',
-  
+  width: '97vw', 
+  maxWidth: '600px', 
 };
+
+
 
 
 export default @observer @inject("UserStore") class MoreUserInfo extends Component {
@@ -120,11 +119,26 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
   }
 
   render() {
+
+
+    const actions = [
+      <FlatButton
+        label="Skip" 
+        onTouchTap={this.closeModal}
+      />,
+      <FlatButton
+        label="Count me in"
+        primary={true}  
+        onClick={this.updateDetails}
+      />,
+    ];
+ 
     return (
       <Dialog
         open={this.state.shown}
         onRequestClose={this.closeModal}
         modal={false}
+        actions={actions}
         contentStyle={customContentStyle}
         autoScrollBodyContent={true}>
 
@@ -156,11 +170,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
             <p key={index} style={{color: 'red', margin: '0', marginBottom: '5px', fontSize: '14px'}}>{problem}</p>
           );
         })}
-
-        <div>
-          <FlatButton label="Skip" onClick={this.closeModal} style={{marginRight: '10px', color: '#999'}}/>
-          <FlatButton label="Continue" primary={true} onClick={this.updateDetails} />
-        </div>
+ 
       </Dialog>
     )
   }
