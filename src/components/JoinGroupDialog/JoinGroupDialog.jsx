@@ -108,7 +108,7 @@ class JoinGroupDialog extends Component {
               checked={this.state.shouldJoin}
               />
             <Checkbox
-              label={`Share my url with ${this.state.group.name}`}
+              label={`Share my email with ${this.state.group.name}`}
               labelPosition='right'
               onCheck={this.handleEmailCheckboxCheck}
               checked={this.state.shouldShareEmail}
