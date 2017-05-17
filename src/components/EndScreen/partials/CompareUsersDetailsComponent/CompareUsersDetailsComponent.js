@@ -139,14 +139,22 @@ const CompareCollectionUsersView = observer(({data})=> {
 
       <div>
         {!this.props.compareData || !this.props.compareData.topic_diffs ? <p>rendering</p> :
-        <Card style={{marginBottom: '20px', border: 'none', minHeight: 500, minWidth: 450, width: 450, maxWidth: 450, margin: 0}}>
-        <CardHeader
-          title={name}
-          subtitle={age ? age + ' years old, ' + location : location}
-          avatar={photo}
-          />
+          <div style={{backgroundColor: '#e6f7ff', padding: 10, maxWidth: 250, margin: '0 auto'}}>
+            {/* <div>
+              <p style={{fontSize: 20, textAlign: 'center'}}>{`${match}% average agreement`}</p>
+              <p>{`Compared across: ${this.props.compareData.questions_counted} questions`}</p>
+            </div> */}
+            <MatchBarchartSmallContainer compareData={this.props.compareData}/>
+          </div>}
+        </div>)
+        // <Card style={{marginBottom: '20px', border: 'none', minHeight: 500, minWidth: 450, width: 450, maxWidth: 450, margin: 0}}>
+        // <CardHeader
+        //   title={name}
+        //   subtitle={age ? age + ' years old, ' + location : location}
+        //   avatar={photo}
+        //   />
 
-          {/* in reality need to display if i'm following this user */}
+          {/*
           <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 5px 0px'}}>
           { this.props && this.props.following > 0 ?
             <FlatButton
@@ -181,18 +189,12 @@ const CompareCollectionUsersView = observer(({data})=> {
               </p>
             </div>
 
-          </div>
+          </div> */}
 
-        <div style={{backgroundColor: '#e6f7ff', padding: 10}}>
-          <div>
-            <p style={{fontSize: 26, textAlign: 'center'}}>{`${match}% average agreement`}</p>
-            {/* <p>{`Compared across: ${this.props.compareData.questions_counted} questions`}</p> */}
-          </div>
-          <MatchBarchartSmallContainer compareData={this.props.compareData}/>
-        </div>
-      </Card>}
-    </div>
-  )
+
+      // </Card>}
+    // </div>
+  // )
 }}
 
 
@@ -230,12 +232,12 @@ const MatchBarchartSmallContainer = observer(({ compareData }) => {
     };
     diffs_array.push({[key]: values});
   });
-  console.log(diffs_array)
+  //console.log(diffs_array)
   return compareData &&
   <div>
     {
       keys.map((k, i) => {
-        console.log(diffs_array[i][k], i)
+        //console.log(diffs_array[i][k], i)
         return (
           <div key={`BarChart-${i}`}>
             <span style={{fontSize: 14}}>{`On topic: ${k}`}</span>
@@ -250,7 +252,7 @@ const MatchBarchartSmallContainer = observer(({ compareData }) => {
 const MatchBarchartSmall = (values) => {
 
   return (values &&
-    <ResponsiveContainer minHeight={20} maxWidth={150} style={{border: '1px solid red'}}>
+    <ResponsiveContainer minHeight={20} maxWidth={100} style={{border: '1px solid red'}}>
     <BarChart
       layout="vertical"
       data={[values.values]}
@@ -268,6 +270,7 @@ const MatchBarchartSmall = (values) => {
   </ResponsiveContainer>
 )
 }
+
 const SignInToSeeView = () => {
   return (<div className="sign-in-to-see">
     Sign in to compare your answers to other users

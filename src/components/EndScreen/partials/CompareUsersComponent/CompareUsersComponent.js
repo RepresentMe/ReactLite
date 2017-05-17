@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { observable, autorun, computed } from 'mobx';
 import { Link } from 'react-router-dom';
-import {Card, CardHeader, CardText, CardActions, CardTitle} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions, CardTitle, CardMedia} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
@@ -84,7 +84,7 @@ class CompareCollectionUsers extends Component {
   loadData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds} = this.props;
     let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
-    const propUserIds = userIds.peek();
+    const propUserIds = [6]//userIds.peek();
     CollectionStore.getCollectionItemsById(collectionId)
         .then((res) => {
           this.viewData.questions.replace(res);
@@ -157,7 +157,7 @@ const heading = {
 };
 
 const UserCompareCarousel = observer(({compareData, users, following}) => {
-  return (<div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
+  return (<div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', overflow: "hidden"}}>
     <h2 style={heading} >How you compare</h2>
     <Carousel
       autoplay={true}
@@ -282,9 +282,14 @@ class UserCardSmall extends Component {
      questions_counted = this.props.compareData.questions_counted;
     }
 
+    const barStyle = this.state.compareDetails ? {display: 'block'} : {display: 'none'}
+    //console.log('this.state', this.state, barStyle)
     return (
       this.props &&
-      <Card style={{margin: '10px', width: 280}}>
+      <Card
+        style={{margin: '10px', width: 280, maxHeight: 550, overflowY: 'scroll', overflowX: 'hidden'}}
+      >
+
         <Avatar src={photo} size={50} style={{alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px'}}/>
 
         <CardTitle title={name} subtitle={location} style={{textAlign: 'center'}} />
@@ -303,6 +308,29 @@ class UserCardSmall extends Component {
               </div>
             ) : <p></p>}
 
+            <div className='container'>
+              <div className='inner'>
+                <p>{count_question_votes}<br/>
+                  <span>Answers</span>
+                </p>
+              </div>
+              <div className='inner'>
+                <p>{count_followers}<br/>
+                <span>Followers</span>
+                </p>
+              </div>
+              <div className='inner'>
+                <p>{count_comments}<br/>
+                  <span>Comments</span>
+                </p>
+              </div>
+            </div>
+
+            <div style={barStyle}>
+              <CompareUsersDetailsComponent userIds={[this.props.user.id]} />
+            </div>
+
+
          {/*  <p>match <Link to={`/compare/${this.props.user.id}`}>(detail)</Link></p> */}
 
               {/* in reality need to display if i'm following this user */}
@@ -319,13 +347,15 @@ class UserCardSmall extends Component {
                     /> }
                 </div>
         </CardText>
+
         <CardActions>
           <FlatButton
-        label="compare"
+        label={this.state.compareDetails ? "hide details" : 'show details'}
         primary={true}
         onTouchTap={this.compare}
         />
         </CardActions>
+        {/*
         <Dialog
           autoScrollBodyContent={true}
           open={this.state.compareDetails}
@@ -353,7 +383,7 @@ class UserCardSmall extends Component {
           </CardActions>
           </div>
 
-        </Dialog>
+        </Dialog> */}
 
     </Card>
   )
