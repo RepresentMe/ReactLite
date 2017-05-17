@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { observer } from "mobx-react";
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
+import {Card} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import SvgIcon from 'material-ui/SvgIcon';
-import Divider from 'material-ui/Divider';
+
 
 import SocialShare from 'material-ui/svg-icons/social/share';
 import ChartIcon from 'material-ui/svg-icons/editor/insert-chart';
@@ -30,15 +29,18 @@ class SmallCard extends Component {
           <div style={{   }}>
             <Card style={{height: 280, width: 240, marginBottom: 10}}>
 
-                <div style={{ borderBottom: '1px solid #ccc', color: 'white', padding: '5px 10px 0 10px', backgroundColor: this.props.data.values[0].fill, minHeight: 100, maxHeight: 140}}>
-                  <div style={{flex: 1, color: 'white', padding: 0, fontWeight: 'bold', backgroundColor: 'transparent', minHeight: 100, maxHeight: 140, width: 220}}>
-										{this.props.data.values[0].full_name ? <p style={{color: 'white', fontSize: 14, textAlign: 'left'}}>{`You've answered: ${this.props.data.values[0].full_name}`}</p> :
+                <div style={{}}>
+                  <div style={{color: 'white', fontWeight: 'bold', width: 220,  backgroundColor: this.props.data.values[0].fill, minHeight: 100, padding: 10}}>
+										{this.props.data.values[0].full_name ? <p style={{color: 'white', fontSize: 14, textAlign: 'left'}}>{`You said: ${this.props.data.values[0].full_name}`}</p> :
 										<p style={{color: 'black', fontSize: 16, textAlign: 'left'}}>You didn't answer this question</p>}
                     <p style={{color: 'white', fontWeight: 'bold', fontSize: 35, margin: 0, textAlign: 'left'}}>{`${this.props.data.values[0].percentage}%`}</p>
                     <p style={{color: 'white', fontSize: 14, textAlign: 'left',  margin: 0, fontWeight: '200', opacity: '0.8'}}>Agree with you</p>
                   </div>
-                  <div style={{ width: 220, padding: 10, marginTop: 15, color: '#999', fontSize: 16, textAlign: 'left', wordWrap: 'break-word'}}>
+                  <div style={{ width: 220, padding: 10,  color: '#999', fontSize: 16, textAlign: 'left', wordWrap: 'break-word'}}>
                     {this.props.data.values[0].title}
+
+                    {this.props.data.values[0].full_name ? <p style={{color: '#999', fontSize: 14, fontWeight: 'bold', textAlign: 'left'}}>{`You said: ${this.props.data.values[0].full_name}`}</p> :
+                    <p style={{color: 'black', fontSize: 16, textAlign: 'left'}}>You didn't answer this question</p>}
                   </div>
                   <div style={{position: 'absolute', left: 0, width: 240, paddingBottom: 10, bottom: 0,  borderTop: '1px solid #ccc',}}>
                     <SocialShare style={iconStyles} color='#999' hoverColor='#1B8AAE' />
@@ -46,23 +48,6 @@ class SmallCard extends Component {
                     <FlatButton label="Comments" primary={true} />
                   </div>
                 </div>
-
-  {/*  <CardText>
-    You are in the majority. [OR IF AGREE < 50%]
-      You are in the minority. Say why.
-    </CardText>
-    <CardTitle title={`${this.props.data.values[0].percentage}%`} subtitle="Agree with you" style={{backgroundColor: this.props.data.values[0].fill, color: 'white'}} />
-    <CardText style={{fontSize: '16px', fontWeight: '200', color: '#999'}}>
-      {this.props.data.values[0].title}
-    </CardText>
-    <Divider />
-    <CardActions>
-      <SocialShare style={iconStyles} color='#999' hoverColor='#1B8AAE' />
-      <ChartIcon style={iconStyles} color='#999' hoverColor='#1B8AAE' />
-      <FlatButton label="Comment" primary={true} />
-    </CardActions>
-    */}
-
 
           </Card>
         </div>}

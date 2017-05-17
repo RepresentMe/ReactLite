@@ -275,7 +275,7 @@ export default class Shell extends Component {
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>
-              <DevTools />
+              {/*<DevTools />*/}
               </div>
           </MuiThemeProvider>
       </Router>
