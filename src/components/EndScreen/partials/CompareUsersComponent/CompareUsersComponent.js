@@ -84,7 +84,7 @@ class CompareCollectionUsers extends Component {
   loadData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds} = this.props;
     let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
-    const propUserIds = [6]//userIds.peek();
+    const propUserIds = userIds.peek();
     CollectionStore.getCollectionItemsById(collectionId)
         .then((res) => {
           this.viewData.questions.replace(res);
@@ -288,7 +288,8 @@ class UserCardSmall extends Component {
       this.props &&
       <Card
         style={{margin: '10px', width: 280, maxHeight: 550, overflowY: 'scroll', overflowX: 'hidden'}}
-      >
+        className='scrollbar'
+        >
 
         <Avatar src={photo} size={50} style={{alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px'}}/>
 

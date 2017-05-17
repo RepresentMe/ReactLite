@@ -138,7 +138,7 @@ const CompareCollectionUsersView = observer(({data})=> {
     return (
 
       <div>
-        {!this.props.compareData || !this.props.compareData.topic_diffs ? <p>rendering</p> :
+        {!this.props.compareData || !this.props.compareData.topic_diffs ? <p>loading...</p> :
           <div style={{backgroundColor: '#e6f7ff', padding: 10, maxWidth: 250, margin: '0 auto'}}>
             {/* <div>
               <p style={{fontSize: 20, textAlign: 'center'}}>{`${match}% average agreement`}</p>
@@ -207,7 +207,7 @@ const CustomTooltip = (props) => {
       <div style={{backgroundColor: '#f5f5f5', padding: 5, borderRadius: 5}}>
         {payload.map((p,i)=>{
           let name = payload[i].name;
-          return <p key={`p-${i}`} style={{color: payload[i].fill, margin: 2}}>{`${name}: ${Math.round(payload[i].payload[name])}%`}</p>
+          return <span key={`p-${i}`} style={{color: payload[i].fill, margin: 2}}>{`${name}: ${Math.round(payload[i].payload[name])}%`}</span>
         })
       }
       </div>
@@ -222,7 +222,11 @@ const MatchBarchartSmallContainer = observer(({ compareData }) => {
   keys.map((key,i) => {
     let totalCount = 0;
     let diff = compareData.topic_diffs[key].diffs;
-    diff.map(d => totalCount += d);
+    let n = 0;
+    diff.map((d,i) => {
+      n += d * i;
+      totalCount += d;
+    });
     let values = {
       strongly_agree: Math.round(1000*(diff[0])/ totalCount)/10,
       agree: Math.round(1000*(diff[1])/ totalCount)/10,
@@ -230,7 +234,8 @@ const MatchBarchartSmallContainer = observer(({ compareData }) => {
       disagree: Math.round(1000 *(diff[3]) / totalCount)/10,
       strongly_disagree: Math.round(1000*(diff[4])/ totalCount)/10
     };
-    diffs_array.push({[key]: values});
+    const matchPercent = 100 - 100 * n / totalCount / 4;
+    diffs_array.push({[key]: {values: values, totalCount: totalCount, matchPercent: matchPercent}});
   });
   //console.log(diffs_array)
   return compareData &&
@@ -240,8 +245,11 @@ const MatchBarchartSmallContainer = observer(({ compareData }) => {
         //console.log(diffs_array[i][k], i)
         return (
           <div key={`BarChart-${i}`}>
-            <span style={{fontSize: 14}}>{`On topic: ${k}`}</span>
-            <MatchBarchartSmall values={diffs_array[i][k]}/>
+            <div style={{padding: 5, height: 14}}>
+              <span style={{fontSize: 14, position: 'relative', float: 'left'}}>{`${diffs_array[i][k]['matchPercent']}% on ${k}`}</span>
+              <span style={{fontSize: 14, position: 'relative', float: 'right'}}>{`${diffs_array[i][k]['totalCount']}`}</span>
+            </div>
+            <MatchBarchartSmall values={diffs_array[i][k]['values']}/>
           </div>
 
       )})
@@ -260,12 +268,12 @@ const MatchBarchartSmall = (values) => {
     >
       <XAxis domain={[0, 100]} hide={true} type="number" />
       <YAxis type="category" hide={true} />
-      <Bar dataKey="strongly_disagree" stackId="1" fill={labels['strongly_disagree']['color']} />
-      <Bar dataKey="disagree" stackId="1" fill={labels['disagree']['color']} />
-      <Bar dataKey="neutral" stackId="1" fill={labels['neutral']['color']} />
-      <Bar dataKey="agree" stackId="1" fill={labels['agree']['color']} />
       <Bar dataKey="strongly_agree" stackId="1" fill={labels['strongly_agree']['color']} />
-      <Tooltip content={<CustomTooltip/>}/>
+      <Bar dataKey="agree" stackId="1" fill={labels['agree']['color']} />
+      <Bar dataKey="neutral" stackId="1" fill={labels['neutral']['color']} />
+      <Bar dataKey="disagree" stackId="1" fill={labels['disagree']['color']} />
+      <Bar dataKey="strongly_disagree" stackId="1" fill={labels['strongly_disagree']['color']} />
+      {/* <Tooltip content={<CustomTooltip/>}/> */}
     </BarChart>
   </ResponsiveContainer>
 )
