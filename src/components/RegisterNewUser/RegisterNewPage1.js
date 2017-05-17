@@ -67,12 +67,12 @@ const Page1 = (props) => {
         <Checkbox onCheck={props.agreedTerms}
             label={
               <span>
-                By joining you agree to the <a href="https://represent.me/legal/terms/">terms and conditions</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/>
+                I agree to the <a href="https://represent.me/legal/terms/">terms</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/>
               </span>
             }
             labelPosition='right'
-            style={{margin: '20px 0px'}}
-            labelStyle={{fontSize: '12px', fontWeight: 'bold', textAlign: 'left'}}
+            style={{margin: '20px 0'}}
+            
             value={props.agreedTermsValue}
             checked={props.agreedTermsValue}
             />

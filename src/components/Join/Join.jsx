@@ -97,7 +97,8 @@ const styles = {
             appId={String(window.authSettings.facebookId)}
             pageId={String(window.authSettings.facebookPageId)}
             />
-          <Checkbox checked={this.state.agreedTerms} onCheck={() => this.setState({agreedTerms: !this.state.agreedTerms})} style={{float: 'left', width: '24px', color: cyan600}}/><p style={{margin: '0', fontSize: '14px'}}>By joining you agree to the <a href="https://represent.me/legal/terms/">terms and conditions</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a></p>
+          <Checkbox checked={this.state.agreedTerms} onCheck={() => this.setState({agreedTerms: !this.state.agreedTerms})} style={{float: 'left', width: '24px', color: cyan600}}/>
+          <p style={{margin: '0', fontSize: '14px'}}>By joining you agree to the <a href="https://represent.me/legal/terms/">terms and conditions</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a></p>
 
           {this.state.problems.map((problem, index) => {
             return (
