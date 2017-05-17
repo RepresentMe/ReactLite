@@ -234,11 +234,16 @@ a {
     }
 }
 
-@media all and (max-width: 1800px) and (min-width: 1200px) {}
+@media all and (max-width: 1800px) and (min-width: 1200px) {
+    .questionText {
+        font-size: 2em
+    }
+}
 
 @media all (min-width: 1800px) {
-
-
+.questionText {
+        font-size: 3em
+    }
 }
 
 .questionBreak {
