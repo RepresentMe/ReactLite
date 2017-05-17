@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { inject, observer } from "mobx-react";
 import { observable } from "mobx";
 
 import SmallCard from '../SmallCard'
 
+@inject("QuestionStore")
+@observer
+class Results extends Component {
 
-const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
+  question = observable.shallowObject({})
+
+  constructor(props) {
+    super(props);
+
+    this.viewData = observable.shallowObject({
+      values: null
+    });
+  }
+
+  componentDidMount() {
     const likertProps = {
       'liquid_minimum': {name: 'Strongly Disagree', color: 'rgb(244,56,41)', direct: 'direct_minimum'},
       'liquid_low': {name: 'Disagree', color: 'rgb(249,131,117)', direct: 'direct_low'},
@@ -16,18 +29,8 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
 
     }
     const colors_mcq = ['#0088FE', '#FFBB28', '#a3a375', '#FF8042', '#df64ef', '#38b4c4', '#ff80aa', '#a3a3c2', '#8cff66', '#66b3ff', '#a64dff', '#00ff80'];
-    let viewData = observable.shallowObject({
-      values: null
-    });
-
-    function* fetcherGen(){
-      yield QuestionStore.getQuestionById(questionId)
-      }
-
-    const fetcher = fetcherGen();
-    fetcher.next().value
-      .then(question => {
-        //console.log(question)
+    this.props.QuestionStore.getQuestionById(this.props.questionId).then((question) => {
+       //console.log(question)
         console.log('question', question);
         if (!question){
           //do something
@@ -58,7 +61,7 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
               ))
             }
           }
-          viewData.values = result;
+          this.viewData.values = result;
         }
 
         else if (question.my_vote.length > 0 && question.subtype === 'mcq'){
@@ -84,7 +87,7 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
               {title: question['question']}
             ))
           }}
-          viewData.values = result;
+          this.viewData.values = result;
         }
         //if didn't answer that question
         else if (!question.my_vote.length){
@@ -94,17 +97,20 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
             {percentage: null},
             {fill: 'white'},
             {title: question['question']}))
-          viewData.values = result;
+          this.viewData.values = result;
         }
-      })
+    })
+  }
 
+  render() {
+    const { QuestionStore, questionId} = this.props;
 
-      return (
-        <div>
-          <SmallCard data={viewData}/>
-        </div>
-      )
-    }
-  )
+    return (
+      <div>
+        <SmallCard data={this.viewData}/>
+      </div>
+    )
+  }
+}
 
   export default Results;
