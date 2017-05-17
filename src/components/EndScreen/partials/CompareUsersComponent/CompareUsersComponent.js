@@ -206,7 +206,7 @@ const QuestionResultsCarousel = observer(({questions}) => {
   return (<div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
     <h2 style={heading} >All results</h2>
       <Carousel
-        autoplay={true}
+        // autoplay={true}
         autoplayInterval={2000}
         slidesToShow={1}
         slidesToScroll={1}
