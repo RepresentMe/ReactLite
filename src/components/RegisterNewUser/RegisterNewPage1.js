@@ -28,7 +28,7 @@ const styles = {
     color: cyan600
   },
   facebookLoginStyle: {
-    display: 'inline-block',
+    // display: 'inline-block',
     width: '100%',
     color: 'white',
     backgroundColor: indigo500
@@ -54,12 +54,12 @@ const Page1 = (props) => {
           <div style={{textAlign: 'center'}}>
       <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
       <h2 style={{margin: '10px 0'}}>
-          Help build a better, modern democracy
+          A better democracy 
         </h2>
         </div>
         <p style={{margin: '10px 0'}}>
-          Help build a better, modern democracy
-          <Link to="#"><span style={{fontSize: 14}}>Learn more</span></Link>
+          Have your say on the issues and make it count, track your representatives and much more. 
+          <Link to="#"><span> Learn more</span></Link>
         </p>
 
         <Checkbox onCheck={props.agreedTerms}
@@ -83,22 +83,22 @@ const Page1 = (props) => {
             callback={props.facebookCallback}
             style={styles.facebookLoginStyle}
             textButton="login with Facebook"
-            buttonStyle={{cursor: 'pointer', width: '100%', paddingBottom: 7, paddingTop: 5, textAlign: 'middle'}}
+            buttonStyle={{cursor: 'pointer', width: '100%', paddingBottom: 6, paddingTop: 9, textAlign: 'middle'}}
             disableMobileRedirect={true}
-            icon={<FacebookBox color='white' style={{verticalAlign: 'middle', width: 16, height: 16, marginRight: 10}}/>}
+            icon={<FacebookBox color='white' style={{verticalAlign: 'top', width: 16, height: 16, marginRight: 10 }}/>}
 
             /> :
 
             <RaisedButton
               label={<span className='fbMockButton'>login with facebook</span>}
-              primary={true}
+              primary={true} 
               onTouchTap={attemptNextPage}
-              buttonStyle={{backgroundColor: indigo500}}
-              style={{width: '100%'}}
-              icon={<FacebookBox color='lightgrey' />}
+              buttonStyle={{backgroundColor: '#5570A6'}}
+              style={{width: '100%', color: '#eee'}}
+              icon={<FacebookBox color='#eee' style={{verticalAlign: 'middle', width: 16, height: 16}} />}
             />}
         </div>
-        <p style={{fontSize: 12, marginTop: 10, marginBottom: 20}}>
+        <p style={{fontSize: 12, marginTop: 10, marginBottom: 20, color: '#999'}}>
           We'll never post without your permission
         </p>
 
