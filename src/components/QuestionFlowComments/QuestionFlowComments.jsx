@@ -14,7 +14,7 @@ import './style.css';
 @inject("QuestionCommentsStore")
 @observer
 class QuestionFlowComments extends Component {
-  // questionId =  823//this.props.question.id
+  questionId =  this.props.question.id
 
   constructor(props) {
     super(props);
@@ -83,7 +83,7 @@ class QuestionFlowComments extends Component {
   };
 
   render() {
-    const { comments } = this.props.QuestionCommentsStore.questionToComments[this.questionId]
+    const { comments } = this.props.QuestionCommentsStore.questionToComments[this.questionId];
     return (<div className="comments-wrapper" style={{ textAlign: '-webkit-center' }}>
       {
         comments.length ? (
