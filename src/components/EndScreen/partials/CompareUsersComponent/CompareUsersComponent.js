@@ -212,11 +212,11 @@ const QuestionResultsCarousel = observer(({questions}) => {
         slidesToScroll={1}
         wrapAround={true}
         cellAlign="left"
-        cellSpacing={15}
+        cellSpacing={10}
         dragging={true}
         slideWidth="240px"
-        speed={500}
-        style={{minHeight: 400}}
+        speed={1000}
+        style={{height: 272}}
         >
 
       {questions.length > 0 &&
