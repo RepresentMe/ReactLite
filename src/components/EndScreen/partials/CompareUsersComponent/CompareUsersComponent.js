@@ -97,7 +97,7 @@ class CompareCollectionUsers extends Component {
             })
 
           UserStore.compareUsers(currentUserId, id).then(res => {viewData.compareData.set(id, res)})
-        
+
         })
       }
     }
@@ -165,11 +165,11 @@ class CompareCollectionUsersView extends Component {
 
     return (
       <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', background: '#f5f5fe'}}>
-        {data.compareData.keys().length>0 && <div>
+        {data.compareData.keys().length>0 && <div style={{width: '100%'}}>
           <h2 style={heading} >How you compare</h2>
           <Carousel
             autoplay={true}
-            autoplayInterval={5000}
+            //autoplayInterval={5000}
             //initialSlideHeight={50}
             slidesToShow={1}
             slidesToScroll={1}
@@ -179,7 +179,7 @@ class CompareCollectionUsersView extends Component {
             dragging={true}
             slideWidth="280px"
             speed={500}
-            style={{ minHeight: 480}}
+            style={{ height: 550, width: "100%"}}
             >
           {data.compareData && data.users.map((user) => {
             //console.log('userB, data', user, data)
