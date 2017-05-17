@@ -35,16 +35,19 @@ const Page2 = (props) => {
   return (
     <div style={{width: '100%', height: '100%'}}>
       <Paper zDepth={0} className='containerStyle'>
-        <p style={{margin: '10px 0'}}>
-          In a democracy it's important to know that
-          everyone voting is a real person. You can be anonymous,
+      <div style={{textAlign: 'center'}}>
+      <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
+      <h2 style={{margin: '10px 0'}}>
+          Welcome to a modern democracy!
+        </h2>
+        </div>
+        <p style={{margin: '10px 0', color: '#999'}}>
+          It's important to know that
+          everyone voting is a real person. You can vote anonymously,
           but you must be real and unique.
-        </p>
-        <p style={{margin: '10px 0'}}>
-          You can get started with just an email.
-        </p>
+        </p> 
 
-        <TextField //hintText="Cell phone number / email"
+        <TextField //hintText="Cell phone number  email"
           floatingLabelText="Email address"
           floatingLabelFocusStyle={styles.floatingLabelText}
           style={{width: '100%'}}
@@ -53,7 +56,8 @@ const Page2 = (props) => {
           errorText={props.emailProblem}
           errorStyle={styles.errorStyle}
           /><br />
-        <TextField //hintText="Password"
+        <TextField 
+          hintText="Must be at least 6 characters long!"
           floatingLabelText="Password"
           floatingLabelFocusStyle={styles.floatingLabelText}
           type="password"
@@ -81,7 +85,7 @@ const Page2 = (props) => {
           primary={true}
           onTouchTap={props.nextPage}
           buttonStyle={{backgroundColor: '#1B8AAE'}}
-          style={{width: '100%'}}
+          style={{width: '100%', marginTop: 20}}
         />
 
       </Paper>

@@ -51,3 +51,12 @@
 .slider-frame{
   overflow: visible !important;
 }
+.slider-decorator-2{
+  height: 30px;
+  overflow: hidden;
+}
+/*.slider-list{
+  height: 900px;
+  min-height: 500px;
+  max-height: 900px;
+}*/
