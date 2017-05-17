@@ -54,7 +54,7 @@ class CompareCollectionUsers extends Component {
     const parsed = parseInt(path.slice(path.indexOf('survey/') + 7, path.indexOf('survey/', path.indexOf('survey/') + 8) + path.indexOf('/')))
     collectionId = parsed ? parsed : 1
     const propUserIds = this.props.userIds.peek();
-    const userIds = (propUserIds.length && propUserIds) || [100, 7,322,45];
+    const userIds = propUserIds;
     let userLoggedIn = UserStore.isLoggedIn();
     let currentUserId = userLoggedIn && UserStore.userData.get("id");
     let viewData = observable.shallowObject({
@@ -86,17 +86,20 @@ class CompareCollectionUsers extends Component {
         //   }
         //   getCollectionTags();
 
-        UserStore.amFollowingUsers(currentUserId, userIds).then(res => {
-          const results = res.results;
-          results.forEach(({ following, id }) => viewData.following.set(following, id))
-        })
-        userIds.forEach(id => {
-          UserStore.getUserById(id).then(res => {
-            viewData.users.push(res)
+        if(userIds.length) {
+          UserStore.amFollowingUsers(currentUserId, userIds).then(res => {
+            const results = res.results;
+            results.forEach(({ following, id }) => viewData.following.set(following, id))
           })
+          userIds.forEach(id => {
+            UserStore.getUserById(id).then(res => {
+              viewData.users.push(res)
+            })
 
-        UserStore.compareUsers(currentUserId, id).then(res => {viewData.compareData.set(id, res)})
-      })
+          UserStore.compareUsers(currentUserId, id).then(res => {viewData.compareData.set(id, res)})
+        
+        })
+      }
     }
 
     return <CompareCollectionUsersView data={viewData} />
@@ -144,9 +147,8 @@ class CompareCollectionUsersView extends Component {
 
   render() {
     const {data, UserStore} = this.props;
-
     if (!data.isLoggedIn) return <SignInToSeeView />;
-    if (!data.questions.length || !data.users.length || !data.following || !data.compareData)
+    if (!data.questions.length || !data.following)
       return <LoadingIndicator />;
 
 
@@ -163,33 +165,34 @@ class CompareCollectionUsersView extends Component {
 
     return (
       <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', background: '#f5f5fe'}}>
-        <h2 style={heading} >How you compare</h2>
-        <Carousel
-          autoplay={true}
-          autoplayInterval={5000}
-          //initialSlideHeight={50}
-          slidesToShow={1}
-          slidesToScroll={1}
-          cellAlign="left"
-          wrapAround={true}
-          cellSpacing={15}
-          dragging={true}
-          slideWidth="280px"
-          speed={500}
-          style={{ minHeight: 480}}
-          >
-        {data.compareData && data.users.map((user) => {
-          //console.log('userB, data', user, data)
-          return (
-            <div key={user.id} >
-              <UserCardSmall user={user}
-                compareData={data.compareData.get(user.id)}
-                following={observable(data.following.get(user.id))}/>
-            </div>
-          )
-        })}
-        </Carousel>
-
+        {data.compareData.keys().length>0 && <div>
+          <h2 style={heading} >How you compare</h2>
+          <Carousel
+            autoplay={true}
+            autoplayInterval={5000}
+            //initialSlideHeight={50}
+            slidesToShow={1}
+            slidesToScroll={1}
+            cellAlign="left"
+            wrapAround={true}
+            cellSpacing={15}
+            dragging={true}
+            slideWidth="280px"
+            speed={500}
+            style={{ minHeight: 480}}
+            >
+          {data.compareData && data.users.map((user) => {
+            //console.log('userB, data', user, data)
+            return (
+              <div key={user.id} >
+                <UserCardSmall user={user}
+                  compareData={data.compareData.get(user.id)}
+                  following={observable(data.following.get(user.id))}/>
+              </div>
+            )
+          })}
+          </Carousel>
+        </div>}
 
 
       <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 10, textAlign: 'center'}}>

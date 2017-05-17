@@ -3,6 +3,7 @@ import { Switch } from 'react-router';
 import { inject, observer, toJS } from "mobx-react";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Scrollbars } from 'react-custom-scrollbars';
+import DevTools from 'mobx-react-devtools';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
@@ -192,7 +193,7 @@ export default class Shell extends Component {
         onClick={!isAuthenticated ? this.navigateToLogin : null}
       />
     )
-
+    console.log('renderShell');
     return(
       <Router history={this.props.history}>
           <MuiThemeProvider muiTheme={muiTheme}>
@@ -274,7 +275,7 @@ export default class Shell extends Component {
                   </ReactCSSTransitionGroup>
                 </Scrollbars>
               </div>
-
+              <DevTools />
               </div>
           </MuiThemeProvider>
       </Router>

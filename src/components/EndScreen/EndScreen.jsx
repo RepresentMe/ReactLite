@@ -114,6 +114,7 @@ class EndScreen extends Component {
   }
 
   render() {
+    console.log('renderEndScreen');
     const usersToCompare = observable.shallowArray(this.dynamicConfig.config.survey_end.compare_users)
     return (
       <div>
