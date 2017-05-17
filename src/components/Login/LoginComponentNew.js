@@ -4,7 +4,7 @@ import FacebookLogin from 'react-facebook-login';
 
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
-import { grey100, cyan600, orange500, indigo500 } from 'material-ui/styles/colors';
+import {indigo500 } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -22,14 +22,15 @@ const styles = {
     marginTop: '-4px'
   },
   floatingLabelText: {
-    color: cyan600,
+    color: '#1B8AAE',
   },
   errorStyle: {
-    color: orange500
+    color: '#cc0000'
   },
   facebookLoginStyle: {
-    display: 'inline-block',
+    display: 'block',
     width: '100%',
+    marginTop: '30px',
     color: 'white',
     backgroundColor: indigo500
   }
@@ -102,14 +103,14 @@ const styles = {
   return (
     <div style={{width: '100%', height: '100%'}}>
       <Paper zDepth={0} className='containerStyle'>
-        <p style={{margin: '10px 0'}}>
-          In a democracy it's important to know that
-          everyone voting is a real person. You can be anonymous,
-          but you must be real and unique.
-        </p>
-        <p style={{margin: '10px 0'}}>
-          You can get started with just an email.
-        </p>
+
+        <div style={{textAlign: 'center'}}>
+        <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
+
+        <h2 style={{margin: '10px 0'}}>
+          Welcome back! 
+        </h2>
+        </div>
 
         <TextField
           floatingLabelText="Email address"
@@ -139,6 +140,8 @@ const styles = {
           style={{width: '100%', marginTop: 20}}
         />
 
+         
+
         <FacebookLogin
           appId={String(window.authSettings.facebookId)}
           autoLoad={false}
@@ -148,7 +151,7 @@ const styles = {
           textButton="login with Facebook"
           buttonStyle={{cursor: 'pointer', width: '100%', paddingBottom: 7, paddingTop: 5, textAlign: 'middle', margin: '10px auto'}}
           disableMobileRedirect={true}
-          icon={<FacebookBox color='white' style={{verticalAlign: 'middle', marginRight: 10, }}/>}
+          icon={<FacebookBox color='white' style={{verticalAlign: 'middle', marginRight: 10, width: 18, height: 18 }}/>}
 
           />
 
