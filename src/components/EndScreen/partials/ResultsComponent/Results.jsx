@@ -30,8 +30,6 @@ class Results extends Component {
     }
     const colors_mcq = ['#0088FE', '#FFBB28', '#a3a375', '#FF8042', '#df64ef', '#38b4c4', '#ff80aa', '#a3a3c2', '#8cff66', '#66b3ff', '#a64dff', '#00ff80'];
     this.props.QuestionStore.getQuestionById(this.props.questionId).then((question) => {
-       //console.log(question)
-        console.log('question', question);
         if (!question){
           //do something
         }
