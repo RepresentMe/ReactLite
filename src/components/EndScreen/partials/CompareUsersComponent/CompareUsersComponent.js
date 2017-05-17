@@ -75,8 +75,8 @@ class CompareCollectionUsers extends Component {
   isPageReady = computed(() => {
     // return computed(() => {
       // console.log('computed', this.viewData.pageReadiness.isQuestionResultsReady.get());
-      return 
-        this.viewData.pageReadiness.isCompareUsersReady.get() 
+      return
+        this.viewData.pageReadiness.isCompareUsersReady.get()
         && this.viewData.pageReadiness.isQuestionResultsReady.get()
     // }).get();
   })
@@ -127,18 +127,18 @@ class CompareCollectionUsers extends Component {
     // if (!userIds.length) console.log('No users specified to compare');
     // return <CompareCollectionUsersView data={this.viewData} />
     if (!this.viewData.isLoggedIn.get()) return <SignInToSeeView />;
-    console.log('isPageReady', this.isPageReady.get(), this.viewData.pageReadiness.isCompareUsersReady.get() 
+    console.log('isPageReady', this.isPageReady.get(), this.viewData.pageReadiness.isCompareUsersReady.get()
         , this.viewData.pageReadiness.isQuestionResultsReady.get());
 
 
     // TODO make it computed
-    if (!(this.viewData.pageReadiness.isCompareUsersReady.get() 
+    if (!(this.viewData.pageReadiness.isCompareUsersReady.get()
         && this.viewData.pageReadiness.isQuestionResultsReady.get())) return <LoadingIndicator />;
     return (<div style={{background: '#f5f5fe'}}>
-      {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel 
-        compareData={this.viewData.compareData} 
-        users={this.viewData.users} 
-        following={this.viewData.following} 
+      {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel
+        compareData={this.viewData.compareData}
+        users={this.viewData.users}
+        following={this.viewData.following}
       />}
       <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()}/>
       <QuestionResultsCarousel questions={this.viewData.questions} />
@@ -171,7 +171,7 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
       dragging={true}
       slideWidth="280px"
       speed={500}
-      style={{ height: 550, width: "100%"}}
+      style={{ minHeight: 550}}
       >
     {compareData && users.map((user) => {
       //console.log('userB, data', user, data)
@@ -203,7 +203,7 @@ const MessengerPluginBlock = observer(({authToken}) => {
 })
 
 const QuestionResultsCarousel = observer(({questions}) => {
-  return (<div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
+  return (<div style={{width: '100vw', display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', overflow: "hidden"}}>
     <h2 style={heading} >All results</h2>
       <Carousel
         // autoplay={true}
