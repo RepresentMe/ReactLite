@@ -38,7 +38,7 @@ const Page2 = (props) => {
       <div style={{textAlign: 'center'}}>
       <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
       <h2 style={{margin: '10px 0'}}>
-          Welcome to a modern democracy!
+          Let's get started!
         </h2>
         </div>
         <p style={{margin: '10px 0', color: '#999'}}>
