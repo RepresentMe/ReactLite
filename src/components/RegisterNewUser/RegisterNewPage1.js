@@ -54,12 +54,11 @@ const Page1 = (props) => {
           <div style={{textAlign: 'center'}}>
       <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
       <h2 style={{margin: '10px 0'}}>
-          Welcome to the heard! 
+          Help build a better, modern democracy
         </h2>
         </div>
         <p style={{margin: '10px 0'}}>
-          {`Welcome! We're happy to have you join ${props.currentUserCount} others
-          who are using Represent to build a better, modern democracy `}
+          Help build a better, modern democracy
           <Link to="#"><span style={{fontSize: 14}}>Learn more</span></Link>
         </p>
 
