@@ -130,8 +130,10 @@ class Comment extends Component {
             </div>
           </div>
           <div className="buttons">
+           {/*  
             <a className="reply">Reply</a>
             <span className="dot"> · </span>
+            */}
             <a className="change-answer" onClick={this.changeMyAnswer}>Change my answer</a>
             <span className="dot"> · </span>
             <span className="date">{moment(comment.modified_at).format('DD MMM')}</span>
