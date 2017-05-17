@@ -171,7 +171,7 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
       dragging={true}
       slideWidth="280px"
       speed={500}
-      style={{ minHeight: 480}}
+      style={{ height: 550, width: "100%"}}
       >
     {compareData && users.map((user) => {
       //console.log('userB, data', user, data)

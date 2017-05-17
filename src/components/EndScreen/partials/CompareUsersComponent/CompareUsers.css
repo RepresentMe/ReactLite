@@ -48,3 +48,6 @@
   margin: 7px auto;
   display: block;
 }
+.slider-frame{
+  overflow: unset !important;
+}
