@@ -38,7 +38,6 @@ class SmallCard extends Component {
                   </div>
                   <div style={{ width: 220, padding: 10,  color: '#999', fontSize: 14, textAlign: 'left', wordWrap: 'break-word'}}>
                     {this.props.data.values[0].title}
-
                     {this.props.data.values[0].full_name ? <p style={{color: '#999', fontSize: 14, fontWeight: 'bold', textAlign: 'left'}}>{`YOU: ${this.props.data.values[0].full_name}`}</p> : ''}
                   </div>
                   <div style={{position: 'absolute', left: 0, width: 240, paddingBottom: 10, bottom: 0,  borderTop: '1px solid #ccc',}}>

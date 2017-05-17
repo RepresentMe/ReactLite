@@ -28,10 +28,12 @@ const Results = inject("QuestionStore")(({ QuestionStore, questionId}) => {
     fetcher.next().value
       .then(question => {
         //console.log(question)
+        console.log('question', question);
         if (!question){
           //do something
         }
-        else if (question.my_vote.length > 0 && question.subtype === 'likert'){
+        else 
+        if (question.my_vote.length > 0 && question.subtype === 'likert'){
           // //propose to filter out choices with 0 vote, cause they crowd the space
           let myVote = null;
           if (question.my_vote.length > 0) {myVote = question.my_vote[0].value;}
