@@ -118,7 +118,7 @@ class EndScreen extends Component {
     const usersToCompare = observable.shallowArray(this.dynamicConfig.config.survey_end.compare_users)
     return (
       <div>
-        <CompareCollectionUsers userIds={usersToCompare}/>
+        <CompareCollectionUsers userIds={usersToCompare} collectionId={this.props.match.params.collectionId}/>
         <MoreUserInfo shown={this.state.userDataModal.isOpen} user={this.state.userDataModal.user} />
         <JoinGroupDialog isOpen={this.state.joinGroupModal.isOpen} groupId={this.state.joinGroupModal.groupId}/>
         <FollowUserDialog isOpen={this.state.followUserModal.isOpen} userId={this.state.followUserModal.userId}/>

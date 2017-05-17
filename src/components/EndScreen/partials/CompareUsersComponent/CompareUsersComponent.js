@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
-import { observable } from 'mobx';
+import { observable, autorun, computed } from 'mobx';
 import { Link } from 'react-router-dom';
 import {Card, CardHeader, CardText, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
@@ -38,39 +38,58 @@ const labels = {
   "strongly_disagree": {label: "Strongly disagree", color: "rgb(244,56,41)"}
 }
 
-@inject("CollectionStore", "UserStore", "QuestionStore")
+@inject("CollectionStore", "UserStore")
 @observer
 class CompareCollectionUsers extends Component {
+  constructor(props) {
+    super(props);
 
-  // componentWilReceiveProps(nextProps) {
-    // if(nextProps.userIds.peek() != this.props.userIds) {
-
-    // }
-  // }
-
-  render() {
-    let { CollectionStore, UserStore, QuestionStore, collectionId = 1} = this.props;
-    const path = window.location.pathname;
-    const parsed = parseInt(path.slice(path.indexOf('survey/') + 7, path.indexOf('survey/', path.indexOf('survey/') + 8) + path.indexOf('/')))
-    collectionId = parsed ? parsed : 1
-    const propUserIds = this.props.userIds.peek();
-    const userIds = propUserIds;
-    let userLoggedIn = UserStore.isLoggedIn();
-    let currentUserId = userLoggedIn && UserStore.userData.get("id");
-    let viewData = observable.shallowObject({
-      isLoggedIn: userLoggedIn,
+    this.viewData = observable.shallowObject({
+      isLoggedIn: observable(null),
+      pageReadiness: {
+        isCompareUsersReady: observable(false),
+        isQuestionResultsReady: observable(false),
+      },
+      isComparingUsersShowing: observable(false),
       users: observable.shallowArray([]),
       compareData: observable.shallowMap(),
       following: observable.shallowMap(),
       questions: observable.shallowArray(),
       collection_tags: observable.shallowArray([])
     });
+  }
 
-    // if (!userIds.length) console.log('No users specified to compare');
-    if (userLoggedIn) {
-      CollectionStore.getCollectionItemsById(collectionId)
+  componentDidMount = () => {
+    let { CollectionStore, UserStore, collectionId = 1, userIds} = this.props;
+    let autorunDispose = autorun(() => {
+      if(UserStore.isLoggedIn()) {
+        this.viewData.isLoggedIn.set(true);
+        console.log('loggedIn', true);
+        autorunDispose && autorunDispose();
+        this.loadData();
+      }
+    });
+    this.isPageReady.get();
+  }
+
+  isPageReady = computed(() => {
+    // return computed(() => {
+      // console.log('computed', this.viewData.pageReadiness.isQuestionResultsReady.get());
+      return 
+        this.viewData.pageReadiness.isCompareUsersReady.get() 
+        && this.viewData.pageReadiness.isQuestionResultsReady.get()
+    // }).get();
+  })
+
+  loadData = () => {
+    let { CollectionStore, UserStore, collectionId = 1, userIds} = this.props;
+    let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
+    const propUserIds = userIds.peek();
+    CollectionStore.getCollectionItemsById(collectionId)
         .then((res) => {
-          return viewData.questions.push(res)
+          this.viewData.questions.replace(res);
+          this.viewData.pageReadiness.isQuestionResultsReady.set(true);
+          return res;
         })
 
         // const getCollectionTags = (collectionId) => {
@@ -85,24 +104,45 @@ class CompareCollectionUsers extends Component {
         //       })
         //   }
         //   getCollectionTags();
-
-        if(userIds.length) {
-          UserStore.amFollowingUsers(currentUserId, userIds).then(res => {
+        console.log('propUserIds', propUserIds);
+        if(propUserIds.length) {
+          this.viewData.isComparingUsersShowing.set(true);
+          UserStore.amFollowingUsers(currentUserId, propUserIds).then(res => {
             const results = res.results;
-            results.forEach(({ following, id }) => viewData.following.set(following, id))
+            results.forEach(({ following, id }) => this.viewData.following.set(following, id))
           })
-          userIds.forEach(id => {
+          propUserIds.forEach(id => {
             UserStore.getUserById(id).then(res => {
-              viewData.users.push(res)
+              this.viewData.users.push(res)
             })
+            UserStore.compareUsers(currentUserId, id).then(res => {this.viewData.compareData.set(id, res)})
+          })
+          this.viewData.pageReadiness.isCompareUsersReady.set(true);
+        } else {
+          this.viewData.pageReadiness.isCompareUsersReady.set(true);
+        }
+  }
 
-          UserStore.compareUsers(currentUserId, id).then(res => {viewData.compareData.set(id, res)})
-        
-        })
-      }
-    }
+  render() {
+    // if (!userIds.length) console.log('No users specified to compare');
+    // return <CompareCollectionUsersView data={this.viewData} />
+    if (!this.viewData.isLoggedIn.get()) return <SignInToSeeView />;
+    console.log('isPageReady', this.isPageReady.get(), this.viewData.pageReadiness.isCompareUsersReady.get() 
+        , this.viewData.pageReadiness.isQuestionResultsReady.get());
 
-    return <CompareCollectionUsersView data={viewData} />
+
+    // TODO make it computed
+    if (!(this.viewData.pageReadiness.isCompareUsersReady.get() 
+        && this.viewData.pageReadiness.isQuestionResultsReady.get())) return <LoadingIndicator />;
+    return (<div style={{background: '#f5f5fe'}}>
+      {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel 
+        compareData={this.viewData.compareData} 
+        users={this.viewData.users} 
+        following={this.viewData.following} 
+      />}
+      <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()}/>
+      <QuestionResultsCarousel questions={this.viewData.questions} />
+    </div>)
   }
 }
 
@@ -116,97 +156,55 @@ const heading = {
   marginTop: '2em',
 };
 
+const UserCompareCarousel = observer(({compareData, users, following}) => {
+  return (<div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
+    <h2 style={heading} >How you compare</h2>
+    <Carousel
+      autoplay={true}
+      autoplayInterval={5000}
+      //initialSlideHeight={50}
+      slidesToShow={1}
+      slidesToScroll={1}
+      cellAlign="left"
+      wrapAround={true}
+      cellSpacing={15}
+      dragging={true}
+      slideWidth="280px"
+      speed={500}
+      style={{ minHeight: 480}}
+      >
+    {compareData && users.map((user) => {
+      //console.log('userB, data', user, data)
+      return (
+        <div key={user.id} >
+          <UserCardSmall user={user}
+            compareData={compareData.get(user.id)}
+            following={observable(following.get(user.id))}/>
+        </div>
+      )
+    })}
+    </Carousel>
+  </div>)
+})
 
-//View of short compare and short questions info
-@inject("UserStore", "data")
-@observer
-class CompareCollectionUsersView extends Component {
-  state={
-    tagsOpened: false
+const MessengerPluginBlock = observer(({authToken}) => {
+  let messengerRefData = "get_started_with_token";
+  if(authToken) {
+    messengerRefData += "+auth_token=" + authToken;
   }
+  return (<div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 10, textAlign: 'center'}}>
+    <MessengerPlugin
+      appId={String(window.authSettings.facebookId)}
+      pageId={String(window.authSettings.facebookPageId)}
+      size="xlarge"
+      passthroughParams={messengerRefData}
+    />
+  </div>)
+})
 
-  // openTags = () => {
-  //   const tagsOpened = !this.state.tagsOpened;
-  //   this.setState({tagsOpened})
-  // }
-  // followTag = (tagId, following) => {
-  //   if (following) {
-  //       window.API.post(`/api/tags/${tagId}/follow/`)
-  //         .then((response) => {})
-  //         .catch((error) => {
-  //           console.log(error);
-  //         })
-  //     }
-  //     else {
-  //       window.API.post(`/api/tags/${tagId}/unfollow/`)
-  //         .then((response) => {})
-  //         .catch((error) => {
-  //           console.log(error);
-  //         })
-  //     }}
-
-  render() {
-    const {data, UserStore} = this.props;
-    if (!data.isLoggedIn) return <SignInToSeeView />;
-    if (!data.questions.length || !data.following)
-      return <LoadingIndicator />;
-
-
-    let messengerRefData = "get_started_with_token";
-    const authToken = this.props.UserStore.getAuthToken();
-    if(authToken) {
-      messengerRefData += "+auth_token=" + authToken;
-    }
-
-    // let tagsLength = 3;
-    // if (data.collection_tags && this.state.tagsOpened){
-    //   tagsLength = data.collection_tags[0].length;
-    // }
-
-    return (
-      <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', background: '#f5f5fe'}}>
-        {data.compareData.keys().length>0 && <div>
-          <h2 style={heading} >How you compare</h2>
-          <Carousel
-            autoplay={true}
-            autoplayInterval={5000}
-            //initialSlideHeight={50}
-            slidesToShow={1}
-            slidesToScroll={1}
-            cellAlign="left"
-            wrapAround={true}
-            cellSpacing={15}
-            dragging={true}
-            slideWidth="280px"
-            speed={500}
-            style={{ minHeight: 480}}
-            >
-          {data.compareData && data.users.map((user) => {
-            //console.log('userB, data', user, data)
-            return (
-              <div key={user.id} >
-                <UserCardSmall user={user}
-                  compareData={data.compareData.get(user.id)}
-                  following={observable(data.following.get(user.id))}/>
-              </div>
-            )
-          })}
-          </Carousel>
-        </div>}
-
-
-      <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 10, textAlign: 'center'}}>
-        <MessengerPlugin
-          appId={String(window.authSettings.facebookId)}
-          pageId={String(window.authSettings.facebookPageId)}
-          size="xlarge"
-          passthroughParams={messengerRefData}
-        />
-      </div>
-
-
-
-      <h2 style={heading} >All results</h2>
+const QuestionResultsCarousel = observer(({questions}) => {
+  return (<div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
+    <h2 style={heading} >All results</h2>
       <Carousel
         autoplay={true}
         autoplayInterval={2000}
@@ -221,8 +219,8 @@ class CompareCollectionUsersView extends Component {
         style={{minHeight: 400}}
         >
 
-      {data.questions.length > 0 &&
-        data.questions[0].map((question, i) => {
+      {questions.length > 0 &&
+        questions.peek().map((question, i) => {
           return (
           <div key={`ques-${i}`} style={{}}>
             <Results questionId={question.object_id}/>
@@ -232,32 +230,8 @@ class CompareCollectionUsersView extends Component {
       })
         }
         </Carousel>
-
-
-
-      {/* <h2 style={heading} >Your interests</h2>
-      <p>Would you like to see more of any of these?</p>
-      <CardText>
-        <a href='#' style={{textDecoration: 'underline'}} onTouchTap={this.openTags}>See all</a>
-        {this.props.data.collection_tags[0] && this.props.data.collection_tags[0].length &&
-          this.props.data.collection_tags[0].slice(0, tagsLength).map((tag, i) => {
-
-          return (
-            <div key={`tag-${i}`} style={{marginTop: 10}}>
-              <Toggle
-                defaultToggled={tag.following}
-                label={tag.text}
-                style={{marginBottom: 0, }}
-                onToggle={() => this.followTag(tag.id, tag.following)}
-              />
-            </div>
-          )
-        })}
-    </CardText> */}
-  </div>
-
-)}
-}
+  </div>)
+})
 
 
 @inject("user", "compareData", 'following', 'UserStore')

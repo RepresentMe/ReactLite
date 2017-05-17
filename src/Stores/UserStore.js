@@ -1,4 +1,4 @@
-import { observable, autorun, observe } from 'mobx';
+import { observable, autorun, observe, computed } from 'mobx';
 import Cookies from 'cookies-js';
 import GeoService from '../services/GeoService'
 
@@ -165,9 +165,14 @@ class UserStore {
     window.location.replace('/');
   }
 
-  isLoggedIn() {
-    return this.userData.has("id");
+  isLoggedIn = () => {
+    return computed(
+      () => {
+      return this.userData.has("id");
+    }
+    ).get();
   }
+  
 
   compareUsers(userAId, userBId) {
     return window.API.get('/api/compare_users/?usera='+userAId+'&userb='+userBId)
