@@ -23,13 +23,7 @@ const styles = {
     minWidth: 270,
     marginLeft: 'auto',
     marginRight: 'auto'
-  },
-  imgStyle: {
-    height: '30px',
-    verticalAlign: 'middle',
-    margin: 10,
-    marginLeft: '45%',
-  },
+  }, 
   floatingLabelText: {
     color: cyan600
   },
@@ -57,7 +51,12 @@ const Page1 = (props) => {
   return (
     <div style={{width: '100%', height: '100%'}}>
       <Paper zDepth={0} className='containerStyle'>
-        <img src={smallLogo} style={styles.imgStyle} />
+          <div style={{textAlign: 'center'}}>
+      <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
+      <h2 style={{margin: '10px 0'}}>
+          Welcome to the heard! 
+        </h2>
+        </div>
         <p style={{margin: '10px 0'}}>
           {`Welcome! We're happy to have you join ${props.currentUserCount} others
           who are using Represent to build a better, modern democracy `}
