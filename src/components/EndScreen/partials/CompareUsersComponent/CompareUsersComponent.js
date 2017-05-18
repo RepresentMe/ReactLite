@@ -84,7 +84,8 @@ class CompareCollectionUsers extends Component {
   loadData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds} = this.props;
     let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
-    const propUserIds = userIds.peek();
+    //const propUserIds = userIds.peek();
+    const propUserIds = [6,100,1000]
     CollectionStore.getCollectionItemsById(collectionId)
         .then((res) => {
           this.viewData.questions.replace(res);
@@ -412,11 +413,11 @@ const MatchBarchart = observer(({ compareData }) => {
     >
       <XAxis domain={[0, 100]} hide={true} type="number" />
       <YAxis type="category" hide={true} />
-      <Bar dataKey="strongly_disagree" stackId="1" fill={labels[Object.keys(values)[4]]['color']} />
-      <Bar dataKey="disagree" stackId="1" fill={labels[Object.keys(values)[3]]['color']} />
-      <Bar dataKey="neutral" stackId="1" fill={labels[Object.keys(values)[2]]['color']} />
-      <Bar dataKey="agree" stackId="1" fill={labels[Object.keys(values)[1]]['color']} />
       <Bar dataKey="strongly_agree" stackId="1" fill={labels[Object.keys(values)[0]]['color']} />
+      <Bar dataKey="agree" stackId="1" fill={labels[Object.keys(values)[1]]['color']} />
+      <Bar dataKey="neutral" stackId="1" fill={labels[Object.keys(values)[2]]['color']} />
+      <Bar dataKey="disagree" stackId="1" fill={labels[Object.keys(values)[3]]['color']} />
+      <Bar dataKey="strongly_disagree" stackId="1" fill={labels[Object.keys(values)[4]]['color']} />
       {/* <Tooltip content={<CustomTooltip/>}/> */}
     </BarChart>
   </ResponsiveContainer>

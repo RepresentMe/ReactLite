@@ -131,19 +131,35 @@ const CompareCollectionUsersView = observer(({data})=> {
       count_votes = this.props.user.count_votes
     }
 
-    if(this.props.compareData && this.props.compareData.topic_diffs) {
-     match = Math.floor(100-this.props.compareData.difference_percent)
+    if (this.props.compareData && this.props.compareData.topic_diffs) {
+      match = Math.floor(100-this.props.compareData.difference_percent)
+      totalCount = this.props.compareData.difference_distances.reduce((a,b) => a+b,0)
+      values = {
+        agree: Math.round(1000 *(this.props.compareData.difference_distances[0]) / totalCount)/10+Math.round(1000 *(this.props.compareData.difference_distances[1]) / totalCount)/10,
+        neutral: Math.round(1000 *(this.props.compareData.difference_distances[2]) / totalCount)/10,
+        disagree: Math.round(1000 *(this.props.compareData.difference_distances[3]) / totalCount)/10+Math.round(1000 *(this.props.compareData.difference_distances[4]) / totalCount)/10,
+        };
+        console.log('values', values)
+      }
     }
-  }
     return (
 
       <div>
         {!this.props.compareData || !this.props.compareData.topic_diffs ? <p>loading...</p> :
           <div style={{backgroundColor: '#e6f7ff', padding: 10, maxWidth: 250, margin: '0 auto'}}>
-            {/* <div>
-              <p style={{fontSize: 20, textAlign: 'center'}}>{`${match}% average agreement`}</p>
-              <p>{`Compared across: ${this.props.compareData.questions_counted} questions`}</p>
-            </div> */}
+
+          <div className='containerSmall' style={{justifyContent: 'center', paddingTop: 0}}>
+            <div className='innerSmall'>
+              <p><img src='/icons/happy_face1.png'/>{` ${values.agree}%`}</p>
+            </div>
+            <div className='innerSmall'>
+              <p><img src='/icons/toll1.png'/>{` ${values.neutral}%`}</p>
+            </div>
+            <div className='innerSmall'>
+              <p><img src='/icons/sad_face1.png'/>{` ${values.disagree}%`}</p>
+            </div>
+          </div>
+
             <MatchBarchartSmallContainer compareData={this.props.compareData}/>
           </div>}
         </div>)
@@ -234,7 +250,7 @@ const MatchBarchartSmallContainer = observer(({ compareData }) => {
       disagree: Math.round(1000 *(diff[3]) / totalCount)/10,
       strongly_disagree: Math.round(1000*(diff[4])/ totalCount)/10
     };
-    const matchPercent = 100 - 100 * n / totalCount / 4;
+    const matchPercent = Math.round(100 - 100 * n / totalCount / 4);
     diffs_array.push({[key]: {values: values, totalCount: totalCount, matchPercent: matchPercent}});
   });
   //console.log(diffs_array)
