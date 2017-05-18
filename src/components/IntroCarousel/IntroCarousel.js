@@ -15,6 +15,8 @@ import { TwitterButton } from "react-social";
 import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
 import Toggle from 'material-ui/Toggle';
 import Avatar from 'material-ui/Avatar';
+import IconButton from 'material-ui/IconButton';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 import Carousel from 'nuka-carousel';
 
@@ -26,19 +28,29 @@ class IntroCarousel extends React.Component {
   state = {
     items: [
       {id: 0, img: null, text: 'In this snippet just the current value of secondsPassed is passed to the Timer, which is the immutable value 0 (all primitives are immutable in JS). That number wont change anymore in the future, so Timer will never update. It is the property secondsPassed that will'},
-      {id: 1, img: null, text: 'The mobx-react package also provides the Provider component that can be used to pass down stores using Reacts context mechanism.'}]
+      {id: 1, img: null, text: 'The mobx-react package also provides the Provider component that can be used to pass down stores using Reacts context mechanism.'}],
+    modalOpened: true
   }
-  removeCard = (removeId) => {
-    let items = this.state.items;
-    items = items.filter((item, i) => item.id !== removeId);
-    this.setState({items})
+
+  closeModal = (e) => {
+    e.preventDefault();
+    let modalOpened = !this.state.modalOpened;
+    this.setState({modalOpened})
   }
   render (){
+    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const cellSpacing = width > 400 ? 280 : 100;
     return (
       <Dialog
-        open={true}
+        open={this.state.modalOpened}
         >
-        <div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
+        <div>
+          <IconButton onTouchTap={(e)=>this.closeModal(e)}
+            style={{position: 'absolute', right: 10, top: 10, color: 'grey'}}
+            >
+            <ClearIcon />
+          </IconButton>
+
           <Carousel
             autoplay={true}
             autoplayInterval={5000}
@@ -46,11 +58,11 @@ class IntroCarousel extends React.Component {
             slidesToShow={1}
             slidesToScroll={1}
             cellAlign="center"
-            cellSpacing={150}
+            cellSpacing={cellSpacing}
             dragging={true}
             slideWidth="280px"
-            speed={1000}
-            style={{minWidth: '90%', maxWidth: '100%', minHeight: 450}}
+            speed={500}
+            style={{overflowX: 'hidden', width: '100%', minHeight: 450, marginTop: 30}}
             >
               {this.state.items.map((item, i) => {
                 return (

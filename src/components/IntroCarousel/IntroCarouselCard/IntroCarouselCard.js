@@ -3,8 +3,7 @@ import { observer } from "mobx-react";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
-import IconButton from 'material-ui/IconButton';
-import ClearIcon from 'material-ui/svg-icons/content/clear';
+
 
 
 import '../IntroCarousel.css';
@@ -37,14 +36,6 @@ const IntroCarouselCard = (props) => {
                   />}
                   className='cardHeaderStyleIntro'
               />
-
-              <CardActions>
-                <IconButton onTouchTap={() => props.removeCard(props.id)}
-                  style={{position: 'absolute', right: 0, top: -130, color: 'grey'}}
-                  >
-                  <ClearIcon />
-                </IconButton>
-              </CardActions>
 
               <CardText style={{wordWrap: 'break-word', marginTop: 0}}>
               {props.text ?
