@@ -217,7 +217,7 @@ export default class Shell extends Component {
                                    avatar
                                 }
                                 anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                                targetOrigin={{horizontal: 'right', vertical: 'bottom'}}
                               >
                                 <MenuItem primaryText="Edit profile" href="https://app.represent.me/me/edit/main/"/>
                                 <MenuItem primaryText="View my profile" href={`https://app.represent.me/profile/${userId}/${username}/`}/>
