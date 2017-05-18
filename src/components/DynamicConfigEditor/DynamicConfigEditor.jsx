@@ -65,7 +65,7 @@ class DynamicConfigEditor extends Component {
   };
 
   render() {
-    return (<div>
+    return (<div style={{margin: 30}}>
       <div>
         <TextField
           hintText="Encoded Dynamic config"
