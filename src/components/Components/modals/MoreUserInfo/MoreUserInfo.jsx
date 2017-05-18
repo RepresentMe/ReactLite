@@ -156,10 +156,13 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         onRequestClose={this.closeModal}
         modal={false}
         actions={actions}
+        bodyStyle={{padding: '10px'}}
         contentStyle={customContentStyle}
         autoScrollBodyContent={true}>
 
-        <p style={{ margin: 0}}><strong>Please verify your profile.</strong><br/> <em>Your personal information safe and not for sale.</em></p>
+        <p style={{ margin: 0}}><strong>Complete your profile to be better represented.</strong></p> 
+        <p style={{ margin: 0}}>
+        <em style={{ fontSize: 12, color: '#999'}}>We will not share your contact details without your explicit permission.</em></p>
 
         <Autocomplete
             style={autocompleteStyle}

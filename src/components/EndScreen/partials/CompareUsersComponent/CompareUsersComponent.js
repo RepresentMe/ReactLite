@@ -162,17 +162,16 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
     <h2 style={heading} >How you compare</h2>
     <Carousel
       autoplay={true}
-      autoplayInterval={5000}
-      //initialSlideHeight={50}
+      autoplayInterval={5000} 
       slidesToShow={1}
       slidesToScroll={1}
       cellAlign="left"
       wrapAround={true}
+      fixedHeight={false}
       cellSpacing={15}
       dragging={true}
       slideWidth="280px"
-      speed={500}
-      style={{ minHeight: 550}}
+      speed={500} 
       >
     {compareData && users.map((user) => {
       //console.log('userB, data', user, data)

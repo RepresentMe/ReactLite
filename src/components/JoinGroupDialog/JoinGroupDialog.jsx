@@ -11,17 +11,13 @@ import './styles.css'
 const styles = {
   contentStyle: {
     width: '400px',
-    padding: '10px 20px',
+    padding: '5px !important',
+    top: '-60px',
   },
   firstCheckboxStyle: {
-    margin: '40px auto 0 auto',
-  },
-  submitButton: {
-    marginTop: '50px',
-    backgroundColor: 'rgb(27, 138, 174)',
-    color: 'white'
-  }
-}
+    margin: '20px auto 0 auto',
+  }, 
+} 
 
 @inject("GroupStore")
 class JoinGroupDialog extends Component {
@@ -73,30 +69,41 @@ class JoinGroupDialog extends Component {
   }
 
   render() {
+     const actions = [ 
+      <FlatButton
+        label="Continue"
+        primary={true}
+        onTouchTap={this.handleDialogClose}
+      />,
+    ];
+
+
     return (
       <Dialog
         modal={true}
         open={this.state.isDialogOpen}
         contentStyle={styles.contentStyle}
         autoScrollBodyContent={true}
+        actions={actions}
+        bodyStyle={{padding: '10px'}}
       >
 
         {!this.state.group && 'Loading...'}
         {this.state.group && <div>
-          <div className="user-rep-icons-wrapper">
-            <div className="user-rep-icons">
-              <div className="user-icon">
-                <img src={this.state.group.image} />
-              </div>
-              <div className="represent-icon">
-                <img src="/static/media/represent_white_outline.dbff67a6.svg" />
-              </div>
-            </div>
-          </div>
+    
+          <table className="icons-wrapper-icon">
+            <tr>
+            <td width="50%" styles={{textAlign: 'right'}}>
+              <img src={this.state.group.image} className="avatar" /> 
+            </td>
+            <td width="50%" styles={{textAlign: 'left'}}>
+              <img src="/static/media/represent_white_outline.dbff67a6.svg"  className="avatar" />
+            </td>
+            </tr>
+            </table>
 
           <p>
-            We're working with Represent to modernize democracy &nbsp;  
-            <a>Learn more</a>
+            We're working with Represent to modernise democracy. Please help us!
           </p>
 
           <div>
@@ -115,16 +122,7 @@ class JoinGroupDialog extends Component {
               />
           </div>
 
-          <div className="submit-button-wrapper">
-            <FlatButton
-              label="Continue"
-              primary={true}
-              disabled={false}
-              onTouchTap={this.handleDialogClose}
-              style={styles.submitButton}
-            />
-          </div>
-        </div>}
+           </div>}
       </Dialog>
     )
   }
