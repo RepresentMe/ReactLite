@@ -69,7 +69,6 @@ class EndScreen extends Component {
           this.checkToShowFollowUserModal();
         }
       })
-
     } else {
       this.checkToShowFollowUserModal()
     }
@@ -99,22 +98,11 @@ class EndScreen extends Component {
     }
   }
 
-  checkToShowFollowUserModal() {
-    if(true) {
-      this.setState({
-        messengerModal: {
-          isOpen: true
-        }
-      })
-    }
-  }
-
   isUserDataSet(user) {
     return (user.dob && typeof user.gender == 'number' && user.address !== "");
   }
 
   render() {
-    console.log('renderEndScreen');
     const usersToCompare = observable.shallowArray(this.dynamicConfig.config.survey_end.compare_users)
     return (
       <div>

@@ -204,7 +204,6 @@ export default class Shell extends Component {
         onClick={!isAuthenticated ? this.navigateToLogin : null}
       />
     )
-    console.log('renderShell');
     
     return(
       <Router history={this.props.history}>

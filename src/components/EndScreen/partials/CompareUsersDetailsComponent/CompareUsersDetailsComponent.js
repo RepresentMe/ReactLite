@@ -31,8 +31,8 @@ const CompareCollectionUsers = inject("UserStore", "QuestionStore")(observer(({ 
   if (userLoggedIn) {
 
     userIds.map((id) => {
-      UserStore.getUserById(id).then((res) => {console.log('userB', res) ; return viewData.users.push(res)})
-      UserStore.compareUsers(currentUserId, id).then((res) => {console.log('compareData', res); return viewData.compareData.set(id, res)})
+      UserStore.getUserById(id).then((res) => { return viewData.users.push(res)})
+      UserStore.compareUsers(currentUserId, id).then((res) => {return viewData.compareData.set(id, res)})
       UserStore.amFollowingUser(currentUserId, id).then((res) => {
         let result = res.results[0] ? res.results[0].id : res.count;
         return viewData.following.set(id, result)
