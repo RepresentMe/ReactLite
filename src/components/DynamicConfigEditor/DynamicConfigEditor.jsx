@@ -76,7 +76,7 @@ class DynamicConfigEditor extends Component {
           value={this.dynamicConfigString.get()}
           onChange={this.onDynamicConfigChange}
         />
-        <button onClick={() => this.dynamicConfigString.set('')}>Clear</button>
+        {/*<button onClick={() => this.dynamicConfigString.set('')}>Clear</button>*/}
       </div>
 
       <div>
