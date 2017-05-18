@@ -84,7 +84,7 @@ class CompareCollectionUsers extends Component {
   loadData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds} = this.props;
     let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
-    const propUserIds = [6]//userIds.peek();
+    const propUserIds = userIds.peek();
     CollectionStore.getCollectionItemsById(collectionId)
         .then((res) => {
           this.viewData.questions.replace(res);
