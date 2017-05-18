@@ -13,7 +13,7 @@ const IntroCarouselCard = (props) => {
   const randomPic = `/img/pic${Math.floor(Math.random()*7)}.png`;
   const img = props.img ? props.img.replace("localhost:8000", "represent.me") : randomPic;
 
-  	return (
+    return (
       <div>
         {!props && <p>LOADING</p>}
         {props && (

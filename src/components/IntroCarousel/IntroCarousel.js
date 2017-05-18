@@ -20,14 +20,14 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 import Carousel from 'nuka-carousel';
 
-import IntroCarouselCard from './IntroCarouselCard';
-import './IntroCarousel.css';
+// import IntroCarouselCard from './IntroCarouselCard';
+
 
 
 class IntroCarousel extends React.Component {
   state = {
     item: {
-      img: null,
+      img: './pic3.png',
       text: 'In this snippet just the current value of secondsPassed is passed to the Timer, which is the immutable value 0 (all primitives are immutable in JS). That number wont change anymore in the future, so Timer will never update. It is the property secondsPassed that will'
     },
     modalOpened: true
@@ -41,9 +41,9 @@ class IntroCarousel extends React.Component {
   render (){
      const actions = [
       <FlatButton
-        label="Go to Represent.Me"
+        label="Find out more"
         href="https://represent.me"
-        secondary={true}
+        primary={true}
       />,
       <FlatButton
         label="Close"
@@ -59,17 +59,14 @@ class IntroCarousel extends React.Component {
         open={this.state.modalOpened}
         actions={actions} 
         >
-        <div>
-          <IconButton onTouchTap={(e)=>this.closeModal(e)}
-            style={{position: 'absolute', right: 10, top: 10, color: 'grey'}}
-            >
-            <ClearIcon />
-          </IconButton>
-            <div >
-              <IntroCarouselCard
-                photo={this.state.item.img}
-                text={this.state.item.text}
-                />
+        <div> 
+            <div style={{textAlign:'center'}}>
+            <img src="https://i0.wp.com/represent.me/wp-content/uploads/results3.png" width="400" />
+
+
+            <h2>This is a revolution in democracy.</h2>
+            <p>Vote, discuss, compare, and delegate your vote to the people you trust.</p>
+                
             </div>
           </div>
       </Dialog>
