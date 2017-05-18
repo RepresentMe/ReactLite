@@ -34,6 +34,7 @@ import AuthCode from '../AuthCode';
 import QuestionLiquidDisplay from '../charts/QuestionLiquidPiechart/QuestionLiquidDisplay';
 import CollectionCharts from '../charts/CollectionCharts';
 import DynamicConfigService from '../../services/DynamicConfigService';
+import DynamicConfigEditor from '../DynamicConfigEditor';
 
 import RegisterNewUser from '../RegisterNewUser';
 import RegisterPage from '../RegisterNewUser/RegisterNewPage2';
@@ -270,6 +271,7 @@ export default class Shell extends Component {
                       {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
                       <Route exact path='/compare' component={CompareUsers}/>
                       <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
+                      <Route exact path="/dynamic-config-editor" component={DynamicConfigEditor}/>
                       <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
                     </Switch>
                   </ReactCSSTransitionGroup>
