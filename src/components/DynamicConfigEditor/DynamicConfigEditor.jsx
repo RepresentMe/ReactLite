@@ -33,6 +33,7 @@ class DynamicConfigEditor extends Component {
 
   onDynamicConfigChange =(e,value) => {
     this.dynamicConfigString.set(value);
+    extendObservable(this.dynamicConfigObj, JSON.parse(decodeURIComponent(decodeURIComponent(decodeURIComponent(value)))))
   }
   
   saveToString = () => {
@@ -81,7 +82,7 @@ class DynamicConfigEditor extends Component {
       <div>
         <TextField
           hintText="Compare users"
-          floatingLabelText="Compare users"
+          floatingLabelText="Users(separate by comma)"
           multiLine={true}
           rows={2}
           onBlur={() => {
