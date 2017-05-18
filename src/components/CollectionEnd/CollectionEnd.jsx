@@ -48,7 +48,6 @@ const questionShareLink = (questionId) => {
       showUserDataDialog: false,
     }
     this.getCurrentShowingTab();
-    console.log('this.props.UserStore.userData: ', this.props.UserStore.userData, this.props.UserStore.userData.address);
   }
 
   getCurrentShowingTab = () => {
