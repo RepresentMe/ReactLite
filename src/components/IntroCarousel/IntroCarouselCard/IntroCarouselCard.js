@@ -20,7 +20,8 @@ const IntroCarouselCard = (props) => {
           <div>
             <Card
               className='cardStyleIntro'
-              style={{display: 'inlineBlock'}}>
+              style={{boxShadow: 'none'}}
+              >
 
             <CardHeader
                   avatar={<Avatar
@@ -41,7 +42,6 @@ const IntroCarouselCard = (props) => {
               {props.text ?
                 <div>
                   {props.text.slice(0, 250 + props.text.indexOf(' ')) + ' '}
-                  {/* <Link to={ "/survey/" + id }><i>more...</i></Link> */}
                 </div>
                 : null}
               </CardText>
