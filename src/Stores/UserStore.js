@@ -1,4 +1,4 @@
-import { observable, autorun, observe, computed } from 'mobx';
+import { observable, autorun, observe, computed, action } from 'mobx';
 import Cookies from 'cookies-js';
 import GeoService from '../services/GeoService'
 
@@ -7,8 +7,9 @@ class UserStore {
   userData = observable.shallowMap({});
   sessionData = observable.shallowMap({
     authToken: "",
-    showUserDialog: false,
+    showUserDialog: false
   });
+  loggedFB = observable(false);
 
   userLocation = observable.shallowMap({
     pathname: window.location.pathname
@@ -172,7 +173,7 @@ class UserStore {
     }
     ).get();
   }
-  
+
 
   compareUsers(userAId, userBId) {
     return window.API.get('/api/compare_users/?usera='+userAId+'&userb='+userBId)
@@ -259,7 +260,7 @@ class UserStore {
       });
     }
 
-  
+
   isUserDataComplete(){
     let userData = this.userData;
     return userData;

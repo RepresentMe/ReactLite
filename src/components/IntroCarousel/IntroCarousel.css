@@ -7,10 +7,13 @@
   max-width: 280px;
   min-width: 250px;
   padding: 10px;
-  display: inline-block;
+  position: none;
+  display: block;
+  margin: 10px auto;
   vertical-align: top;
   min-height: 350px;
   max-height: 350px;
+  border: none;
 }
 
 /*for small screens*/

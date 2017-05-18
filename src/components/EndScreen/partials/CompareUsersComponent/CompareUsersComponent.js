@@ -139,7 +139,7 @@ class CompareCollectionUsers extends Component {
         users={this.viewData.users}
         following={this.viewData.following}
       />}
-      <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()}/>
+      <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB}/>
       <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
     </div>)
   }
@@ -173,20 +173,34 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
   </div>)
 })
 
-const MessengerPluginBlock = observer(({authToken}) => {
+@inject("authToken", "loggedFB")
+@observer
+class MessengerPluginBlock extends Component {
+//const MessengerPluginBlock = observer(({authToken, loggedFB}) => {
+
+render(){
   let messengerRefData = "get_started_with_token";
-  if(authToken) {
-    messengerRefData += "+auth_token=" + authToken;
-  }
-  return (<div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 10, textAlign: 'center'}}>
-    <MessengerPlugin
-      appId={String(window.authSettings.facebookId)}
-      pageId={String(window.authSettings.facebookPageId)}
-      size="xlarge"
-      passthroughParams={messengerRefData}
-    />
-  </div>)
-})
+  if(this.props.authToken) {
+    messengerRefData += "+auth_token=" + this.props.authToken;
+    }
+  const loggedFB = this.props.loggedFB;
+
+  return (
+    <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 0, textAlign: 'center', maxHeight: loggedFB.get() ? 100 : 0}}>
+      <MessengerPlugin
+        appId={String(window.authSettings.facebookId)}
+        pageId={String(window.authSettings.facebookPageId)}
+        size="xlarge"
+        passthroughParams={messengerRefData}
+      />
+    </div>
+  )
+
+
+}}
+
+
+
 
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
   return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'center'}}>
