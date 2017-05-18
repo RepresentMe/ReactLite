@@ -141,7 +141,7 @@ class CompareCollectionUsers extends Component {
         users={this.viewData.users}
         following={this.viewData.following}
       />}
-      <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()}/>
+      <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB.get()}/>
       <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
     </div>)
   }
@@ -162,7 +162,7 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
     <h2 style={heading} >How you compare</h2>
     <Carousel
       autoplay={true}
-      autoplayInterval={5000} 
+      autoplayInterval={5000}
       slidesToShow={1}
       slidesToScroll={1}
       cellAlign="left"
@@ -171,7 +171,7 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
       cellSpacing={15}
       dragging={true}
       slideWidth="280px"
-      speed={500} 
+      speed={500}
       >
     {compareData && users.map((user) => {
       //console.log('userB, data', user, data)
@@ -187,20 +187,34 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
   </div>)
 })
 
-const MessengerPluginBlock = observer(({authToken}) => {
+@inject("authToken", "loggedFB")
+@observer
+class MessengerPluginBlock extends Component {
+//const MessengerPluginBlock = observer(({authToken, loggedFB}) => {
+
+render(){
   let messengerRefData = "get_started_with_token";
-  if(authToken) {
-    messengerRefData += "+auth_token=" + authToken;
-  }
-  return (<div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 10, textAlign: 'center'}}>
-    <MessengerPlugin
-      appId={String(window.authSettings.facebookId)}
-      pageId={String(window.authSettings.facebookPageId)}
-      size="xlarge"
-      passthroughParams={messengerRefData}
-    />
-  </div>)
-})
+  if(this.props.authToken) {
+    messengerRefData += "+auth_token=" + this.props.authToken;
+    }
+  const loggedFB = this.props.loggedFB;
+
+  return (
+    <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 0, textAlign: 'center', maxHeight: loggedFB ? 100 : 0}}>
+      <MessengerPlugin
+        appId={String(window.authSettings.facebookId)}
+        pageId={String(window.authSettings.facebookPageId)}
+        size="xlarge"
+        passthroughParams={messengerRefData}
+      />
+    </div>
+  )
+
+
+}}
+
+
+
 
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
   return (<div style={{width: '100vw', display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', overflow: "hidden"}}>

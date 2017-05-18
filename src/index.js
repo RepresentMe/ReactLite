@@ -71,6 +71,13 @@ window.stores = {
   RoutingStore: new RouterStore()
 }
 
+window.fbAsyncInit = () => {
+  let fb = window.FB;
+  console.log("FB LOADED", fb);
+  if (fb) window.stores.UserStore.loggedFB.set(true)
+  //console.log(window.stores.UserStore.loggedFB.get())
+};
+
 window.REPRESENT = (element, initialPath = "/", virtualLocation = true) => {
 
   let history;

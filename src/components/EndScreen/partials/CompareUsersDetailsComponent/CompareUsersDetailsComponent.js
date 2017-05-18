@@ -135,11 +135,10 @@ const CompareCollectionUsersView = observer(({data})=> {
       match = Math.floor(100-this.props.compareData.difference_percent)
       totalCount = this.props.compareData.difference_distances.reduce((a,b) => a+b,0)
       values = {
-        agree: Math.round(1000 *(this.props.compareData.difference_distances[0]) / totalCount)/10+Math.round(1000 *(this.props.compareData.difference_distances[1]) / totalCount)/10,
+        agree: Math.round(1000 *(this.props.compareData.difference_distances[0]) / totalCount)/10,
         neutral: Math.round(1000 *(this.props.compareData.difference_distances[2]) / totalCount)/10,
-        disagree: Math.round(1000 *(this.props.compareData.difference_distances[3]) / totalCount)/10+Math.round(1000 *(this.props.compareData.difference_distances[4]) / totalCount)/10,
+        disagree: Math.round(1000 *(this.props.compareData.difference_distances[4]) / totalCount)/10
         };
-        console.log('values', values)
       }
     }
     return (
