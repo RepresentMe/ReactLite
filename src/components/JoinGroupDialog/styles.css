@@ -1,30 +1,11 @@
-.user-rep-icons-wrapper {
-  width: 100%;
-  text-align: center
+.icons-wrapper-icon {
+  width: 150px;
+  margin: 0 auto; 
 }
 
-
-.user-rep-icons {
-  display: inline-block;
-  width: 70%;
+.icons-wrapper-icon svg,
+.icons-wrapper-icon img {
+  max-width: 55px;
+  max-height: 55px;  
 }
-
-.user-rep-icons img {
-  width: 95px;
-}
-
-.user-icon {
-  float: left;
-}
-
-.represent-icon {
-  float: right;
-}
-
-.submit-button-wrapper {
-  text-align: center;
-}
-
-.submit-button {
-  margin-top: 30px
-}
+ 
