@@ -83,6 +83,7 @@ class QuestionStore {
       return false;
     }
 
+    this.updateLikertResults(questionId, value, vote_private);
     window.API.post('/api/question_votes/', {
         object_id: questionId,
         value,
@@ -95,7 +96,7 @@ class QuestionStore {
         analytics_location
       })
       .then(function (response) {
-        this.loadQuestion(questionId, true);
+        // this.loadQuestion(questionId, true);
       }.bind(this)).catch(err => console.log('err', err));
   }
 
@@ -107,6 +108,7 @@ class QuestionStore {
       return false;
     }
 
+    this.updateMCResults(questionId, value, vote_private);
     window.API.post('/api/question_choice_votes/', {
         object_id: value,
         value: 5,
@@ -119,8 +121,40 @@ class QuestionStore {
         analytics_location
       })
       .then(function (response) {
-        this.loadQuestion(questionId, true);
+        // this.loadQuestion(questionId, true);
       }.bind(this)).catch(err => console.log('err', err));
+  }
+
+  updateLikertResults = (questionId, value, isVotePrivate) => {
+    const question = this.questions.get(questionId);
+    question.my_vote[0] = {
+      value,
+      private: isVotePrivate,
+      modified_at: (new Date()).toDateString()
+    }
+    const voteTypes = ['liquid_minimum', 'liquid_low', 'liquid_medium', 'liquid_high', 'liquid_maximum']
+    const voteType = voteTypes[value-1];
+    question[voteType]++;
+    question[`liquid_vote_count`]++;
+    console.log('updatedQuestion', question);
+  }
+  
+
+  updateMCResults(questionId, choiceId, isPrivate) {
+    const question = this.questions.get(questionId);
+    question.my_vote[0] = {
+      object_id: choiceId,
+      value: 5,
+      private: isPrivate,
+    }
+    for (var i = 0; i < question.choices.length; i++) {
+      if(question.choices[i].id == choiceId) {
+        question.choices[i].liquid_vote_count++;
+        question.choices[i].modified_at = (new Date()).toDateString();
+        break;
+      } 
+    }
+    console.log('updatedMCQuestion', question);
   }
 
   getCollectionItem(collectionId, questionId) {
