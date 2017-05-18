@@ -27,7 +27,7 @@ class SmallCard extends Component {
         {this.props.data.values &&
 
           <div style={{   }}>
-            <Card style={{height: 280, width: 240, marginBottom: 10}}>
+            <Card style={{height: 240, width: 240, marginBottom: 10}}>
 
                 <div style={{}}>
                   <div style={{color: 'white', fontWeight: 'bold', width: 220, borderBottom: '1px solid #ccc', backgroundColor: this.props.data.values[0].fill, minHeight: 60, padding: 10}}>

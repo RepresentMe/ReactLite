@@ -212,11 +212,11 @@ const QuestionResultsCarousel = observer(({questions}) => {
         slidesToScroll={1}
         wrapAround={true}
         cellAlign="left"
-        cellSpacing={15}
+        cellSpacing={10}
         dragging={true}
         slideWidth="240px"
-        speed={500}
-        style={{minHeight: 400}}
+        speed={1000}
+        style={{height: 272}}
         >
 
       {questions.length > 0 &&
@@ -288,7 +288,8 @@ class UserCardSmall extends Component {
       this.props &&
       <Card
         style={{margin: '10px', width: 280, maxHeight: 550, overflowY: 'scroll', overflowX: 'hidden'}}
-      >
+        className='scrollbar'
+        >
 
         <Avatar src={photo} size={50} style={{alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px'}}/>
 

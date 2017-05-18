@@ -33,7 +33,7 @@ class Results extends Component {
         if (!question){
           //do something
         }
-        else 
+        else
         if (question.my_vote.length > 0 && question.subtype === 'likert'){
           // //propose to filter out choices with 0 vote, cause they crowd the space
           let myVote = null;
