@@ -39,12 +39,25 @@ class IntroCarousel extends React.Component {
     this.setState({modalOpened})
   }
   render (){
+     const actions = [
+      <FlatButton
+        label="Go to Represent.Me"
+        href="https://represent.me"
+        secondary={true}
+      />,
+      <FlatButton
+        label="Close"
+        primary={true}
+        onTouchTap={this.closeModal}
+      />,
+    ];
+
     const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     //const cellSpacing = width > 400 ? 280 : 100;
     return (
       <Dialog
         open={this.state.modalOpened}
-        style={{padding: 5, minWidth: 400, maxWidth: 680, position: 'none', display: 'block', margin: 'auto'}}
+        actions={actions} 
         >
         <div>
           <IconButton onTouchTap={(e)=>this.closeModal(e)}

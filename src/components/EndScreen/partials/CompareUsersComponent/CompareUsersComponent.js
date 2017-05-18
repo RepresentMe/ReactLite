@@ -181,7 +181,7 @@ render(){
   const loggedFB = this.props.loggedFB;
 
   return (
-    <div style={{flex: '1', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 0, textAlign: 'center', maxHeight: loggedFB.get() ? 100 : 0}}>
+    <div style={{ borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 5, textAlign: 'center', maxHeight: loggedFB.get() ? 100 : 0}}>
       <MessengerPlugin
         appId={String(window.authSettings.facebookId)}
         pageId={String(window.authSettings.facebookPageId)}
