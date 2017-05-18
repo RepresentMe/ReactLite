@@ -29,21 +29,19 @@ class IntroCarousel extends React.Component {
     item: {
       img: null,
       text: 'In this snippet just the current value of secondsPassed is passed to the Timer, which is the immutable value 0 (all primitives are immutable in JS). That number wont change anymore in the future, so Timer will never update. It is the property secondsPassed that will'
-    },
-    modalOpened: true
+    }
   }
 
   closeModal = (e) => {
     e.preventDefault();
-    let modalOpened = !this.state.modalOpened;
-    this.setState({modalOpened})
+    this.props.toggleIntro();
   }
   render (){
     const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    //const cellSpacing = width > 400 ? 280 : 100;
+    
     return (
       <Dialog
-        open={this.state.modalOpened}
+        open={this.props.modalOpened}
         style={{padding: 5, minWidth: 400, maxWidth: 680, position: 'none', display: 'block', margin: 'auto'}}
         >
         <div>
