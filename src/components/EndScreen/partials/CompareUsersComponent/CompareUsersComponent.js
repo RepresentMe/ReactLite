@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { observable, autorun, computed } from 'mobx';
 import { Link } from 'react-router-dom';
-import {Card, CardHeader, CardText, CardActions, CardTitle, CardMedia} from 'material-ui/Card';
+import {Card, CardText, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton'; import Subheader from 'material-ui/Subheader';
 
 import LoadingIndicator from '../../../LoadingIndicator';
 
@@ -13,8 +12,7 @@ import MessengerPlugin from 'react-messenger-plugin';
 
 import Divider from 'material-ui/Divider';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-import { TwitterButton } from "react-social";
-import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
+import { TwitterButton } from "react-social"; 
 import IconButton from 'material-ui/IconButton';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import Toggle from 'material-ui/Toggle';
@@ -158,21 +156,10 @@ const heading = {
 };
 
 const UserCompareCarousel = observer(({compareData, users, following}) => {
-  return (<div style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', overflow: "hidden"}}>
-    <h2 style={heading} >How you compare</h2>
-    <Carousel
-      autoplay={true}
-      autoplayInterval={5000} 
-      slidesToShow={1}
-      slidesToScroll={1}
-      cellAlign="left"
-      wrapAround={true}
-      fixedHeight={false}
-      cellSpacing={15}
-      dragging={true}
-      slideWidth="280px"
-      speed={500} 
-      >
+  return (<div  style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
+    
+    <Subheader>How you compare</Subheader>
+ 
     {compareData && users.map((user) => {
       //console.log('userB, data', user, data)
       return (
@@ -182,8 +169,7 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
             following={observable(following.get(user.id))}/>
         </div>
       )
-    })}
-    </Carousel>
+    })} 
   </div>)
 })
 
@@ -203,21 +189,9 @@ const MessengerPluginBlock = observer(({authToken}) => {
 })
 
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
-  return (<div style={{width: '100vw', display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', overflow: "hidden"}}>
-    <h2 style={heading} >All results</h2>
-      <Carousel
-        autoplay={true}
-        autoplayInterval={2000}
-        slidesToShow={1}
-        slidesToScroll={1}
-        wrapAround={true}
-        cellAlign="left"
-        cellSpacing={10}
-        dragging={true}
-        slideWidth="240px"
-        speed={1000}
-        style={{height: 272}}
-        >
+  return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'center'}}>
+    <Subheader>All Results</Subheader>
+ 
 
       {questions.length > 0 &&
         questions.peek().map((question, i) => {
@@ -228,8 +202,7 @@ const QuestionResultsCarousel = observer(({questions, collectionId}) => {
           </div>
         )
       })
-        }
-        </Carousel>
+        } 
   </div>)
 })
 
@@ -287,7 +260,7 @@ class UserCardSmall extends Component {
     return (
       this.props &&
       <Card
-        style={{margin: '10px', width: 280, maxHeight: 550, overflowY: 'scroll', overflowX: 'hidden'}}
+        style={{margin: '10px', padding: 0, width: 240,  overflowX: 'hidden'}}
         className='scrollbar'
         >
 
@@ -297,95 +270,39 @@ class UserCardSmall extends Component {
 
         <CardText style={{textAlign: 'center', paddingTop: 0, color: '#ccc'}}>
           {bio}
+          <div style={{ margin: '10px 0 0 0'}}>
+            { this.props.following.get() > 0 ?
+              <RaisedButton
+                label="following"
+                primary={true}
+                onTouchTap={this.removeFollowing}
+              /> :
+              <RaisedButton
+                label="follow"
+                onTouchTap={this.setFollowing}
+                /> }
+              <FlatButton
+                label={this.state.compareDetails ? "hide details" : 'Compare in detail'}
+                primary={true}
+                onTouchTap={this.compare}
+                />
+            </div>
         </CardText>
-        <CardText style={{backgroundColor: '#e6f7ff', padding: '5px 10px'}}>
-          {/* <p style={{fontSize: 14, fontWeight: 'bold'}}>How do I compare to {name}?</p> */}
-          <h2 style={{ fontSize: '60px', margin: '3px 0', textAlign: 'center'}}>{`${match}%`}</h2>
+        <CardText style={{backgroundColor: '#e6f7ff', padding: '5px 10px'}}> 
+          <h2 style={{ fontSize: '45px', margin: '3px 0', lineHeight: 0.8, textAlign: 'center'}}>{`${match}%`}</h2>
 
           {this.props.compareData ? (
             <div>
+              
+              <p style={{ color: '#999', margin:0,   }}>{`match on ${questions_counted} questions`}</p>
               <MatchBarchart compareData={this.props.compareData} />
-              <p>{`Compared across: ${questions_counted} questions`}</p>
               </div>
-            ) : <p></p>}
-
-            <div className='container'>
-              <div className='inner'>
-                <p>{count_question_votes}<br/>
-                  <span>Answers</span>
-                </p>
-              </div>
-              <div className='inner'>
-                <p>{count_followers}<br/>
-                <span>Followers</span>
-                </p>
-              </div>
-              <div className='inner'>
-                <p>{count_comments}<br/>
-                  <span>Comments</span>
-                </p>
-              </div>
-            </div>
+            ) : <p></p>} 
 
             <div style={barStyle}>
               <CompareUsersDetailsComponent userIds={[this.props.user.id]} />
             </div>
-
-
-         {/*  <p>match <Link to={`/compare/${this.props.user.id}`}>(detail)</Link></p> */}
-
-              {/* in reality need to display if i'm following this user */}
-              <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 10px 0px'}}>
-                { this.props.following.get() > 0 ?
-                  <FlatButton
-                    label="following"
-                    onTouchTap={this.removeFollowing}
-                  /> :
-                  <RaisedButton
-                    label="follow"
-                    backgroundColor="#1B8AAE"
-                    onTouchTap={this.setFollowing}
-                    /> }
-                </div>
         </CardText>
-
-        <CardActions>
-          <FlatButton
-        label={this.state.compareDetails ? "hide details" : 'show details'}
-        primary={true}
-        onTouchTap={this.compare}
-        />
-        </CardActions>
-        {/*
-        <Dialog
-          autoScrollBodyContent={true}
-          open={this.state.compareDetails}
-          style={{padding: 5, minWidth: 680, maxWidth: 680, width: 680, overflow: 'auto', position: 'none', display: 'block', margin: 'auto'}}
-          contentStyle={{width: 500}}
-          bodyStyle={{padding: 0, overflowX: 'hidden'}}>
-
-          <div>
-          <CardActions>
-            <IconButton onTouchTap={this.compare}
-              style={{position: 'absolute', right: 5, top: 15, color: 'grey'}}
-              >
-              <ClearIcon />
-            </IconButton>
-          </CardActions>
-
-          <CompareUsersDetailsComponent userIds={[this.props.user.id]}/>
-
-          <CardActions>
-            <FlatButton
-              label="back"
-              primary={false}
-              onTouchTap={this.compare}
-              />
-          </CardActions>
-          </div>
-
-        </Dialog> */}
-
     </Card>
   )
 }}
@@ -404,9 +321,10 @@ const MatchBarchart = observer(({ compareData }) => {
   };
 
   return (
-    <ResponsiveContainer minHeight={30} maxWidth={150} style={{border: '1px solid red'}}>
+    <ResponsiveContainer minHeight={20} maxWidth={150} style={{border: '1px solid red'}}>
     <BarChart
       layout="vertical"
+      height={10}
       data={[values]}
       barGap={1}
     >

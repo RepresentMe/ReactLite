@@ -15,12 +15,14 @@
 @media all and (max-width: 900px) and (min-width: 600px) {
     .img-share {
         width: 80%;
+        max-width: 500px;
     }
 }
 
 @media all and (max-width: 1200px) and (min-width: 900px) {
     .img-share {
         width: 60%;
+        max-width: 500px;
     }
 }
 

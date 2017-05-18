@@ -148,13 +148,28 @@ const CompareCollectionUsersView = observer(({data})=> {
         {!this.props.compareData || !this.props.compareData.topic_diffs ? <p>loading...</p> :
           <div style={{backgroundColor: '#e6f7ff', padding: 10, maxWidth: 250, margin: '0 auto'}}>
 
+            <div className='container'>
+              <div className='inner'>
+                <p>{count_question_votes}<br/>
+                  <span>Answers</span>
+                </p>
+              </div>
+              <div className='inner'>
+                <p>{count_followers}<br/>
+                <span>Followers</span>
+                </p>
+              </div>
+              <div className='inner'>
+                <p>{count_comments}<br/>
+                  <span>Comments</span>
+                </p>
+              </div>
+            </div>
+
           <div className='containerSmall' style={{justifyContent: 'center', paddingTop: 0}}>
             <div className='innerSmall'>
               <p><img src='/icons/happy_face1.png'/>{` ${values.agree}%`}</p>
-            </div>
-            <div className='innerSmall'>
-              <p><img src='/icons/toll1.png'/>{` ${values.neutral}%`}</p>
-            </div>
+            </div> 
             <div className='innerSmall'>
               <p><img src='/icons/sad_face1.png'/>{` ${values.disagree}%`}</p>
             </div>
@@ -261,9 +276,9 @@ const MatchBarchartSmallContainer = observer(({ compareData }) => {
         //console.log(diffs_array[i][k], i)
         return (
           <div key={`BarChart-${i}`}>
-            <div style={{padding: 5, height: 14}}>
-              <span style={{fontSize: 14, position: 'relative', float: 'left'}}>{`${diffs_array[i][k]['matchPercent']}% on ${k}`}</span>
-              <span style={{fontSize: 14, position: 'relative', float: 'right'}}>{`${diffs_array[i][k]['totalCount']}`}</span>
+            <div style={{padding: 5, height: 6}}>
+              <span style={{fontSize: 12, position: 'relative', float: 'left'}}>{`${diffs_array[i][k]['matchPercent']}% on ${k}`}</span>
+              <span style={{fontSize: 10, position: 'relative', float: 'right', color: '#999'}}>{`${diffs_array[i][k]['totalCount']}`}</span>
             </div>
             <MatchBarchartSmall values={diffs_array[i][k]['values']}/>
           </div>
