@@ -3,9 +3,8 @@ import { observer, inject } from "mobx-react";
 import { observable } from 'mobx';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import LoadingIndicator from '../../../LoadingIndicator';
-import Checkbox from 'material-ui/Checkbox';
 
 import '../CompareUsersComponent/CompareUsers.css';
 
@@ -150,17 +149,17 @@ const CompareCollectionUsersView = observer(({data})=> {
             <div className='container'>
               <div className='inner'>
                 <p>{count_question_votes}<br/>
-                  <span>Answers</span>
+                  <span>votes</span>
                 </p>
               </div>
               <div className='inner'>
                 <p>{count_followers}<br/>
-                <span>Followers</span>
+                <span>followers</span>
                 </p>
               </div>
               <div className='inner'>
                 <p>{count_comments}<br/>
-                  <span>Comments</span>
+                  <span>comments</span>
                 </p>
               </div>
             </div>

@@ -10,11 +10,16 @@
   justify-content: space-around;
 }
 .inner {
-  border: 1px solid #1B8AAE;
+  border: 1px solid #AABBC3;
   flex: 1;
   font-size: 14px;
   font-weight: bold;
   transition: background-color 0.5s ease;
+}
+.inner p {
+  margin: 3px 0;
+  color: #999 !important;
+  font-weight: normal !important;
 }
 .innerSmall {
   flex: 1;

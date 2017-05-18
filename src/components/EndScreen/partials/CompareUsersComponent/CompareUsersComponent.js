@@ -4,21 +4,18 @@ import { observable, autorun, computed } from 'mobx';
 import { Link } from 'react-router-dom';
 import {Card, CardText, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton'; import Subheader from 'material-ui/Subheader';
+import RaisedButton from 'material-ui/RaisedButton'; 
+import Subheader from 'material-ui/Subheader';
 
 import LoadingIndicator from '../../../LoadingIndicator';
 
 import MessengerPlugin from 'react-messenger-plugin';
 
-import Divider from 'material-ui/Divider';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 import { TwitterButton } from "react-social"; 
 import IconButton from 'material-ui/IconButton';
-import ClearIcon from 'material-ui/svg-icons/content/clear';
-import Toggle from 'material-ui/Toggle';
 import Avatar from 'material-ui/Avatar';
 
-import Carousel from 'nuka-carousel';
 import DynamicConfigService from '../../../../services/DynamicConfigService';
 
 import Results from '../ResultsComponent';
@@ -157,9 +154,7 @@ const heading = {
 
 const UserCompareCarousel = observer(({compareData, users, following}) => {
   return (<div  style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
-    
-    <Subheader>How you compare</Subheader>
- 
+      
     {compareData && users.map((user) => {
       //console.log('userB, data', user, data)
       return (
@@ -204,7 +199,7 @@ render(){
 
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
   return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'center'}}>
-    <Subheader>All Results</Subheader>
+    <Subheader style={{fontWeight: 600, textTransform: 'upperCase'}} >All Results</Subheader>
  
 
       {questions.length > 0 &&
@@ -274,7 +269,7 @@ class UserCardSmall extends Component {
     return (
       this.props &&
       <Card
-        style={{margin: '10px', padding: 0, width: 240,  overflowX: 'hidden'}}
+        style={{margin: '10px', padding: 0, width: 260,  overflowX: 'hidden'}}
         className='scrollbar'
         >
 
