@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from "mobx-react";
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 
@@ -13,7 +13,7 @@ const IntroCarouselCard = (props) => {
   const randomPic = `/img/pic${Math.floor(Math.random()*7)}.png`;
   const img = props.img ? props.img.replace("localhost:8000", "represent.me") : randomPic;
 
-  	return (
+    return (
       <div>
         {!props && <p>LOADING</p>}
         {props && (

@@ -10,11 +10,16 @@
   justify-content: space-around;
 }
 .inner {
-  border: 1px solid grey;
+  border: 1px solid #AABBC3;
   flex: 1;
   font-size: 14px;
   font-weight: bold;
   transition: background-color 0.5s ease;
+}
+.inner p {
+  margin: 3px 0;
+  color: #999 !important;
+  font-weight: normal !important;
 }
 .innerSmall {
   flex: 1;
@@ -48,17 +53,16 @@
   margin: 7px auto;
   display: block;
 }
-.slider-frame{
+/*.slider-frame{
   overflow: visible !important;
 }
 .slider-decorator-2{
   height: 30px;
   overflow: hidden;
-}
-/*Scrolling fancy*/
+} 
+
 .scrollbar::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: red;
+    border-radius: 10px; 
 }
 .scrollbar::-webkit-scrollbar-track {
   background-color:lightgrey;
@@ -67,3 +71,4 @@
     height: 7px;
     width:10px;
 }
+*/

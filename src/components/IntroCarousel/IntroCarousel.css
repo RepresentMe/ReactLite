@@ -19,8 +19,8 @@
 /*for small screens*/
 @media screen and (max-width: 419px) {
    .cardStyleIntro {
-    max-width: 250px;
-    margin: 10px auto;
+    /*max-width: 250px;*/
+    /*margin: 10px auto;*/
     display: block;
     }
 }
