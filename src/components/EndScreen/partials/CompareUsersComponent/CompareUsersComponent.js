@@ -85,6 +85,7 @@ class CompareCollectionUsers extends Component {
     let { CollectionStore, UserStore, collectionId = 1, userIds} = this.props;
     let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
     const propUserIds = userIds.peek();
+    //const propUserIds = [6,100,1000]
     CollectionStore.getCollectionItemsById(collectionId)
         .then((res) => {
           this.viewData.questions.replace(res);
@@ -161,17 +162,16 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
     <h2 style={heading} >How you compare</h2>
     <Carousel
       autoplay={true}
-      autoplayInterval={5000}
-      //initialSlideHeight={50}
+      autoplayInterval={5000} 
       slidesToShow={1}
       slidesToScroll={1}
       cellAlign="left"
       wrapAround={true}
+      fixedHeight={false}
       cellSpacing={15}
       dragging={true}
       slideWidth="280px"
-      speed={500}
-      style={{ minHeight: 550}}
+      speed={500} 
       >
     {compareData && users.map((user) => {
       //console.log('userB, data', user, data)
@@ -412,11 +412,11 @@ const MatchBarchart = observer(({ compareData }) => {
     >
       <XAxis domain={[0, 100]} hide={true} type="number" />
       <YAxis type="category" hide={true} />
-      <Bar dataKey="strongly_disagree" stackId="1" fill={labels[Object.keys(values)[4]]['color']} />
-      <Bar dataKey="disagree" stackId="1" fill={labels[Object.keys(values)[3]]['color']} />
-      <Bar dataKey="neutral" stackId="1" fill={labels[Object.keys(values)[2]]['color']} />
-      <Bar dataKey="agree" stackId="1" fill={labels[Object.keys(values)[1]]['color']} />
       <Bar dataKey="strongly_agree" stackId="1" fill={labels[Object.keys(values)[0]]['color']} />
+      <Bar dataKey="agree" stackId="1" fill={labels[Object.keys(values)[1]]['color']} />
+      <Bar dataKey="neutral" stackId="1" fill={labels[Object.keys(values)[2]]['color']} />
+      <Bar dataKey="disagree" stackId="1" fill={labels[Object.keys(values)[3]]['color']} />
+      <Bar dataKey="strongly_disagree" stackId="1" fill={labels[Object.keys(values)[4]]['color']} />
       {/* <Tooltip content={<CustomTooltip/>}/> */}
     </BarChart>
   </ResponsiveContainer>
