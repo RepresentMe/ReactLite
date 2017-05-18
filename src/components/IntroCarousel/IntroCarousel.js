@@ -25,18 +25,11 @@ import Carousel from 'nuka-carousel';
 
 
 class IntroCarousel extends React.Component {
-  state = {
-    item: {
-      img: './pic3.png',
-      text: 'In this snippet just the current value of secondsPassed is passed to the Timer, which is the immutable value 0 (all primitives are immutable in JS). That number wont change anymore in the future, so Timer will never update. It is the property secondsPassed that will'
-    },
-    modalOpened: true
-  }
+
 
   closeModal = (e) => {
     e.preventDefault();
-    let modalOpened = !this.state.modalOpened;
-    this.setState({modalOpened})
+    this.props.toggleIntro();
   }
   render (){
      const actions = [
@@ -52,21 +45,23 @@ class IntroCarousel extends React.Component {
       />,
     ];
 
-    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    //const cellSpacing = width > 400 ? 280 : 100;
+    //const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
     return (
       <Dialog
-        open={this.state.modalOpened}
-        actions={actions} 
+        style={{padding: 5, minWidth: 400, maxWidth: 680, position: 'none', display: 'block', margin: 'auto'}}
+        open={this.props.modalOpened}
+        actions={actions}
+
         >
-        <div> 
+        <div>
             <div style={{textAlign:'center'}}>
-            <img src="https://i0.wp.com/represent.me/wp-content/uploads/results3.png" width="400" />
+            <img src="https://i0.wp.com/represent.me/wp-content/uploads/results3.png" width="90%" />
 
 
             <h2>This is a revolution in democracy.</h2>
             <p>Vote, discuss, compare, and delegate your vote to the people you trust.</p>
-                
+
             </div>
           </div>
       </Dialog>

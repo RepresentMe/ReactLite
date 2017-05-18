@@ -41,6 +41,7 @@ import RegisterPage from '../RegisterNewUser/RegisterNewPage2';
 
 import CandidateIntro from '../CandidateIntro';
 import CandidateNew from '../CandidateNew';
+import IntroCarousel from '../IntroCarousel';
 
 import smallLogo from './represent_white_outline.svg';
 
@@ -69,7 +70,7 @@ const muiTheme = getMuiTheme({
   },
   raisedButton: {
     textColor: white,
-  }, 
+  },
   flatButton: {
     primaryTextColor: cyan600,
     secondaryTextColor: grey700,
@@ -86,19 +87,19 @@ const muiTheme = getMuiTheme({
 
 const styles = {
   avatarStyle: {
-    height: '16px', 
-    width: '16px', 
+    height: '16px',
+    width: '16px',
     margin: '3px 0px'
   },
   leftIconStyle: {
     height: '20px'
   },
   pageWraperStyle: {
-    height: '100%', 
-    position: 'absolute', 
-    width: '100%', 
-    top: 0, 
-    left: 0, 
+    height: '100%',
+    position: 'absolute',
+    width: '100%',
+    top: 0,
+    left: 0,
     overflow: 'hidden'
   },
   appBarStyles: {
@@ -136,12 +137,15 @@ function getDynamicConfig(url) {
 }
 
 
-@inject("UserStore",  "QuestionStore") @observer 
+@inject("UserStore",  "QuestionStore") @observer
 export default class Shell extends Component {
 
   constructor(props) {
     super(props)
 
+    this.state = {
+      modalOpened: false
+    };
     this.onLogout = this.onLogout.bind(this)
     this.navigateToLogin = this.navigateToLogin.bind(this)
   }
@@ -152,6 +156,12 @@ export default class Shell extends Component {
 
   navigateToLogin() {
     this.props.history.push('/login/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname))
+  }
+
+  toggleIntro = () => {
+    //e.preventDefault()
+    const modalOpened = !this.state.modalOpened;
+    this.setState({modalOpened})
   }
 
   render() {
@@ -172,11 +182,11 @@ export default class Shell extends Component {
       mainContentStyle.height = "100%";
     }
 
-    const { 
-      avatarStyle, 
-      leftIconStyle, 
-      pageWraperStyle, 
-      appBarStyles: { style, iconStyleLeft, iconStyleRight, titleStyle } 
+    const {
+      avatarStyle,
+      leftIconStyle,
+      pageWraperStyle,
+      appBarStyles: { style, iconStyleLeft, iconStyleRight, titleStyle }
     } = styles
 
     const { userData } = this.props.UserStore
@@ -187,14 +197,15 @@ export default class Shell extends Component {
     const isAuthenticated = !!userData.get('id')
 
     const avatar = (
-      <Avatar style={avatarStyle} 
-        icon={!this.props.UserStore.userData.has("id") ? <Face /> : null} 
-        src={this.props.UserStore.userData.has("photo") ? photo.replace("localhost:8000", "represent.me") : null} 
+      <Avatar style={avatarStyle}
+        icon={!this.props.UserStore.userData.has("id") ? <Face /> : null}
+        src={this.props.UserStore.userData.has("photo") ? photo.replace("localhost:8000", "represent.me") : null}
         backgroundColor={cyan600}
         onClick={!isAuthenticated ? this.navigateToLogin : null}
       />
     )
     console.log('renderShell');
+    
     return(
       <Router history={this.props.history}>
           <MuiThemeProvider muiTheme={muiTheme}>
@@ -205,9 +216,9 @@ export default class Shell extends Component {
                   <div>
                     <AppBar
                       iconElementLeft={
-                          <img  src={smallLogo} 
-                                style={leftIconStyle} 
-                                onClick={() => window.open("https://represent.me",'_blank')}
+                          <img  src={smallLogo}
+                                style={leftIconStyle}
+                                onTouchTap={() => this.toggleIntro()}
                           />
                       }
                       iconElementRight={
@@ -218,7 +229,7 @@ export default class Shell extends Component {
                                    avatar
                                 }
                                 anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                                targetOrigin={{horizontal: 'right', vertical: 'bottom'}}
                               >
                                 <MenuItem primaryText="Edit profile" href="https://app.represent.me/me/edit/main/"/>
                                 <MenuItem primaryText="View my profile" href={`https://app.represent.me/profile/${userId}/${username}/`}/>
@@ -237,6 +248,10 @@ export default class Shell extends Component {
                       />
                   </div>
                 }
+
+                <IntroCarousel
+                  modalOpened={this.state.modalOpened}
+                  toggleIntro={this.toggleIntro}/>
 
                 <Scrollbars autoHide>
                   <ReactCSSTransitionGroup
