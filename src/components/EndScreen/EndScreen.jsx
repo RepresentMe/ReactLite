@@ -8,7 +8,7 @@ import FollowUserDialog from '../FollowUserDialog';
 import MessengerModal from './partials/MessengerModal';
 import MoreUserInfo from '../Components/modals/MoreUserInfo';
 
-@inject("UserStore", "GroupStore") 
+@inject("UserStore", "GroupStore")
 @observer
 class EndScreen extends Component {
 
@@ -32,7 +32,7 @@ class EndScreen extends Component {
         isOpen: false
       }
     }
-    
+
     this.dynamicConfig = DynamicConfigService;
     if(this.props.match.params.dynamicConfig) {
       this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
@@ -42,9 +42,9 @@ class EndScreen extends Component {
   componentWillMount(){ // WEIRD CODE WRITTED IN LAST NIGHT BEFORE DEPLOY
     this.props.UserStore.getCachedMe().then(data => {
       if(!this.isUserDataSet(data)) {
-        this.setState({ 
+        this.setState({
           userDataModal: {
-            user: data, 
+            user: data,
             isOpen: true
           }
         })
@@ -54,7 +54,7 @@ class EndScreen extends Component {
     })
   }
 
-  checkToShowJoinGroupModal() { 
+  checkToShowJoinGroupModal() {
     const { GroupStore } = this.props;
     if(this.dynamicConfig.config.survey_end.showJoinGroup_id) {
       GroupStore.getGroup(this.dynamicConfig.config.survey_end.showJoinGroup_id).then((group) => {
@@ -69,11 +69,11 @@ class EndScreen extends Component {
           this.checkToShowFollowUserModal();
         }
       })
-      
+
     } else {
       this.checkToShowFollowUserModal()
     }
-    
+
   }
 
   checkToShowFollowUserModal() {
@@ -88,7 +88,7 @@ class EndScreen extends Component {
                 isOpen: true,
                 userId: this.dynamicConfig.config.survey_end.showFollowUser_id
               }
-            }) 
+            })
           } else {
             this.checkToShowFollowUserModal()
           }

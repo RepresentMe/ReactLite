@@ -142,7 +142,7 @@ class CompareCollectionUsers extends Component {
         following={this.viewData.following}
       />}
       <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()}/>
-      <QuestionResultsCarousel questions={this.viewData.questions} />
+      <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
     </div>)
   }
 }
@@ -203,7 +203,7 @@ const MessengerPluginBlock = observer(({authToken}) => {
   </div>)
 })
 
-const QuestionResultsCarousel = observer(({questions}) => {
+const QuestionResultsCarousel = observer(({questions, collectionId}) => {
   return (<div style={{width: '100vw', display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', overflow: "hidden"}}>
     <h2 style={heading} >All results</h2>
       <Carousel
@@ -224,7 +224,7 @@ const QuestionResultsCarousel = observer(({questions}) => {
         questions.peek().map((question, i) => {
           return (
           <div key={`ques-${i}`} style={{}}>
-            <Results questionId={question.object_id}/>
+            <Results questionId={question.object_id} id={i} collectionId={collectionId}/>
 
           </div>
         )

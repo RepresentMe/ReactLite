@@ -34,6 +34,7 @@ class Results extends Component {
           //do something
         }
         else
+        //if question is likert and user voted
         if (question.my_vote.length > 0 && question.subtype === 'likert'){
           // //propose to filter out choices with 0 vote, cause they crowd the space
           let myVote = null;
@@ -61,7 +62,7 @@ class Results extends Component {
           }
           this.viewData.values = result;
         }
-
+        //if question is MCQ and user voted
         else if (question.my_vote.length > 0 && question.subtype === 'mcq'){
           //propose to filter out choices with 0 vote, cause they crowd the space
           const choices = question.choices.filter(choice => choice.direct_vote_count > 0)
@@ -101,11 +102,12 @@ class Results extends Component {
   }
 
   render() {
-    const { QuestionStore, questionId} = this.props;
+    const { QuestionStore, questionId, collectionId, id} = this.props;
+    const url = `/survey/${collectionId}/flow/${id}/`;
 
     return (
       <div>
-        <SmallCard data={this.viewData}/>
+        <SmallCard data={this.viewData} url={url}/>
       </div>
     )
   }
