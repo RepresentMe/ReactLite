@@ -1,12 +1,12 @@
 .bar{
   margin-left: 0;
-  padding: 5px;
-  font-size: 14px;
-  border-radius: 0px 5px 5px 0px;
+  padding: 2px;
+  font-size: 12px; 
   z-index: 2;
   display: inline-block;
   white-space: nowrap;
-  text-shadow: 0px 0px 2px white;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px white;
   transition: width 0.7s ease-out;
 }
 .bar:hover{
@@ -16,13 +16,10 @@
   opacity: 0.8;
 }
 .bg_bar{
-  margin: 5px;
-  margin-left: 10%;
-  font-size: 14px;
-  width: 80%;
-  border-radius: 0px 5px 5px 0px;
-  z-index: 1;
-  background-color: #f5f5f5;
+  margin: 0 2px 2px 0; 
+  font-size: 8px;
+  width: 100%; 
+  z-index: 1; 
   position: relative;
   -webkit-transform: translate3d(0,0,0)
 }

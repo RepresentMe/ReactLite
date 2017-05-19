@@ -4,7 +4,7 @@ import LoadingIndicator from '../../LoadingIndicator';
 import Done from 'material-ui/svg-icons/action/done';
 import './barStyle.css';
 
-const CHART_HEIGHT = 200;
+const CHART_HEIGHT = 120;
 
 const BarChartComponent = observer(class BarChartComponent extends React.Component{
 	constructor(){
@@ -76,7 +76,7 @@ class ContainerBar extends React.Component{
 
 const Bar = (props) => {
 	const width = Math.round(props.percentage*0.5*240/100)
-  const style = Object.assign({}, {
+  	const style = Object.assign({}, {
       backgroundColor: props.fill,
       width: props.activeEltIndex ? width*1.1 : width
       })
@@ -96,7 +96,7 @@ const Percentage = (props) => {
 return (
 	<div className='percentageEndScreen' style={{color: props.fill}}>
 		<span style={{display: 'inline'}}>{`${props.percentage}%`}</span>
-		<span style={{display: 'inline'}}>{props.my_vote ? <Done style={{color: props.fill, height: 14}}/> : ''}</span>
+		<span style={{display: 'inline'}}>{props.my_vote ? <Done style={{color: props.fill, height: 8}}/> : ''}</span>
 	</div>
 )}
 
