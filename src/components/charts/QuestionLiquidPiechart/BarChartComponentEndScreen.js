@@ -63,6 +63,7 @@ class ContainerBar extends React.Component{
 		this.setState({activeEltIndex: '', direct_vote_count: ''})
 	}
 	render(){
+		//console.log('endScreen bar', this.props)
 	return (
 		<div className='bg_bar' >
 		    <Bar {...this.props}
@@ -74,30 +75,33 @@ class ContainerBar extends React.Component{
 
 
 const Bar = (props) => {
-	const width = Math.round(props.percentage*0.7*window.innerWidth/100)
+	const width = Math.round(props.percentage*0.5*240/100)
   const style = Object.assign({}, {
       backgroundColor: props.fill,
       width: props.activeEltIndex ? width*1.1 : width
       })
-	const display = props.direct_vote_count && window.innerWidth > 800 ?
-		`${props.full_name}....Direct vote count: ${props.direct_vote_count}` :
-		props.full_name
+	const display =
+	// props.direct_vote_count && window.innerWidth > 800 ?
+	// 	`${props.full_name}....Direct vote count: ${props.direct_vote_count}` :
+		props.name
 
 	return (
-	  <div className='bar' style={style}>
+	  <div className='bar barEndScreen' style={style}>
      {display}
 	  </div>
 )}
 
-
 const Percentage = (props) => {
 	//console.log('percentage props', props)
 return (
-	<div className='percentage' style={{color: props.fill}}>
+	<div className='percentageEndScreen' style={{color: props.fill}}>
 		<span style={{display: 'inline'}}>{`${props.percentage}%`}</span>
-		<span style={{display: 'inline'}}>{props.my_vote ? <Done style={{color: props.fill, height: 16}}/> : ''}</span>
+		<span style={{display: 'inline'}}>{props.my_vote ? <Done style={{color: props.fill, height: 14}}/> : ''}</span>
 	</div>
 )}
 
+// const MyVote = (props) => (
+// 	<div style={{display: 'inlineBlock', borderRadius: '50%', backgroundColor: 'navy', height: 10, width: 10}}></div>
+// )
 
 export default BarChartComponent;

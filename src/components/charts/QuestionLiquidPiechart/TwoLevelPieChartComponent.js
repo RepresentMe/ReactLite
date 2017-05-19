@@ -92,7 +92,7 @@ const TwoLevelPieChart = observer(class TwoLevelPieChart extends React.Component
               innerRadius={55}
               outerRadius={80}
               fill="#8884d8"/>
-            <Legend width={'100%'} align='center' wrapperStyle={{ bottom: 10, left: 10, fontSize: 10, backgroundColor: 'transparent', border: 'none', lineHeight: '10px', padding: 10}} />
+            <Legend width={WIDTH*0.9} align='center' wrapperStyle={{ bottom: 10, left: 10, fontSize: 10, backgroundColor: 'transparent', border: 'none', lineHeight: '10px', padding: 10}} />
          </PieChart>}
       </div>
     );

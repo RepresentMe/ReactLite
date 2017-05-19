@@ -56,7 +56,9 @@ class Results extends Component {
                 {percentage},
                 {fill: likertProps[labels[i]]['color']},
                 // {direct_vote_count: question[likertProps[label]['direct']]},
-                {title: question['question']}
+                {title: question['question']},
+                {count_comments: question['count_comments']},
+                {questionId: this.props.questionId}
               ))
             }
           }
@@ -83,7 +85,9 @@ class Results extends Component {
               {fill: colors_mcq[i%colors_mcq.length]},
               //{zeroChoices: zeroChoices},
               // {direct_vote_count: choice.direct_vote_count},
-              {title: question['question']}
+              {title: question['question']},
+              {count_comments: question['count_comments']},
+              {questionId: this.props.questionId}
             ))
           }}
           this.viewData.values = result;
@@ -104,7 +108,7 @@ class Results extends Component {
   render() {
     const { QuestionStore, questionId, collectionId, id} = this.props;
     const url = `/survey/${collectionId}/flow/${id}/`;
-
+    
     return (
       <div>
         <SmallCard data={this.viewData} url={url}/>
