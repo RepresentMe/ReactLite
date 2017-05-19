@@ -3,6 +3,8 @@ import { inject, observer } from 'mobx-react';
 import { observable, extendObservable, autorun } from 'mobx';
 
 import DynamicConfigService from '../../services/DynamicConfigService';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 
 @observer
@@ -10,6 +12,8 @@ class DynamicConfigEditor extends Component {
 
   dynamicConfigString = observable('')
   dynamicConfigObj = observable({})
+  syrveyId = observable(null)
+  helperInputValue = observable('')
   isInFocus = {
     joinGroup: observable(false),
     followUser: observable(false)
@@ -125,6 +129,62 @@ class DynamicConfigEditor extends Component {
           }}
           onChange={(e,v) => this.setFollowUserValue(v)}
         />
+      </div>
+      <div>
+        <TextField
+          hintText="Follow user"
+          floatingLabelText="Follow user"
+          multiLine={true}
+          rows={2}
+          value={this.syrveyId.get()}
+          onChange={(e,v) => this.syrveyId.set(v)}
+        />
+      </div>
+      {this.syrveyId.get() ? (<div>
+        <div>
+          {`http://localhost:3000/survey/${this.syrveyId.get()}/${this.dynamicConfigString.get()}`}
+        </div>
+        <div>
+          {`https://openv2.represent.me/survey/${this.syrveyId.get()}/flow/0/vote/${this.dynamicConfigString.get()}`}
+        </div>
+        <div>
+          {`https://open.represent.me/survey/${this.syrveyId.get()}/flow/0/vote/${this.dynamicConfigString.get()}`}
+        </div>
+        {/*<button onClick={this.helperInputValue.set('12345678')}>Copy</button>*/}
+      </div>) : 'Please enter Syrvey Id above'}
+
+    </div>)
+  }
+}
+
+@observer
+class UrlResult extends Component {
+
+  hosts = [
+    'http://localhost:3000',
+    'https://openv2.represent.me',
+    'https://open.represent.me',
+  ]
+  currentHost = observable(window.location.origin)
+
+  handleHostChange = (e,v) => {
+
+  }
+
+  render() {
+    return (<div>
+      <SelectField
+        floatingLabelText="Host"
+        value={this.currentHost.get()}
+        onChange={this.handleChange}
+      >
+        <MenuItem value={1} primaryText="Never" />
+        <MenuItem value={2} primaryText="Every Night" />
+        <MenuItem value={3} primaryText="Weeknights" />
+      </SelectField>
+
+      <div>
+        <input value={this.helperInputValue.get()} id="helperInput" />
       </div>
     </div>)
   }
