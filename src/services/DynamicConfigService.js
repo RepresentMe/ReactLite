@@ -18,6 +18,7 @@ class DynamicConfigService {
   }
 
   setConfigFromRaw(rawConfig) {
+    console.log('setConfigFromRaw', rawConfig);
     try {
       this.config = merge(this.config, JSON.parse(decodeURIComponent(decodeURIComponent(decodeURIComponent(rawConfig)))))
     }catch(e){}
@@ -27,19 +28,40 @@ class DynamicConfigService {
     return false
   }
 
-  getConfig() {
+  getEncodedConfig() {
+    console.log('getEncodedConfig: ', this.config);
+    return encodeURIComponent(JSON.stringify(this.config))
+  }
 
+  addRedirect(url) {
+    this.config.redirects = [url];
+  }
+
+  getConfigObjFromStr(str) {
+    console.log('getConfigObjFromStr: ', str);
+    return JSON.parse(decodeURIComponent(decodeURIComponent(decodeURIComponent(str))));
+  }
+
+  setConfigObj(obj) {
+    console.log('setConfigObj: ', obj);
+    Object.assign(this.config, obj);
   }
 
   getNextRedirect() {
-    const lastIndex = this.config.redirects.length -1;
-    if (this.config.redirects.length === 0 || !this.config.redirects[0]) {
-      return "/"
-    } if (this.config.redirects[0] === "/") {
-      return "/" + this.getNextRedirectConfig()
-    }else {
-        return this.config.redirects[0]
+    console.log('redirects', this.config.redirects);
+    let urlToRedirect = null;
+    if (this.config.redirects.length === 0) {
+      urlToRedirect = "/";
+    } else {
+      urlToRedirect = this.config.redirects[this.config.redirects.length-1];
+      this.config.redirects.splice(-1,1); // remove last
     }
+    return urlToRedirect+this.getEncodedConfig();
+    // if (this.config.redirects[0] === "/") {
+    //   return "/" + this.getNextRedirectConfig()
+    // }else {
+    //     return this.config.redirects[this.config.redirects.length-1]
+    // }
   }
 
   getNextRedirectConfig() {
@@ -53,6 +75,7 @@ class DynamicConfigService {
   }
 
   encodeConfig(rawConfig) {
+    console.log('encodeConfig: ', rawConfig);
     this.config.redirects.push(rawConfig);
     return encodeURIComponent(JSON.stringify(this.config))
   }
@@ -80,6 +103,21 @@ class DynamicConfigService {
 
     this.config.redirects[0] = updated_url
     return this.encodeConfig();
+  }
+
+
+
+  getDynamicConfig(url) {
+    let parts = url.split("/");
+    let last_part = parts[parts.length - 1];
+    let first_two_chars = last_part.substr(0, 2)
+    if (first_two_chars === "%7") {
+      return last_part;
+    } else if(encodeURIComponent(last_part).substr(0,2) == "%7") {
+      return encodeURIComponent(last_part);
+    } else {
+      return null;
+    }
   }
 
 }
