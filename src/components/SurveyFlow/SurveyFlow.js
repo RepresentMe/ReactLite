@@ -157,7 +157,7 @@ import './SurveyFlow.css'
     if (items && items.length) {
       completed = currentItemIndex / (items.length - 1) * 100
     }
-    console.log('this.props survey', this.props)
+    
     return (
       <span>
          <Progress completed={completed} color="#1b8aae"/>
