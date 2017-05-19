@@ -29,17 +29,17 @@ const styles = {
   },
   tabsContentContainerStyle: {
     height: 'calc(100% - 64px)',
-    position: 'relative', 
-    overflow: 'scroll', 
+    position: 'relative',
+    overflow: 'scroll',
     paddingTop: '20px'
   },
   tabTemplateStyle: {
     height: '100%'
   },
   middleDivWrapper: {
-    display: 'table', 
-    width: '100%', 
-    height: '70vh', 
+    display: 'table',
+    width: '100%',
+    height: '70vh',
     overflow: 'scroll'
   }
 }
@@ -91,22 +91,22 @@ class QuestionFlow extends Component {
 
     return (
          <div style={tabTemplateStyle} className="tabs-wrapper">
-          <Tabs value={activeTab} 
-                onChange={this.handleTabChange} 
-                tabItemContainerStyle={styles.tabItemContainerStyle} 
-                inkBarStyle={styles.inkBarStyle} 
-                style={tabTemplateStyle} 
-                tabTemplateStyle={tabTemplateStyle} 
+          <Tabs value={activeTab}
+                onChange={this.handleTabChange}
+                tabItemContainerStyle={styles.tabItemContainerStyle}
+                inkBarStyle={styles.inkBarStyle}
+                style={tabTemplateStyle}
+                tabTemplateStyle={tabTemplateStyle}
                 contentContainerStyle={tabsContentContainerStyle}>
             <Tab icon={<CheckBox/>} value="vote" className={activeTab === 'vote' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'vote') &&
-                  <QuestionFlowVote items={items} 
-                    index={currentItemIndex} 
-                    onVote={onVote} 
-                    navigateNext={navigateNext} 
-                    getNextQuestion={this.getNextQuestion} 
-                    getPrevQuestion={this.getPrevQuestion} 
+                  <QuestionFlowVote items={items}
+                    index={currentItemIndex}
+                    onVote={onVote}
+                    navigateNext={navigateNext}
+                    getNextQuestion={this.getNextQuestion}
+                    getPrevQuestion={this.getPrevQuestion}
                     currentQuestion={currentQuestion}
                   />
               }
@@ -116,7 +116,7 @@ class QuestionFlow extends Component {
                 (activeTab === 'comments') &&
                   <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />
               }
-              
+
             </Tab>
             { !hideInfoTab && <Tab icon={<Info/>} value="info" className={activeTab === 'info' ? 'menu-tab-active' : 'menu-tab'}>
               {

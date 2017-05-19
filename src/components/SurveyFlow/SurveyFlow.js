@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react"
 
-import Progress from 'react-progressbar'
+import Progress from 'react-progressbar';
+import FlatButton from 'material-ui/FlatButton';
 import {Helmet} from "react-helmet";
 
 import QuestionFlow from '../QuestionFlow'
@@ -156,10 +157,17 @@ import './SurveyFlow.css'
     if (items && items.length) {
       completed = currentItemIndex / (items.length - 1) * 100
     }
-    
+    console.log('this.props survey', this.props)
     return (
       <span>
          <Progress completed={completed} color="#1b8aae"/>
+         {
+           //if user is logged show button to navigate to EndScreen
+           this.props.UserStore.userData.has("id") &&
+             <div>
+               <FlatButton label="skip to end" onTouchTap={() => this.navigateEnd2()} style={{position: 'relative', float: 'right'}}/>
+             </div>
+         }
           <QuestionFlow
             activeTab={this.state.activeTab}
             items={items}

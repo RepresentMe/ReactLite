@@ -22,14 +22,14 @@ const styles = {
     fill: '#999',
     position: 'absolute',
     top: '50%'
-  }, 
-  
+  },
+
 }
 
 @inject("UserStore")
 @observer
 class QuestionFlowVote extends Component {
-  
+
   isPrivacyInfoModalOpen = observable(false)
   constructor(props) {
     super(props)
@@ -77,7 +77,7 @@ class QuestionFlowVote extends Component {
     const showAnswered = !!currentQuestion.my_vote.length
 
 
- 
+
 
 
     return (
@@ -87,7 +87,7 @@ class QuestionFlowVote extends Component {
           <IndoIcon onClick={() => this.toggleModal()} style={{width:15, height:15,verticalAlign: 'middle',margin: '-3px 0 0 4px', cursor: 'pointer'}} />
           </div>
           {
-            showAnswered && 
+            showAnswered &&
               <div className="answered small">
                 Last answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMMM YYYY')}
               </div>
