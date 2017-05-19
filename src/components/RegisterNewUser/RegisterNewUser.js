@@ -90,14 +90,16 @@ const styles = {
       nameProblem: 'Please provide first and last name',
       genderProblem: "Please select your gender, or choose 'I would rather not say'"
     }
+    this.dynamicConfig = DynamicConfigService;
   }
 
   componentWillMount() {
-    this.dynamicConfig = DynamicConfigService;
-    if(this.props.match.params.dynamicConfig) {
-      this.dynamicConfig.setConfigFromRaw(this.dynamicConfig.encodeConfig(this.dynamicConfig.getNextRedirect()))
+    const raw_config = this.dynamicConfig.getDynamicConfig(this.props.history.location.pathname);
+    if(raw_config) {
+      this.dynamicConfig.setConfigFromRaw(raw_config)
     }
   }
+  
   componentDidMount(){
     window.API.get('/user_count/')
       .then((response) => {
@@ -111,7 +113,7 @@ const styles = {
   handleNext = () => {
     const {stepIndex} = this.state;
 
-    this.dynamicConfig.setConfigFromRaw(this.dynamicConfig.encodeConfig(this.dynamicConfig.getNextRedirect()))
+    // this.dynamicConfig.setConfigFromRaw(this.dynamicConfig.encodeConfig(this.dynamicConfig.getNextRedirect()))
 
     if (stepIndex === 0){
       this.setState({
