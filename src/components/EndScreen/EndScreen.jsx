@@ -88,13 +88,9 @@ class EndScreen extends Component {
                 userId: this.dynamicConfig.config.survey_end.showFollowUser_id
               }
             })
-          } else {
-            this.checkToShowFollowUserModal()
           }
         })
       })
-    } else {
-      this.checkToShowFollowUserModal()
     }
   }
 
