@@ -95,8 +95,8 @@ const Percentage = (props) => {
 	//console.log('percentage props', props)
 return (
 	<div className='percentageEndScreen' style={{color: props.fill}}>
+		<span style={{display: 'inline'}}>{props.my_vote ? <Done style={{color: props.fill, height: 12}}/> : ''}</span>
 		<span style={{display: 'inline'}}>{`${props.percentage}%`}</span>
-		<span style={{display: 'inline'}}>{props.my_vote ? <Done style={{color: props.fill, height: 8}}/> : ''}</span>
 	</div>
 )}
 

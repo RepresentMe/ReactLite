@@ -1,12 +1,13 @@
 .bar{
-  margin-left: 0;
+  margin: 0 10px;
   padding: 2px;
-  font-size: 12px; 
+  font-size: 8px; 
   z-index: 2;
   display: inline-block;
   white-space: nowrap;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px white;
+  /*font-weight: bold;*/
+  text-transform: uppercase;
+  /*text-shadow: 1px 1px 1px white;*/
   transition: width 0.7s ease-out;
 }
 .bar:hover{
@@ -16,9 +17,9 @@
   opacity: 0.8;
 }
 .bg_bar{
-  margin: 0 2px 2px 0; 
-  font-size: 8px;
-  width: 100%; 
+  margin: 0 10px 2px 0; 
+  font-size: 6px;
+  /*width: 100%; */
   z-index: 1; 
   position: relative;
   -webkit-transform: translate3d(0,0,0)
@@ -35,12 +36,16 @@
 .percentageEndScreen{
   position: relative;
   float: right;
-  font-size: 12px;
+  font-size: 8px;
   margin: 2px 0px 0px 0px;
   -webkit-transform: translate3d(0,0,0)
 }
 .barEndScreen{
-  font-size: 12px;
+  
+}
+.percentageEndScreen,
+.barEndScreen {
+  font-size: 11px;
 }
 .text{
   position: relative;
