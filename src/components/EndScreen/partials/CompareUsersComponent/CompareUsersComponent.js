@@ -44,11 +44,16 @@ class CompareCollectionUsers extends Component {
       pageReadiness: {
         isCompareUsersReady: observable(false),
         isQuestionResultsReady: observable(false),
+        isCompareUsersOnLocationReady: observable(false)
       },
       isComparingUsersShowing: observable(false),
+      isComparingUsersOnLocationShowing: observable(false),
       users: observable.shallowArray([]),
+      usersLocation: observable.shallowArray([]),
       compareData: observable.shallowMap(),
+      compareDataLocation: observable.shallowMap(),
       following: observable.shallowMap(),
+      followingLocation: observable.shallowMap(),
       questions: observable.shallowArray(),
       collection_tags: observable.shallowArray([])
     });
@@ -117,6 +122,28 @@ class CompareCollectionUsers extends Component {
         } else {
           this.viewData.pageReadiness.isCompareUsersReady.set(true);
         }
+
+        if(UserStore.isLoggedIn()) {
+          UserStore.getCachedMe().then(user => {
+            if (user.region){
+              this.viewData.isComparingUsersOnLocationShowing.set(true);
+              UserStore.getCandidatesByLocation(user.region).then(candidates => {
+                let candidatesIds = candidates.map(user => {return user.id});
+                UserStore.amFollowingUsers(currentUserId, candidatesIds).then(res => {
+                  const results = res.results;
+                  results.forEach(({ following, id }) => this.viewData.followingLocation.set(following, id))
+                })
+                candidates.forEach(user => {
+                  this.viewData.usersLocation.push(user)
+                  UserStore.compareUsers(currentUserId, user.id).then(res => { this.viewData.compareDataLocation.set(user.id, res) })
+                })
+              })
+              this.viewData.pageReadiness.isCompareUsersOnLocationReady.set(true);
+            } else {
+              this.viewData.pageReadiness.isCompareUsersOnLocationReady.set(true);
+            }
+          })
+        }
   }
 
   render() {
@@ -129,7 +156,7 @@ class CompareCollectionUsers extends Component {
 
     // TODO make it computed
     if (!(this.viewData.pageReadiness.isCompareUsersReady.get()
-        && this.viewData.pageReadiness.isQuestionResultsReady.get())) return <LoadingIndicator />;
+      && this.viewData.pageReadiness.isQuestionResultsReady.get() && this.viewData.pageReadiness.isCompareUsersOnLocationReady.get())) return <LoadingIndicator />;
     return (<div style={{background: '#f5f5fe'}}>
       {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel
         compareData={this.viewData.compareData}
@@ -138,6 +165,11 @@ class CompareCollectionUsers extends Component {
       />}
       <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB}/>
       <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
+      {this.viewData.isComparingUsersOnLocationShowing.get() && <UserCompareCarousel
+        compareData={this.viewData.compareDataLocation}
+        users={this.viewData.usersLocation}
+        following={this.viewData.followingLocation}
+      />}
     </div>)
   }
 }
