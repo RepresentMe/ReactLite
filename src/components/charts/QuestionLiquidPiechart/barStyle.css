@@ -1,13 +1,15 @@
 .bar{
   margin: 0 10px;
   padding: 2px;
-  font-size: 8px;
+  color: #333;
+  font-size: 9px;
+  text-indent: 2px;
   z-index: 2;
   display: inline-block;
   white-space: nowrap;
-  /*font-weight: bold;*/
-  text-transform: uppercase;
-  /*text-shadow: 1px 1px 1px white;*/
+  font-weight: bold;
+  /*text-transform: uppercase;*/
+  text-shadow: 0 0 3px white,0 0 3px white,0 0 3px white,0 0 3px white;
   transition: width 0.7s ease-out;
 }
 .barEndScreen{
@@ -28,7 +30,31 @@
   -webkit-transform: translate3d(0,0,0)
 }
 .bg_bar:hover{
-  background-color: #e6e6e6;
+  background-color: #f5f5f5;
+}
+.tinynumber {
+  font-weight: bold;
+}
+.tinytext {
+  font-weight: bold;
+  color: #999;
+  padding-right: 5px;
+}
+.questionTextEnd {
+   padding: 10px;
+   font-weight: bold;
+   font-size: 18px;
+   text-align: left;
+}
+.didnotanswer{
+  color: #999;
+  font-size: 16px;
+  font-weight: normal;
+  }
+.linkit {
+  color: #1B8AAE;
+  text-decoration: underline;
+  cursor: pointer;
 }
 .percentage{
   position: relative;

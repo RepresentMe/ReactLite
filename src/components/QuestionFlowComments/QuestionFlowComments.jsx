@@ -11,7 +11,7 @@ import ReportDialog from './partials/ReportDialog';
 import './style.css';
 // import postButtonsStyle from './postButton.js'
 
-@inject("QuestionCommentsStore")
+@inject("QuestionCommentsStore", "UserStore")
 @observer
 class QuestionFlowComments extends Component {
   questionId =  this.props.question.id
@@ -100,8 +100,9 @@ class QuestionFlowComments extends Component {
 
       }
      
-      
+      {this.props.UserStore.isLoggedIn() &&
       <AddComment {...this.props}/>
+      }
     </div>);
   }
 }

@@ -6,6 +6,8 @@ import DynamicConfigService from '../../services/DynamicConfigService';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton';
+import CopyIcon from 'mdi-react/ContentCopyIcon';
 
 @observer
 class DynamicConfigEditor extends Component {
@@ -48,6 +50,12 @@ class DynamicConfigEditor extends Component {
         )
       )
     )
+  }
+
+  copyToClipboard = (id) => {
+    let textField = document.getElementById(id)
+    textField.select()
+    document.execCommand('copy')
   }
 
   setCompareUsersValue = (v) => {
@@ -132,8 +140,8 @@ class DynamicConfigEditor extends Component {
       </div>
       <div>
         <TextField
-          hintText="Follow user"
-          floatingLabelText="Follow user"
+          hintText="Survey Id"
+          floatingLabelText="Survey Id"
           multiLine={true}
           rows={2}
           value={this.syrveyId.get()}
@@ -142,15 +150,38 @@ class DynamicConfigEditor extends Component {
       </div>
       {this.syrveyId.get() ? (<div>
         <div>
-          {`http://localhost:3000/survey/${this.syrveyId.get()}/${this.dynamicConfigString.get()}`}
+          <IconButton onClick={e => this.copyToClipboard("localhostField")}>
+            <CopyIcon />
+          </IconButton>
+          <TextField
+            id="localhostField"
+            value={`http://localhost:3000/survey/${this.syrveyId.get()}/${this.dynamicConfigString.get()}`}
+            multiLine={true}
+            style={{width: '90%'}}
+          />
         </div>
         <div>
-          {`https://openv2.represent.me/survey/${this.syrveyId.get()}/flow/0/vote/${this.dynamicConfigString.get()}`}
+          <IconButton onClick={e => this.copyToClipboard("stagingField")}>
+            <CopyIcon />
+          </IconButton>
+          <TextField
+            id="stagingField"
+            value={`https://openv2.represent.me/survey/${this.syrveyId.get()}/${this.dynamicConfigString.get()}`}
+            multiLine={true}
+            style={{ width: '90%' }}
+          />
         </div>
         <div>
-          {`https://open.represent.me/survey/${this.syrveyId.get()}/flow/0/vote/${this.dynamicConfigString.get()}`}
+          <IconButton onClick={e => this.copyToClipboard("prodField")}>
+            <CopyIcon />
+          </IconButton>
+          <TextField
+            id="prodField"
+            value={`https://open.represent.me/survey/${this.syrveyId.get()}/${this.dynamicConfigString.get()}`}
+            multiLine={true}
+            style={{ width: '90%' }}
+          />
         </div>
-        {/*<button onClick={this.helperInputValue.set('12345678')}>Copy</button>*/}
       </div>) : 'Please enter Syrvey Id above'}
 
     </div>)
