@@ -37,6 +37,17 @@
   color: #999;
   padding-right: 5px;
 }
+.questionTextEnd {
+   padding: 10px;
+   font-weight: bold;
+   font-size: 18px;
+   text-align: left; 
+}
+.didnotanswer{
+  color: #999;
+  font-size: 16px; 
+  font-weight: normal;
+  } 
 .percentage{
   position: relative;
   float: right;
