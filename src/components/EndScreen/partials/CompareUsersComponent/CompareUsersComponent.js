@@ -198,7 +198,7 @@ render(){
 
 
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
-  return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'center'}}>
+  return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
     <Subheader style={{fontWeight: 600, textTransform: 'upperCase'}} >All Results</Subheader>
  
 
