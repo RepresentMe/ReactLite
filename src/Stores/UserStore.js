@@ -78,7 +78,7 @@ class UserStore {
   setupAuthToken(authToken) {
     return new Promise((resolve, reject) => {
       this.sessionData.set("authToken", authToken);
-      Cookies.set("representAuthToken", authToken, { expires: Infinity });
+      Cookies.set("representAuthToken", authToken, { expires: Infinity, domain: 'represent.me' });
       window.API.defaults.headers.common['Authorization'] = "Token " + authToken;
       this.getMe()
         .then((response) => {
