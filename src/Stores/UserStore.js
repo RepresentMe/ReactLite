@@ -75,10 +75,22 @@ class UserStore {
 
   }
 
+  getCandidatesByLocation(region){
+    return new Promise((resolve, reject) => {
+      window.API.get('api/users/?page=1&page_size=12&politician__type=candidate&locations__geo=' + region)
+        .then((response) => {
+          resolve(response.data.results);
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    });
+  }
+
   setupAuthToken(authToken) {
     return new Promise((resolve, reject) => {
       this.sessionData.set("authToken", authToken);
-      Cookies.set("representAuthToken", authToken, { expires: Infinity });
+      Cookies.set("representAuthToken", authToken, { expires: Infinity, domain: window.location.origin =="http://localhost:3000" ? null : 'represent.me' });
       window.API.defaults.headers.common['Authorization'] = "Token " + authToken;
       this.getMe()
         .then((response) => {
