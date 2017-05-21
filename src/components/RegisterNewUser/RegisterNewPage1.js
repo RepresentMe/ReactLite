@@ -23,7 +23,7 @@ const styles = {
     minWidth: 270,
     marginLeft: 'auto',
     marginRight: 'auto'
-  }, 
+  },
   floatingLabelText: {
     color: cyan600
   },
@@ -54,15 +54,15 @@ const Page1 = (props) => {
           <div style={{textAlign: 'center'}}>
       <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
       <h2 style={{margin: '10px 0'}}>
-          A better democracy 
+          A better democracy
         </h2>
         </div>
         <p style={{margin: '10px 0'}}>
-          Have your say on the issues and make it count, track your representatives and much more. 
+          Have your say on the issues and make it count, track your representatives and much more.
           <Link to="#"><span> Learn more</span></Link>
         </p>
 
-        <Checkbox onCheck={props.agreedTerms}
+        <Checkbox onCheck={() => props.agreedTerms()}
             label={
               <span>
                 I agree to the <a href="https://represent.me/legal/terms/">terms</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/>
@@ -70,7 +70,7 @@ const Page1 = (props) => {
             }
             labelPosition='right'
             style={{margin: '20px 0'}}
-            
+
             value={props.agreedTermsValue}
             checked={props.agreedTermsValue}
             />
@@ -91,7 +91,7 @@ const Page1 = (props) => {
 
             <RaisedButton
               label={<span className='fbMockButton'>login with facebook</span>}
-              primary={true} 
+              primary={true}
               onTouchTap={attemptNextPage}
               buttonStyle={{backgroundColor: '#5570A6'}}
               style={{width: '100%', color: '#eee'}}

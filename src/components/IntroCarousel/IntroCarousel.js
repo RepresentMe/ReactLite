@@ -18,11 +18,28 @@ import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 
-import Carousel from 'nuka-carousel';
+//import Carousel from 'nuka-carousel';
 
 // import IntroCarouselCard from './IntroCarouselCard';
 
-
+const styles = {
+  dialogRoot: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 0
+  },
+  dialogContent: {
+    flex: 1,
+    alignSelf: 'center',
+    width: '90%',
+    minWidth: 280,
+    maxWidth: 680
+  },
+  dialogBody: {
+    paddingBottom: 0
+  }
+};
 
 class IntroCarousel extends React.Component {
 
@@ -49,10 +66,12 @@ class IntroCarousel extends React.Component {
 
     return (
       <Dialog
-        style={{padding: 5, minWidth: 400, maxWidth: 680, position: 'none', display: 'block', margin: 'auto'}}
+        contentStyle={ styles.dialogContent }
+        bodyStyle={ styles.dialogBody }
+        style={ styles.dialogRoot }
+        repositionOnUpdate={ false }
         open={this.props.modalOpened}
         actions={actions}
-
         >
         <div>
             <div style={{textAlign:'center'}}>

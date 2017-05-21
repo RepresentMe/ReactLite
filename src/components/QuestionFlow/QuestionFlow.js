@@ -30,7 +30,8 @@ const styles = {
   tabsContentContainerStyle: {
     height: 'calc(100% - 64px)',
     position: 'relative',
-    overflow: 'scroll',
+    overflowX: 'hidden',
+    overflowY: 'scroll',
     paddingTop: '20px'
   },
   tabTemplateStyle: {
@@ -40,7 +41,7 @@ const styles = {
     display: 'table',
     width: '100%',
     height: '70vh',
-    overflow: 'scroll'
+    overflow: 'hidden'
   }
 }
 

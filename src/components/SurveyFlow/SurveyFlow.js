@@ -3,6 +3,9 @@ import { observer, inject } from "mobx-react"
 
 import Progress from 'react-progressbar';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import SkipToEnd from 'material-ui/svg-icons/navigation/last-page';
+
 import {Helmet} from "react-helmet";
 
 import QuestionFlow from '../QuestionFlow'
@@ -157,16 +160,23 @@ import './SurveyFlow.css'
     if (items && items.length) {
       completed = currentItemIndex / (items.length - 1) * 100
     }
-    
+
     return (
       <span>
          <Progress completed={completed} color="#1b8aae"/>
          {
            //if user is logged show button to navigate to EndScreen
            this.props.UserStore.userData.has("id") &&
-             <div>
-               <FlatButton label="skip to end" onTouchTap={() => this.navigateEnd2()} style={{position: 'relative', float: 'right'}}/>
-             </div>
+
+            <IconButton
+              tooltip="skip to end"
+              touch={true}
+              tooltipPosition="bottom-left"
+              onTouchTap={() => this.navigateEnd2()}
+              //iconStyle={{height: 16}}
+              style={{position: 'absolute', right: 10, top: -5}}>
+              <SkipToEnd color='#999' hoverColor='#1B8AAE' />
+            </IconButton>
          }
           <QuestionFlow
             activeTab={this.state.activeTab}
