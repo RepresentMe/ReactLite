@@ -48,6 +48,11 @@
   font-size: 16px; 
   font-weight: normal;
   } 
+.linkit {
+  color: #1B8AAE;
+  text-decoration: underline;
+  cursor: pointer;
+}
 .percentage{
   position: relative;
   float: right;

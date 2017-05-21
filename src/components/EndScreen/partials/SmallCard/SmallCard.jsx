@@ -51,7 +51,7 @@ class SmallCard extends Component {
                  
                     {this.props.data.values[0].full_name ? <span>{}</span> :
                      <div style={{color: 'white', fontWeight: 'bold', width: 220, borderBottom: '1px solid #ccc', backgroundColor: this.props.data.values[0].fill, minHeight: 60, padding: 10}}>
-                     <p className='didnotanswer'>You didn't answer this question</p></div>}
+                     <p className='didnotanswer'>No vote. <span className='linkit' onTouchTap={(e) => this.redirect(e, 'vote')}>Answer now?</span></p></div>}
                      
 {/* 
                      <p style={{color: 'white', fontWeight: 'bold', fontSize: 35, margin: 0, textAlign: 'left'}}>{`${this.props.data.values[0].percentage}%`}</p>
