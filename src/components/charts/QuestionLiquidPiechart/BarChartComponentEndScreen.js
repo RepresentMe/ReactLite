@@ -83,7 +83,7 @@ const Bar = (props) => {
 	const display =
 	// props.direct_vote_count && window.innerWidth > 800 ?
 	// 	`${props.full_name}....Direct vote count: ${props.direct_vote_count}` :
-		props.name
+		props.nameEndScreen
 
 	return (
 	  <div className='bar barEndScreen' style={style}>

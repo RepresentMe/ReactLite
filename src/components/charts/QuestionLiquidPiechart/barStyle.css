@@ -1,7 +1,7 @@
 .bar{
   margin: 0 10px;
   padding: 2px;
-  font-size: 8px; 
+  font-size: 8px;
   z-index: 2;
   display: inline-block;
   white-space: nowrap;
@@ -10,6 +10,9 @@
   /*text-shadow: 1px 1px 1px white;*/
   transition: width 0.7s ease-out;
 }
+.barEndScreen{
+  height: 12px;
+}
 .bar:hover{
   opacity: 0.8;
 }
@@ -17,10 +20,10 @@
   opacity: 0.8;
 }
 .bg_bar{
-  margin: 0 10px 2px 0; 
+  margin: 0 10px 2px 0;
   font-size: 6px;
   /*width: 100%; */
-  z-index: 1; 
+  z-index: 1;
   position: relative;
   -webkit-transform: translate3d(0,0,0)
 }
@@ -40,9 +43,7 @@
   margin: 2px 0px 0px 0px;
   -webkit-transform: translate3d(0,0,0)
 }
-.barEndScreen{
-  
-}
+
 .percentageEndScreen,
 .barEndScreen {
   font-size: 11px;
