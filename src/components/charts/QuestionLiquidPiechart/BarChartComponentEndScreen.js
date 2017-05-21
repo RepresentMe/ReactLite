@@ -4,7 +4,7 @@ import LoadingIndicator from '../../LoadingIndicator';
 import Done from 'material-ui/svg-icons/action/done';
 import './barStyle.css';
 
-const CHART_HEIGHT = 120;
+const CHART_HEIGHT = 10;
 
 const BarChartComponent = observer(class BarChartComponent extends React.Component{
 	constructor(){

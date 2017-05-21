@@ -1,6 +1,7 @@
 .bar{
   margin: 0 10px;
   padding: 2px;
+  color: #333;
   font-size: 8px; 
   z-index: 2;
   display: inline-block;
