@@ -39,12 +39,12 @@ const styles = {
   },
   dialogContent: { 
     width: '90%',
-    padding: 10,
+    padding: 2,
     minWidth: 280,
     maxWidth: 680
   },
   dialogBody: { 
-    padding: 5,
+    padding: 10,
   }
 }
 

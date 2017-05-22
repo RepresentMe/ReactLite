@@ -127,17 +127,22 @@ class QuestionFlowVote extends Component {
 
 
             <Dialog
-              title="Dialog With Actions"
-              actions={[<FlatButton
-                label="Got it"
+              title="Your privacy"
+              actions={[
+              <FlatButton
+                label="Learn more about privacy"
                 primary={true}
+                href="https://represent.me/legal/"
+              />,<FlatButton
+                label="Continue"
                 onTouchTap={() => this.isPrivacyInfoModalOpen.set(false)}
               />]}
               modal={false}
               open={this.isPrivacyInfoModalOpen.get()}
               onRequestClose={() => this.isPrivacyInfoModalOpen.set(false)}
             >
-              Some info
+              Your answers are all set to be 'private' by default. This means no one else can see how you answered a specific question. 
+              If you'd like to go 'on the record' or would like to represent others you should answer publicly so they can know your values.
             </Dialog>
         </div>
     )
@@ -224,7 +229,7 @@ class MCQButtons extends Component {
 
 
 const IndoIcon = (props) => {
-  return <svg xmlns="http://www.w3.org/2000/svg" fill="#444" height="24" viewBox="0 0 24 24" width="24" {...props}>
+  return <svg xmlns="http://www.w3.org/2000/svg" fill="#999" height="24" viewBox="0 0 24 24" width="24" {...props}>
     <path d="M0 0h24v24H0z" fill="none"/>
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
   </svg>
