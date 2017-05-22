@@ -16,6 +16,7 @@ import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart';
 import FollowUserDialog from '../FollowUserDialog';
 import JoinGroupDialog from '../JoinGroupDialog';
 import IntroCarousel from '../IntroCarousel';
+import MoreUserInfo from '../Components/modals/MoreUserInfo';
 
 const Test = inject("QuestionStore", "CollectionStore")(({ QuestionStore, CollectionStore, location, router, query }) => {
 
@@ -59,7 +60,7 @@ const Test = inject("QuestionStore", "CollectionStore")(({ QuestionStore, Collec
     // }
     // // return <FollowUserDialog user={user} />;
     // return <JoinGroupDialog group={group} />;
-    return <IntroCarousel/>
+    return <MoreUserInfo shown={true} user={{id: 16903, ddDOB: null, ddGender: null, txtPostcode: null}} />
 })
 
 export default Test;
