@@ -96,16 +96,15 @@ import './CollectionIntro.css';
         outerStyle.backgroundColor = 'rgba(0,0,0,0)';
       }
       outerStyle.color = 'white';
-      innerStyle.background = 'radial-gradient(ellipse at center, rgba(0,0,0,0.5) 50%,rgba(0,0,0,1) 100%)';
+      innerStyle.background = '';
     }
 
     return (
       <div style={imageStyle}>
         <div style={outerStyle}>
           {collection.photo && <img src={collection.photo.replace("localhost:8000", "represent.me")} style={{display: 'none'}} onLoad={() => {this.setState({collectionImageLoaded: true})}} />}
-          <div style={innerStyle}>
-            <div style={{ display: 'table', width: '100%', height: '100%' }}>
-              <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '20px 20px'}}>
+          <div style={innerStyle} className="imageContainer">
+            <div className="contentBox">
 
                 <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{ collection.name }</h1>
               {/* <ReactMarkdown source={ collection.desc } className="markDownText" renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} /> */}
@@ -120,7 +119,7 @@ import './CollectionIntro.css';
                     :
                     <div>
                       <div> ---------- </div>
-                      <h3 >Sorry, no questions currently in this survey</h3>
+                      <h3 >Sorry,  there are no questions currently in this survey</h3>
                       <Link to='/'><RaisedButton label="back" style={{borderRadius: 5}} /></Link>
                     </div>
 
@@ -129,7 +128,7 @@ import './CollectionIntro.css';
                 {/*this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id === this.props.UserStore.userData.get("id") && <Link to={ "/survey/" + collectionId + "/edit" }><RaisedButton label="Edit" primary /></Link>*/}
               </div>
             </div>
-          </div>
+           
         </div>
         {collection ? <OgTags collection={collection} /> : null}
       </div>
