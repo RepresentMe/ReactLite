@@ -18,64 +18,65 @@ import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 
-//import Carousel from 'nuka-carousel';
+import Carousel from 'nuka-carousel';
 
-// import IntroCarouselCard from './IntroCarouselCard';
+import IntroCarouselCard from './IntroCarouselCard';
+import './IntroCarousel.css';
 
-const styles = {
-  dialogRoot: {  
-  },
-  dialogContent: {
-    width: '90%',
-    minWidth: 280,
-    maxWidth: 680
-  },
-  dialogBody: {
-    
-  }
-};
 
 class IntroCarousel extends React.Component {
-
+  state = {
+    items: [
+      {id: 0, img: null, text: 'In this snippet just the current value of secondsPassed is passed to the Timer, which is the immutable value 0 (all primitives are immutable in JS). That number wont change anymore in the future, so Timer will never update. It is the property secondsPassed that will'},
+      {id: 1, img: null, text: 'The mobx-react package also provides the Provider component that can be used to pass down stores using Reacts context mechanism.'}],
+    modalOpened: true
+  }
 
   closeModal = (e) => {
     e.preventDefault();
-    this.props.toggleIntro();
+    let modalOpened = !this.state.modalOpened;
+    this.setState({modalOpened})
   }
   render (){
-     const actions = [
-      <FlatButton
-        label="Find out more"
-        href="https://represent.me"
-        primary={true}
-      />,
-      <FlatButton
-        label="Close"
-        primary={true}
-        onTouchTap={this.closeModal}
-      />,
-    ];
-
-    //const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-
+    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const cellSpacing = width > 400 ? 280 : 100;
     return (
       <Dialog
-        contentStyle={ styles.dialogContent }
-        bodyStyle={ styles.dialogBody }
-        style={ styles.dialogRoot }
-        repositionOnUpdate={ true }
-        open={this.props.modalOpened}
-        actions={actions}
+        open={this.state.modalOpened}
         >
         <div>
-            <div style={{textAlign:'center'}}>
-            <img src="https://i0.wp.com/represent.me/wp-content/uploads/results3.png" width="90%" />
+          <IconButton onTouchTap={(e)=>this.closeModal(e)}
+            style={{position: 'absolute', right: 10, top: 10, color: 'grey'}}
+            >
+            <ClearIcon />
+          </IconButton>
 
-
-            <h2 style={{margin:0}}>This is a revolution in democracy.</h2>
-            <p>Vote, discuss, compare, and delegate your vote to the people you trust.</p>
-
-            </div>
+          <Carousel
+            autoplay={true}
+            autoplayInterval={5000}
+            wrapAround={true}
+            slidesToShow={1}
+            slidesToScroll={1}
+            cellAlign="center"
+            cellSpacing={cellSpacing}
+            dragging={true}
+            slideWidth="280px"
+            speed={500}
+            style={{overflowX: 'hidden', width: '100%', minHeight: 450, marginTop: 30}}
+            >
+              {this.state.items.map((item, i) => {
+                return (
+                  <div key={`slide-${i}`} >
+                    <IntroCarouselCard
+                      id={item.id}
+                      photo={item.img}
+                      text={item.text}
+                      removeCard={this.removeCard}
+                    />
+                  </div>
+                )
+              })}
+            </Carousel>
           </div>
       </Dialog>
     )
