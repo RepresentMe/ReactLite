@@ -18,35 +18,17 @@ const IntroCarouselCard = (props) => {
         {!props && <p>LOADING</p>}
         {props && (
           <div>
-            <Card
-              className='cardStyleIntro'
-              style={{display: 'inlineBlock'}}>
-
-            <CardHeader
-                  avatar={<Avatar
-                    src={img}
-                    size={30}
-                    style={{
-                      height: '80px',
-                      width: '80px',
-                      verticalAlign: 'middle',
-                      position: 'none', display: 'block', margin: '0 auto',
-                      borderRadius: 5
-                    }}
-                  />}
-                  className='cardHeaderStyleIntro'
-              />
-
-              <CardText style={{wordWrap: 'break-word', marginTop: 0}}>
+         
+            <img src="{img}" />
+ 
               {props.text ?
                 <div>
                   {props.text.slice(0, 250 + props.text.indexOf(' ')) + ' '}
                   {/* <Link to={ "/survey/" + id }><i>more...</i></Link> */}
                 </div>
                 : null}
-              </CardText>
-
-            </Card>
+               
+ 
           </div>)
   }
   </div>)}
