@@ -105,6 +105,16 @@ class DynamicConfigEditor extends Component {
           value={this.dynamicConfigObj.survey_end.compare_users}
           onChange={(e,v) => this.setCompareUsersValue(v)}
         />
+        <p style={{fontSize:10}}>
+          Labour: 17351 , 
+          Conservative: 17663 , 
+          Womens Equality: 17667 , 
+          Green E&W: 17687 , 
+          Plaid:  17689, 
+          UKIP:  17710, 
+          SNP:  17711, 
+          LibDem: 17692 <br /> ALL: <pre>17351,17663,17667,17687,17689,17710,17711,17692</pre>
+        </p>
         <TextField
           hintText="Join group"
           floatingLabelText="Join group"

@@ -45,9 +45,6 @@ class QuestionFlowResults extends Component {
           <IconButton onClick={e => this.changeGraph("people")} touch={true} tooltipPosition="top-center" className={curTab == 'people' ? "buttonBorder selectedButton" : "buttonBorder"}>
             <AccountMultiple className={curTab == 'people' ? "selectedButton" : ""} />
           </IconButton>
-          <IconButton onClick={e => this.changeGraph("bar")} className={curTab == 'bar' ? "buttonBorder selectedButton" : "buttonBorder"}>
-            <ChartBar className={curTab == 'bar' ? "selectedButton" : ""}/>
-          </IconButton>
           <IconButton onClick={e => this.changeGraph("pie")} className={curTab == 'pie' ? "buttonBorder selectedButton" : "buttonBorder"}>
             <ChartPie className={curTab == 'pie' ? "selectedButton" : ""}/>
           </IconButton>
