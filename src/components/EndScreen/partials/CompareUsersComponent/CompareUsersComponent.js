@@ -24,6 +24,19 @@ import Results from '../ResultsComponent';
 import CompareUsersDetailsComponent from '../CompareUsersDetailsComponent';
 import './CompareUsers.css';
 
+
+import {
+  ShareButtons,
+  ShareCounts,
+  generateShareIcon
+} from 'react-share';
+const {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton
+} = ShareButtons;
+const FacebookIcon = generateShareIcon('facebook')
+
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 
@@ -171,6 +184,7 @@ class CompareCollectionUsers extends Component {
         compareData={this.viewData.compareData}
         users={this.viewData.users}
         following={this.viewData.following}
+        collectionId={this.props.collectionId}
       />}
       <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB}/>
 
@@ -196,6 +210,7 @@ class CompareCollectionUsers extends Component {
         compareData={this.viewData.compareDataLocation}
         users={this.viewData.usersLocation}
         following={this.viewData.followingLocation}
+        collectionId={this.props.collectionId}
       />}
     </div>)
   }
@@ -211,7 +226,7 @@ const heading = {
   marginTop: '2em',
 };
 
-const UserCompareCarousel = observer(({compareData, users, following}) => {
+const UserCompareCarousel = observer(({compareData, users, following, collectionId}) => {
   return (<div  style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
 
     {compareData && users.map((user) => {
@@ -220,7 +235,9 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
         <div key={user.id} >
           <UserCardSmall user={user}
             compareData={compareData.get(user.id)}
-            following={observable(following.get(user.id))}/>
+            following={observable(following.get(user.id))}
+            collectionId={collectionId}
+          />
         </div>
       )
     })}
@@ -303,11 +320,15 @@ class UserCardSmall extends Component {
     this.setState({compareDetails})
   }
 
+  clickFB = (e) => {
+    document.getElementsByClassName(`fb-network__share-button`)[0].click()
+  }
+
   render(){
     // if (!this.props.user) return null;
     if (!this.props.user) return <LoadingIndicator />;
 
-    const { user } = this.props
+    const { user, UserStore, collectionId } = this.props
 
     const name = user.first_name ? `${user.first_name} ${user.last_name}` : user.username;
     const age = user.age ? user.age  : '';
@@ -322,6 +343,18 @@ class UserCardSmall extends Component {
      match = Math.floor(100-this.props.compareData.difference_percent);
      questions_counted = this.props.compareData.questions_counted;
     }
+    //${window.location.origin}
+    const fb = (
+      <FacebookShareButton
+        url={`https://openv2.represent.me/survey/${collectionId}`}
+        title={`I'm ${match}% match with ${name}`}
+        picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
+        className='fb-network__share-button'>
+        <FacebookIcon
+          size={32}
+          round />
+      </FacebookShareButton>
+    )
 
     const barStyle = this.state.compareDetails ? {display: 'block'} : {display: 'none'}
     //console.log('this.state', this.state, barStyle)
@@ -349,6 +382,13 @@ class UserCardSmall extends Component {
                 label="follow"
                 onTouchTap={this.setFollowing}
                 /> }
+              <RaisedButton
+                onClick={this.clickFB} 
+                label="Share"
+                style={{margin: 12}} 
+                backgroundColor="#3b5998" 
+                icon={fb}
+              />
               <FlatButton
                 label={this.state.compareDetails ? "hide details" : 'Compare in detail'}
                 primary={true}

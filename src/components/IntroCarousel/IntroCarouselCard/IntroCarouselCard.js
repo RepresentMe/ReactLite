@@ -14,6 +14,7 @@ const IntroCarouselCard = (props) => {
       <div>
         {!props && <p>LOADING</p>}
         {props && (
+
           <div style={{}}>
             <Card
               className='cardStyleIntro'
@@ -49,6 +50,7 @@ const IntroCarouselCard = (props) => {
               </CardText>
 
             </Card>
+
           </div>)
   }
   </div>)}

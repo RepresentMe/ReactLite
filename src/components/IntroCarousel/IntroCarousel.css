@@ -1,7 +1,3 @@
-.containerStyleIntro {
-  padding: 10px;
-  width: 100%;
-}
 
 .cardStyleIntro {
   width: 100%;
@@ -35,4 +31,8 @@
 }
 .imgStyle:hover{
   opacity: 0.8;
+  max-width: 95vw;
+  padding: 10px;
+  height: 90vh;
+
 }

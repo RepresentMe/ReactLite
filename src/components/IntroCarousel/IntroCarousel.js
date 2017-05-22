@@ -55,6 +55,7 @@ class IntroCarousel extends React.Component {
   }
 
   render (){
+
     //const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     const item = this.state.items.filter(item => item.id === this.state.step)[0]
     console.log(item)
@@ -62,6 +63,28 @@ class IntroCarousel extends React.Component {
       <Dialog
         open={this.state.modalOpened}
         bodyStyle={{backgroundColor: item.backgroundColor}}
+// =======
+//     const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+//     const cellSpacing = width > 400 ? 280 : 100;
+//     const actions = [
+//       <FlatButton
+//         label="Close"
+//         onTouchTap={this.closeModal}
+//       />,
+//       <FlatButton
+//         label="Next"
+//         primary={true}
+//         onClick={this.props.nextSlide}
+//         onTouchTap={this.handleClose}
+//       />,
+//     ];
+//
+//
+//     return (
+//       <Dialog
+//         open={this.state.modalOpened}
+//         actions={actions}
+// >>>>>>> ee0794b2531b3b1951660837d37451512f44abce
         >
         <div>
           <IconButton onTouchTap={(e)=>this.closeModal(e)}
@@ -69,6 +92,7 @@ class IntroCarousel extends React.Component {
             >
             <ClearIcon />
           </IconButton>
+
 
           <div key={`slide-${this.state.step}`} >
             <IntroCarouselCard
@@ -97,6 +121,32 @@ class IntroCarousel extends React.Component {
               />}
           </div>
 
+{/* =======
+          <Carousel
+            ref="carousel"
+            autoplayInterval={800}
+            wrapAround={true}
+            slidesToShow={1}
+            slidesToScroll={1}
+            cellAlign="center"
+            cellSpacing={cellSpacing}
+            dragging={true}
+            speed={500}
+            >
+              {this.state.items.map((item, i) => {
+                return (
+                  <div key={`slide-${i}`} >
+                    <IntroCarouselCard
+                      id={item.id}
+                      photo={item.img}
+                      text={item.text}
+                      removeCard={this.removeCard}
+                    />
+                  </div>
+                )
+              })}
+            </Carousel>
+>>>>>>> ee0794b2531b3b1951660837d37451512f44abce */}
           </div>
       </Dialog>
     )
