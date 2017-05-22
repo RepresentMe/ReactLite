@@ -59,7 +59,7 @@ const Page1 = (props) => {
         </div>
         <p style={{margin: '10px 0'}}>
           Have your say on the issues and make it count, track your representatives and much more.
-          <Link to="#"><span> Learn more</span></Link>
+          <Link to="#" onTouchTap={() => props.toggleIntro()}><span> Learn more</span></Link>
         </p>
 
         <Checkbox onCheck={() => props.agreedTerms()}

@@ -68,7 +68,7 @@ const JoinGroupPage1 = (props) => {
         </div>
         <p style={{margin: '10px 0'}}>
           {`We're working with Represent to modernise democracy. `}
-          <Link to="#"><span style={{fontSize: 14}}>Learn more</span></Link>
+          <Link to="#" onTouchTap={() => props.toggleIntro()}><span style={{fontSize: 14}}>Learn more</span></Link>
         </p>
 
         <CheckboxComponent

@@ -12,6 +12,7 @@ import MessengerCheckboxPlugin from '../MessengerCheckboxPlugin';
 import { observer, inject } from "mobx-react";
 import GeoService from '../../services/GeoService';
 import DynamicConfigService from '../../services/DynamicConfigService';
+import IntroCarousel from '../IntroCarousel';
 
 import JoinGroupPage1 from './JoinGroupPage1';
 import JoinGroupPage2 from './JoinGroupPage2';
@@ -57,7 +58,8 @@ const roundUp = (x) => {
       followingGroup: false,
       sharingEmail: false,
       group: null,
-      joinReason: ''
+      joinReason: '',
+      modalOpened: false
     }
   this.problemList = {
       fbProblem: 'Advise you to agree privacy policy first',
@@ -179,7 +181,11 @@ const roundUp = (x) => {
     if (email) this.props.history.push("/loginuser/" + this.dynamicConfig.encodeConfig() + "/" + encodeURIComponent(email))
     else this.props.history.push("/loginuser/" + this.dynamicConfig.encodeConfig())
   }
-
+  toggleIntro = () => {
+    //e.preventDefault()
+    const modalOpened = !this.state.modalOpened;
+    this.setState({modalOpened})
+  }
   joinGroup = () => {
     window.API.post("/api/groups/" + this.state.group.id + "/join/")
       .then((response) => {
@@ -266,7 +272,7 @@ const roundUp = (x) => {
     }
 
     let memberGoal = roundUp(this.state.group.member_count);
-    console.log('this.state', this.state)
+    //console.log('this.state', this.state)
     const randomPic = `./img/pic${Math.floor(Math.random()*7)}.png`;
     const groupLogo = this.state.group.image ? this.state.group.image.replace("localhost:8000", "represent.me") : randomPic;
 
@@ -287,6 +293,7 @@ const roundUp = (x) => {
               //problem={this.state.problems[0]}
               redirectToLogin={this.redirectToLogin}
               nextPage={this.handleNext}
+              toggleIntro={() => this.toggleIntro()}
             />
         </div>}
 
@@ -330,6 +337,10 @@ const roundUp = (x) => {
             joinComplete={this.state.joinComplete}
           />
         </div>}
+
+        <IntroCarousel
+          modalOpened={this.state.modalOpened}
+          toggleIntro={this.toggleIntro}/>
 
         {/* <Dialog open={this.state.emailExists}>
           <p style={{fontWeight: 'bold'}}>{"It looks like you're already signed up to Represent, please login to join this group."}</p>
