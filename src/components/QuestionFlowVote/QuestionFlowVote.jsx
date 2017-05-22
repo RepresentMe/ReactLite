@@ -141,8 +141,7 @@ class QuestionFlowVote extends Component {
               open={this.isPrivacyInfoModalOpen.get()}
               onRequestClose={() => this.isPrivacyInfoModalOpen.set(false)}
             >
-              Your answers are all set to be 'private' by default. This means no one else can see how you answered a specific question. 
-              If you'd like to go 'on the record' or would like to represent others you should answer publicly so they can know your values.
+              Your answers are set to 'private' by default. This means no one else can see how you have answered a specific question. If you'd like to go 'on the record', as an elected representative, or would like to represent others, you should set your answers to 'public'.
             </Dialog>
         </div>
     )
