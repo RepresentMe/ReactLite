@@ -66,8 +66,8 @@ import './SurveyFlow.css'
     this.setState({session_vars})
   }
   componentDidMount(){
-    this.getUserLocation();
-    }
+    // this.getUserLocation();
+  }
 
   componentWillReceiveProps(nextProps) {
     if(this.state.activeTab !== nextProps.match.params.activeTab) {
