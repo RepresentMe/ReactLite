@@ -17,7 +17,7 @@ class MoreText extends Component {
     if (!this.props.chars && this.props.text.length > 140) {
       this.setState({ shouldBeTruncated: true })
     }
-    else if (this.props.chars && this.props.text.length > 200) {
+    else if (this.props.chars && this.props.text.length > this.props.chars) {
       this.setState({ shouldBeTruncated: true })
     } else {
       this.setState({ readMore: true })
@@ -32,11 +32,10 @@ class MoreText extends Component {
     const { text } = this.props;
     const { shouldBeTruncated, readMore } = this.state;
 
-    let truncatedComment;
-    if (shouldBeTruncated && !this.props.chars) {
-      truncatedComment = (shouldBeTruncated) ? text.substring(0, COMMENT_MAX_SIZE_TO_SHOW) : text
-    } else if (shouldBeTruncated && this.props.chars) {
-      truncatedComment = (shouldBeTruncated) ? text.substring(0, this.props.chars) : text
+    let truncatedComment = '';
+    if (shouldBeTruncated) {
+      if (!this.props.chars) truncatedComment = text.substring(0, COMMENT_MAX_SIZE_TO_SHOW)
+      else if (this.props.chars) truncatedComment = text.substring(0, this.props.chars)
     }
     const buttonStyle={
       cursor: 'pointer'

@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+//import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
- 
-import { Link } from 'react-router-dom';
-import Tappable from 'react-tappable';
+import moment from 'moment';
 
-import Slider from 'material-ui/Slider';
-import LinearProgress from 'material-ui/LinearProgress';
-import { white, cyan600, grey300 } from 'material-ui/styles/colors';
-import ReactMarkdown from 'react-markdown';
+// import { Link } from 'react-router-dom';
+// import Tappable from 'react-tappable';
+
+// import Slider from 'material-ui/Slider';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+// import LinearProgress from 'material-ui/LinearProgress';
+import { white, cyan600, grey300, orange500 } from 'material-ui/styles/colors';
+// import ReactMarkdown from 'react-markdown';
 import Dialog from 'material-ui/Dialog';
-import $ from 'jquery';
-import DateOfBirth from "../../../DateOfBirth";
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+
+// import DateOfBirth from "../../../DateOfBirth";
+// import SelectField from 'material-ui/SelectField';
+// import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import GeoService from '../../../../services/GeoService';
 import Autocomplete from 'react-google-autocomplete';
 
- 
+
 
 const autocompleteStyle = {
   height: '44px',
@@ -29,22 +31,28 @@ const autocompleteStyle = {
   zIndex: 99999999,
   borderLeft: 0,
   borderRight: 0,
-  borderBottom: '1px solid #e4e4e4'
+  borderBottom: '1px solid #e4e4e4',
+  color: 'lightgrey'
 }
 
 
 const styles = {
-  dialogRoot: {  
-    paddingTop: 0 
+  dialogRoot: {
+    paddingTop: 0
   },
-  dialogContent: { 
+  dialogContent: {
     width: '90%',
     padding: 2,
     minWidth: 280,
     maxWidth: 680
   },
-  dialogBody: { 
+
+  dialogBody: {
     padding: 10,
+  },
+  radioButton: {
+    fontSize: 16
+
   }
 }
 
@@ -57,13 +65,19 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
 
     this.state = {
       ddDOB: null,
-      ddGender: null,
+      ddGender: '',
       txtPostcode: "",
       address: null,
       checkedPostcode: false,
       step: 0,
       problems: [],
-      shown: false
+      shown: false,
+      age: ''
+    }
+    this.problemList = {
+      postcodeProblem: 'Please enter a valid postcode',
+      dobProblem: 'Please enter valid age',
+      genderProblem: "Please select your gender or choose 'Rather not say'"
     }
   }
 
@@ -92,6 +106,16 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
 
   updateField = (field, newValue) => {
     let newState = {};
+    if (field === 'age') {
+      const problems = this.state.problems.filter(p => p !== this.problemList.dobProblem);
+      const d = new Date();
+      const ddDOB = moment([d.getFullYear() - newValue, 0]).format();
+      this.setState({ddDOB, problems})
+    }
+    else if (field === 'ddGender') {
+      const problems = this.state.problems.filter(p => p !== this.problemList.genderProblem);
+      this.setState({problems})
+    }
     newState[field] = newValue;
     this.setState(newState, () => {
       // Check postcode in realtime
@@ -102,68 +126,80 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
   }
 
   closeModal = () => {
-    this.setState({shown:false})
+    this.setState({
+      ddDOB: null,
+      ddGender: '',
+      txtPostcode: "",
+      address: null,
+      checkedPostcode: false,
+      step: 0,
+      problems: [],
+      shown: false,
+      age: ''
+    })
   }
 
   updateDetails = () => {
 
     let problems = [];
 
-    if (this.state.ddDOB === null) {
-      problems.push("Please enter a valid date of birth!");
+    if (!this.state.age || this.state.age < 13 || this.state.age > 120 || !this.state.ddDOB) {
+      problems.push(this.problemList.dobProblem);
     }
 
-    if (this.state.ddGender === null) {
-      problems.push("Please select your gender, or choose 'I would rather not say'");
+    if (!this.state.ddGender) {
+      problems.push(this.problemList.genderProblem);
     }
 
-    if (!this.state.address['geometry']) {
-      problems.push("Please enter a valid postcode!");
+    if (!this.state.address || !this.state.address['geometry']) {
+      problems.push(this.problemList.postcodeProblem);
     }
 
     if (problems.length !== 0) {
       this.setState({ problems });
+
       return;
-    }
+    } else {
 
-    const locLat = this.state.address['geometry']['location'].lat();
-    const locLon = this.state.address['geometry']['location'].lng();
-    let location = null;
-    if (!!locLat) {
-        location = {
-            "type": "Point",
-            "coordinates": [locLon, locLat]
-        };
-    }
-    const address = this.state.address.formatted_address;
+      const locLat = this.state.address['geometry']['location'].lat();
+      const locLon = this.state.address['geometry']['location'].lng();
+      let location = null;
+      if (!!locLat) {
+          location = {
+              "type": "Point",
+              "coordinates": [locLon, locLat]
+          };
+      }
+      const address = this.state.address.formatted_address;
 
-    window.API.patch("/auth/me/", {
-      dob: this.state.ddDOB.substring(0, 10),
-      gender: this.state.ddGender,
-      address: address,
-      location: location,
-    }).then((response) => {
-      this.setState({ shown: false })
-    }).catch((error) => {
-      this.setState({ problems: [JSON.stringify(error.response.data)] })
-    });
+      window.API.patch("/auth/me/", {
+        dob: this.state.ddDOB,
+        gender: this.state.ddGender,
+        address: address,
+        location: location,
+      }).then((response) => {
+        //this.setState({ shown: false })
+        this.closeModal()
+      }).catch((error) => {
+        this.setState({ problems: [JSON.stringify(error.response.data)] })
+      });
+    }
   }
 
   render() {
 
-
     const actions = [
       <FlatButton
-        label="Skip" 
+        label="Skip"
         onTouchTap={this.closeModal}
       />,
       <FlatButton
         label="Count me in"
-        primary={true}  
+        primary={true}
         onClick={this.updateDetails}
       />,
     ];
- 
+    console.log(this.state)
     return (
       <Dialog
         open={this.state.shown}
@@ -172,42 +208,79 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         contentStyle={ styles.dialogContent }
         bodyStyle={ styles.dialogBody }
         style={ styles.dialogRoot }
-        actions={actions} 
-        autoScrollBodyContent={true}>
+        actions={actions}
+        autoScrollBodyContent={false}>
 
-        <p style={{ margin: 0}}><strong>How do you compare?</strong></p> 
-        <p style={{ margin: 0, fontSize: 12, color: '#999'}}>Enter a few details to match to local candidates and see how others have answered.</p>
+        <div style={{width: '90%', display: 'block', margin: '20px auto'}}>
+          <p style={{ margin: 0, fontSize: 14, color: '#999'}}>How do you compare?</p>
+          <p style={{ margin: 0, fontSize: 12, color: '#999'}}>Enter a few details to match to local candidates and see how others have answered.</p>
 
-        <Autocomplete
-            style={autocompleteStyle}
-            onPlaceSelected={(place) => {
-              this.setState({
-                address: place
-              })
-            }}
-            types={['(regions)']}
-            componentRestrictions={{}}
-        />
+          <Autocomplete
+              style={autocompleteStyle}
+              onPlaceSelected={(place) => {
+                this.setState({
+                  address: place,
+                  problems: this.state.problems.filter(p => p !== this.problemList.postcodeProblem)
+                })
+              }}
+              types={['(regions)']}
+              //componentRestrictions={{}}
+              placeholder="What's your postcode?"
+            />
 
-        <DateOfBirth onChange={(newValue) => this.updateField('ddDOB', newValue)} value={this.state.ddDOB} />
+          {/* <DateOfBirth onChange={(newValue) => this.updateField('ddDOB', newValue)} value={this.state.ddDOB} /> */}
+          <TextField
+            floatingLabelText="How old are you?"
+            floatingLabelFocusStyle={styles.floatingLabelText}
+            style={{width: '100%'}}
+            value={this.state.age}
+            onChange={(e, newValue) => this.updateField('age', newValue)}
+            /><br />
 
-          <SelectField
-            floatingLabelText="Gender"
-            value={this.state.ddGender}
-            style={{ width: '100%' }}
-            onChange={(e, newIndex, newValue) => this.updateField('ddGender', newValue)}
-          >
-            <MenuItem value={1} primaryText="Male" />
-            <MenuItem value={2} primaryText="Female" />
-            <MenuItem value={3} primaryText="Rather not say" />
-          </SelectField>
+            <RadioButtonGroup
+              name="gender"
+              onChange={(e, newValue) => this.updateField('ddGender', newValue)}
+              >
+              <RadioButton
+                value="1"
+                label="Male"
+                style={styles.radioButton}
+                iconStyle={{fill: cyan600}}
+                labelStyle={{color: 'grey'}}
+              />
+              <RadioButton
+                value="2"
+                label="Female"
+                iconStyle={{fill: cyan600}}
+                style={styles.radioButton}
+                labelStyle={{color: 'grey'}}
+              />
+              <RadioButton
+                value="3"
+                label="Rather not say"
+                iconStyle={{fill: cyan600}}
+                style={styles.radioButton}
+                labelStyle={{color: 'grey'}}
+              />
+            </RadioButtonGroup>
 
-        {this.state.problems.map((problem, index) => {
-          return (
-            <p key={index} style={{color: 'red', margin: '0', marginBottom: '5px', fontSize: '14px'}}>{problem}</p>
-          );
-        })}
- 
+            {/* <SelectField
+              floatingLabelText="Gender"
+              value={this.state.ddGender}
+              style={{ width: '100%' }}
+              onChange={(e, newIndex, newValue) => this.updateField('ddGender', newValue)}
+            >
+              <MenuItem value={1} primaryText="Male" />
+              <MenuItem value={2} primaryText="Female" />
+              <MenuItem value={3} primaryText="Rather not say" />
+            </SelectField> */}
+
+          {this.state.problems.map((problem, index) => {
+            return (
+              <p key={`problem-${index}`} style={{color: orange500, margin: '0px 0px 5px 0px', textAlign: 'left', fontSize: '14px'}}>{problem}</p>
+            );
+          })}
+        </div>
       </Dialog>
     )
   }
