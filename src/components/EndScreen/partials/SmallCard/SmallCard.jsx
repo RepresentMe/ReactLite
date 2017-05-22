@@ -45,7 +45,7 @@ class SmallCard extends Component {
                     {this.props.data.values[0].title}
                     {/* {this.props.data.values[0].full_name ? <p style={{color: '#999', fontSize: 14, fontWeight: 'bold', textAlign: 'left', }}>{`YOU: ${this.props.data.values[0].full_name}`}</p> : ''}  */}
                   </div>
-                  <div>
+                  <div style={{marginBottom: 5}}>
                     {this.props.data.values[0].full_name ? <QuestionLiquidPiechart questionId={this.props.data.values[0].questionId} pie={false} endScreen={true}/> : ""}
                   </div>
 
@@ -60,7 +60,7 @@ class SmallCard extends Component {
 */}
 
 
-                  <div style={{ width: 240, backgroundColor: "#f5f5fe", height: 36}}>
+                  <div style={{ width: 240, backgroundColor: "#f5f5fe", borderTop: '1px solid #ccc', height: 36}}>
                     <div style={{position: 'relative'}}>
                       <IconButton
                         tooltip="comment"

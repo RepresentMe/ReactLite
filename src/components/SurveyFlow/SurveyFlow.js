@@ -174,7 +174,7 @@ import './SurveyFlow.css'
               tooltipPosition="bottom-left"
               onTouchTap={() => this.navigateEnd2()}
               //iconStyle={{height: 16}}
-              style={{position: 'absolute', right: 10, top: -5}}>
+              style={{position: 'absolute', right: 12, top: -9}}>
               <SkipToEnd color='#999' hoverColor='#1B8AAE' />
             </IconButton>
          }
