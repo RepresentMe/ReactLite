@@ -6,6 +6,7 @@ import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
+import IntroCarousel from '../IntroCarousel';
 import DynamicConfigService from '../../services/DynamicConfigService';
 //import GeoService from '../../services/GeoService';
 
@@ -78,7 +79,8 @@ const styles = {
       joinComplete: false,
       stepIndex: 0,
       anonymous: false,
-      user_count: '17,394'
+      user_count: '17,394',
+      modalOpened: false
     }
   this.problemList = {
       fbProblem: 'Please agree to the privacy policy first',
@@ -99,7 +101,7 @@ const styles = {
       this.dynamicConfig.setConfigFromRaw(raw_config)
     }
   }
-  
+
   componentDidMount(){
     window.API.get('/user_count/')
       .then((response) => {
@@ -200,7 +202,11 @@ const styles = {
     const anonymous = !this.state.anonymous;
     this.setState({anonymous});
   }
-
+  toggleIntro = () => {
+    //e.preventDefault()
+    const modalOpened = !this.state.modalOpened;
+    this.setState({modalOpened})
+  }
   //attempt register user
   attemptNext1Page = () => {
     let problems = [];
@@ -269,6 +275,7 @@ const styles = {
                 problem={this.state.problems[0]}
                 redirectToLogin={this.redirectToLogin}
                 nextPage={this.handleNext}
+                toggleIntro={() => this.toggleIntro()}
                 />}
               {stepIndex === 1 && <Page2
                 email={this.state.email}
@@ -293,6 +300,10 @@ const styles = {
                   secondary onTouchTap={() => this.redirectToLogin()}
                   />
                 </Dialog>}
+
+                <IntroCarousel
+                  modalOpened={this.state.modalOpened}
+                  toggleIntro={this.toggleIntro}/>
             </div>
         </div>
 

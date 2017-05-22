@@ -21,7 +21,7 @@ const styles = {
     height: '20px',
     fill: '#999',
     position: 'absolute',
-    top: '50%'
+    top: '-15px'
   },
 
 }
@@ -114,10 +114,10 @@ class QuestionFlowVote extends Component {
 
           {/*<div className="nav-buttons">*/}
             <div className="nav-arrows">
-              <Left style={ Object.assign({ left:'15px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } onClick={this.handleGetPrevQuestion}/>
+              <Left style={ Object.assign({ left:'0px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } onClick={this.handleGetPrevQuestion}/>
             </div>
             <div className="nav-arrows">
-              <Right style={Object.assign({ right:'15px', float: 'right' }, icon)} onClick={this.handleGetNextQuestion}/>
+              <Right style={Object.assign({ right:'5px', float: 'right' }, icon)} onClick={this.handleGetNextQuestion}/>
             </div>
           {/*</div>*/}
 

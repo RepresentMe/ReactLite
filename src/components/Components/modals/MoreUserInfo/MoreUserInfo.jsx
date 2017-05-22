@@ -19,10 +19,7 @@ import TextField from 'material-ui/TextField';
 import GeoService from '../../../../services/GeoService';
 import Autocomplete from 'react-google-autocomplete';
 
-const customContentStyle = {
-  width: '97vw', 
-  maxWidth: '600px', 
-};
+ 
 
 const autocompleteStyle = {
   height: '44px',
@@ -34,6 +31,23 @@ const autocompleteStyle = {
   borderRight: 0,
   borderBottom: '1px solid #e4e4e4'
 }
+
+
+const styles = {
+  dialogRoot: {  
+    paddingTop: 0 
+  },
+  dialogContent: { 
+    width: '90%',
+    padding: 10,
+    minWidth: 280,
+    maxWidth: 680
+  },
+  dialogBody: { 
+    padding: 5,
+  }
+}
+
 
 
 export default @observer @inject("UserStore") class MoreUserInfo extends Component {
@@ -155,14 +169,14 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         open={this.state.shown}
         onRequestClose={this.closeModal}
         modal={false}
-        actions={actions}
-        bodyStyle={{padding: '10px'}}
-        contentStyle={customContentStyle}
+        contentStyle={ styles.dialogContent }
+        bodyStyle={ styles.dialogBody }
+        style={ styles.dialogRoot }
+        actions={actions} 
         autoScrollBodyContent={true}>
 
-        <p style={{ margin: 0}}><strong>Complete your profile to be better represented.</strong></p> 
-        <p style={{ margin: 0}}>
-        <em style={{ fontSize: 12, color: '#999'}}>We will not share your contact details without your explicit permission.</em></p>
+        <p style={{ margin: 0}}><strong>How do you compare?</strong></p> 
+        <p style={{ margin: 0, fontSize: 12, color: '#999'}}>Enter a few details to match to local candidates and see how others have answered.</p>
 
         <Autocomplete
             style={autocompleteStyle}

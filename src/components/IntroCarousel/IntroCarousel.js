@@ -23,21 +23,15 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 // import IntroCarouselCard from './IntroCarouselCard';
 
 const styles = {
-  dialogRoot: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 0
+  dialogRoot: {  
   },
   dialogContent: {
-    flex: 1,
-    alignSelf: 'center',
     width: '90%',
     minWidth: 280,
     maxWidth: 680
   },
   dialogBody: {
-    paddingBottom: 0
+    
   }
 };
 
@@ -69,7 +63,7 @@ class IntroCarousel extends React.Component {
         contentStyle={ styles.dialogContent }
         bodyStyle={ styles.dialogBody }
         style={ styles.dialogRoot }
-        repositionOnUpdate={ false }
+        repositionOnUpdate={ true }
         open={this.props.modalOpened}
         actions={actions}
         >
@@ -78,7 +72,7 @@ class IntroCarousel extends React.Component {
             <img src="https://i0.wp.com/represent.me/wp-content/uploads/results3.png" width="90%" />
 
 
-            <h2>This is a revolution in democracy.</h2>
+            <h2 style={{margin:0}}>This is a revolution in democracy.</h2>
             <p>Vote, discuss, compare, and delegate your vote to the people you trust.</p>
 
             </div>

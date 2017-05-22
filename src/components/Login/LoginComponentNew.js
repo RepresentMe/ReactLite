@@ -108,7 +108,7 @@ const styles = {
         <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
 
         <h2 style={{margin: '10px 0'}}>
-          Welcome back! 
+          Welcome back!
         </h2>
         </div>
 
@@ -140,7 +140,7 @@ const styles = {
           style={{width: '100%', marginTop: 20}}
         />
 
-         
+
 
         <FacebookLogin
           appId={String(window.authSettings.facebookId)}
