@@ -4,24 +4,33 @@
 }
 
 .cardStyleIntro {
-  max-width: 280px;
-  min-width: 250px;
+  width: 100%;
   padding: 10px;
   position: none;
   display: block;
-  margin: 10px auto;
+  margin: 15px auto;
   vertical-align: top;
-  min-height: 350px;
-  max-height: 350px;
+  height: 450px;
+
   border: none;
+}
+.carouselMedia{
+  max-height: 250px;
+  max-width: 90%;
+  margin: 0 auto;
+
 }
 
 /*for small screens*/
 @media screen and (max-width: 419px) {
    .cardStyleIntro {
-    /*max-width: 250px;*/
+    /*width: 250px;*/
     /*margin: 10px auto;*/
     display: block;
+    font-size: 14px;
+    }
+    .carouselMedia{
+      max-height: 150px;
     }
 }
 .imgStyle:hover{

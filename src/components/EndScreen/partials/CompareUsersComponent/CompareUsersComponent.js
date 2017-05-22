@@ -4,7 +4,7 @@ import { observable, autorun, computed } from 'mobx';
 import { Link } from 'react-router-dom';
 import {Card, CardText, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton'; 
+import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
 
 import LoadingIndicator from '../../../LoadingIndicator';
@@ -12,9 +12,11 @@ import LoadingIndicator from '../../../LoadingIndicator';
 import MessengerPlugin from 'react-messenger-plugin';
 
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-import { TwitterButton } from "react-social"; 
+import { TwitterButton } from "react-social";
 import IconButton from 'material-ui/IconButton';
+import CopyIcon from 'mdi-react/ContentCopyIcon';
 import Avatar from 'material-ui/Avatar';
+import TextField from 'material-ui/TextField';
 
 import DynamicConfigService from '../../../../services/DynamicConfigService';
 
@@ -80,6 +82,13 @@ class CompareCollectionUsers extends Component {
         && this.viewData.pageReadiness.isQuestionResultsReady.get()
     // }).get();
   })
+
+  copyToClipboard = (id) => {
+    let textField = document.getElementById(id)
+    textField.select()
+    document.execCommand('copy')
+  }
+
 
   loadData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds} = this.props;
@@ -164,6 +173,24 @@ class CompareCollectionUsers extends Component {
         following={this.viewData.following}
       />}
       <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB}/>
+
+      <div>
+       <div style={{position: 'none', display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center'}}>
+        <TextField
+          id="copyToClipboardEnd"
+          value={`${window.location.origin}/survey/${this.props.collectionId}`}
+          multiLine={false}
+          style={{height: 10, fontSize: 10}}
+          inputStyle={{textAlign: 'center'}}
+        />
+        <IconButton
+          onClick={e => this.copyToClipboard('copyToClipboardEnd')}
+          >
+          <CopyIcon />
+        </IconButton>
+        </div>
+      </div>
+
       <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
       {this.viewData.isComparingUsersOnLocationShowing.get() && <UserCompareCarousel
         compareData={this.viewData.compareDataLocation}
@@ -186,7 +213,7 @@ const heading = {
 
 const UserCompareCarousel = observer(({compareData, users, following}) => {
   return (<div  style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
-      
+
     {compareData && users.map((user) => {
       //console.log('userB, data', user, data)
       return (
@@ -196,7 +223,7 @@ const UserCompareCarousel = observer(({compareData, users, following}) => {
             following={observable(following.get(user.id))}/>
         </div>
       )
-    })} 
+    })}
   </div>)
 })
 
@@ -232,7 +259,7 @@ render(){
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
   return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
     <Subheader style={{fontWeight: 600, textTransform: 'upperCase'}} >All Results</Subheader>
- 
+
 
       {questions.length > 0 &&
         questions.peek().map((question, i) => {
@@ -243,7 +270,7 @@ const QuestionResultsCarousel = observer(({questions, collectionId}) => {
           </div>
         )
       })
-        } 
+        }
   </div>)
 })
 
@@ -329,16 +356,16 @@ class UserCardSmall extends Component {
                 />
             </div>
         </CardText>
-        <CardText style={{backgroundColor: '#e6f7ff', padding: '4px 4px'}}> 
+        <CardText style={{backgroundColor: '#e6f7ff', padding: '4px 4px'}}>
           <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center'}}>{`${match}%`}</h2>
 
           {this.props.compareData ? (
             <div>
-              
+
               <p style={{ color: '#999', margin:0,   }}>{`match on ${questions_counted} questions`}</p>
               <MatchBarchart compareData={this.props.compareData} />
               </div>
-            ) : <p></p>} 
+            ) : <p></p>}
 
             <div style={barStyle}>
               <CompareUsersDetailsComponent userIds={[this.props.user.id]} />
