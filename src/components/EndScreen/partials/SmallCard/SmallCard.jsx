@@ -37,7 +37,7 @@ class SmallCard extends Component {
         {this.props.data.values &&
 
           <div style={{   }}>
-            <Card style={{width: 240, margin: 10}}>
+            <Card style={{width: 240, margin: 10, borderRadius: 6}}>
 
                 <div style={{}}>
 

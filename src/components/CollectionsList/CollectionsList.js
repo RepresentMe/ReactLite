@@ -8,18 +8,7 @@ import CollectionSearch from '../CollectionSearch';
 
 import './CollectionsList.css';
 
-const styles = {
-  containerStyle: {
-    padding: 10,
-    maxWidth: 900,
-    minWidth: 250,
-  },
-  cardStyle: {
-    maxWidth: '100%',
-    margin: '1%',
-    cssFloat: 'left'
-  }
-}
+ 
 
 const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) => {
 
@@ -32,7 +21,7 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
   return (
     <div>
       <div><CollectionSearch /></div>
-      <div className='containerStyle' style={styles.containerStyle}>
+      <div className='containerStyles'>
       {collections.map((collection_obj) => {
         const id = collection_obj[0];
         const collection = collection_obj[1];
@@ -50,26 +39,29 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 
         return (
 
-            <Card className='cardStyle' style={{display: 'inlineBlock'}} key={ id }>
+            <Card className='cardStyles' key={ id }>
 
             <Link to={ "/survey/" + id } >
-                <CardHeader
+               {/* <CardHeader
                     title={user_name}
                     subtitle={subtitle}
                     avatar={photo}
                     className='cardHeaderStyle'
                 />
+              */}
+
                 <CardMedia>
                   <img src={image} className='imgStyle'/>
                 </CardMedia>
                 <CardTitle
+                  className='cardTitle'
                   title={ collection.name }
                 />
               </Link>
-              <CardText style={{wordWrap: 'break-word'}}>
+              <CardText style={{wordWrap: 'break-word'}} className='cardText'>
               {collection.desc ?
                 <div>
-                  {collection.desc.slice(0, 180 + collection.desc.indexOf(' ')) + ' '}
+                  {collection.desc.slice(0, 100 + collection.desc.indexOf(' ')) + ' '}
                   <Link to={ "/survey/" + id }><i>more...</i></Link>
                 </div>
                 : null}

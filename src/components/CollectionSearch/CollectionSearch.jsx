@@ -22,10 +22,10 @@ import { green100 } from 'material-ui/styles/colors';
     return (
 
       <div>
-        <div style={{padding: '0 10px'}}>
+        <div style={{width: '80%', minWidth: 200, margin: '0 auto'}}>
           <TextField
             value={this.state.search}
-            hintText="Search for a collection"
+            hintText="Search"
             fullWidth={true}
             onChange={(e, newValue) => {
               this.setState({search: newValue});
