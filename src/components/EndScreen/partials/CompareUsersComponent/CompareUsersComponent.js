@@ -157,7 +157,7 @@ class CompareCollectionUsers extends Component {
     // TODO make it computed
     if (!(this.viewData.pageReadiness.isCompareUsersReady.get()
       && this.viewData.pageReadiness.isQuestionResultsReady.get() && this.viewData.pageReadiness.isCompareUsersOnLocationReady.get())) return <LoadingIndicator />;
-    return (<div style={{background: '#f5f5fe'}}>
+    return (<div className='endPage'>
       {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel
         compareData={this.viewData.compareData}
         users={this.viewData.users}
@@ -213,7 +213,7 @@ render(){
   const loggedFB = this.props.loggedFB;
 
   return (
-    <div style={{ borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: '#fafafa', padding: 5, textAlign: 'center', maxHeight: loggedFB.get() ? 100 : 0}}>
+    <div style={{ borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: 'rgba(255,255,255,0.7)', padding: 5, textAlign: 'center', maxHeight: loggedFB.get() ? 100 : 0}}>
       <MessengerPlugin
         appId={String(window.authSettings.facebookId)}
         pageId={String(window.authSettings.facebookPageId)}
@@ -301,15 +301,15 @@ class UserCardSmall extends Component {
     return (
       this.props &&
       <Card
-        style={{margin: '10px', padding: 0, width: 260,  overflowX: 'hidden'}}
+        style={{margin: '0 5px 10px 5px', padding: '10px 0 0 0', width: 260,  overflowX: 'hidden'}}
         className='scrollbar'
         >
 
         <Avatar src={photo} size={50} style={{alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px'}}/>
 
-        <CardTitle title={name} subtitle={location} style={{textAlign: 'center'}} />
+        <CardTitle title={name} subtitle={location} style={{textAlign: 'center', padding: '4px 16px', }} />
 
-        <CardText style={{textAlign: 'center', paddingTop: 0, color: '#ccc'}}>
+        <CardText style={{textAlign: 'center', padding: '8px 16px 0 16px', color: '#444'}}>
           {bio}
           <div style={{ margin: '10px 0 0 0'}}>
             { this.props.following.get() > 0 ?
@@ -329,8 +329,8 @@ class UserCardSmall extends Component {
                 />
             </div>
         </CardText>
-        <CardText style={{backgroundColor: '#e6f7ff', padding: '5px 10px'}}> 
-          <h2 style={{ fontSize: '45px', margin: '3px 0', lineHeight: 0.8, textAlign: 'center'}}>{`${match}%`}</h2>
+        <CardText style={{backgroundColor: '#e6f7ff', padding: '4px 4px'}}> 
+          <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center'}}>{`${match}%`}</h2>
 
           {this.props.compareData ? (
             <div>

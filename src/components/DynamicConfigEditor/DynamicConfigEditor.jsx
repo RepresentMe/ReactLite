@@ -182,7 +182,7 @@ class DynamicConfigEditor extends Component {
             style={{ width: '90%' }}
           />
         </div>
-      </div>) : 'Please enter Syrvey Id above'}
+      </div>) : 'Please enter survey ID'}
 
     </div>)
   }
