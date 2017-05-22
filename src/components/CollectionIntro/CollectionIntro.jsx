@@ -7,6 +7,7 @@ import {Helmet} from "react-helmet";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import MoreText from '../Components/MoreText';
 import DynamicConfigService from '../../services/DynamicConfigService';
 import ErrorReload from '../ErrorReload';
 import ReactGA from 'react-ga';
@@ -107,11 +108,15 @@ import './CollectionIntro.css';
               <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', padding: '20px 20px'}}>
 
                 <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{ collection.name }</h1>
-              <ReactMarkdown source={ collection.desc } className="markDownText" renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} />
-
+              {/* <ReactMarkdown source={ collection.desc } className="markDownText" renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} /> */}
+              <MoreText className="moreText"
+                  text={collection.desc}
+                  markdownEnabled={true}
+                  chars={200}
+                  />
                 {collection ?
                   collection.question_count  ?
-                    <RaisedButton label="Start" primary onClick={this.startVoting} />
+                    <RaisedButton label="Start" primary onClick={this.startVoting} style={{marginTop: 15}}/>
                     :
                     <div>
                       <div> ---------- </div>
