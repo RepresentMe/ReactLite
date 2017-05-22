@@ -1,8 +1,5 @@
 .endPage {
-    background-image: url('https://wallpaperbrowse.com/media/images/background-7.jpg') !important;
-    background-repeat:  no-repeat !important; 
-    background-position: center !important;
-    background-size: cover !important;
+    background-image: url('/img/repbg.png') !important;
     padding-top: 10px !important;
 }
 
@@ -55,7 +52,12 @@
     color: #999;
     padding-right: 5px;
 }
-
+.endCard {
+    box-shadow: 2px 2px 3px #aaa !important;
+    border-radius: 0;
+    margin: 10px;
+    width: 240px;
+}
 .questionTextEnd {
     padding: 10px;
     font-weight: bold;

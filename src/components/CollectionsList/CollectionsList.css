@@ -3,15 +3,20 @@
     flex-direction: row wrap;
     flex-wrap: wrap;
     align-items: flex-start;
-    background-image: url('https://wallpaperbrowse.com/media/images/background-7.jpg') !important;
+    background-image: url('/img/repbg.png') !important;
     justify-content: space-around;
 }
 
 .cardStyles {
     width: 23% !important;
     margin: 1% !important;
+    box-shadow: 2px 2px 3px #aaa !important;
+    border: 1px solid transparent;
 }
-
+.cardStyles:hover {
+    border: 1px solid #1B8AAE;
+}
+ 
 
 /*for small screens*/
 
