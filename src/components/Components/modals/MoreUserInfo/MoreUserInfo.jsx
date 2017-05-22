@@ -109,7 +109,8 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
     if (field === 'age') {
       const problems = this.state.problems.filter(p => p !== this.problemList.dobProblem);
       const d = new Date();
-      const ddDOB = moment([d.getFullYear() - newValue, 0]).format();
+      let ddDOB = new Date(d.getFullYear() - newValue, 0, 2);
+      ddDOB = ddDOB.toISOString().substring(0, 10)
       this.setState({ddDOB, problems})
     }
     else if (field === 'ddGender') {
@@ -181,6 +182,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         //this.setState({ shown: false })
         this.closeModal()
       }).catch((error) => {
+        console.log(JSON.stringify(error.response.data))
         this.setState({ problems: [JSON.stringify(error.response.data)] })
       });
     }
