@@ -32,7 +32,7 @@ const autocompleteStyle = {
   borderLeft: 0,
   borderRight: 0,
   borderBottom: '1px solid #e4e4e4',
-  color: 'lightgrey'
+  color: '#444'
 }
 
 
@@ -51,8 +51,11 @@ const styles = {
     padding: 10,
   },
   radioButton: {
-    fontSize: 16
-
+    fontSize: 13,
+    cssFloat: 'left',
+  },
+  floatingLabelText: {
+    color: '#444'
   }
 }
 
@@ -230,9 +233,9 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
 
           {/* <DateOfBirth onChange={(newValue) => this.updateField('ddDOB', newValue)} value={this.state.ddDOB} /> */}
           <TextField
-            floatingLabelText="How old are you?"
+            floatingLabelText="How old are you (in years)?"
             floatingLabelFocusStyle={styles.floatingLabelText}
-            style={{width: '100%'}}
+            style={{width: '100%', color: '#444'}}
             value={this.state.age}
             onChange={(e, newValue) => this.updateField('age', newValue)}
             /><br />
@@ -244,6 +247,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
               <RadioButton
                 value="1"
                 label="Male"
+                className="radiob"
                 style={styles.radioButton}
                 iconStyle={{fill: cyan600}}
                 labelStyle={{color: 'grey'}}
@@ -251,6 +255,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
               <RadioButton
                 value="2"
                 label="Female"
+                className="radiob"
                 iconStyle={{fill: cyan600}}
                 style={styles.radioButton}
                 labelStyle={{color: 'grey'}}
@@ -258,6 +263,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
               <RadioButton
                 value="3"
                 label="Rather not say"
+                className="radiob"
                 iconStyle={{fill: cyan600}}
                 style={styles.radioButton}
                 labelStyle={{color: 'grey'}}
