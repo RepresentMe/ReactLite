@@ -29,7 +29,6 @@ class DynamicConfigService {
   }
 
   getEncodedConfig() {
-    console.log('getEncodedConfig: ', this.config);
     return encodeURIComponent(JSON.stringify(this.config))
   }
 
@@ -98,8 +97,6 @@ class DynamicConfigService {
     }else {
       updated_url = url
     }
-
-    console.log(updated_url)
 
     this.config.redirects[0] = updated_url
     return this.encodeConfig();
