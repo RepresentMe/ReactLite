@@ -1,3 +1,16 @@
+.question-block {
+    opacity: 0.1;
+    -webkit-transition: opacity 100ms ease-in, opacity 70ms ease-out;
+    -moz-transition: opacity 100ms ease-in, opacity 70ms ease-out;
+    -ms-transition: opacity 100ms ease-in, opacity 70ms ease-out;
+    -o-transition: opacity 100ms ease-in, opacity 70ms ease-out;
+    transition: opacity 100ms ease-in, opacity 70ms ease-out;
+}
+
+.question-block-visible {
+    opacity: 1;
+}
+
 .likertButton1 {
     background-image: url(./images/button_strongly_disagree.png);
 }
@@ -241,7 +254,7 @@ a {
 }
 
 @media all (min-width: 1800px) {
-.questionText {
+    .questionText {
         font-size: 3em
     }
 }

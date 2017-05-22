@@ -31,6 +31,7 @@ const styles = {
 class QuestionFlowVote extends Component {
 
   isPrivacyInfoModalOpen = observable(false)
+  questionVisible = observable(false)
   constructor(props) {
     super(props)
     this.state = {
@@ -47,11 +48,16 @@ class QuestionFlowVote extends Component {
     this.setVotingModeState(newValue, text)
   }
 
+  componentDidMount() {
+    this.questionVisible.set(true);
+  }
+
   componentWillUpdate(nextProps, nextState) {
     if (this.props.index !== nextProps.index) {
       const defHideAnswers = this.getDefHideAnswers()
       const text = defHideAnswers ? 'private' : 'public'
-      this.setVotingModeState(defHideAnswers, text)
+      this.setVotingModeState(defHideAnswers, text);
+      setTimeout(() => this.questionVisible.set(true), 10);
     }
   }
 
@@ -68,6 +74,19 @@ class QuestionFlowVote extends Component {
 
   toggleModal() {
     this.isPrivacyInfoModalOpen.set(!this.isPrivacyInfoModalOpen.get())
+  }
+
+  handleUserVote = (i, votingMode) => {
+    this.questionVisible.set(false);
+    setTimeout(() => this.props.onVote(i, votingMode), 40);
+  }
+  handleGetPrevQuestion = (i, votingMode) => {
+    this.questionVisible.set(false);
+    setTimeout(() => this.props.getPrevQuestion(), 40);
+  }
+  handleGetNextQuestion = (i, votingMode) => {
+    this.questionVisible.set(false);
+    setTimeout(() => this.props.getNextQuestion(), 40);
   }
 
   render() {
@@ -95,42 +114,50 @@ class QuestionFlowVote extends Component {
 
           {/*<div className="nav-buttons">*/}
             <div className="nav-arrows">
-              <Left style={ Object.assign({ left:'0px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } onClick={getPrevQuestion}/>
+              <Left style={ Object.assign({ left:'0px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } onClick={this.handleGetPrevQuestion}/>
             </div>
             <div className="nav-arrows">
-              <Right style={Object.assign({ right:'5px', float: 'right' }, icon)} onClick={getNextQuestion}/>
+              <Right style={Object.assign({ right:'5px', float: 'right' }, icon)} onClick={this.handleGetNextQuestion}/>
             </div>
           {/*</div>*/}
 
-            {item.type === "Q" && <RenderedQuestion id={item.object_id} index={index} onVote={onVote} key={"FlowTransition" + index} defHideAnswer={this.state.votingModePrivate}/>}
+            {item.type === "Q" && <RenderedQuestion id={item.object_id} index={index} onVote={this.handleUserVote} key={"FlowTransition" + index} defHideAnswer={this.state.votingModePrivate} classNames={`question-block ${this.questionVisible.get() ? 'question-block-visible':null}`} />}
+
             {item.type === "B" && <RenderedBreak title={item.content_object.title} text={item.content_object.text} onContinue={navigateNext}/>}
+
+
             <Dialog
-              title="Dialog With Actions"
-              actions={[<FlatButton
-                label="Got it"
+              title="Your privacy"
+              actions={[
+              <FlatButton
+                label="Learn more about privacy"
                 primary={true}
+                href="https://represent.me/legal/"
+              />,<FlatButton
+                label="Continue"
                 onTouchTap={() => this.isPrivacyInfoModalOpen.set(false)}
               />]}
               modal={false}
               open={this.isPrivacyInfoModalOpen.get()}
               onRequestClose={() => this.isPrivacyInfoModalOpen.set(false)}
             >
-              Some info
+              Your answers are all set to be 'private' by default. This means no one else can see how you answered a specific question. 
+              If you'd like to go 'on the record' or would like to represent others you should answer publicly so they can know your values.
             </Dialog>
         </div>
     )
   }
 }
 
-const MiddleDiv = ({children}) => (
-  <div style={{ display: 'table', width: '100%', height: '70vh', overflow: 'scroll' }}>
+const MiddleDiv = ({children, classNames}) => (
+  <div style={{ display: 'table', width: '100%', height: '70vh', overflow: 'scroll' }} className={classNames}>
     <div style={{ display: 'table-cell', verticalAlign: 'middle', textAlign: 'center', width: '100%', maxWidth: '400px', padding: '0 10px' }}>
       {children}
     </div>
   </div>
 )
 
-const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, index, onVote, defHideAnswer}) => {
+const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, index, onVote, defHideAnswer, classNames}) => {
 
   let {question, my_vote, subtype, choices} = QuestionStore.questions.get(id)
 
@@ -139,7 +166,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
   if(my_vote.length > 0 && subtype === 'mcq') {myVote = my_vote[0].object_id}
 
   return (
-    <MiddleDiv>
+    <MiddleDiv classNames={classNames}>
       <p className={"questionText questionTextFix-" + index} style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{question}</p>
       {subtype === "likert" && <LikertButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer}/>}
       {subtype === "mcq" && <MCQButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer} choices={choices}/>}
@@ -202,7 +229,7 @@ class MCQButtons extends Component {
 
 
 const IndoIcon = (props) => {
-  return <svg xmlns="http://www.w3.org/2000/svg" fill="#444" height="24" viewBox="0 0 24 24" width="24" {...props}>
+  return <svg xmlns="http://www.w3.org/2000/svg" fill="#999" height="24" viewBox="0 0 24 24" width="24" {...props}>
     <path d="M0 0h24v24H0z" fill="none"/>
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
   </svg>

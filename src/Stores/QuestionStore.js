@@ -78,7 +78,6 @@ class QuestionStore {
     questionId, value, collection = null, vote_private = true,
     analytics_os = null, analytics_browser = null,
     analytics_parent_url = null, analytics_location = null) {
-    console.log("VOTE LIKERT");
     if(!this.questions.has(questionId) || !value) {
       return false;
     }
@@ -103,7 +102,6 @@ class QuestionStore {
   voteQuestionMCQ(questionId, value, collection = null, vote_private = true,
     analytics_os = null, analytics_browser = null,
     analytics_parent_url = null, analytics_location = null) {
-    console.log("VOTE MCQ");
     if(!this.questions.has(questionId) || !value) {
       return false;
     }
@@ -136,7 +134,6 @@ class QuestionStore {
     const voteType = voteTypes[value-1];
     question[voteType]++;
     question[`liquid_vote_count`]++;
-    console.log('updatedQuestion', question);
   }
   
 
@@ -154,7 +151,6 @@ class QuestionStore {
         break;
       } 
     }
-    console.log('updatedMCQuestion', question);
   }
 
   getCollectionItem(collectionId, questionId) {

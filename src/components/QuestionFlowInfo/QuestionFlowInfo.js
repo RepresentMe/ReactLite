@@ -24,7 +24,7 @@ class QuestionFlowInfo extends Component {
         <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{ question.question }</h1>
         <MoreText className="moreText" text={question.description}/>
         {question.links.map((link, i) => {
-          return (<div key={i}><EmbedlyComponent url={link.url} /><br/></div>);
+          return (<div key={i}><EmbedlyComponent url={link.link} /><br/></div>);
         })}
       </div>
     )
