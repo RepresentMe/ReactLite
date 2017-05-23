@@ -20,16 +20,16 @@ const IntroCarouselCard = (props) => {
               className='cardStyleIntro'
               style={{display: 'inlineBlock', boxShadow: 'none',backgroundColor: props.backgroundColor}}>
 
-            {props.title &&
-              <div>
-                <h2 style={{fontSize: 20, color: 'white', fontWeight: 'bold', position: 'none', display: 'block', textAlign: 'center'}}>{props.title}</h2>
-                <p style={{fontSize: 18, color: 'white', position: 'none', display: 'block', textAlign: 'center', width: '80%'}}>{props.subtitle}</p>
-              </div>
-              }
+              {props.title &&
+                <div>
+                  <h2 style={{fontSize: 20, color: 'white', fontWeight: 'bold', position: 'none', display: 'block', textAlign: 'center'}}>{props.title}</h2>
+                  <p style={{fontSize: 18, color: 'white', position: 'none', display: 'block', textAlign: 'center', width: '80%'}}>{props.subtitle}</p>
+                </div>
+                }
 
-              <div style={{textAlign: 'center'}}>
+              {props.img && <div style={{textAlign: 'center'}}>
                 <img src={`/introtour/${props.img}`} className='carouselMedia'/>
-              </div>
+              </div>}
 
               <CardText style={{wordWrap: 'break-word', marginTop: 0, color: 'white'}}>
                 {props.headerText ?
