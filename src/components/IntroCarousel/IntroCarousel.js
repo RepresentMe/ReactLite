@@ -4,17 +4,11 @@ import { observable } from 'mobx';
 import { Link } from 'react-router-dom';
 import {Card, CardHeader, CardText, CardActions, CardTitle} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 
-import LoadingIndicator from '../LoadingIndicator';
-
-import Divider from 'material-ui/Divider';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 import { TwitterButton } from "react-social";
 import { blue700, cyan700, tealA700, indigoA200, greenA700, red400, indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
-import Toggle from 'material-ui/Toggle';
-import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 
@@ -59,41 +53,28 @@ class IntroCarousel extends React.Component {
     //const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     const item = this.state.items.filter(item => item.id === this.state.step)[0]
     console.log(item)
+      const actions = [
+       <FlatButton
+         label="Close"
+         onTouchTap={(e)=>this.closeModal(e)}
+       />,
+       <FlatButton
+         label="Next"
+         primary={true} 
+         onTouchTap={(e)=>this.navigateNext(e)} 
+       />,
+     ];
     return (
+    
       <Dialog
         open={this.state.modalOpened}
+        actions={actions}
+        autoScrollBodyContent={true}
+        className="introslides"
+        contentClassName="introslidesBody"
         bodyStyle={{backgroundColor: item.backgroundColor}}
-// =======
-//     const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-//     const cellSpacing = width > 400 ? 280 : 100;
-//     const actions = [
-//       <FlatButton
-//         label="Close"
-//         onTouchTap={this.closeModal}
-//       />,
-//       <FlatButton
-//         label="Next"
-//         primary={true}
-//         onClick={this.props.nextSlide}
-//         onTouchTap={this.handleClose}
-//       />,
-//     ];
-//
-//
-//     return (
-//       <Dialog
-//         open={this.state.modalOpened}
-//         actions={actions}
-// >>>>>>> ee0794b2531b3b1951660837d37451512f44abce
         >
-        <div>
-          <IconButton onTouchTap={(e)=>this.closeModal(e)}
-            style={{position: 'absolute', right: 10, top: 5, color: 'grey'}}
-            >
-            <ClearIcon />
-          </IconButton>
-
-
+        <div>  
           <div key={`slide-${this.state.step}`} >
             <IntroCarouselCard
               id={item.id}
@@ -107,46 +88,7 @@ class IntroCarousel extends React.Component {
               //removeCard={this.removeCard}
             />
           </div>
-          <div style={{height: 50, width: '100%'}}>
-            {this.state.step === this.state.items.length - 1 ?
-              <RaisedButton
-                label="continue"
-                onTouchTap={(e)=>this.closeModal(e)}
-                style={{position: 'absolute', right: 20, bottom: 15}}
-                />
-                : <FlatButton
-                label="next"
-                onTouchTap={(e)=>this.navigateNext(e)}
-                style={{position: 'absolute', right: 20, bottom: 15}}
-              />}
-          </div>
-
-{/* =======
-          <Carousel
-            ref="carousel"
-            autoplayInterval={800}
-            wrapAround={true}
-            slidesToShow={1}
-            slidesToScroll={1}
-            cellAlign="center"
-            cellSpacing={cellSpacing}
-            dragging={true}
-            speed={500}
-            >
-              {this.state.items.map((item, i) => {
-                return (
-                  <div key={`slide-${i}`} >
-                    <IntroCarouselCard
-                      id={item.id}
-                      photo={item.img}
-                      text={item.text}
-                      removeCard={this.removeCard}
-                    />
-                  </div>
-                )
-              })}
-            </Carousel>
->>>>>>> ee0794b2531b3b1951660837d37451512f44abce */}
+  
           </div>
       </Dialog>
     )

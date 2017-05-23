@@ -7,6 +7,7 @@ import InsertComment from 'material-ui/svg-icons/editor/insert-comment'
 import Share from 'material-ui/svg-icons/social/share'
 import CheckBox from 'material-ui/svg-icons/toggle/check-box'
 import Info from 'material-ui/svg-icons/action/info'
+import SkiptoEnd from 'material-ui/svg-icons/content/send'
 
 import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionFlowInfo from '../QuestionFlowInfo';
@@ -136,6 +137,12 @@ class QuestionFlow extends Component {
               {
                 (activeTab === 'share') &&
                   <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />
+              }
+            </Tab>
+            <Tab icon={<SkiptoEnd/>} value="end" onTouchTap={() => this.navigateEnd2()} className={activeTab === 'share' ? 'menu-tab-active' : 'menu-tab'}>
+              {
+                 
+                  
               }
             </Tab>
           </Tabs>

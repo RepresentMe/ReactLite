@@ -1,20 +1,20 @@
-
+.introslidesBody div div {
+  padding: 0px !important;
+}
 .cardStyleIntro {
   width: 100%;
-  padding: 10px;
+  padding: 0px;
   position: none;
   display: block;
-  margin: 15px auto;
+  margin: 0 !important;
   vertical-align: top;
   height: 450px;
-
   border: none;
 }
 .carouselMedia{
   max-height: 250px;
   max-width: 90%;
   margin: 0 auto;
-
 }
 
 /*for small screens*/
