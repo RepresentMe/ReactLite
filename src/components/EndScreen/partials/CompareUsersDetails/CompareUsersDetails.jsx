@@ -79,8 +79,8 @@ class CompareUsersDetails extends Component {
           <div style={{ backgroundColor: '#e6f7ff', padding: 10, maxWidth: 250, margin: '0 auto' }}>
 
             <div style={{fontSize:12, margin: '0 0 10px 0', color: '#0d6a88', paddingTop: 0}}>
-          bio here
-          </div>
+              {userData.bio}
+            </div>
 
 
             <div className='container'>
