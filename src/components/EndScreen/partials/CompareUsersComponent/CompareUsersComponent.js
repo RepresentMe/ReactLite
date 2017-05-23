@@ -12,9 +12,7 @@ import LoadingIndicator from '../../../LoadingIndicator';
 import MessengerPlugin from 'react-messenger-plugin';
 
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-import { TwitterButton } from "react-social";
-import IconButton from 'material-ui/IconButton';
-import CopyIcon from 'mdi-react/ContentCopyIcon';
+import { TwitterButton } from "react-social"; 
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 
@@ -205,19 +203,27 @@ class CompareCollectionUsers extends Component {
       <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB}/>
 
       <div>
-       <div style={{position: 'none', display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center'}}>
+       <div id="shareMe">
+       Want to share? Click to copy: 
         <TextField
           id="copyToClipboardEnd"
           value={`${window.location.origin}/survey/${this.props.collectionId}`}
           multiLine={false}
-          style={{height: 10, fontSize: 10}}
+          style={{height: 14, fontSize: 12, width: 1}}
           inputStyle={{textAlign: 'center'}}
         />
-        <IconButton
-          onClick={e => this.copyToClipboard('copyToClipboardEnd')}
-          >
-          <CopyIcon />
-        </IconButton>
+        <span onClick={e => this.copyToClipboard('copyToClipboardEnd')}> URL</span>
+   
+        &nbsp; &middot; &nbsp;
+        <TextField
+          id="copyToClipboardEmbed"
+          value={`<iframe src="${window.location.origin}/survey/${this.props.collectionId}" height="600" width="100%" frameborder="0"></iframe>`}
+          multiLine={false}
+          style={{height: 14, fontSize: 12,  width: 1}}
+          inputStyle={{textAlign: 'center'}}
+        />
+        <span onClick={e => this.copyToClipboard('copyToClipboardEmbed')}>Embed code </span>
+
         </div>
       </div>
 
@@ -273,7 +279,8 @@ render(){
   const loggedFB = this.props.loggedFB;
 
   return (
-    <div style={{ borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: 'rgba(255,255,255,0.7)', padding: 5, textAlign: 'center', maxHeight: loggedFB.get() ? 100 : 0}}>
+    <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE',width: '100vw', background: 'rgba(255,255,255,0.7)', padding: 5, textAlign: 'center', maxHeight: loggedFB.get() ? 400 : 0}}>
+    <p style={{margin: 10, color: '#1B8AAE', maxWidth: 600, margin: '5px auto'}}><strong>Democracy should be easy and open to everyone.</strong> Click the button below and you can vote on important issues directly from Facebook Messenger!</p>
       <MessengerPlugin
         appId={String(window.authSettings.facebookId)}
         pageId={String(window.authSettings.facebookPageId)}
@@ -359,9 +366,12 @@ class UserCardSmall extends Component {
     const fb = (
       <FacebookShareButton
         url={`https://openv2.represent.me/survey/${collectionId}`}
-        title={`I'm ${match}% match with ${name}`}
+        title={`I'm ${match}% match with ${name}. How do you compare?`}
         picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
-        className='fb-network__share-button'>
+        className='fb-network__share-button'
+        description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
+        >
+        
         <FacebookIcon
           size={32}
           round />
