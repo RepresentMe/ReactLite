@@ -323,7 +323,7 @@ class UserCardSmall extends Component {
 
 
   setFollowing = () => {
-    this.props.UserStore.setFollowing(this.props.compareData.userb).then((res) => {
+    this.props.UserStore.setFollowing(this.props.user.id).then((res) => {
       this.props.following.set(res.id);
     })
   }
