@@ -22,8 +22,8 @@ import './IntroCarousel.css';
 class IntroCarousel extends React.Component {
   state = {
     items: [
-      {id: 0, backgroundColor: 'white', title: 'Welcome', subtitle: "It looks like you''ve not used Represent before. Let''s take a quick tour.", img: 'hands_curve.jpg', headerText: "Time is precious. Let's take a quick tour to make sure you get the most out of Represent.", text0: "Represent revolutionises how we can make decisions. Because it's designed around people (and not politicians or organisations), it gives you a clear voice everywhere decisions are being made in your name: From local to global, where you live or where you work, and in organisations you support.", button: null},
-      {id: 1, backgroundColor: blue700, title: 'Powerful insights', subtitle: "Click Insights for detailed local analysis", img: 'results.gif', headerText: "", text: "Zoom and click the map to filter results and debate to just a local area.", button: null},
+      {id: 0, backgroundColor: 'white', title: '', subtitle: "", img: 'hands_curve.jpg', headerText: "Welcome!", text0: "It looks like you've not used Represent before. Let's take a quick tour.", button: null},
+      {id: 1, backgroundColor: '#1B8AAE', title: "Represent is the people's political platform.", subtitle: "",  headerText: " ", text: "Our mission together is to modernise democracy and help you guide representatives to make wise and informed decisions. ", button: null},
       {id: 2, backgroundColor: greenA700, title: 'Powerful discussion tools', subtitle: "", img: 'debate.gif', headerText: "", text: "Build your reputation by making good points, voting on comments, and sharing solutions and useful information.", button: null},
       {id: 3, backgroundColor: tealA700, title: 'Change your mind', subtitle: "", img: 'changemind.gif', headerText: "", text: "You can change your mind any time you like - and remember it's a good thing to do - it proves you're thinking!", button: null},
       {id: 4, backgroundColor: red400, title: 'Answer privately', subtitle: "", img: 'private.gif', headerText: "", text: "You can also edit your settings to make all your answers private — (though you will lose the ability to compare yourself if you do this!)", button: null},
@@ -53,12 +53,7 @@ class IntroCarousel extends React.Component {
        <FlatButton
          label="Close"
          onTouchTap={(e)=>this.closeModal(e)}
-       />,
-       <FlatButton
-         label="Represent.me"
-         style={{cssFloat: 'left'}}
-         href="https://represent.me"
-       />,
+       />, 
        <FlatButton
          label="Next"
          primary={true}

@@ -7,8 +7,7 @@
   position: none;
   display: block;
   margin: 0 !important;
-  vertical-align: top;
-  height: 450px;
+  vertical-align: top; 
   border: none;
 }
 .carouselMedia{
@@ -25,14 +24,6 @@
     display: block;
     font-size: 14px;
     }
-    .carouselMedia{
-      max-height: 150px;
+    .carouselMedia{ 
     }
-}
-.imgStyle:hover{
-  opacity: 0.8;
-  max-width: 95vw;
-  padding: 10px;
-  height: 90vh;
-
-}
+} 
