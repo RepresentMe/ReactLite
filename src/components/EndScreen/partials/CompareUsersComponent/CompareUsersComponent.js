@@ -155,23 +155,27 @@ class CompareCollectionUsers extends Component {
 
         if(UserStore.isLoggedIn()) {
           UserStore.getCachedMe().then(user => {
-            const candidates = this.dynamicConfig.config.survey_end.compare_candidates;
-            if(candidates.length > 0) {
+            if(this.dynamicConfig.config.survey_end.should_show_compare_candidates) {
               this.viewData.isComparingCandidatesShowing.set(true);
-              UserStore.amFollowingUsers(currentUserId, candidates).then(res => {
-                const results = res.results;
-                results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
-              })
-              UserStore.getUsersById(candidates).then((usersData) => {
-                usersData.results.ids.forEach((id) => {
-                  this.viewData.candidates.push(usersData.results[id])
+
+              UserStore.getCandidatesByLocation(user.region).then(candidates => {
+                if(!candidates.length) {
+                  this.viewData.isComparingCandidatesShowing.set(false);
+                  this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
+                  return;
+                }
+                this.viewData.candidates.replace(candidates);
+                let candidatesIds = candidates.map(user => { return user.id });
+                UserStore.amFollowingUsers(currentUserId, candidatesIds).then(res => {
+                  const results = res.results;
+                  results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
                 })
-              })
-              UserStore.compareMultipleUsers(currentUserId, candidates).then((compareData) => {
-                candidates.forEach((id) => {
-                  this.viewData.compareCandidatesData.set(id, compareData.results[id])
+                UserStore.compareMultipleUsers(currentUserId, candidatesIds).then((compareData) => {
+                  candidatesIds.forEach((id) => {
+                    this.viewData.compareCandidatesData.set(id, compareData.results[id])
+                  })
+                  this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
                 })
-                this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
               })
             } else {
               this.viewData.pageReadiness.isCompareCandidatesReady.set(true);

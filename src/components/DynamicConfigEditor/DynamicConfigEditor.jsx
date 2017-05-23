@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import CopyIcon from 'mdi-react/ContentCopyIcon';
+import Checkbox from 'material-ui/Checkbox';
 
 @observer
 class DynamicConfigEditor extends Component {
@@ -31,7 +32,7 @@ class DynamicConfigEditor extends Component {
 
     autorun(() => {
       this.dynamicConfigObj.survey_end.compare_users;
-      this.dynamicConfigObj.survey_end.compare_candidates;
+      this.dynamicConfigObj.survey_end.should_show_compare_candidates;
       this.dynamicConfigObj.survey_end.showJoinGroup_id;
       this.dynamicConfigObj.survey_end.showFollowUser_id;
       this.saveToString();
@@ -62,11 +63,6 @@ class DynamicConfigEditor extends Component {
   setCompareUsersValue = (v) => {
     v = this.replaceAll(v, ' ', '');
     this.dynamicConfigObj.survey_end.compare_users = v.split(',');
-  }
-
-  setCompareCandidatesValue = (v) => {
-    v = this.replaceAll(v, ' ', '');
-    this.dynamicConfigObj.survey_end.compare_candidates = v.split(',');
   }
 
   setJoinGrouprValue = (v) => {
@@ -123,18 +119,10 @@ class DynamicConfigEditor extends Component {
             LibDem: 17692 <br /> ALL: <pre>17351,17663,17667,17687,17689,17710,17711,17692</pre>
           </p>
         </div>
-        <TextField
-          hintText="Compare candidates"
-          floatingLabelText="Candidates(separate by comma)"
-          multiLine={true}
-          rows={2}
-          onBlur={() => {
-            this.dynamicConfigObj.survey_end.compare_candidates.replace(this.dynamicConfigObj.survey_end.compare_candidates.filter((user) => {
-              return !!user; // filter out empty strings
-            }))
-          }}
-          value={this.dynamicConfigObj.survey_end.compare_candidates}
-          onChange={(e,v) => this.setCompareCandidatesValue(v)}
+        <Checkbox
+          label="Show candidates"
+          value={this.dynamicConfigObj.survey_end.should_show_compare_candidates}
+          onCheck={(e,v) => this.dynamicConfigObj.survey_end.should_show_compare_candidates = v}
         />
         <TextField
           hintText="Join group"
