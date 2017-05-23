@@ -379,10 +379,9 @@ class UserCardSmall extends Component {
 
         <Avatar src={photo} size={50} style={{alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px'}}/>
 
-        <CardTitle title={name} subtitle={location} style={{textAlign: 'center', padding: '4px 16px', }} />
+        <CardTitle title={name} subtitle={location} style={{textAlign: 'center', padding: '4px 16px', }} titleStyle={{lineHeight: 1, fontSize: 18, fontWeight: 600 }} />
 
-        <CardText style={{textAlign: 'center', padding: '8px 16px 0 16px', color: '#444'}}>
-          {bio}
+        <CardText style={{textAlign: 'center', padding: '8px 16px 0 16px', color: '#444'}} className='cardText'>
           <div style={{ margin: '10px 0 0 0'}}>
             { this.props.following.get() > 0 ?
               <RaisedButton
