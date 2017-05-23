@@ -30,51 +30,53 @@ class IntroCarousel extends React.Component {
       {id: 5, backgroundColor: cyan700, title: 'Compare with others', subtitle: "", img: 'compare.png', headerText: "", text: "When you’ve answered more 20-30 questions you can see compare to friends, locals, and people in 57 countries around the world!", button: null},
       {id: 6, backgroundColor: indigoA200, title: 'Right here if you need help!', subtitle: "", img: 'help.gif', headerText: "", text: "Click 'help' on your profile menu (top right!) and we'll be with you as soon as we can!", button: null},
       ],
-    modalOpened: true,
+    //modalOpened: true,
     step: 0
   }
 
   closeModal = (e) => {
     e.preventDefault();
-    let modalOpened = !this.state.modalOpened;
-    this.setState({modalOpened})
+    this.setState({step: 0})
+    this.props.toggleIntro();
   }
   navigateNext = (e) => {
     e.preventDefault();
     let step = this.state.step + 1;
     this.setState({step})
-    if (step === this.state.items.length) {
-      step = 0
-    }
+
   }
 
   render (){
-
-    //const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const modalOpened = this.props.modalOpened;
     const item = this.state.items.filter(item => item.id === this.state.step)[0]
-    console.log(item)
-      const actions = [
+    const actions = item.id !== (this.state.items.length - 1) ? [
        <FlatButton
          label="Close"
          onTouchTap={(e)=>this.closeModal(e)}
        />,
        <FlatButton
          label="Next"
-         primary={true} 
-         onTouchTap={(e)=>this.navigateNext(e)} 
+         primary={true}
+         onTouchTap={(e)=>this.navigateNext(e)}
        />,
-     ];
+       ] : [
+        <FlatButton
+          label="Close"
+          onTouchTap={(e)=>this.closeModal(e)}
+        />
+      ]
+       ;
     return (
-    
+
       <Dialog
-        open={this.state.modalOpened}
+        open={modalOpened}
         actions={actions}
         autoScrollBodyContent={true}
         className="introslides"
         contentClassName="introslidesBody"
         bodyStyle={{backgroundColor: item.backgroundColor}}
         >
-        <div>  
+        <div>
           <div key={`slide-${this.state.step}`} >
             <IntroCarouselCard
               id={item.id}
@@ -88,7 +90,7 @@ class IntroCarousel extends React.Component {
               //removeCard={this.removeCard}
             />
           </div>
-  
+
           </div>
       </Dialog>
     )

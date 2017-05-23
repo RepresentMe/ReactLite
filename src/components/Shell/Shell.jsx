@@ -193,7 +193,7 @@ export default class Shell extends Component {
         onClick={!isAuthenticated ? this.navigateToLogin : null}
       />
     )
-    
+
     return(
       <Router history={this.props.history}>
           <MuiThemeProvider muiTheme={muiTheme}>
