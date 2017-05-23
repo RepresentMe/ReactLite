@@ -65,7 +65,7 @@ class ContainerBar extends React.Component{
 	render(){
 		//console.log('endScreen bar', this.props)
 	return (
-		<div className='bg_bar' >
+		<div className='bg_bar' title={this.props.full_name}>
 		    <Bar {...this.props}
 					activeEltIndex={this.state.activeEltIndex}
 					direct_vote_count={this.state.direct_vote_count}/>
@@ -96,7 +96,7 @@ const Percentage = (props) => {
 return (
 	<div className='percentageEndScreen' style={{color: props.fill}}>
 		<span className='tinytext' style={{display: 'inline'}}>{props.my_vote ? 'YOU: '  : ''}</span>
- 
+
 		<span className='tinynumber' style={{display: 'inline'}}>{`${props.percentage}%`}</span>
 	</div>
 )}
