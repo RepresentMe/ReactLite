@@ -66,21 +66,19 @@ class CompareUsersDetails extends Component {
       });
     };
     this.topicsCompare.replace(diffs_array);
-    console.log('diffs_array: ', diffs_array, this.topicsCompare);
   }
 
   render() {
     const { userData } = this.props;
 
-    console.log('render', this.compareData, this.topicsCompare.peek());
     return (<div style={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420 }}>
         <div style={{ flex: '1', minWidth: 320 }}>
           <div style={{ backgroundColor: '#e6f7ff', padding: 10, maxWidth: 250, margin: '0 auto' }}>
 
             <div style={{fontSize:12, margin: '0 0 10px 0', color: '#0d6a88', paddingTop: 0}}>
-          bio here
-          </div>
+              {userData.bio}
+            </div>
 
 
             <div className='container'>
@@ -103,12 +101,10 @@ class CompareUsersDetails extends Component {
 
             {this.isCompareDataLoaded.get() ?
               <div>
-                <div className=' ' style={{ justifyContent: 'center', paddingTop: 0 }}>
+                <div className=' ' style={{ textAlign: 'left', paddingTop: 0 }}>
                   <div className=' '>
-                    <p>You strongly agree on: {` ${this.voteValues.agree.get()}%`}</p>
-                  </div>
-                  <div className=' '>
-                    <p>You strongly disagree on:  {` ${this.voteValues.disagree.get()}%`}</p>
+                    <p>You strongly agree on: {` ${this.voteValues.agree.get()}%`} <br />
+                    You strongly disagree on:  {` ${this.voteValues.disagree.get()}%`}</p>
                   </div>
                 </div>
 

@@ -155,23 +155,27 @@ class CompareCollectionUsers extends Component {
 
         if(UserStore.isLoggedIn()) {
           UserStore.getCachedMe().then(user => {
-            const candidates = this.dynamicConfig.config.survey_end.compare_candidates;
-            if(candidates.length > 0) {
+            if(this.dynamicConfig.config.survey_end.should_show_compare_candidates) {
               this.viewData.isComparingCandidatesShowing.set(true);
-              UserStore.amFollowingUsers(currentUserId, candidates).then(res => {
-                const results = res.results;
-                results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
-              })
-              UserStore.getUsersById(candidates).then((usersData) => {
-                usersData.results.ids.forEach((id) => {
-                  this.viewData.candidates.push(usersData.results[id])
+
+              UserStore.getCandidatesByLocation(user.region).then(candidates => {
+                if(!candidates.length) {
+                  this.viewData.isComparingCandidatesShowing.set(false);
+                  this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
+                  return;
+                }
+                this.viewData.candidates.replace(candidates);
+                let candidatesIds = candidates.map(user => { return user.id });
+                UserStore.amFollowingUsers(currentUserId, candidatesIds).then(res => {
+                  const results = res.results;
+                  results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
                 })
-              })
-              UserStore.compareMultipleUsers(currentUserId, candidates).then((compareData) => {
-                candidates.forEach((id) => {
-                  this.viewData.compareCandidatesData.set(id, compareData.results[id])
+                UserStore.compareMultipleUsers(currentUserId, candidatesIds).then((compareData) => {
+                  candidatesIds.forEach((id) => {
+                    this.viewData.compareCandidatesData.set(id, compareData.results[id])
+                  })
+                  this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
                 })
-                this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
               })
             } else {
               this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
@@ -319,7 +323,7 @@ class UserCardSmall extends Component {
 
 
   setFollowing = () => {
-    this.props.UserStore.setFollowing(this.props.compareData.userb).then((res) => {
+    this.props.UserStore.setFollowing(this.props.user.id).then((res) => {
       this.props.following.set(res.id);
     })
   }
@@ -377,8 +381,29 @@ class UserCardSmall extends Component {
 
         <CardTitle title={name} subtitle={location} style={{textAlign: 'center', padding: '4px 16px', }} titleStyle={{lineHeight: 1, fontSize: 18, fontWeight: 600 }} />
 
+
+        <CardText style={{backgroundColor: '#e6f7ff', padding: '10px 4px', marginTop: 10}}>
+          <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center'}}>{`${match}%`}</h2>
+
+          {this.props.compareData ? (
+            <div>
+
+              <p style={{ color: '#999', margin:0,   }}>{`match on ${questions_counted} questions`}</p>
+              <MatchBarchart compareData={this.props.compareData} />
+              </div>
+            ) : <p></p>}
+            
+              <FlatButton
+                label={this.areCompareDetailsShowing.get() ? "Hide detail" : 'Show Detail'}
+                primary={true}
+                style={{color: '#999', fontSize: 12, lineHeight: 1, textTransform: 'none'}}
+                onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
+                />
+        </CardText>
+
+
         <CardText style={{textAlign: 'center', padding: '8px 16px 0 16px', color: '#444'}} className='cardText'>
-          <div style={{ margin: '10px 0 0 0'}}>
+          <div style={{ margin: '5px'}}>
             { this.props.following.get() > 0 ?
               <RaisedButton
                 label="following"
@@ -391,29 +416,16 @@ class UserCardSmall extends Component {
                 /> }
               <RaisedButton
                 onClick={this.clickFB} 
-                label="Share"
-                style={{margin: 12}} 
+                label=""
+                style={{marginLeft: 12}} 
                 backgroundColor="#3b5998" 
                 icon={fb}
               />
-              <FlatButton
-                label={this.areCompareDetailsShowing.get() ? "hide details" : 'Compare in detail'}
-                primary={true}
-                onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
-                />
             </div>
         </CardText>
+
         <CardText style={{backgroundColor: '#e6f7ff', padding: '4px 4px'}}>
-          <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center'}}>{`${match}%`}</h2>
-
-          {this.props.compareData ? (
-            <div>
-
-              <p style={{ color: '#999', margin:0,   }}>{`match on ${questions_counted} questions`}</p>
-              <MatchBarchart compareData={this.props.compareData} />
-              </div>
-            ) : <p></p>}
-
+       
             {this.areCompareDetailsShowing.get() ? <div style={barStyle}>
               {/*<CompareUsersDetailsComponent userIds={[this.props.user.id]} />*/}
               <CompareUsersDetails userId={this.props.user.id} userData={this.props.user} />
