@@ -11,6 +11,7 @@ class DynamicConfigService {
       survey_end: {
         messenger_prompt: true,
         compare_users: [],
+        compare_candidates: [],
         showFollowUser_id: false,
         showJoinGroup_id: false,
       }

@@ -54,21 +54,22 @@ class CompareCollectionUsers extends Component {
   constructor(props) {
     super(props);
 
+    this.dynamicConfig = DynamicConfigService;
     this.viewData = observable.shallowObject({
       isLoggedIn: observable(null),
       pageReadiness: {
         isCompareUsersReady: observable(false),
         isQuestionResultsReady: observable(false),
-        isCompareUsersOnLocationReady: observable(false)
+        isCompareCandidatesReady: observable(false)
       },
       isComparingUsersShowing: observable(false),
-      isComparingUsersOnLocationShowing: observable(false),
+      isComparingCandidatesShowing: observable(false),
       users: observable.shallowArray([]),
-      usersLocation: observable.shallowArray([]),
+      candidates: observable.shallowArray([]),
       compareData: observable.shallowMap(),
-      compareDataLocation: observable.shallowMap(),
+      compareCandidatesData: observable.shallowMap(),
       following: observable.shallowMap(),
-      followingLocation: observable.shallowMap(),
+      followingCandidates: observable.shallowMap(),
       questions: observable.shallowArray(),
       collection_tags: observable.shallowArray([])
     });
@@ -134,35 +135,45 @@ class CompareCollectionUsers extends Component {
             const results = res.results;
             results.forEach(({ following, id }) => this.viewData.following.set(following, id))
           })
-          propUserIds.forEach(id => {
-            UserStore.getUserById(id).then(res => {
-              this.viewData.users.push(res)
+
+          UserStore.compareMultipleUsers(currentUserId, propUserIds).then((compareData) => {
+            propUserIds.forEach((id) => {
+              this.viewData.compareData.set(id, compareData.results[id])
             })
-            UserStore.compareUsers(currentUserId, id).then(res => {this.viewData.compareData.set(id, res)})
           })
-          this.viewData.pageReadiness.isCompareUsersReady.set(true);
+
+          UserStore.getUsersById(propUserIds).then((usersData) => {
+            usersData.results.ids.forEach((id) => {
+              this.viewData.users.push(usersData.results[id])
+            })
+            this.viewData.pageReadiness.isCompareUsersReady.set(true);
+          })
         } else {
           this.viewData.pageReadiness.isCompareUsersReady.set(true);
         }
 
         if(UserStore.isLoggedIn()) {
           UserStore.getCachedMe().then(user => {
-            if (user.region){
-              this.viewData.isComparingUsersOnLocationShowing.set(true);
-              UserStore.getCandidatesByLocation(user.region).then(candidates => {
-                let candidatesIds = candidates.map(user => {return user.id});
-                UserStore.amFollowingUsers(currentUserId, candidatesIds).then(res => {
-                  const results = res.results;
-                  results.forEach(({ following, id }) => this.viewData.followingLocation.set(following, id))
-                })
-                candidates.forEach(user => {
-                  this.viewData.usersLocation.push(user)
-                  UserStore.compareUsers(currentUserId, user.id).then(res => { this.viewData.compareDataLocation.set(user.id, res) })
+            const candidates = this.dynamicConfig.config.survey_end.compare_candidates;
+            if(candidates.length > 0) {
+              this.viewData.isComparingCandidatesShowing.set(true);
+              UserStore.amFollowingUsers(currentUserId, candidates).then(res => {
+                const results = res.results;
+                results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
+              })
+              UserStore.getUsersById(candidates).then((usersData) => {
+                usersData.results.ids.forEach((id) => {
+                  this.viewData.candidates.push(usersData.results[id])
                 })
               })
-              this.viewData.pageReadiness.isCompareUsersOnLocationReady.set(true);
+              UserStore.compareMultipleUsers(currentUserId, candidates).then((compareData) => {
+                candidates.forEach((id) => {
+                  this.viewData.compareCandidatesData.set(id, compareData.results[id])
+                })
+                this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
+              })
             } else {
-              this.viewData.pageReadiness.isCompareUsersOnLocationReady.set(true);
+              this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
             }
           })
         }
@@ -178,7 +189,7 @@ class CompareCollectionUsers extends Component {
 
     // TODO make it computed
     if (!(this.viewData.pageReadiness.isCompareUsersReady.get()
-      && this.viewData.pageReadiness.isQuestionResultsReady.get() && this.viewData.pageReadiness.isCompareUsersOnLocationReady.get())) return <LoadingIndicator />;
+      && this.viewData.pageReadiness.isQuestionResultsReady.get() && this.viewData.pageReadiness.isCompareCandidatesReady.get())) return <LoadingIndicator />;
     return (<div className='endPage'>
       {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel
         compareData={this.viewData.compareData}
@@ -206,10 +217,10 @@ class CompareCollectionUsers extends Component {
       </div>
 
       <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
-      {this.viewData.isComparingUsersOnLocationShowing.get() && <UserCompareCarousel
-        compareData={this.viewData.compareDataLocation}
-        users={this.viewData.usersLocation}
-        following={this.viewData.followingLocation}
+      {this.viewData.isComparingCandidatesShowing.get() && <UserCompareCarousel
+        compareData={this.viewData.compareCandidatesData}
+        users={this.viewData.candidates}
+        following={this.viewData.followingCandidates}
         collectionId={this.props.collectionId}
       />}
     </div>)

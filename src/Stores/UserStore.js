@@ -197,9 +197,38 @@ class UserStore {
       });
   }
 
+
+  compareMultipleUsers(userAId, userBIds) {
+    return window.API.get(`/api/compare_n_users_quick/?usera=${userAId}&users=${userBIds.join(',')}`)
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error, error.response.data);
+      });
+  }
+
   getUserById(id) {
     return window.API.get('/api/users/' + id + '/')
       .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error, error.response.data);
+      });
+  }
+
+  getUsersById(ids) { // returns data object with map (id->user) AND ids array
+    return window.API.get(`/api/users/?id__in=${ids.join(',')}`)
+      .then(function (response) {
+        let results = {};
+        let ids = [];
+        response.data.results.forEach((user) => {
+          results[user.id] = user;
+          ids.push(user.id);
+        })
+        response.data.results = results;
+        response.data.results['ids'] = ids;
         return response.data;
       })
       .catch(function (error) {
@@ -239,7 +268,7 @@ class UserStore {
   }
 
   amFollowingUsers(myId, theirIds) {
-    const idsString = JSON.stringify(theirIds).slice(1, -1);
+    const idsString = theirIds.join(',');
     console.log(idsString)
     return window.API.get(`/api/following_users/?user=${myId}&following__id__in=${idsString}`)
       .then(function (response) {
