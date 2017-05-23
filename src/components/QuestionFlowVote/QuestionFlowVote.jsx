@@ -7,6 +7,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import Checkbox from './partials/Checkbox'
+import IconButton from 'material-ui/IconButton';
+import {grey400} from 'material-ui/styles/colors';
 
 import Left from 'material-ui/svg-icons/navigation/arrow-back';
 import Right from 'material-ui/svg-icons/navigation/arrow-forward';
@@ -114,10 +116,27 @@ class QuestionFlowVote extends Component {
 
           {/*<div className="nav-buttons">*/}
             <div className="nav-arrows">
-              <Left style={ Object.assign({ left:'0px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } onClick={this.handleGetPrevQuestion}/>
+              <IconButton
+                tooltip="Prev"
+                tooltipPosition="top-right"
+                onTouchTap={this.handleGetPrevQuestion}
+                style={{position: 'absolute', top: '50%', left: 0}}
+                iconStyle={{fill: grey400}}
+                >
+                <Left style={ Object.assign({ left:'0px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } />
+              </IconButton>
             </div>
+
             <div className="nav-arrows">
-              <Right style={Object.assign({ right:'5px', float: 'right' }, icon)} onClick={this.handleGetNextQuestion}/>
+              <IconButton
+                tooltip="Next"
+                tooltipPosition="top-left"
+                onTouchTap={this.handleGetNextQuestion}
+                style={{position: 'absolute', top: '50%', right: 0}}
+                iconStyle={{fill: grey400}}
+                >
+                <Right style={Object.assign({ right:'5px', float: 'right' }, icon)} />
+              </IconButton>
             </div>
           {/*</div>*/}
 
