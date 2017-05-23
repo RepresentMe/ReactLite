@@ -279,7 +279,7 @@ render(){
   const loggedFB = this.props.loggedFB;
 
   return (
-    <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE',width: '100vw', background: 'rgba(255,255,255,0.7)', padding: 5, textAlign: 'center', maxHeight: loggedFB.get() ? 400 : 0}}>
+    <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE',width: '100vw', background: 'rgba(27,138,174,0.11)', padding: 10, textAlign: 'center', maxHeight: loggedFB.get() ? 400 : 0}}>
     <p style={{margin: 10, color: '#1B8AAE', maxWidth: 600, margin: '5px auto'}}><strong>Democracy should be easy and open to everyone.</strong> Click the button below and you can vote on important issues directly from Facebook Messenger!</p>
       <MessengerPlugin
         appId={String(window.authSettings.facebookId)}
