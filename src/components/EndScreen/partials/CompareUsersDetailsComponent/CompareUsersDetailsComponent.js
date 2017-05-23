@@ -146,6 +146,10 @@ const CompareCollectionUsersView = observer(({data})=> {
         {!this.props.compareData || !this.props.compareData.topic_diffs ? <p>loading...</p> :
           <div style={{backgroundColor: '#e6f7ff', padding: 10, maxWidth: 250, margin: '0 auto'}}>
 
+          <div style={{fontSize:12, margin: '0 0 10px 0', color: '#0d6a88', paddingTop: 0}}>
+          {bio}
+          </div>
+
             <div className='container'>
               <div className='inner'>
                 <p>{count_question_votes}<br/>
@@ -164,12 +168,10 @@ const CompareCollectionUsersView = observer(({data})=> {
               </div>
             </div>
 
-          <div className='containerSmall' style={{justifyContent: 'center', paddingTop: 0}}>
-            <div className='innerSmall'>
-              <p><img src='/icons/happy_face1.png'/>{` ${values.agree}%`}</p>
-            </div> 
-            <div className='innerSmall'>
-              <p><img src='/icons/sad_face1.png'/>{` ${values.disagree}%`}</p>
+          <div className=' ' style={{justifyContent: 'center', paddingTop: 0}}>
+            <div className=' '>
+              <p>You strongly agree on: {` ${values.agree}%`}</p>
+              <p>You strongly disagree on: {` ${values.disagree}%`}</p>
             </div>
           </div>
 

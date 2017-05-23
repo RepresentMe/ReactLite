@@ -36,22 +36,17 @@ const autocompleteStyle = {
 
 
 const styles = {
-  dialogRoot: {
-    paddingTop: 0
+  dialogRoot: { 
   },
-  dialogContent: {
-    width: '90%',
-    padding: 2,
-    minWidth: 280,
-    maxWidth: 680
+  dialogContent: { 
+    padding: 0, 
   },
 
   dialogBody: {
-    padding: 10,
+    padding: 0,
   },
   radioButton: {
-    fontSize: 13,
-    cssFloat: 'left',
+    fontSize: 13, 
   },
   floatingLabelText: {
     color: '#444'
@@ -216,8 +211,8 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         autoScrollBodyContent={false}>
 
         <div style={{width: '90%', display: 'block', margin: '20px auto'}}>
-          <p style={{ margin: 0, fontSize: 14, color: '#999'}}>How do you compare?</p>
-          <p style={{ margin: 0, fontSize: 12, color: '#999'}}>Enter a few details to match to local candidates and see how others have answered.</p>
+          <p style={{ margin: 0, fontSize: 16, color: '#333'}}>How do you compare?</p>
+          <p style={{ margin: 0, fontSize: 14, color: '#999', marginBottom: 8}}>Enter a few details to match to local candidates and see how others have answered.</p>
 
           <Autocomplete
               style={autocompleteStyle}
