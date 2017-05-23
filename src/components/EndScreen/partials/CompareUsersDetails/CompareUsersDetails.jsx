@@ -66,13 +66,11 @@ class CompareUsersDetails extends Component {
       });
     };
     this.topicsCompare.replace(diffs_array);
-    console.log('diffs_array: ', diffs_array, this.topicsCompare);
   }
 
   render() {
     const { userData } = this.props;
 
-    console.log('render', this.compareData, this.topicsCompare.peek());
     return (<div style={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexFlow: 'row nowrap', minWidth: 320, maxWidth: 420 }}>
         <div style={{ flex: '1', minWidth: 320 }}>
