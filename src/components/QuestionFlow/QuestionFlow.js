@@ -7,8 +7,12 @@ import InsertComment from 'material-ui/svg-icons/editor/insert-comment'
 import Share from 'material-ui/svg-icons/social/share'
 import CheckBox from 'material-ui/svg-icons/toggle/check-box'
 import Info from 'material-ui/svg-icons/action/info'
+
 import IconButton from 'material-ui/IconButton';
 import {cyan700} from 'material-ui/styles/colors';
+
+import SkiptoEnd from 'material-ui/svg-icons/content/send'
+
 
 import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionFlowInfo from '../QuestionFlowInfo';
