@@ -21,7 +21,7 @@ const styles = {
     height: '20px',
     fill: '#999',
     position: 'absolute',
-    top: '-15px'
+    top: '50%'
   },
 
 }
@@ -108,7 +108,7 @@ class QuestionFlowVote extends Component {
           {
             showAnswered &&
               <div className="answered small">
-                Last answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMMM YYYY')}
+                You voted on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMMM')}. Confirm or change.
               </div>
           }
 

@@ -1,7 +1,38 @@
- 
-.cardStyleIntro {
-  max-width: 95vw; 
-  padding: 10px; 
-  height: 90vh;
+.introslidesBody div div {
+  padding: 0px !important;
 }
- 
+.cardStyleIntro {
+  width: 100%;
+  padding: 0px;
+  position: none;
+  display: block;
+  margin: 0 !important;
+  vertical-align: top;
+  height: 450px;
+  border: none;
+}
+.carouselMedia{
+  max-height: 250px;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+/*for small screens*/
+@media screen and (max-width: 419px) {
+   .cardStyleIntro {
+    /*width: 250px;*/
+    /*margin: 10px auto;*/
+    display: block;
+    font-size: 14px;
+    }
+    .carouselMedia{
+      max-height: 150px;
+    }
+}
+.imgStyle:hover{
+  opacity: 0.8;
+  max-width: 95vw;
+  padding: 10px;
+  height: 90vh;
+
+}

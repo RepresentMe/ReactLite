@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 //import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
-import moment from 'moment';
 
 // import { Link } from 'react-router-dom';
 // import Tappable from 'react-tappable';

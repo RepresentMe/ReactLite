@@ -8,6 +8,12 @@ import Share from 'material-ui/svg-icons/social/share'
 import CheckBox from 'material-ui/svg-icons/toggle/check-box'
 import Info from 'material-ui/svg-icons/action/info'
 
+import IconButton from 'material-ui/IconButton';
+import {cyan700} from 'material-ui/styles/colors';
+
+import SkiptoEnd from 'material-ui/svg-icons/content/send'
+
+
 import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionFlowInfo from '../QuestionFlowInfo';
 import QuestionFlowShare from '../QuestionFlowShare';
@@ -42,6 +48,13 @@ const styles = {
     width: '100%',
     height: '70vh',
     overflow: 'hidden'
+  },
+  tooltipStyles: {
+    top: -40,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
+    textShadow: '0px 0px 3px white',
   }
 }
 
@@ -99,7 +112,14 @@ class QuestionFlow extends Component {
                 style={tabTemplateStyle}
                 tabTemplateStyle={tabTemplateStyle}
                 contentContainerStyle={tabsContentContainerStyle}>
-            <Tab icon={<CheckBox/>} value="vote" className={activeTab === 'vote' ? 'menu-tab-active' : 'menu-tab'}>
+            <Tab title='Vote' icon={
+
+              <IconButton
+              tooltip="Vote"
+              tooltipStyles={styles.tooltipStyles}
+              >
+                <CheckBox/>
+              </IconButton>} value="vote" className={activeTab === 'vote' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'vote') &&
                   <QuestionFlowVote items={items}
@@ -112,27 +132,52 @@ class QuestionFlow extends Component {
                   />
               }
             </Tab>
-            <Tab icon={<InsertComment/>} value="comments" className={activeTab === 'comments' ? 'menu-tab-active' : 'menu-tab'}>
+            <Tab icon={
+              <IconButton
+              tooltip="Comments"
+              tooltipStyles={styles.tooltipStyles}
+              >
+                <InsertComment/>
+              </IconButton>} value="comments" className={activeTab === 'comments' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'comments') &&
                   <QuestionFlowComments question={QuestionStore.questions.get(currentItem.object_id)} />
               }
 
             </Tab>
-            { !hideInfoTab && <Tab icon={<Info/>} value="info" className={activeTab === 'info' ? 'menu-tab-active' : 'menu-tab'}>
+            { !hideInfoTab && <Tab icon={
+              <IconButton
+              tooltip="More Information"
+              tooltipStyles={styles.tooltipStyles}
+              >
+                <Info/>
+              </IconButton>} value="info" className={activeTab === 'info' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'info') &&
                   <QuestionFlowInfo question={currentQuestion}/>
               }
             </Tab>
             }
-            <Tab icon={<DonutSmall/>} value="results" className={activeTab === 'results' ? 'menu-tab-active' : 'menu-tab'}>
+            <Tab icon={
+              <IconButton
+              tooltip="Results"
+              tooltipStyles={styles.tooltipStyles}
+              >
+                <DonutSmall/>
+              </IconButton>} value="results" className={activeTab === 'results' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'results') &&
                   <QuestionFlowResults question={currentQuestion} type={currentItem.type} />
               }
             </Tab>
-            <Tab icon={<Share/>} value="share" className={activeTab === 'share' ? 'menu-tab-active' : 'menu-tab'}>
+            <Tab icon={
+              <IconButton
+              tooltip="Share"
+              tooltipStyles={styles.tooltipStyles}
+              >
+                <Share/>
+              </IconButton>
+            } value="share" className={activeTab === 'share' ? 'menu-tab-active' : 'menu-tab'}>
               {
                 (activeTab === 'share') &&
                   <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />
