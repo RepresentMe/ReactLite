@@ -164,6 +164,8 @@ import './SurveyFlow.css'
     return (
       <span>
          <Progress completed={completed} color="#1b8aae"/>
+         
+{/*
          {
            //if user is logged show button to navigate to EndScreen
            this.props.UserStore.userData.has("id") &&
@@ -172,12 +174,12 @@ import './SurveyFlow.css'
               tooltip="skip to end"
               touch={true}
               tooltipPosition="bottom-left"
-              onTouchTap={() => this.navigateEnd2()}
-              //iconStyle={{height: 16}}
+              onTouchTap={() => this.navigateEnd2()} 
               style={{position: 'absolute', right: 12, top: -9}}>
               <SkipToEnd color='#999' hoverColor='#1B8AAE' />
             </IconButton>
          }
+       */}
           <QuestionFlow
             activeTab={this.state.activeTab}
             items={items}

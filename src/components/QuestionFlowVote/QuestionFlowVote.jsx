@@ -108,7 +108,7 @@ class QuestionFlowVote extends Component {
           {
             showAnswered &&
               <div className="answered small">
-                Last answered on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMMM YYYY')}. Click to confirm or change.
+                You voted on {moment(currentQuestion.my_vote[0].modified_at).format('DD MMMM')}. Confirm or change.
               </div>
           }
 

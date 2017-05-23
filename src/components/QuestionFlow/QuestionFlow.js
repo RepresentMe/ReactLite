@@ -138,13 +138,7 @@ class QuestionFlow extends Component {
                 (activeTab === 'share') &&
                   <QuestionFlowShare question={QuestionStore.questions.get(currentItem.object_id)} />
               }
-            </Tab>
-            <Tab icon={<SkiptoEnd/>} value="end" onTouchTap={() => this.navigateEnd2()} className={activeTab === 'share' ? 'menu-tab-active' : 'menu-tab'}>
-              {
-                 
-                  
-              }
-            </Tab>
+            </Tab> 
           </Tabs>
         </div>
     )
