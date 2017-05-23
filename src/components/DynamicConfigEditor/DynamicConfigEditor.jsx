@@ -31,6 +31,7 @@ class DynamicConfigEditor extends Component {
 
     autorun(() => {
       this.dynamicConfigObj.survey_end.compare_users;
+      this.dynamicConfigObj.survey_end.compare_candidates;
       this.dynamicConfigObj.survey_end.showJoinGroup_id;
       this.dynamicConfigObj.survey_end.showFollowUser_id;
       this.saveToString();
@@ -63,6 +64,11 @@ class DynamicConfigEditor extends Component {
     this.dynamicConfigObj.survey_end.compare_users = v.split(',');
   }
 
+  setCompareCandidatesValue = (v) => {
+    v = this.replaceAll(v, ' ', '');
+    this.dynamicConfigObj.survey_end.compare_candidates = v.split(',');
+  }
+
   setJoinGrouprValue = (v) => {
     v = this.replaceAll(v, ' ', '');
     this.dynamicConfigObj.survey_end.showJoinGroup_id = (v || this.isInFocus.joinGroup.get()) ? v : false
@@ -92,29 +98,44 @@ class DynamicConfigEditor extends Component {
       </div>
 
       <div>
+        <div>
+          <TextField
+            hintText="Compare users"
+            floatingLabelText="Users(separate by comma)"
+            multiLine={true}
+            rows={2}
+            onBlur={() => {
+              this.dynamicConfigObj.survey_end.compare_users.replace(this.dynamicConfigObj.survey_end.compare_users.filter((user) => {
+                return !!user; // filter out empty strings
+              }))
+            }}
+            value={this.dynamicConfigObj.survey_end.compare_users}
+            onChange={(e,v) => this.setCompareUsersValue(v)}
+          />
+          <p style={{fontSize:10}}>
+            Labour: 17351 , 
+            Conservative: 17663 , 
+            Womens Equality: 17667 , 
+            Green E&W: 17687 , 
+            Plaid:  17689, 
+            UKIP:  17710, 
+            SNP:  17711, 
+            LibDem: 17692 <br /> ALL: <pre>17351,17663,17667,17687,17689,17710,17711,17692</pre>
+          </p>
+        </div>
         <TextField
-          hintText="Compare users"
-          floatingLabelText="Users(separate by comma)"
+          hintText="Compare candidates"
+          floatingLabelText="Candidates(separate by comma)"
           multiLine={true}
           rows={2}
           onBlur={() => {
-            this.dynamicConfigObj.survey_end.compare_users.replace(this.dynamicConfigObj.survey_end.compare_users.filter((user) => {
+            this.dynamicConfigObj.survey_end.compare_candidates.replace(this.dynamicConfigObj.survey_end.compare_candidates.filter((user) => {
               return !!user; // filter out empty strings
             }))
           }}
-          value={this.dynamicConfigObj.survey_end.compare_users}
-          onChange={(e,v) => this.setCompareUsersValue(v)}
+          value={this.dynamicConfigObj.survey_end.compare_candidates}
+          onChange={(e,v) => this.setCompareCandidatesValue(v)}
         />
-        <p style={{fontSize:10}}>
-          Labour: 17351 , 
-          Conservative: 17663 , 
-          Womens Equality: 17667 , 
-          Green E&W: 17687 , 
-          Plaid:  17689, 
-          UKIP:  17710, 
-          SNP:  17711, 
-          LibDem: 17692 <br /> ALL: <pre>17351,17663,17667,17687,17689,17710,17711,17692</pre>
-        </p>
         <TextField
           hintText="Join group"
           floatingLabelText="Join group"
