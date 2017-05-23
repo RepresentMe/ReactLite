@@ -166,6 +166,21 @@
     fill: #1B8AAE !important
 }
 
+.menu-tab-active button, .menu-tab button{
+  padding: 5px 0px 0px 0px !important;
+}
+.menu-tab-active div, .menu-tab div{
+  background-color: white !important;
+}
+
+.menu-tab div button div div span {
+    background: rgba(0,0,0,0.8) !important;
+    color: #fff;
+    padding: 2px;
+    text-shadow: none !important;
+    border-radius: 3px;
+}
+
 .nav-buttons {
     display: flex;
     position: fixed;
@@ -271,10 +286,4 @@ a {
 .img-share {
     border: 1px solid #ccc;
     box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 3px;
-}
-.menu-tab-active button, .menu-tab button{
-  padding: 5px 0px 0px 0px !important;
-}
-.menu-tab-active div, .menu-tab div{
-  background-color: white !important;
 }

@@ -22,6 +22,7 @@ import DynamicConfigService from '../../../../services/DynamicConfigService';
 
 import Results from '../ResultsComponent';
 import CompareUsersDetailsComponent from '../CompareUsersDetailsComponent';
+import CompareUsersDetails from '../CompareUsersDetails';
 import './CompareUsers.css';
 
 
@@ -308,10 +309,11 @@ const QuestionResultsCarousel = observer(({questions, collectionId}) => {
 class UserCardSmall extends Component {
   constructor(props) {
     super(props);
+
+    this.areCompareDetailsShowing = observable(false)
     this.state = {
       //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
-      checked: [true,true,false,false,false],
-      compareDetails: false
+      checked: [true,true,false,false,false]
     }
   }
 
@@ -324,11 +326,6 @@ class UserCardSmall extends Component {
   removeFollowing = () => {
     this.props.UserStore.removeFollowing(this.props.following.value);
     this.props.following.set(0);
-  }
-  compare = () => {
-    console.log('this.props.user.id', this.props.user.id)
-    const compareDetails = !this.state.compareDetails;
-    this.setState({compareDetails})
   }
 
   clickFB = (e) => {
@@ -367,7 +364,7 @@ class UserCardSmall extends Component {
       </FacebookShareButton>
     )
 
-    const barStyle = this.state.compareDetails ? {display: 'block'} : {display: 'none'}
+    const barStyle = this.areCompareDetailsShowing.get() ? {display: 'block'} : {display: 'none'}
     //console.log('this.state', this.state, barStyle)
     return (
       this.props &&
@@ -378,10 +375,9 @@ class UserCardSmall extends Component {
 
         <Avatar src={photo} size={50} style={{alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px'}}/>
 
-        <CardTitle title={name} subtitle={location} style={{textAlign: 'center', padding: '4px 16px', }} />
+        <CardTitle title={name} subtitle={location} style={{textAlign: 'center', padding: '4px 16px', }} titleStyle={{lineHeight: 1, fontSize: 18, fontWeight: 600 }} />
 
-        <CardText style={{textAlign: 'center', padding: '8px 16px 0 16px', color: '#444'}}>
-          {bio}
+        <CardText style={{textAlign: 'center', padding: '8px 16px 0 16px', color: '#444'}} className='cardText'>
           <div style={{ margin: '10px 0 0 0'}}>
             { this.props.following.get() > 0 ?
               <RaisedButton
@@ -401,9 +397,9 @@ class UserCardSmall extends Component {
                 icon={fb}
               />
               <FlatButton
-                label={this.state.compareDetails ? "hide details" : 'Compare in detail'}
+                label={this.areCompareDetailsShowing.get() ? "hide details" : 'Compare in detail'}
                 primary={true}
-                onTouchTap={this.compare}
+                onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
                 />
             </div>
         </CardText>
@@ -418,9 +414,10 @@ class UserCardSmall extends Component {
               </div>
             ) : <p></p>}
 
-            <div style={barStyle}>
-              <CompareUsersDetailsComponent userIds={[this.props.user.id]} />
-            </div>
+            {this.areCompareDetailsShowing.get() ? <div style={barStyle}>
+              {/*<CompareUsersDetailsComponent userIds={[this.props.user.id]} />*/}
+              <CompareUsersDetails userId={this.props.user.id} userData={this.props.user} />
+            </div> : null}
         </CardText>
     </Card>
   )
