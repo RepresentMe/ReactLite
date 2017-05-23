@@ -101,12 +101,10 @@ class CompareUsersDetails extends Component {
 
             {this.isCompareDataLoaded.get() ?
               <div>
-                <div className=' ' style={{ justifyContent: 'center', paddingTop: 0 }}>
+                <div className=' ' style={{ textAlign: 'left', paddingTop: 0 }}>
                   <div className=' '>
-                    <p>You strongly agree on: {` ${this.voteValues.agree.get()}%`}</p>
-                  </div>
-                  <div className=' '>
-                    <p>You strongly disagree on:  {` ${this.voteValues.disagree.get()}%`}</p>
+                    <p>You strongly agree on: {` ${this.voteValues.agree.get()}%`} <br />
+                    You strongly disagree on:  {` ${this.voteValues.disagree.get()}%`}</p>
                   </div>
                 </div>
 
