@@ -67,6 +67,10 @@ import LinearProgress from 'material-ui/LinearProgress';
     // }
     this.checkForUpdates();
   }
+  addItem = (question) => {
+    const questions = [...this.state.questions, question];
+    this.setState({questions});
+  }
 
   render() {
     let collectionId = parseInt(this.props.match.params.collectionId);
@@ -91,17 +95,14 @@ import LinearProgress from 'material-ui/LinearProgress';
           endText={this.state.endText}
           items={this.state.questions}
           question_objects={question_objects}
-          
+
           textChange={(field, newValue) => {
             let newState = this.state;
             newState[field] = newValue
             this.setState(newState);
           }}
 
-          addItem={(question) => {
-            const questions = [...this.state.questions, question];
-            this.setState({questions});
-          }}
+          addItem={(question) => this.addItem(question)}
 
           removeQuestion={(question) => {
             let newQuestions = this.state.questions;
