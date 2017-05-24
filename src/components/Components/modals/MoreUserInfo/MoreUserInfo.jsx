@@ -72,7 +72,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
       age: ''
     }
     this.problemList = {
-      postcodeProblem: 'Please enter a valid postcode',
+      postcodeProblem: 'Please select an address from the list',
       dobProblem: 'Please enter valid age',
       genderProblem: "Please select your gender or choose 'Rather not say'"
     }
