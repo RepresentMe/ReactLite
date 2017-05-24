@@ -13,8 +13,10 @@ import Avatar from 'material-ui/Avatar';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { white, cyan600, black, grey700 } from 'material-ui/styles/colors';
 import IconMenu from 'material-ui/IconMenu';
+import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
 
 import CollectionsList from '../CollectionsList';
 import CollectionIntro from '../CollectionIntro';
@@ -51,6 +53,20 @@ import CompareUsers from '../EndScreen/partials/CompareUsersComponent';
 import CompareUsersDetails from '../EndScreen/partials/CompareUsersDetailsComponent';
 
 import AuthTokenComponent from '../AuthTokenComponent'
+
+
+import Drawer from 'material-ui/Drawer'; 
+
+
+
+
+import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+import Everyone from 'material-ui/svg-icons/places/all-inclusive';
+import Share from 'material-ui/svg-icons/social/share';
+import Important from 'material-ui/svg-icons/action/thumbs-up-down';
+import Party from 'material-ui/svg-icons/social/group';
+import Close from 'material-ui/svg-icons/navigation/close';
+
 
 import './Shell.css';
 
@@ -138,6 +154,11 @@ export default class Shell extends Component {
     this.dynamicConfig = DynamicConfigService;
     this.onLogout = this.onLogout.bind(this)
     this.navigateToLogin = this.navigateToLogin.bind(this)
+
+  
+    super(props);
+    this.state = {open: false};
+  
   }
 
   onLogout() {
@@ -153,6 +174,11 @@ export default class Shell extends Component {
     const modalOpened = !this.state.modalOpened;
     this.setState({modalOpened})
   }
+
+
+
+  handleToggle = () => this.setState({open: !this.state.open});
+
 
   render() {
     const raw_config = this.dynamicConfig.getDynamicConfig(this.props.history.location.pathname);
@@ -206,7 +232,7 @@ export default class Shell extends Component {
                       iconElementLeft={
                           <img  src={smallLogo}
                                 style={leftIconStyle}
-                                onTouchTap={() => this.toggleIntro()}
+                                 onTouchTap={this.handleToggle}
                           />
                       }
                       iconElementRight={
@@ -236,6 +262,33 @@ export default class Shell extends Component {
                       />
                   </div>
                 }
+
+                <div>
+                  <Drawer 
+                  open={this.state.open}
+                  docked={true}
+                  >
+                    <Menu style={{color: '#222'}}>
+                    <MenuItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />
+                    <MenuItem primaryText="Tour" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
+                    <MenuItem primaryText="Share" leftIcon={<Share />} />
+                    <Divider />
+                    <MenuItem primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
+                    <Divider />
+                    <Subheader>PARTY MANIFESTOS</Subheader>
+                    <MenuItem primaryText="All in one" leftIcon={<Everyone />}  href="/survey/47" />
+                    <MenuItem primaryText="Conservatives" leftIcon={<Party />}  href="/survey/119" />
+                    <MenuItem primaryText="Green Party (E&W)" leftIcon={<Party />} href="/survey/121" />
+                    <MenuItem primaryText="Labour" leftIcon={<Party />} href="/survey/50" />
+                    <MenuItem primaryText="Liberal democrats" leftIcon={<Party />} href="/survey/116" />
+                    <MenuItem primaryText="Plaid Cymru" leftIcon={<Party />} href="/survey/112" />
+                    <MenuItem primaryText="Women's Equality Party" leftIcon={<Party />} href="/survey/118" />
+                    <Divider />
+                    <Subheader>TOPICS</Subheader>
+                    <MenuItem primaryText="Coming soon" disabled={true} />
+                    </Menu>
+                  </Drawer>
+                </div>
 
                 <IntroCarousel
                   modalOpened={this.state.modalOpened}
@@ -284,6 +337,7 @@ export default class Shell extends Component {
               </div>
           </MuiThemeProvider>
       </Router>
+
     )
   }
 
