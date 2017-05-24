@@ -24,7 +24,7 @@ class QuestionCommentsStore {
       question: id,
       ordering: 'created_at',
       page: 1,
-      page_size: 7
+      page_size: 100
     }
     return window.API.get('/api/comments/', {params}).then((res) => {
       this.questionToComments[id].addComments(res.data.results);
