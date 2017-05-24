@@ -111,7 +111,7 @@ import './CollectionIntro.css';
               <MoreText className="moreText"
                   text={collection.desc}
                   markdownEnabled={true}
-                  chars={200}
+                  chars={150}
                   />
                 {collection ?
                   collection.question_count  ?
