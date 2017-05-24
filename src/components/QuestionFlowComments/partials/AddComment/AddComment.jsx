@@ -42,7 +42,7 @@ class AddComment extends Component {
             <TextField
       hintText=""
       floatingLabelText=""
-      className="commentText"
+      className="add-comment-area"
       onChange={this.handleChange}
       value={comment}
       multiLine={true}

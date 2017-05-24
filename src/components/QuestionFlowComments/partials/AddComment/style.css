@@ -1,7 +1,5 @@
 .add-comment-wrapper {
-  position: fixed;
-  /*overflow: auto;*/
-  /*margin: auto;*/
+  position: fixed; 
   background: #eee;
   padding: 3px;
   text-align: left;
@@ -24,9 +22,7 @@
   overflow: hidden;
   float: left;
 }
-
-.add-comment-area {  
-}
+ 
 
 .add-comment-btn {
   float: right;
@@ -47,7 +43,7 @@
   background-color: rgba(0, 0, 0, 0.035);*/
 }
 
-.commentText { 
+.add-comment-area { 
   
   height: 48px !important;
   margin: 3px 0 !important;
