@@ -129,9 +129,13 @@ class CollectionAdminGUI extends Component { // The view only for the collection
                   }
 
                   this.props.addItem({
+                    parent: this.props.collectionId,
+                    object_id: null,
                     type: 'B',
-                    title: this.state.addBreakDialogTitle,
-                    text: this.state.addBreakDialogText,
+                    content_object: [{
+                        title: this.state.addBreakDialogTitle,
+                        text: this.state.addBreakDialogText
+                      }]
                   });
 
                   this.setState({
@@ -187,7 +191,7 @@ class CollectionAdminGUI extends Component { // The view only for the collection
                     this.setState({showAddExistingQuestionDialog: false});
                     this.setState({existingQuestionDialogText: ""});
                     //this.props.addQuestion(this.props.QuestionStore.questions.get(question).id);
-                    this.props.addItem(this.props.collectionId, question.id, "Q");
+                    this.props.addItem({parent: this.props.collectionId, object_id: question.id, type: "Q", content_object: null});
                   }}
                   key={index}
                   hoverColor={green100}
@@ -234,8 +238,8 @@ const SortableQuestions = SortableContainer(({items, question_objects, onRemove}
               return <SortableQuestion key={`item-${index}`} index={index} value={item_display[0]} orderNumber={(index + 1)} onRemove={() => onRemove(item.id)} />
             // }
           //})
-        }else if(item.type === "B") { // Type is break
-
+        } else if(item.type === "B") { // Type is break
+            return <SortableQuestion key={`item-${index}`} index={index} orderNumber={(index + 1)} onRemove={() => onRemove(item.id)} />
         }
       })}
     </List>
@@ -244,7 +248,7 @@ const SortableQuestions = SortableContainer(({items, question_objects, onRemove}
 
 const SortableQuestion = SortableElement(({value, orderNumber, onRemove}) => {
   return (
-    <ListItem primaryText={value.question} rightIcon={<Clear onClick={onRemove}/>}/>
+    <ListItem primaryText={value ? value.question : '------------------'} rightIcon={<Clear onClick={onRemove}/>}/>
   )
 });
 

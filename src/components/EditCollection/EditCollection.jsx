@@ -75,10 +75,10 @@ import LinearProgress from 'material-ui/LinearProgress';
     // }
     this.checkForUpdates();
   }
-  addItem = (collectionId, questionId, type) => {
-    this.props.CollectionStore.setCollectionQuestionById(collectionId, questionId, type)
+  addItem = (obj) => {
+    this.props.CollectionStore.setCollectionQuestionById(obj)
     .then(res => this.checkForUpdates());
-    
+
   }
 
   render() {
@@ -86,18 +86,22 @@ import LinearProgress from 'material-ui/LinearProgress';
 
     console.log(!this.props.CollectionStore.collections.has(collectionId), !this.props.CollectionStore.collectionItems.has(collectionId), !this.props.UserStore.userData.has("id"))
 
+    let questions_init =  null;
     let questions = null;
     let question_objects = null;
+    let question_breaks = null;
     if(!this.props.CollectionStore.collections.has(collectionId) || !this.props.CollectionStore.collectionItems.has(collectionId) || !this.props.UserStore.userData.has("id")) { //!this.props.QuestionStore.questions.has(collectionId) ||
       return <LinearProgress mode="indeterminate" />;
     }
     else {
 
       this.props.CollectionStore.getCollectionItemsById(collectionId);
-      questions = this.questions.peek();//props.CollectionStore.collectionItems.get(collectionId);
-      question_objects = questions.map(q => this.props.QuestionStore.questions.get(q.object_id))
+      questions = this.questions.peek();
+      // questions = questions.filter(q => q.type === "Q")
+      // question_breaks = questions.filter(q => q.type === "B")
+      question_objects = questions.filter(q => q.type === "Q").map(q => this.props.QuestionStore.questions.get(q.object_id))
     }
-    console.log('this.state EDIT',this.state, this.questions, question_objects)
+    console.log('this.state EDIT',this.state, questions, question_objects)
     return (
       <div>
         {this.state.questions.length > 0 &&
@@ -108,6 +112,7 @@ import LinearProgress from 'material-ui/LinearProgress';
           endText={this.state.endText}
           items={questions}
           question_objects={question_objects}
+          //question_breaks={question_breaks}
           collectionId={collectionId}
 
           textChange={(field, newValue) => {
@@ -116,7 +121,7 @@ import LinearProgress from 'material-ui/LinearProgress';
             this.setState(newState);
           }}
 
-          addItem={(collectionId, questionId, type) => this.addItem(collectionId, questionId, type)}
+          addItem={(obj) => this.addItem(obj)}
 
           removeQuestion={(question) => {
             let newQuestions = questions.filter(q => q.id !== question);
