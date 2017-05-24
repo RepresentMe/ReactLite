@@ -40,10 +40,13 @@ import LinearProgress from 'material-ui/LinearProgress';
 
 
   componentWillMount() {
-    // this.fillDetailsFromStore();
+    const { CollectionStore } = this.props;
     let collectionId = parseInt(this.props.match.params.collectionId);
-    this.props.CollectionStore.getCollectionItemsById(collectionId).then((items) => {
-      const questions = this.props.CollectionStore.collectionItems.get(collectionId);
+    CollectionStore.getCollectionById(collectionId).then(() => {
+      this.fillDetailsFromStore();
+    })
+    CollectionStore.getCollectionItemsById(collectionId).then((items) => {
+      const questions = CollectionStore.collectionItems.get(collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
       console.log('will mount', questions);
 
@@ -75,21 +78,13 @@ import LinearProgress from 'material-ui/LinearProgress';
     let question_objects = null;
     let question_breaks = null;
     console.log('RENDER', this.state.questions, this.state.questions.length);
-    if(!this.state.questions || this.state.questions.length == 0) { //!this.props.QuestionStore.questions.has(collectionId) ||
+    if(!this.state.questions || this.state.questions.length == 0) {
       return <LinearProgress mode="indeterminate" />;
     } else {
-
       this.props.CollectionStore.getCollectionItemsById(collectionId);
-      questions = this.state.questions;//this.props.CollectionStore.collectionItems.get(collectionId);
+      questions = this.state.questions;
       question_objects = questions.filter(q => q.type === "Q").map(q => this.props.QuestionStore.questions.get(q.object_id))
     }
-    console.log('this.state EDIT',this.state, questions, question_objects)
-// =======
-//       questions = this.props.CollectionStore.collectionItems.get(collectionId);
-//       question_objects = questions.map(q => this.props.QuestionStore.questions.get(q.object_id))
-//     }
-//     console.log('this.state EDIT',this.state, question_objects)
-// >>>>>>> 6b470874b91e3643e7a701ea6c8740764c4054f8
     return (
       <div>
         {this.state.questions && this.state.questions.length > 0 &&

@@ -29,7 +29,7 @@ class CollectionStore {
       return true;
     }
 
-    window.API.get('/api/question_collections/', {params: {id: collectionId}})
+    return window.API.get('/api/question_collections/', {params: {id: collectionId}})
       .then(function (response) {
         this.collections.set(response.data.results[0].id, response.data.results[0]);
       }.bind(this));
