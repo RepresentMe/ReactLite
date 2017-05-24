@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { observer, inject } from "mobx-react";
+import { observable } from "mobx";
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -28,11 +29,15 @@ const styles = {
   }
 }
 
-@inject("QuestionStore") @observer class CollectionAdminGUI extends Component { // The view only for the collection editor and creator
+@inject("QuestionStore") 
+@observer 
+class CollectionAdminGUI extends Component { // The view only for the collection editor and creator
 
   constructor() {
     super();
 
+
+    this.existingQuestionDialogResults = observable.shallowArray([])
     this.state = {
       showAddExistingQuestionDialog: false,
       existingQuestionDialogText: "",
@@ -46,12 +51,11 @@ const styles = {
     console.log('this.props.QuestionStore',this.props.QuestionStore)
     console.log('this.state',this.state)
 
-    let existingQuestionDialogResults = null;
 
     if(this.state.showAddExistingQuestionDialog && this.state.existingQuestionDialogText.length > 1) {
       if(!isNaN(parseFloat(this.state.existingQuestionDialogText)) && isFinite(this.state.existingQuestionDialogText)) { // If numeric, check for question ID
         if(this.props.QuestionStore.questions.has(parseInt(this.state.existingQuestionDialogText))) { // Is question exists in DB, render
-          existingQuestionDialogResults = [parseInt(this.state.existingQuestionDialogText)]
+          this.existingQuestionDialogResults.replace([parseInt(this.state.existingQuestionDialogText)])
         }else { // Otherwise load question and wait for rerender
           this.props.QuestionStore.loadQuestion(parseInt(this.state.existingQuestionDialogText));
         }
@@ -59,10 +63,11 @@ const styles = {
         console.log('Entered else')
          this.props.QuestionStore.searchQuestions(this.state.existingQuestionDialogText).then(res => {
           console.log(res)
-          existingQuestionDialogResults = res;
+          this.existingQuestionDialogResults.replace(res);
         });
       }
     }
+    let existingQuestionDialogResults = this.existingQuestionDialogResults.peek();
     console.log('existingQuestionDialogResults', existingQuestionDialogResults)
 
     return (
@@ -184,12 +189,12 @@ const styles = {
                     //this.props.addQuestion(this.props.QuestionStore.questions.get(question).id);
                     this.props.addItem({
                       type: "Q",
-                      id: this.props.QuestionStore.questions.get(question).id
+                      id: question.id
                     });
                   }}
                   key={index}
                   hoverColor={green100}
-                  primaryText={this.props.QuestionStore.questions.get(question).question}
+                  primaryText={question.question}
                   rightIcon={<Add />}
                   />
               );
