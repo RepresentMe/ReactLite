@@ -52,12 +52,12 @@ const Page1 = (props) => {
     <div style={{width: '100%', height: '100%'}}>
       <Paper zDepth={0} className='containerStyle'>
           <div style={{textAlign: 'center'}}>
-      <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
+      <img src="/static/media/represent_white_outline.dbff67a6.svg" className="introimage" />
       <h2 style={{margin: '10px 0'}}>
           A better democracy
         </h2>
         </div>
-        <p style={{margin: '10px 0'}}>
+        <p style={{}}>
           Vote on important issues, tell your MP, and track how well they represent you.
           <Link to="#" onTouchTap={() => props.toggleIntro()}><span> Learn more</span></Link>
         </p>
@@ -68,8 +68,7 @@ const Page1 = (props) => {
                 I agree to the <a href="https://represent.me/legal/terms/">terms</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/>
               </span>
             }
-            labelPosition='right'
-            style={{margin: '20px 0'}}
+            labelPosition='right' 
 
             value={props.agreedTermsValue}
             checked={props.agreedTermsValue}
