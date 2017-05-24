@@ -1,36 +1,37 @@
 .add-comment-wrapper {
-  position: absolute;
-  overflow: auto;
-  margin: auto;
-  width: 100%;
-  height: 52px;
-  bottom: 0;
+  position: fixed;
+  /*overflow: auto;*/
+  /*margin: auto;*/
+  background: #eee;
+  padding: 3px;
+  text-align: left;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  /*height: 52px;*/
+  bottom: 31px;
 }
 
 .add-comment {
   /*position: relative;*/
   /*left: -50%;*/
-  height: 50px;
-  width: 90%;
-  margin: auto;
+  /*height: 50px;*/
+  width: 80vw;
+  /*margin: auto;*/
 }
 
 .add-comment-area-wrapper {
   overflow: hidden;
-  height:100%;
+  float: left;
 }
 
-.add-comment-area {
-  height:100%;
-  width: 100%;
-  border: 1px solid #ccc;
-  background: #fefefe;
+.add-comment-area {  
 }
 
 .add-comment-btn {
   float: right;
-  width: 50px;
-  height: 100%;
+  /*width: 50px;*/
+  /*height: 100%;*/
   vertical-align: top;
   background: #1B8AAE;
   color: rgba(255, 255, 255, 0.87);
@@ -39,10 +40,26 @@
 .comments-wrapper {
   position: relative;
   width: 100%;
-  height: 99%;
+  /*height: 99%;*/
   color: #818a91;
 /*  font-size: 0.875rem;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   background-color: rgba(0, 0, 0, 0.035);*/
 }
 
+.commentText { 
+  
+  height: 48px !important;
+  margin: 3px 0 !important;
+  overflow: auto !important;
+  width: 90% !important;
+  font-size: 13px !important;
+}
+
+.commentButton { 
+}
+
+.add-comment-wrapper textarea {
+  margin-top: 0 !important;
+  background: #fff !important;
+}
