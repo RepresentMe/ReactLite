@@ -58,7 +58,7 @@ const Page1 = (props) => {
         </h2>
         </div>
         <p style={{margin: '10px 0'}}>
-          Have your say on the issues and make it count, track your representatives and much more.
+          Vote on important issues, tell your MP, and track how well they represent you.
           <Link to="#" onTouchTap={() => props.toggleIntro()}><span> Learn more</span></Link>
         </p>
 

@@ -200,6 +200,15 @@ class CompareCollectionUsers extends Component {
         following={this.viewData.following}
         collectionId={this.props.collectionId}
       />}
+
+      <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
+      {this.viewData.isComparingCandidatesShowing.get() && <UserCompareCarousel
+        compareData={this.viewData.compareCandidatesData}
+        users={this.viewData.candidates}
+        following={this.viewData.followingCandidates}
+        collectionId={this.props.collectionId}
+      />}
+      
       <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB}/>
 
       <div>
@@ -227,13 +236,7 @@ class CompareCollectionUsers extends Component {
         </div>
       </div>
 
-      <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
-      {this.viewData.isComparingCandidatesShowing.get() && <UserCompareCarousel
-        compareData={this.viewData.compareCandidatesData}
-        users={this.viewData.candidates}
-        following={this.viewData.followingCandidates}
-        collectionId={this.props.collectionId}
-      />}
+      
     </div>)
   }
 }
@@ -279,8 +282,14 @@ render(){
   const loggedFB = this.props.loggedFB;
 
   return (
-    <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE',width: '100vw', background: 'rgba(27,138,174,0.11)', padding: 10, textAlign: 'center', maxHeight: loggedFB.get() ? 400 : 0}}>
-    <p style={{margin: 10, color: '#1B8AAE', maxWidth: 600, margin: '5px auto'}}><strong>Democracy should be easy and open to everyone.</strong> Click the button below and you can vote on important issues directly from Facebook Messenger!</p>
+    <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE', width: '100vw', background: 'rgba(27,138,174,0.11)', padding: 10, margin: '10px auto',  textAlign: 'center', maxHeight: loggedFB.get() ? 400 : 0}}>
+    <p style={{ color: '#1B8AAE', maxWidth: 400, margin: '5px auto 0 auto', fontSize: 18}}>
+    <strong>Vote on important issues, tell your MP, and track how well they represent you -- all directly from Facebook Messenger!</strong>
+    <br />
+    <span style={{ color: '#1B8AAE', maxWidth: 600, margin: '0 auto 5px auto', fontSize: 14, lineHeight: 1}}>
+    Click the button below to get started. 
+    </span>
+    </p> 
       <MessengerPlugin
         appId={String(window.authSettings.facebookId)}
         pageId={String(window.authSettings.facebookPageId)}
@@ -298,7 +307,7 @@ render(){
 
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
   return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
-    <Subheader style={{fontWeight: 600, textTransform: 'upperCase'}} >All Results</Subheader>
+  <Subheader style={{fontWeight: 600, textTransform: 'upperCase'}} >All Results</Subheader>
 
 
       {questions.length > 0 &&

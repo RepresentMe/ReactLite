@@ -41,7 +41,7 @@ class SmallCard extends Component {
 
                 <div style={{}}>
 
-                  <div className='questionTextEnd' style={{ width: 220,wordWrap: 'break-word'}}>
+                  <div className='questionTextEnd' style={{ wordWrap: 'break-word'}}>
                     {this.props.data.values[0].title}
                     {/* {this.props.data.values[0].full_name ? <p style={{color: '#999', fontSize: 14, fontWeight: 'bold', textAlign: 'left', }}>{`YOU: ${this.props.data.values[0].full_name}`}</p> : ''}  */}
                   </div>
@@ -60,7 +60,7 @@ class SmallCard extends Component {
 */}
 
 
-                  <div style={{ width: 240, backgroundColor: "#f5f5fe", borderTop: '1px solid #ccc', height: 36}}>
+                  <div style={{ width: '100%', backgroundColor: "#f5f5fe", borderTop: '1px solid #ccc', height: 36}}>
                     <div style={{position: 'relative'}}>
                       <IconButton
                         tooltip="comment"
