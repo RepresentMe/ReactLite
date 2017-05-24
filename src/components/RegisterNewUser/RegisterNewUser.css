@@ -1,34 +1,78 @@
 .containerStyle {
-  padding: 10px 20px;
-  min-width: 300px;
-  max-width: 400px;
-  margin: 20px auto;
-  }
+    padding: 10px 20px;
+    min-width: 300px;
+    max-width: 400px;
+    margin: 20px auto;
+}
 
 p {
-  margin: 15px auto;
-  text-align: center;
+    margin: 15px auto;
+    text-align: center;
 }
+
 .button {
-  margin: 10px auto;
-  border-radius: 3px;
-  box-shadow: 0px 0px 3px lightgrey;
-  color: grey;
-  font-size: 14px;
-  text-align: center;
-  padding: 10px;
-  font-size: 14px;
-  width: 95%;
-  cursor: pointer;
+    margin: 10px auto;
+    border-radius: 3px;
+    box-shadow: 0px 0px 3px lightgrey;
+    color: grey;
+    font-size: 14px;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    width: 95%;
+    cursor: pointer;
 }
-.button:hover{
-  opacity: 0.5;
-  box-shadow: 0px 0px 2px grey;
+
+.button:hover {
+    opacity: 0.5;
+    box-shadow: 0px 0px 2px grey;
 }
-.button:active{
-  background-color: white;
-  box-shadow: 0px 0px 3px grey;
+
+.button:active {
+    background-color: white;
+    box-shadow: 0px 0px 3px grey;
 }
+
 span.fbMockButton {
-  color: #eee;
+    color: #eee;
+}
+
+.introimage {
+    margin: 10px auto;
+    height: 60px;
+}
+
+label {
+    margin-bottom: 16px;
+}
+
+@media only screen and (max-width: 350px) {
+    .introimage {
+        margin: 0 auto;
+        height: 40px !important;
+    }
+    h2 {
+        margin: 0 !important;
+        font-size: 18px;
+    }
+    .containerStyle {
+        padding: 0px 20px;
+        min-width: 300px;
+        max-width: 400px;
+        margin: 0px auto;
+    }
+    p,
+    label {
+        font-size: 14px;
+    }
+    label {
+        line-height: 18px !important;
+        margin-bottom: 8px;
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    .introimage {
+        margin: 5px auto;
+    }
 }

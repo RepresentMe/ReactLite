@@ -77,20 +77,20 @@ class FollowUserDialog extends Component {
       >
         {!user && 'Loading...'}
         {user && <div>
-          <div className="user-rep-icons-wrapper">
-            <div className="user-rep-icons">
-              <div className="user-icon">
-                <img src={user.photo} />
-              </div>
-              <div className="represent-icon">
-                <img src="/static/media/represent_white_outline.dbff67a6.svg" />
-              </div>
-            </div>
-          </div>
+      
+            <table className="icons-wrapper-icon">
+            <tr>
+            <td width="50%" styles={{textAlign: 'right'}}>
+              <img src={user.photo} className="avatar" /> 
+            </td>
+            <td width="50%" styles={{textAlign: 'left'}}>
+              <img src="/static/media/represent_white_outline.dbff67a6.svg"  className="avatar" />
+            </td>
+            </tr>
+            </table>
 
           <p>
-            I'm working with Represent to modernize democracy &nbsp;  
-            <a>Learn more</a>
+            I'm working with Represent to modernise democracy. Follow me for updates and new questions.             
           </p>
 
           <div>

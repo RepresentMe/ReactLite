@@ -274,7 +274,7 @@ export default class Shell extends Component {
                       {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
                       <Route exact path='/compare' component={CompareUsers}/>
                       <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
-                      <Route exact path="/dynamic-config-editor" component={DynamicConfigEditor}/>
+                      <Route exact path="/builder" component={DynamicConfigEditor}/>
                       <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
                     </Switch>
                   </ReactCSSTransitionGroup>

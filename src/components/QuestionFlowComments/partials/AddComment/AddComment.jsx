@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import TextField from 'material-ui/TextField';
+
+import IconButton from 'material-ui/IconButton';
+import Send from 'material-ui/svg-icons/content/send';
 
 import './style.css';
 
@@ -32,17 +36,26 @@ class AddComment extends Component {
     const { comment } = this.state
     return (
 
-      <div className="add-comment-wrapper">
-        <div className="add-comment">
-          <button className="add-comment-btn" onClick={this.onSend} >Send</button>
-          <div className="add-comment-area-wrapper">
-            <textarea className="add-comment-area" 
-                      onChange={this.handleChange}
-                      value={comment}
-            />
-          </div>
-        </div>
+      <div className="add-comment-wrapper"> 
+   
+
+            <TextField
+      hintText=""
+      floatingLabelText=""
+      className="add-comment-area"
+      onChange={this.handleChange}
+      value={comment}
+      multiLine={true}
+      underlineShow={false}
+      rows={2}
+    />
+
+    <IconButton tooltip="Post comment" className="commentButton" touch={true} tooltipPosition="top-center" onClick={this.onSend} >
+      <Send />
+    </IconButton> 
       </div>
+
+
     );
   }
 }

@@ -12,9 +12,7 @@ import LoadingIndicator from '../../../LoadingIndicator';
 import MessengerPlugin from 'react-messenger-plugin';
 
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-import { TwitterButton } from "react-social";
-import IconButton from 'material-ui/IconButton';
-import CopyIcon from 'mdi-react/ContentCopyIcon';
+import { TwitterButton } from "react-social"; 
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 
@@ -202,24 +200,6 @@ class CompareCollectionUsers extends Component {
         following={this.viewData.following}
         collectionId={this.props.collectionId}
       />}
-      <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB}/>
-
-      <div>
-       <div style={{position: 'none', display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center'}}>
-        <TextField
-          id="copyToClipboardEnd"
-          value={`${window.location.origin}/survey/${this.props.collectionId}`}
-          multiLine={false}
-          style={{height: 10, fontSize: 10}}
-          inputStyle={{textAlign: 'center'}}
-        />
-        <IconButton
-          onClick={e => this.copyToClipboard('copyToClipboardEnd')}
-          >
-          <CopyIcon />
-        </IconButton>
-        </div>
-      </div>
 
       <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
       {this.viewData.isComparingCandidatesShowing.get() && <UserCompareCarousel
@@ -228,6 +208,35 @@ class CompareCollectionUsers extends Component {
         following={this.viewData.followingCandidates}
         collectionId={this.props.collectionId}
       />}
+      
+      <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB}/>
+
+      <div>
+       <div id="shareMe">
+       Want to share? Click to copy: 
+        <TextField
+          id="copyToClipboardEnd"
+          value={`${window.location.origin}/survey/${this.props.collectionId}`}
+          multiLine={false}
+          style={{height: 14, fontSize: 12, width: 1}}
+          inputStyle={{textAlign: 'center'}}
+        />
+        <span onClick={e => this.copyToClipboard('copyToClipboardEnd')}> URL</span>
+   
+        &nbsp; &middot; &nbsp;
+        <TextField
+          id="copyToClipboardEmbed"
+          value={`<iframe src="${window.location.origin}/survey/${this.props.collectionId}" height="600" width="100%" frameborder="0"></iframe>`}
+          multiLine={false}
+          style={{height: 14, fontSize: 12,  width: 1}}
+          inputStyle={{textAlign: 'center'}}
+        />
+        <span onClick={e => this.copyToClipboard('copyToClipboardEmbed')}>Embed code </span>
+
+        </div>
+      </div>
+
+      
     </div>)
   }
 }
@@ -273,7 +282,14 @@ render(){
   const loggedFB = this.props.loggedFB;
 
   return (
-    <div style={{ borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc',width: '100vw', background: 'rgba(255,255,255,0.7)', padding: 5, textAlign: 'center', maxHeight: loggedFB.get() ? 100 : 0}}>
+    <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE', width: '100vw', background: 'rgba(27,138,174,0.11)', padding: 10, margin: '10px auto',  textAlign: 'center', maxHeight: loggedFB.get() ? 400 : 0}}>
+    <p style={{ color: '#1B8AAE', maxWidth: 400, margin: '5px auto 0 auto', fontSize: 18}}>
+    <strong>Vote on important issues, tell your MP, and track how well they represent you -- all directly from Facebook Messenger!</strong>
+    <br />
+    <span style={{ color: '#1B8AAE', maxWidth: 600, margin: '0 auto 5px auto', fontSize: 14, lineHeight: 1}}>
+    Click the button below to get started. 
+    </span>
+    </p> 
       <MessengerPlugin
         appId={String(window.authSettings.facebookId)}
         pageId={String(window.authSettings.facebookPageId)}
@@ -291,7 +307,7 @@ render(){
 
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
   return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
-    <Subheader style={{fontWeight: 600, textTransform: 'upperCase'}} >All Results</Subheader>
+  <Subheader style={{fontWeight: 600, textTransform: 'upperCase'}} >All Results</Subheader>
 
 
       {questions.length > 0 &&
@@ -359,9 +375,12 @@ class UserCardSmall extends Component {
     const fb = (
       <FacebookShareButton
         url={`https://openv2.represent.me/survey/${collectionId}`}
-        title={`I'm ${match}% match with ${name}`}
+        title={`I'm ${match}% match with ${name}. How do you compare?`}
         picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
-        className='fb-network__share-button'>
+        className='fb-network__share-button'
+        description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
+        >
+        
         <FacebookIcon
           size={32}
           round />
