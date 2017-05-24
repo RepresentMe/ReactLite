@@ -73,11 +73,14 @@ import LinearProgress from 'material-ui/LinearProgress';
 
     console.log(!this.props.CollectionStore.collections.has(collectionId), !this.props.CollectionStore.collectionItems.has(collectionId), !this.props.UserStore.userData.has("id"))
 
-
+    let question_objects = null;
     if(!this.props.CollectionStore.collections.has(collectionId) || !this.props.CollectionStore.collectionItems.has(collectionId) || !this.props.UserStore.userData.has("id")) { //!this.props.QuestionStore.questions.has(collectionId) ||
       return <LinearProgress mode="indeterminate" />;
     }
-    console.log('this.state',this.state)
+    else {
+      question_objects = this.state.questions.map(q => this.props.QuestionStore.questions.get(q.object_id))
+    }
+    console.log('this.state EDIT',this.state, question_objects)
     return (
       <div>
         {this.state.questions.length > 0 &&
@@ -87,15 +90,17 @@ import LinearProgress from 'material-ui/LinearProgress';
           description={this.state.description}
           endText={this.state.endText}
           items={this.state.questions}
-
+          question_objects={question_objects}
+          
           textChange={(field, newValue) => {
             let newState = this.state;
             newState[field] = newValue
             this.setState(newState);
           }}
 
-          addQuestion={(question) => {
-            this.setState({questions: this.state.questions.concat([question])});
+          addItem={(question) => {
+            const questions = [...this.state.questions, question];
+            this.setState({questions});
           }}
 
           removeQuestion={(question) => {

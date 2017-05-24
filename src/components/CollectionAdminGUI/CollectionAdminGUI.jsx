@@ -29,8 +29,8 @@ const styles = {
   }
 }
 
-@inject("QuestionStore") 
-@observer 
+@inject("QuestionStore")
+@observer
 class CollectionAdminGUI extends Component { // The view only for the collection editor and creator
 
   constructor() {
@@ -63,7 +63,8 @@ class CollectionAdminGUI extends Component { // The view only for the collection
         console.log('Entered else')
          this.props.QuestionStore.searchQuestions(this.state.existingQuestionDialogText).then(res => {
           console.log(res)
-          this.existingQuestionDialogResults.replace(res);
+          this.existingQuestionDialogResults.replace(res.map(q => this.props.QuestionStore.questions.get(q)));
+          console.log('this.existingQuestionDialogResults', this.existingQuestionDialogResults)
         });
       }
     }
@@ -104,6 +105,7 @@ class CollectionAdminGUI extends Component { // The view only for the collection
           {/* Drag and drop items list */}
           <SortableQuestions
             items={this.props.items}
+            question_objects={this.props.question_objects}
             useDragHandle={false}
             lockAxis="y"
             onSortEnd={({oldIndex, newIndex}) => this.props.sortQuestion(oldIndex, newIndex)}
@@ -187,10 +189,7 @@ class CollectionAdminGUI extends Component { // The view only for the collection
                     this.setState({showAddExistingQuestionDialog: false});
                     this.setState({existingQuestionDialogText: ""});
                     //this.props.addQuestion(this.props.QuestionStore.questions.get(question).id);
-                    this.props.addItem({
-                      type: "Q",
-                      id: question.id
-                    });
+                    this.props.addItem(question);
                   }}
                   key={index}
                   hoverColor={green100}
@@ -223,18 +222,20 @@ class CollectionAdminGUI extends Component { // The view only for the collection
 //   }
 // })}
 
-const SortableQuestions = SortableContainer(({items, onRemove}) => {
+
+const SortableQuestions = SortableContainer(({items, question_objects, onRemove}) => {
   return (
     <List>
       {items.map((item, index) => {
         if(item.type === "Q") { // Type is question
-          items.map((value, index) => {
-            if(!value) {
-              return <SortableQuestionLoading key={`item-${index}`} index={index}/>;
-            }else {
-              return <SortableQuestion key={`item-${index}`} index={index} value={value} orderNumber={(index + 1)} onRemove={() => onRemove(value.id)} />
-            }
-          })
+          // items.map((value, index) => {
+          //   if(!value) {
+          //     return <SortableQuestionLoading key={`item-${index}`} index={index}/>;
+          //   }else {
+          const item_display = question_objects.filter(q => q.id === item.object_id)
+              return <SortableQuestion key={`item-${index}`} index={index} value={item_display[0]} orderNumber={(index + 1)} onRemove={() => onRemove(item.id)} />
+            // }
+          //})
         }else if(item.type === "B") { // Type is break
 
         }
