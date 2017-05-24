@@ -47,30 +47,21 @@ import LinearProgress from 'material-ui/LinearProgress';
     CollectionStore.getCollectionItemsById(this.collectionId).then((items) => {
       const questions = CollectionStore.collectionItems.get(this.collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
-      console.log('will mount', questions);
-
     });
   }
   
   addItem = (obj) => {
-     this.props.CollectionStore.setCollectionQuestionById(obj)
+     this.props.CollectionStore.setCollectionQuestionById(obj).then((items) => {
+        this.setState({
+          questions: items
+        })
+     })
   }
 
   saveCollection = () => {
-    this.props.QuestionStore.updateCollectionQuestions(this.collectionId, this.state.questions);
-    this.props.CollectionStore.updateCollection(this.collectionId, this.state.title, this.state.description, this.state.endText);
-
-    let curItems = this.props.CollectionStore.collectionItems.get(this.collectionId);
-    let newItems = [];
-    this.state.questions.forEach((question, j) => {
-      for (let i = 0; i < curItems.length; i++) {
-        if(curItems[i].object_id == question.id) {
-          curItems.order = j;
-          newItems.push(curItems);
-          break;
-        }
-      }
-    })
+    const { CollectionStore } = this.props;
+    CollectionStore.updateCollection(this.collectionId, this.state.title, this.state.description, this.state.endText);
+    CollectionStore.updateCollectionItems(this.collectionId, this.state.questions);
 
     // this.props.push("/survey/" + collectionId);
   }
