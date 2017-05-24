@@ -22,7 +22,6 @@ import LinearProgress from 'material-ui/LinearProgress';
       hasCollectionDetails: false,
       hasCollectionQuestions: false,
     }
-    this.questions = observable.shallowArray([])
 
     this.fillDetailsFromStore = this.fillDetailsFromStore.bind(this);
     this.checkForUpdates = this.checkForUpdates.bind(this);
@@ -55,12 +54,10 @@ import LinearProgress from 'material-ui/LinearProgress';
     if(this.props.QuestionStore.questions.has(collectionId) && !this.state.hasCollectionQuestions) { // Are the collection questions already cached?
       const questions = this.props.CollectionStore.collectionItems.get(collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
-      this.questions.replace(questions)
     }else {
       this.props.CollectionStore.getCollectionItemsById(collectionId);
       const questions = this.props.CollectionStore.collectionItems.get(collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
-      this.questions.replace(questions)
     }
   }
 
@@ -94,10 +91,10 @@ import LinearProgress from 'material-ui/LinearProgress';
     else {
 
       this.props.CollectionStore.getCollectionItemsById(collectionId);
-      questions = this.questions.peek();//props.CollectionStore.collectionItems.get(collectionId);
+      questions = this.props.CollectionStore.collectionItems.get(collectionId);
       question_objects = questions.map(q => this.props.QuestionStore.questions.get(q.object_id))
     }
-    console.log('this.state EDIT',this.state, this.questions, question_objects)
+    console.log('this.state EDIT',this.state, question_objects)
     return (
       <div>
         {this.state.questions.length > 0 &&

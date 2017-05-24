@@ -112,13 +112,14 @@ class CollectionStore {
 
     window.API.post(`/api/question_collection_items/`, { 'parent': collectionId, 'object_id': questionId, 'type': type  })
       .then((response) => {
-        let item = response.data.results[0];
+        let item = response.data;
         if(item.type === 'Q') { // If item is a question, update QuestionStore
           window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
           delete item.content_object; // Remove the question data as now stored in QuestionStore
 
 
-          let items = this.collectionItems.get(collectionId).push(item)
+          let items = this.collectionItems.get(collectionId);
+          items.push(item);
           this.collectionItems.set(collectionId, items);
           resolve(items)
         }
