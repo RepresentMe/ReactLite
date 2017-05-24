@@ -110,17 +110,20 @@ class CollectionStore {
   setCollectionQuestionById = (collectionId, questionId, type) => {
     return new Promise((resolve, reject) => { // Return a promise of search results
 
-    window.API.post('/api/question_collection_items/', {params: { parent: collectionId, object_id: questionId, type: type } })
+    window.API.post(`/api/question_collection_items/`, { 'parent': collectionId, 'object_id': questionId, 'type': type  })
       .then((response) => {
         let item = response.data.results[0];
         if(item.type === 'Q') { // If item is a question, update QuestionStore
           window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
           delete item.content_object; // Remove the question data as now stored in QuestionStore
 
-          //this.collectionItems.set(collectionId, item);
-          this.collectionItems.get(collectionId).push(item)
-          resolve(item)
+
+          let items = this.collectionItems.get(collectionId).push(item)
+          this.collectionItems.set(collectionId, items);
+          resolve(items)
         }
+      }).catch((error) => {
+        reject(error)
       })
     })
   }

@@ -62,10 +62,8 @@ class CollectionAdminGUI extends Component { // The view only for the collection
       }else { // Not numeric, perform a text search
         console.log('Entered else')
          this.props.QuestionStore.searchQuestions(this.state.existingQuestionDialogText).then(res => {
-          console.log(res)
           this.existingQuestionDialogResults.replace(res.map(q => this.props.QuestionStore.questions.get(q)));
-          console.log('this.existingQuestionDialogResults', this.existingQuestionDialogResults)
-        });
+          });
       }
     }
     let existingQuestionDialogResults = this.existingQuestionDialogResults.peek();
@@ -189,7 +187,7 @@ class CollectionAdminGUI extends Component { // The view only for the collection
                     this.setState({showAddExistingQuestionDialog: false});
                     this.setState({existingQuestionDialogText: ""});
                     //this.props.addQuestion(this.props.QuestionStore.questions.get(question).id);
-                    this.props.addItem(question);
+                    this.props.addItem(this.props.collectionId, question.id, "Q");
                   }}
                   key={index}
                   hoverColor={green100}

@@ -3,6 +3,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
+import { observable } from "mobx";
 import { Link } from 'react-router-dom';
 import CollectionAdminGUI from '../CollectionAdminGUI';
 import { arrayMove } from 'react-sortable-hoc';
@@ -21,6 +22,7 @@ import LinearProgress from 'material-ui/LinearProgress';
       hasCollectionDetails: false,
       hasCollectionQuestions: false,
     }
+    this.questions = observable.shallowArray([])
 
     this.fillDetailsFromStore = this.fillDetailsFromStore.bind(this);
     this.checkForUpdates = this.checkForUpdates.bind(this);
@@ -38,21 +40,27 @@ import LinearProgress from 'material-ui/LinearProgress';
   }
 
   checkForUpdates() {
+    console.log('checkForUpdates COMPONENT')
     let collectionId = parseInt(this.props.match.params.collectionId);
 
     if(this.props.CollectionStore.collections.has(collectionId) && !this.state.hasCollectionDetails) { // Are the collection details already cached?
+      console.log('checkForUpdates IF')
       this.fillDetailsFromStore();
+
     }else {
+      console.log('checkForUpdates ELSE')
       this.props.CollectionStore.getCollection(collectionId);
     }
 
     if(this.props.QuestionStore.questions.has(collectionId) && !this.state.hasCollectionQuestions) { // Are the collection questions already cached?
       const questions = this.props.CollectionStore.collectionItems.get(collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
+      this.questions.replace(questions)
     }else {
       this.props.CollectionStore.getCollectionItemsById(collectionId);
       const questions = this.props.CollectionStore.collectionItems.get(collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
+      this.questions.replace(questions)
     }
   }
 
@@ -67,9 +75,10 @@ import LinearProgress from 'material-ui/LinearProgress';
     // }
     this.checkForUpdates();
   }
-  addItem = (question) => {
-    const questions = [...this.state.questions, question];
-    this.setState({questions});
+  addItem = (collectionId, questionId, type) => {
+    this.props.CollectionStore.setCollectionQuestionById(collectionId, questionId, type)
+    .then(res => this.checkForUpdates());
+    
   }
 
   render() {
@@ -77,14 +86,18 @@ import LinearProgress from 'material-ui/LinearProgress';
 
     console.log(!this.props.CollectionStore.collections.has(collectionId), !this.props.CollectionStore.collectionItems.has(collectionId), !this.props.UserStore.userData.has("id"))
 
+    let questions = null;
     let question_objects = null;
     if(!this.props.CollectionStore.collections.has(collectionId) || !this.props.CollectionStore.collectionItems.has(collectionId) || !this.props.UserStore.userData.has("id")) { //!this.props.QuestionStore.questions.has(collectionId) ||
       return <LinearProgress mode="indeterminate" />;
     }
     else {
-      question_objects = this.state.questions.map(q => this.props.QuestionStore.questions.get(q.object_id))
+
+      this.props.CollectionStore.getCollectionItemsById(collectionId);
+      questions = this.questions.peek();//props.CollectionStore.collectionItems.get(collectionId);
+      question_objects = questions.map(q => this.props.QuestionStore.questions.get(q.object_id))
     }
-    console.log('this.state EDIT',this.state, question_objects)
+    console.log('this.state EDIT',this.state, this.questions, question_objects)
     return (
       <div>
         {this.state.questions.length > 0 &&
@@ -93,8 +106,9 @@ import LinearProgress from 'material-ui/LinearProgress';
           title={this.state.title}
           description={this.state.description}
           endText={this.state.endText}
-          items={this.state.questions}
+          items={questions}
           question_objects={question_objects}
+          collectionId={collectionId}
 
           textChange={(field, newValue) => {
             let newState = this.state;
@@ -102,17 +116,15 @@ import LinearProgress from 'material-ui/LinearProgress';
             this.setState(newState);
           }}
 
-          addItem={(question) => this.addItem(question)}
+          addItem={(collectionId, questionId, type) => this.addItem(collectionId, questionId, type)}
 
           removeQuestion={(question) => {
-            let newQuestions = this.state.questions;
-            let removeQuestionIndex = newQuestions.indexOf(question);
-            newQuestions.splice(removeQuestionIndex, 1);
+            let newQuestions = questions.filter(q => q.id !== question);
             this.setState({questions: newQuestions});
           }}
 
           sortQuestion={(oldIndex, newIndex) => {
-            this.setState({questions: arrayMove(this.state.questions, oldIndex, newIndex)});
+            this.setState({questions: arrayMove(questions, oldIndex, newIndex)});
           }}
           />
           <div style={{margin: '40px 10px'}}>
