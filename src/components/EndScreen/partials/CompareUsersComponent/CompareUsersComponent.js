@@ -76,12 +76,15 @@ class CompareCollectionUsers extends Component {
 
   componentDidMount = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds} = this.props;
-    let autorunDispose = autorun(() => {
-      if(UserStore.isLoggedIn()) {
+    let shouldAutorunDispose = false;
+    let autorunDispose = autorun(() => { // aurotun called multiple times, shouldAutorunDispose needed
+      if(UserStore.isLoggedIn() && !shouldAutorunDispose) {
+        shouldAutorunDispose = true;
         this.viewData.isLoggedIn.set(true);
-        console.log('loggedIn', true);
-        autorunDispose && autorunDispose();
         this.loadData();
+      }
+      if(shouldAutorunDispose && autorunDispose) {
+        autorunDispose();
       }
     });
     this.isPageReady.get();
@@ -127,7 +130,6 @@ class CompareCollectionUsers extends Component {
         //       })
         //   }
         //   getCollectionTags();
-        console.log('propUserIds', propUserIds);
         if(propUserIds.length) {
           this.viewData.isComparingUsersShowing.set(true);
           UserStore.amFollowingUsers(currentUserId, propUserIds).then(res => {
@@ -186,8 +188,6 @@ class CompareCollectionUsers extends Component {
     // if (!userIds.length) console.log('No users specified to compare');
     // return <CompareCollectionUsersView data={this.viewData} />
     if (!this.viewData.isLoggedIn.get()) return <SignInToSeeView />;
-    console.log('isPageReady', this.isPageReady.get(), this.viewData.pageReadiness.isCompareUsersReady.get()
-        , this.viewData.pageReadiness.isQuestionResultsReady.get());
 
 
     // TODO make it computed

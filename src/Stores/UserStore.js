@@ -147,7 +147,7 @@ class UserStore {
 
   register(details) {
 
-    return new Promise((resolve, reject) => { // Return a promise of search results
+    return new Promise((resolve, reject) => {
 
       if(details.postcode) {
         GeoService.checkPostcode(details.postcode)
@@ -269,7 +269,6 @@ class UserStore {
 
   amFollowingUsers(myId, theirIds) {
     const idsString = theirIds.join(',');
-    console.log(idsString)
     return window.API.get(`/api/following_users/?user=${myId}&following__id__in=${idsString}`)
       .then(function (response) {
         return response.data;

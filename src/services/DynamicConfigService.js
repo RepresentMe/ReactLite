@@ -19,7 +19,6 @@ class DynamicConfigService {
   }
 
   setConfigFromRaw(rawConfig) {
-    console.log('setConfigFromRaw', rawConfig);
     try {
       this.config = merge(this.config, JSON.parse(decodeURIComponent(decodeURIComponent(decodeURIComponent(rawConfig)))))
     }catch(e){}
@@ -38,17 +37,14 @@ class DynamicConfigService {
   }
 
   getConfigObjFromStr(str) {
-    console.log('getConfigObjFromStr: ', str);
     return JSON.parse(decodeURIComponent(decodeURIComponent(decodeURIComponent(str))));
   }
 
   setConfigObj(obj) {
-    console.log('setConfigObj: ', obj);
     Object.assign(this.config, obj);
   }
 
   getNextRedirect() {
-    console.log('redirects', this.config.redirects);
     let urlToRedirect = null;
     if (this.config.redirects.length === 0) {
       urlToRedirect = "/";
@@ -75,7 +71,6 @@ class DynamicConfigService {
   }
 
   encodeConfig(rawConfig) {
-    console.log('encodeConfig: ', rawConfig);
     this.config.redirects.push(rawConfig);
     return encodeURIComponent(JSON.stringify(this.config))
   }
