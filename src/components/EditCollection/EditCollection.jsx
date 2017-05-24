@@ -70,7 +70,7 @@ import LinearProgress from 'material-ui/LinearProgress';
     let questions = null;
     let question_objects = null;
     let question_breaks = null;
-    console.log('RENDER', this.state.questions, this.state.questions.length);
+
     if(!this.state.questions || this.state.questions.length == 0) {
       return <LinearProgress mode="indeterminate" />;
     } else {
@@ -105,7 +105,6 @@ import LinearProgress from 'material-ui/LinearProgress';
           }}
 
           sortQuestion={(oldIndex, newIndex) => {
-            console.log('sortQuestion: ', oldIndex, newIndex);
             this.setState({questions: arrayMove(questions, oldIndex, newIndex)});
           }}
           />
