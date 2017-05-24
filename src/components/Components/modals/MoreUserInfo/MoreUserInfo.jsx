@@ -198,7 +198,6 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         onClick={this.updateDetails}
       />,
     ];
-    console.log(this.state)
     return (
       <Dialog
         open={this.state.shown}

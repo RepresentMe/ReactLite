@@ -181,7 +181,7 @@ class UserStore {
   isLoggedIn = () => {
     return computed(
       () => {
-      return this.userData.has("id") || this.getAuthToken();
+      return this.userData.has("id");
     }
     ).get();
   }
@@ -269,7 +269,6 @@ class UserStore {
 
   amFollowingUsers(myId, theirIds) {
     const idsString = theirIds.join(',');
-    console.log(idsString)
     return window.API.get(`/api/following_users/?user=${myId}&following__id__in=${idsString}`)
       .then(function (response) {
         return response.data;
