@@ -147,7 +147,7 @@ class UserStore {
 
   register(details) {
 
-    return new Promise((resolve, reject) => { // Return a promise of search results
+    return new Promise((resolve, reject) => {
 
       if(details.postcode) {
         GeoService.checkPostcode(details.postcode)
@@ -181,7 +181,7 @@ class UserStore {
   isLoggedIn = () => {
     return computed(
       () => {
-      return this.userData.has("id");
+      return this.userData.has("id") || this.getAuthToken();
     }
     ).get();
   }
