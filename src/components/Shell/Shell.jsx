@@ -262,7 +262,7 @@ export default class Shell extends Component {
                       <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
                       <Route exact path="/survey/create" component={CreateCollection}/>
                       <Route exact path="/survey/:collectionId/:dynamicConfig?" component={CollectionIntro}/>
-                      <Route exact path="/survey/:collectionId/edit" component={EditCollection}/>
+                      <Route exact path="/edit/:collectionId" component={EditCollection}/>
                       <Route exact path="/survey/:surveyId/flow/:itemNumber/:activeTab/:dynamicConfig?" component={SurveyFlow}/>
                       <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
                       <Route exact path="/survey/:collectionId/end2/:dynamicConfig?" component={EndScreen}/>

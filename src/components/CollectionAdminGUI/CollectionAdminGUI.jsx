@@ -43,6 +43,8 @@ const styles = {
   }
 
   render() {
+    console.log('this.props.QuestionStore',this.props.QuestionStore)
+    console.log('this.state',this.state)
 
     let existingQuestionDialogResults = null;
 
@@ -54,9 +56,14 @@ const styles = {
           this.props.QuestionStore.loadQuestion(parseInt(this.state.existingQuestionDialogText));
         }
       }else { // Not numeric, perform a text search
-        existingQuestionDialogResults = this.props.QuestionStore.searchQuestions(this.state.existingQuestionDialogText);
+        console.log('Entered else')
+         this.props.QuestionStore.searchQuestions(this.state.existingQuestionDialogText).then(res => {
+          console.log(res)
+          existingQuestionDialogResults = res;
+        });
       }
     }
+    console.log('existingQuestionDialogResults', existingQuestionDialogResults)
 
     return (
       <div>

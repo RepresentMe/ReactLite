@@ -46,10 +46,13 @@ import LinearProgress from 'material-ui/LinearProgress';
       this.props.CollectionStore.getCollection(collectionId);
     }
 
-    if(this.props.QuestionStore.collectionQuestions.has(collectionId) && !this.state.hasCollectionQuestions) { // Are the collection questions already cached?
-      this.setState({ questions: this.props.QuestionStore.collectionQuestions.get(collectionId), hasCollectionQuestions: true });
+    if(this.props.QuestionStore.questions.has(collectionId) && !this.state.hasCollectionQuestions) { // Are the collection questions already cached?
+      const questions = this.props.CollectionStore.collectionItems.get(collectionId);
+      this.setState({ questions, hasCollectionQuestions: true });
     }else {
-      this.props.QuestionStore.loadCollectionQuestions(collectionId);
+      this.props.CollectionStore.getCollectionItemsById(collectionId);
+      const questions = this.props.CollectionStore.collectionItems.get(collectionId);
+      this.setState({ questions, hasCollectionQuestions: true });
     }
   }
 
@@ -59,26 +62,31 @@ import LinearProgress from 'material-ui/LinearProgress';
 
   componentWillReact() { // Called every time the store updates (Requires a reference to store in render())
     let collectionId = parseInt(this.props.match.params.collectionId); // Check if user is the owner of the collection, otherwise navigate away
-    if(this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id !== this.props.UserStore.userData.get("id")) {
-      this.props.push("/");
-    }
+    // if(this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id !== this.props.UserStore.userData.get("id")) {
+    //   this.props.push("/");
+    // }
     this.checkForUpdates();
   }
 
   render() {
     let collectionId = parseInt(this.props.match.params.collectionId);
 
-    if(!this.props.CollectionStore.collections.has(collectionId) || !this.props.QuestionStore.collectionQuestions.has(collectionId) || !this.props.UserStore.userData.has("id")) {
+    console.log(!this.props.CollectionStore.collections.has(collectionId), !this.props.CollectionStore.collectionItems.has(collectionId), !this.props.UserStore.userData.has("id"))
+
+
+    if(!this.props.CollectionStore.collections.has(collectionId) || !this.props.CollectionStore.collectionItems.has(collectionId) || !this.props.UserStore.userData.has("id")) { //!this.props.QuestionStore.questions.has(collectionId) ||
       return <LinearProgress mode="indeterminate" />;
     }
-
+    console.log('this.state',this.state)
     return (
       <div>
+        {this.state.questions.length > 0 &&
+        <div>
         <CollectionAdminGUI
           title={this.state.title}
           description={this.state.description}
           endText={this.state.endText}
-          questions={this.state.questions}
+          items={this.state.questions}
 
           textChange={(field, newValue) => {
             let newState = this.state;
@@ -107,8 +115,11 @@ import LinearProgress from 'material-ui/LinearProgress';
               this.props.QuestionStore.updateCollectionQuestions(collectionId, this.state.questions);
               this.props.CollectionStore.updateCollection(collectionId, this.state.title, this.state.description, this.state.endText);
               this.props.push("/survey/" + collectionId);
-            }} />
-          </div>
+            }}
+            />
+            </div>
+
+          </div>}
       </div>
     )
   }
