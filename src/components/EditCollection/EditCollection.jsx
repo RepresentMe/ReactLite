@@ -22,7 +22,6 @@ import LinearProgress from 'material-ui/LinearProgress';
       hasCollectionDetails: false,
       hasCollectionQuestions: false,
     }
-    this.questions = observable.shallowArray([])
 
     this.fillDetailsFromStore = this.fillDetailsFromStore.bind(this);
     this.checkForUpdates = this.checkForUpdates.bind(this);
@@ -55,12 +54,10 @@ import LinearProgress from 'material-ui/LinearProgress';
     if(this.props.QuestionStore.questions.has(collectionId) && !this.state.hasCollectionQuestions) { // Are the collection questions already cached?
       const questions = this.props.CollectionStore.collectionItems.get(collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
-      this.questions.replace(questions)
     }else {
       this.props.CollectionStore.getCollectionItemsById(collectionId);
       const questions = this.props.CollectionStore.collectionItems.get(collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
-      this.questions.replace(questions)
     }
   }
 
@@ -96,12 +93,19 @@ import LinearProgress from 'material-ui/LinearProgress';
     else {
 
       this.props.CollectionStore.getCollectionItemsById(collectionId);
+
       questions = this.questions.peek();
       // questions = questions.filter(q => q.type === "Q")
       // question_breaks = questions.filter(q => q.type === "B")
       question_objects = questions.filter(q => q.type === "Q").map(q => this.props.QuestionStore.questions.get(q.object_id))
     }
     console.log('this.state EDIT',this.state, questions, question_objects)
+// =======
+//       questions = this.props.CollectionStore.collectionItems.get(collectionId);
+//       question_objects = questions.map(q => this.props.QuestionStore.questions.get(q.object_id))
+//     }
+//     console.log('this.state EDIT',this.state, question_objects)
+// >>>>>>> 6b470874b91e3643e7a701ea6c8740764c4054f8
     return (
       <div>
         {this.state.questions.length > 0 &&
