@@ -54,10 +54,12 @@ import LinearProgress from 'material-ui/LinearProgress';
     if(this.props.QuestionStore.questions.has(collectionId) && !this.state.hasCollectionQuestions) { // Are the collection questions already cached?
       const questions = this.props.CollectionStore.collectionItems.get(collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
+      console.log('checkForUpdates IF-2')
     }else {
       this.props.CollectionStore.getCollectionItemsById(collectionId);
       const questions = this.props.CollectionStore.collectionItems.get(collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
+      console.log('checkForUpdates ELSE-2')
     }
   }
 
@@ -75,7 +77,6 @@ import LinearProgress from 'material-ui/LinearProgress';
   addItem = (obj) => {
     this.props.CollectionStore.setCollectionQuestionById(obj)
     .then(res => this.checkForUpdates());
-
   }
 
   render() {
@@ -83,10 +84,9 @@ import LinearProgress from 'material-ui/LinearProgress';
 
     console.log(!this.props.CollectionStore.collections.has(collectionId), !this.props.CollectionStore.collectionItems.has(collectionId), !this.props.UserStore.userData.has("id"))
 
-    let questions_init =  null;
     let questions = null;
     let question_objects = null;
-    let question_breaks = null;
+
     if(!this.props.CollectionStore.collections.has(collectionId) || !this.props.CollectionStore.collectionItems.has(collectionId) || !this.props.UserStore.userData.has("id")) { //!this.props.QuestionStore.questions.has(collectionId) ||
       return <LinearProgress mode="indeterminate" />;
     }
@@ -94,9 +94,8 @@ import LinearProgress from 'material-ui/LinearProgress';
 
       this.props.CollectionStore.getCollectionItemsById(collectionId);
 
-      questions = this.questions.peek();
-      // questions = questions.filter(q => q.type === "Q")
-      // question_breaks = questions.filter(q => q.type === "B")
+      //questions = this.questions.peek();
+      questions = this.state.questions;//this.props.CollectionStore.collectionItems.get(collectionId);
       question_objects = questions.filter(q => q.type === "Q").map(q => this.props.QuestionStore.questions.get(q.object_id))
     }
     console.log('this.state EDIT',this.state, questions, question_objects)
