@@ -41,12 +41,11 @@ import LinearProgress from 'material-ui/LinearProgress';
 
   componentWillMount() {
     const { CollectionStore } = this.props;
-    let collectionId = parseInt(this.props.match.params.collectionId);
-    CollectionStore.getCollectionById(collectionId).then(() => {
+    CollectionStore.getCollectionById(this.collectionId).then(() => {
       this.fillDetailsFromStore();
     })
-    CollectionStore.getCollectionItemsById(collectionId).then((items) => {
-      const questions = CollectionStore.collectionItems.get(collectionId);
+    CollectionStore.getCollectionItemsById(this.collectionId).then((items) => {
+      const questions = CollectionStore.collectionItems.get(this.collectionId);
       this.setState({ questions, hasCollectionQuestions: true });
       console.log('will mount', questions);
 
@@ -57,7 +56,10 @@ import LinearProgress from 'material-ui/LinearProgress';
      this.props.CollectionStore.setCollectionQuestionById(obj)
   }
 
-  saveItems = () => {
+  saveCollection = () => {
+    this.props.QuestionStore.updateCollectionQuestions(this.collectionId, this.state.questions);
+    this.props.CollectionStore.updateCollection(this.collectionId, this.state.title, this.state.description, this.state.endText);
+
     let curItems = this.props.CollectionStore.collectionItems.get(this.collectionId);
     let newItems = [];
     this.state.questions.forEach((question, j) => {
@@ -69,11 +71,11 @@ import LinearProgress from 'material-ui/LinearProgress';
         }
       }
     })
+
+    // this.props.push("/survey/" + collectionId);
   }
 
   render() {
-    let collectionId = parseInt(this.props.match.params.collectionId);
-
     let questions = null;
     let question_objects = null;
     let question_breaks = null;
@@ -81,7 +83,7 @@ import LinearProgress from 'material-ui/LinearProgress';
     if(!this.state.questions || this.state.questions.length == 0) {
       return <LinearProgress mode="indeterminate" />;
     } else {
-      this.props.CollectionStore.getCollectionItemsById(collectionId);
+      this.props.CollectionStore.getCollectionItemsById(this.collectionId);
       questions = this.state.questions;
       question_objects = questions.filter(q => q.type === "Q").map(q => this.props.QuestionStore.questions.get(q.object_id))
     }
@@ -96,7 +98,7 @@ import LinearProgress from 'material-ui/LinearProgress';
           items={questions}
           question_objects={question_objects}
           //question_breaks={question_breaks}
-          collectionId={collectionId}
+          collectionId={this.collectionId}
 
           textChange={(field, newValue) => {
             let newState = this.state;
@@ -118,11 +120,7 @@ import LinearProgress from 'material-ui/LinearProgress';
           />
           <div style={{margin: '40px 10px'}}>
             <FlatButton label="Cancel" style={{float: 'right'}} onClick={() => this.props.push("/")} />
-            <RaisedButton label="Save" primary={true} style={{float: 'left'}} onClick={() => {
-              this.props.QuestionStore.updateCollectionQuestions(collectionId, this.state.questions);
-              this.props.CollectionStore.updateCollection(collectionId, this.state.title, this.state.description, this.state.endText);
-              this.props.push("/survey/" + collectionId);
-            }}
+            <RaisedButton label="Save" primary={true} style={{float: 'left'}} onClick={() => this.saveCollection()}
             />
             </div>
 
