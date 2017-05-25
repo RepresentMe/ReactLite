@@ -13,8 +13,11 @@ import Avatar from 'material-ui/Avatar';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { white, cyan600, black, grey700 } from 'material-ui/styles/colors';
 import IconMenu from 'material-ui/IconMenu';
+import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
 
 import CollectionsList from '../CollectionsList';
 import CollectionIntro from '../CollectionIntro';
@@ -51,6 +54,20 @@ import CompareUsers from '../EndScreen/partials/CompareUsersComponent';
 import CompareUsersDetails from '../EndScreen/partials/CompareUsersDetailsComponent';
 
 import AuthTokenComponent from '../AuthTokenComponent'
+
+
+import Drawer from 'material-ui/Drawer'; 
+
+
+
+
+import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+import Everyone from 'material-ui/svg-icons/places/all-inclusive';
+import Share from 'material-ui/svg-icons/social/share';
+import Important from 'material-ui/svg-icons/action/thumbs-up-down';
+import Party from 'material-ui/svg-icons/social/group';
+import Close from 'material-ui/svg-icons/navigation/close';
+
 
 import './Shell.css';
 
@@ -138,6 +155,11 @@ export default class Shell extends Component {
     this.dynamicConfig = DynamicConfigService;
     this.onLogout = this.onLogout.bind(this)
     this.navigateToLogin = this.navigateToLogin.bind(this)
+
+  
+    super(props);
+    this.state = {open: false};
+  
   }
 
   onLogout() {
@@ -153,6 +175,11 @@ export default class Shell extends Component {
     const modalOpened = !this.state.modalOpened;
     this.setState({modalOpened})
   }
+
+
+
+  handleToggle = () => this.setState({open: !this.state.open});
+
 
   render() {
     const raw_config = this.dynamicConfig.getDynamicConfig(this.props.history.location.pathname);
@@ -206,7 +233,7 @@ export default class Shell extends Component {
                       iconElementLeft={
                           <img  src={smallLogo}
                                 style={leftIconStyle}
-                                onTouchTap={() => this.toggleIntro()}
+                                 onTouchTap={this.handleToggle}
                           />
                       }
                       iconElementRight={
@@ -236,6 +263,50 @@ export default class Shell extends Component {
                       />
                   </div>
                 }
+
+                <div>
+                  <Drawer 
+                  open={this.state.open}
+                  docked={true}
+                  >
+                    <List style={{color: '#222'}}>
+                    <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />
+                    <ListItem primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
+                    <ListItem primaryText="Share" leftIcon={<Share />} />
+                    <Divider />
+                    <ListItem primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
+                    <Divider />
+                    <Subheader>Compare to the parties</Subheader>
+                    <ListItem primaryText="All in one"  href="/survey/47" />
+                    <ListItem primaryText="Conservatives"   href="/survey/119" />
+                    <ListItem primaryText="Green Party (E&W)" href="/survey/121" />
+                    <ListItem primaryText="Labour"  href="/survey/50" />
+                    <ListItem primaryText="Liberal democrats"   href="/survey/116" />
+                    <ListItem primaryText="Plaid Cymru"  href="/survey/112" />
+                    <ListItem primaryText="Women's Equality Party"   href="/survey/118" />
+                    <Divider />
+                    <Subheader>Topics</Subheader>
+                    <ListItem primaryText="Coming soon" disabled={true} />
+                    <Divider /> 
+                    <ListItem
+                      primaryText="About Represent"
+                      initiallyOpen={false}
+                      primaryTogglesNestedList={true}
+                      nestedItems={[
+                        <ListItem primaryText="Get involved" href="https://represent.me/volunteer" />,
+                        <ListItem primaryText="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2MD34EJQFC7ME" />,
+                        <ListItem primaryText="Statistics" href="Statistics" />,
+                        <ListItem primaryText="API" href=" https://represent.me/api" />,
+                        <ListItem primaryText="About us" href="https://represent.me" />,
+                        <ListItem primaryText="Privacy policy" href="https://represent.me/legal/privacy-policy/" />,
+                        <ListItem primaryText="Terms" href="https://represent.me/legal/terms/" /> ,                         
+                      ]}
+                    />
+                  </List>
+
+
+                  </Drawer>
+                </div>
 
                 <IntroCarousel
                   modalOpened={this.state.modalOpened}
@@ -284,6 +355,7 @@ export default class Shell extends Component {
               </div>
           </MuiThemeProvider>
       </Router>
+
     )
   }
 
