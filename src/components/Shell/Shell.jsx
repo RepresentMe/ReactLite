@@ -306,16 +306,16 @@ export default class Shell extends Component {
                     <ListItem key='menuItem-2' primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
                     <ListItem key='menuItem-3' primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
                     <Divider />
-                    <ListItem key='menuItem-4' primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
+                    <ListItem className='menuItem' key='menuItem-4' primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
                     <Divider />
                     <Subheader>Compare to the parties</Subheader>
-                    <ListItem key='menuItem-5' primaryText="All in one"  href="/survey/47" />
-                    <ListItem key='menuItem-6' primaryText="Conservatives"   href="/survey/119" />
-                    <ListItem key='menuItem-7' primaryText="Green Party (E&W)" href="/survey/121" />
-                    <ListItem key='menuItem-8' primaryText="Labour"  href="/survey/50" />
-                    <ListItem key='menuItem-9' primaryText="Liberal democrats"   href="/survey/116" />
-                    <ListItem key='menuItem-10' primaryText="Plaid Cymru"  href="/survey/112" />
-                    <ListItem key='menuItem-11' primaryText="Women's Equality Party"   href="/survey/118" />
+                    <ListItem className='menuItem' key='menuItem-5' primaryText="All in one"  href="/survey/47" />
+                    <ListItem className='menuItem' key='menuItem-6' primaryText="Conservatives"   href="/survey/119" />
+                    <ListItem className='menuItem' key='menuItem-7' primaryText="Green Party (E&W)" href="/survey/121" />
+                    <ListItem className='menuItem' key='menuItem-8' primaryText="Labour"  href="/survey/50" />
+                    <ListItem className='menuItem' key='menuItem-9' primaryText="Liberal democrats"   href="/survey/116" />
+                    <ListItem className='menuItem' key='menuItem-10' primaryText="Plaid Cymru"  href="/survey/112" />
+                    <ListItem className='menuItem' key='menuItem-11' primaryText="Women's Equality Party"   href="/survey/118" />
                     <Divider />
                     <Subheader>Topics</Subheader>
                     <ListItem key='menuItem-12' primaryText="Coming soon" disabled={true} />
@@ -325,13 +325,13 @@ export default class Shell extends Component {
                       initiallyOpen={false}
                       primaryTogglesNestedList={true}
                       nestedItems={[
-                        <ListItem key='nestedItem-1' primaryText="Get involved" href="https://represent.me/volunteer" />,
-                        <ListItem key='nestedItem-2' primaryText="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2MD34EJQFC7ME" />,
-                        <ListItem key='nestedItem-3' primaryText="Statistics" href="Statistics" />,
-                        <ListItem key='nestedItem-4' primaryText="API" href=" https://represent.me/api" />,
-                        <ListItem key='nestedItem-5' primaryText="About us" href="https://represent.me" />,
-                        <ListItem key='nestedItem-6' primaryText="Privacy policy" href="https://represent.me/legal/privacy-policy/" />,
-                        <ListItem key='nestedItem-7' primaryText="Terms" href="https://represent.me/legal/terms/" /> ,
+                        <ListItem className='menuItem' key='nestedItem-1' primaryText="Get involved" href="https://represent.me/volunteer" />,
+                        <ListItem className='menuItem' key='nestedItem-2' primaryText="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2MD34EJQFC7ME" />,
+                        <ListItem className='menuItem' key='nestedItem-3' primaryText="Statistics" href="Statistics" />,
+                        <ListItem className='menuItem' key='nestedItem-4' primaryText="API" href=" https://represent.me/api" />,
+                        <ListItem className='menuItem' key='nestedItem-5' primaryText="About us" href="https://represent.me" />,
+                        <ListItem className='menuItem' key='nestedItem-6' primaryText="Privacy policy" href="https://represent.me/legal/privacy-policy/" />,
+                        <ListItem className='menuItem' key='nestedItem-7' primaryText="Terms" href="https://represent.me/legal/terms/" /> ,
                       ]}
                     />
                   </List>
