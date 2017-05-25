@@ -63,7 +63,7 @@ class CollectionAdminGUI extends Component { // The view only for the collection
       }
     }
     let existingQuestionDialogResults = this.existingQuestionDialogResults.peek();
-    
+
     return (
       <div>
 
@@ -232,7 +232,7 @@ const SortableQuestions = SortableContainer(({items, question_objects, onRemove}
           const item_display = question_objects.filter(q => q.id === item.object_id)
               return <SortableQuestion key={`item-${index}`} index={index} value={item_display[0]} orderNumber={(index + 1)} onRemove={() => onRemove(item.id)} />
           } else if(item.type === "B") { // Type is 'break'
-            return <SortableQuestion key={`item-${index}`} index={index} orderNumber={(index + 1)} onRemove={() => onRemove(item.id)} />
+            return <SortableQuestion key={`item-${index}`} index={index} value={item} orderNumber={(index + 1)} onRemove={() => onRemove(item.id)} />
         }
       })}
     </List>
@@ -241,7 +241,7 @@ const SortableQuestions = SortableContainer(({items, question_objects, onRemove}
 
 const SortableQuestion = SortableElement(({value, orderNumber, onRemove}) => {
   return (
-    <ListItem primaryText={value ? value.question : '------------------'} rightIcon={<Clear onClick={onRemove}/>}/>
+    <ListItem primaryText={value.question ? value.question : value.content_object.title} rightIcon={<Clear onClick={onRemove}/>}/>
   )
 });
 
