@@ -40,8 +40,14 @@ import LinearProgress from 'material-ui/LinearProgress';
 
   componentWillMount() {
     const { CollectionStore } = this.props;
-    CollectionStore.getCollectionById(this.collectionId).then(() => {
-      this.fillDetailsFromStore();
+    CollectionStore.getCollectionById(this.collectionId).then((collection) => {
+      this.props.UserStore.getCachedMe().then((user) => {
+        console.log('collection: ', collection, collection.user.id, user);
+        if(collection.user.id != this.props.UserStore.getCachedMe().id) { // if not an owner
+          return this.props.history.push("/survey/" + this.collectionId);
+        }
+        this.fillDetailsFromStore();
+      })
     })
     CollectionStore.getCollectionItemsById(this.collectionId).then((items) => {
       const questions = CollectionStore.collectionItems.get(this.collectionId);
