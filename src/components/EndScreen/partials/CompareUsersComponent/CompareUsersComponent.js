@@ -282,7 +282,7 @@ render(){
   const loggedFB = this.props.loggedFB;
 
   return (
-    <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE', width: '100vw', background: 'rgba(27,138,174,0.11)', padding: 10, margin: '10px auto',  textAlign: 'center', maxHeight: loggedFB.get() ? 400 : 0}}>
+    <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE', width: '100vw', background: 'rgba(27,138,174,0.11)', padding: 10, margin: '10px auto',  textAlign: 'center', maxHeight: loggedFB.get() ? 400 : 0, display: loggedFB.get() ? 'block':'none'}}>
     <p style={{ color: '#1B8AAE', maxWidth: 400, margin: '5px auto 0 auto', fontSize: 18}}>
     <strong>Vote on important issues, tell your MP, and track how well they represent you -- all directly from Facebook Messenger!</strong>
     <br />
