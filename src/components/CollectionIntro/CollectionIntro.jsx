@@ -15,8 +15,8 @@ import './CollectionIntro.css';
 
 @inject("UserStore", "CollectionStore") @observer class CollectionIntro extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       collection: null,
       collectionImageLoaded: false,
@@ -26,12 +26,11 @@ import './CollectionIntro.css';
 
   componentWillMount() {
     let { CollectionStore, match } = this.props
-    CollectionStore.getCollectionById(parseInt(match.params.collectionId))
+  CollectionStore.getCollectionById(parseInt(match.params.collectionId))
       .then((collection) => {
-        this.setState({collection})
-      })
-      .catch((error) => {
-        this.setState({networkError: true})
+        console.log('COLLECTION', collection);
+        this.setState({collection: collection})
+        console.log('COLLECTION', collection, this.state.collection);
       })
 
     this.dynamicConfig = DynamicConfigService;
@@ -108,11 +107,11 @@ import './CollectionIntro.css';
 
                 <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{ collection.name }</h1>
               {/* <ReactMarkdown source={ collection.desc } className="markDownText" renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} /> */}
-              <MoreText className="moreText"
-                  text={collection.desc}
+              {collection.desc && <MoreText className="moreText"
+                  text={collection.desc || ""}
                   markdownEnabled={true}
                   chars={150}
-                  />
+                  />}
                 {collection ?
                   collection.question_count  ?
                     <RaisedButton label="Start" primary onClick={this.startVoting} style={{marginTop: 15}}/>

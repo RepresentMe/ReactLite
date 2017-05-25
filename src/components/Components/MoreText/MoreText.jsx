@@ -40,6 +40,7 @@ class MoreText extends Component {
     const buttonStyle={
       cursor: 'pointer'
     }
+    if(!text) return null;
     //console.log('truncatedComment', truncatedComment, this.props)
     return (
       <div className="moreText">
