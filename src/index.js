@@ -37,27 +37,23 @@ window.authSettings = {
   facebookId: 1499361770335561,
   googleMapsAPI: "AIzaSyDZxI6243Bb460yabWL_tyN97NBH6hsnwo",
 }
-
-if (location.host === 'open.represent.me') { // Test server override defaults
-  window.authSettings.facebookId = 1499361770335561;
-  window.API = axios.create({
-    baseURL: 'https://api.represent.me'
-  });
-}else
-// if (location.host === 'share-test.represent.me' || location.host === 'test.represent.me' || location.host === 'open.represent.me' || location.host === 'openv2.represent.me')
-{ // Test server override defaults
+if(location.host.indexOf('staging') != -1 || location.host.indexOf('localhost') != -1) {
   window.authSettings.facebookId = 1684727181799018;
   window.API = axios.create({
     baseURL: 'https://staging.represent.me'
   });
+} else {
+  window.authSettings.facebookId = 1499361770335561;
+  window.API = axios.create({
+    baseURL: 'https://api.represent.me'
+  });
 }
-// else {
 //   window.API = axios.create({
 //     baseURL: 'http://localhost:8000'
 //     //baseURL: 'http://api.represent.me'
 //   });
 //   window.authSettings.facebookId = 1665890767015993;
-// }
+
 
 window.stores = {
   UserStore:              new UserStore(),
