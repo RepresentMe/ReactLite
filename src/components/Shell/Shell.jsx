@@ -256,7 +256,7 @@ export default class Shell extends Component {
                       className="appBar"
                         iconElementLeft={
                           <IconButton style={{height: 20, width: 20, border: 'none', position: 'relative', top: 0, left: 0, cursor: 'pointer'}}
-                            iconStyle={{fill: 'white', position: 'absolute', height: 20, width: 20, top: 0, left: 0}}>
+                            iconStyle={{fill: cyan600, position: 'absolute', height: 20, width: 20, top: 0, left: 0}}>
                             <MenuIcon />
                           </IconButton>}
                         onLeftIconButtonTouchTap={this.handleToggle}
@@ -301,37 +301,37 @@ export default class Shell extends Component {
                     onRequestChange={(open) => this.setState({open})}
                   >
                     <List style={{paddingTop: 0}}>
-                    <ListItem primaryText="#RepresentMe" style={{background: '#1B8AAE', color: '#fff'}} />
+                    <ListItem key='menuItem-1' primaryText="#RepresentMe" style={{background: '#1B8AAE', color: '#fff'}} />
                     {this.breakpoints.sm && <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />}
-                    <ListItem primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
-                    <ListItem primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
+                    <ListItem key='menuItem-2' primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
+                    <ListItem key='menuItem-3' primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
                     <Divider />
-                    <ListItem primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
+                    <ListItem key='menuItem-4' primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
                     <Divider />
                     <Subheader>Compare to the parties</Subheader>
-                    <ListItem primaryText="All in one"  href="/survey/47" />
-                    <ListItem primaryText="Conservatives"   href="/survey/119" />
-                    <ListItem primaryText="Green Party (E&W)" href="/survey/121" />
-                    <ListItem primaryText="Labour"  href="/survey/50" />
-                    <ListItem primaryText="Liberal democrats"   href="/survey/116" />
-                    <ListItem primaryText="Plaid Cymru"  href="/survey/112" />
-                    <ListItem primaryText="Women's Equality Party"   href="/survey/118" />
+                    <ListItem key='menuItem-5' primaryText="All in one"  href="/survey/47" />
+                    <ListItem key='menuItem-6' primaryText="Conservatives"   href="/survey/119" />
+                    <ListItem key='menuItem-7' primaryText="Green Party (E&W)" href="/survey/121" />
+                    <ListItem key='menuItem-8' primaryText="Labour"  href="/survey/50" />
+                    <ListItem key='menuItem-9' primaryText="Liberal democrats"   href="/survey/116" />
+                    <ListItem key='menuItem-10' primaryText="Plaid Cymru"  href="/survey/112" />
+                    <ListItem key='menuItem-11' primaryText="Women's Equality Party"   href="/survey/118" />
                     <Divider />
                     <Subheader>Topics</Subheader>
-                    <ListItem primaryText="Coming soon" disabled={true} />
+                    <ListItem key='menuItem-12' primaryText="Coming soon" disabled={true} />
                     <Divider />
-                    <ListItem
+                    <ListItem key='menuItem-13'
                       primaryText="About Represent"
                       initiallyOpen={false}
                       primaryTogglesNestedList={true}
                       nestedItems={[
-                        <ListItem primaryText="Get involved" href="https://represent.me/volunteer" />,
-                        <ListItem primaryText="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2MD34EJQFC7ME" />,
-                        <ListItem primaryText="Statistics" href="Statistics" />,
-                        <ListItem primaryText="API" href=" https://represent.me/api" />,
-                        <ListItem primaryText="About us" href="https://represent.me" />,
-                        <ListItem primaryText="Privacy policy" href="https://represent.me/legal/privacy-policy/" />,
-                        <ListItem primaryText="Terms" href="https://represent.me/legal/terms/" /> ,
+                        <ListItem key='nestedItem-1' primaryText="Get involved" href="https://represent.me/volunteer" />,
+                        <ListItem key='nestedItem-2' primaryText="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2MD34EJQFC7ME" />,
+                        <ListItem key='nestedItem-3' primaryText="Statistics" href="Statistics" />,
+                        <ListItem key='nestedItem-4' primaryText="API" href=" https://represent.me/api" />,
+                        <ListItem key='nestedItem-5' primaryText="About us" href="https://represent.me" />,
+                        <ListItem key='nestedItem-6' primaryText="Privacy policy" href="https://represent.me/legal/privacy-policy/" />,
+                        <ListItem key='nestedItem-7' primaryText="Terms" href="https://represent.me/legal/terms/" /> ,
                       ]}
                     />
                   </List>

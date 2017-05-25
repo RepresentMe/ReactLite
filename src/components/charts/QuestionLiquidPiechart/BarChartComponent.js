@@ -21,7 +21,6 @@ const BarChartComponent = observer(class BarChartComponent extends React.Compone
 	}
 
 	render(){
-		//console.log('this.props', this.props)
 		let sorted = []
 		if (this.props.data.values){
 			if (this.state.sorted === null) {sorted = this.props.data.values}
@@ -91,13 +90,13 @@ const Bar = (props) => {
 
 
 const Percentage = (props) => {
-	//console.log('percentage props', props)
-return (
-	<div className='percentage' style={{color: props.fill}}>
-		<span style={{display: 'inline'}}>{`${props.percentage}%`}</span>
-		<span style={{display: 'inline'}}>{props.my_vote ? <Done style={{color: props.fill, height: 16}}/> : ''}</span>
-	</div>
-)}
+
+	return (
+		<div className='percentage' style={{color: props.fill}}>
+			<span style={{display: 'inline'}}>{`${props.percentage}%`}</span>
+			<span style={{display: 'inline'}}>{props.my_vote ? <Done style={{color: props.fill, height: 16}}/> : ''}</span>
+		</div>
+	)}
 
 
 export default BarChartComponent;

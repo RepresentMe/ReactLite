@@ -21,7 +21,6 @@ const BarChartComponent = observer(class BarChartComponent extends React.Compone
 	}
 
 	render(){
-		//console.log('this.props', this.props)
 		let sorted = []
 		if (this.props.data.values){
 			if (this.state.sorted === null) {sorted = this.props.data.values}
@@ -63,15 +62,14 @@ class ContainerBar extends React.Component{
 		this.setState({activeEltIndex: '', direct_vote_count: ''})
 	}
 	render(){
-		//console.log('endScreen bar', this.props)
-	return (
-		<div className='bg_bar' title={this.props.full_name}>
-		    <Bar {...this.props}
-					activeEltIndex={this.state.activeEltIndex}
-					direct_vote_count={this.state.direct_vote_count}/>
-		    <Percentage {...this.props}/>
-		</div>
-)}}
+		return (
+			<div className='bg_bar' title={this.props.full_name}>
+			    <Bar {...this.props}
+						activeEltIndex={this.state.activeEltIndex}
+						direct_vote_count={this.state.direct_vote_count}/>
+			    <Percentage {...this.props}/>
+			</div>
+	)}}
 
 
 const Bar = (props) => {
@@ -92,17 +90,14 @@ const Bar = (props) => {
 )}
 
 const Percentage = (props) => {
-	//console.log('percentage props', props)
-return (
-	<div className='percentageEndScreen' style={{color: props.fill}}>
-		<span className='tinytext' style={{display: 'inline'}}>{props.my_vote ? 'YOU: '  : ''}</span>
 
-		<span className='tinynumber' style={{display: 'inline'}}>{`${props.percentage}%`}</span>
-	</div>
-)}
+	return (
+		<div className='percentageEndScreen' style={{color: props.fill}}>
+			<span className='tinytext' style={{display: 'inline'}}>{props.my_vote ? 'YOU: '  : ''}</span>
 
-// const MyVote = (props) => (
-// 	<div style={{display: 'inlineBlock', borderRadius: '50%', backgroundColor: 'navy', height: 10, width: 10}}></div>
-// )
+			<span className='tinynumber' style={{display: 'inline'}}>{`${props.percentage}%`}</span>
+		</div>
+	)}
+
 
 export default BarChartComponent;

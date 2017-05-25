@@ -43,7 +43,7 @@ render() {
     this.props.CollectionStore.getCollection(collectionId);
     return null;
   }
-  //console.log('collection', collection)
+
     return (
       <div>
         {this.props.CollectionStore.collectionItems.has(collectionId) &&
@@ -67,7 +67,7 @@ render() {
 
 @inject("QuestionStore") @observer class CollectionQuestionPieCharts extends React.Component {
   render() {
-    //console.log('this.props.collection', this.props.collection)
+
     return (
       <div>
         <h3 style={{marginLeft: 20, textAlign: 'center', color: 'rgb(0, 172, 193)'}}>{this.props.collection.name}</h3>
@@ -118,8 +118,7 @@ class ResponsiveCollectionContainer extends React.Component{
     let {items} = this.props;
     const pie = this.state.pie;
     items = items.filter((item)=> item.type === "Q")
-    console.log('activeId=', this.state.activeId, items.map(i=> i.object_id))
-    console.log('this.state.pie', this.state.pie)
+    
     return (
       <div style={{position: 'relative', overflow: 'hidden', WebkitTransform: 'translate3d(0,0,0)'}}>
         <ArrowLeftContainer handleMoveLeft={this.handleMoveLeft} style={{left: 10}}/>
