@@ -80,6 +80,18 @@ import {
   Route,
 } from 'react-router-dom'
 
+import {
+  ShareButtons,
+  generateShareIcon
+} from 'react-share';
+
+const {
+  FacebookShareButton
+} = ShareButtons;
+
+
+const FacebookIcon = generateShareIcon('facebook')
+
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: white,
@@ -183,7 +195,9 @@ export default class Shell extends Component {
     this.setState({modalOpened})
   }
 
-
+  clickFB = (e) => {
+    document.getElementsByClassName(`fb-network__share-button`)[0].click()
+  }
 
   handleToggle = () => this.setState({open: !this.state.open});
 
@@ -221,6 +235,7 @@ export default class Shell extends Component {
 
     const avatar = (
       <Avatar style={avatarStyle}
+        className="appAvatar"
         icon={!this.props.UserStore.userData.has("id") ? <Face /> : null}
         src={this.props.UserStore.userData.has("photo") ? photo.replace("localhost:8000", "represent.me") : null}
         backgroundColor={cyan600}
@@ -278,14 +293,18 @@ export default class Shell extends Component {
                   <div>
 
 
+
                   <Drawer
-                  open={this.state.open || this.breakpoints.lg}
-                  docked={this.breakpoints.lg}
+                    open={this.breakpoints.sm && this.state.open || this.breakpoints.lg}
+                    docked={this.breakpoints.lg}
+                    width={256}
+                    onRequestChange={(open) => this.setState({open})}
                   >
-                    <List style={{color: '#222'}}>
-                    <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />
+                    <List style={{paddingTop: 0}}>
+                    <ListItem primaryText="#RepresentMe" style={{background: '#1B8AAE', color: '#fff'}} />
+                    {this.breakpoints.sm && <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />}
                     <ListItem primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
-                    <ListItem primaryText="Share" leftIcon={<Share />} />
+                    <ListItem primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
                     <Divider />
                     <ListItem primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
                     <Divider />
@@ -328,7 +347,7 @@ export default class Shell extends Component {
                     modalOpened={this.state.modalOpened}
                     toggleIntro={this.toggleIntro}/>
 
-                  <Scrollbars autoHide>
+                  <Scrollbars autoHide style={{float: 'right', width: (this.breakpoints.lg ? 'calc(100% - 256px)' : '100%')}}>
                     <ReactCSSTransitionGroup
                       transitionName="QuestionFlowTransition"
                       transitionEnterTimeout={1000}
@@ -369,6 +388,17 @@ export default class Shell extends Component {
                 </div>
                 {/*<DevTools />*/}
                 </div>
+                {/* Hidden fb share button to make share button in left nav possible */}
+                <FacebookShareButton
+                  style={{display: 'none'}}
+                  url={`https://openv2.represent.me/`}
+                  title={`Represent: Democracy as it should be. Survey`}
+                  picture={`https://represent.me/assets/img/ogimage.jpg`}
+                  className='fb-network__share-button'>
+                  <FacebookIcon
+                    size={32}
+                    round />
+                </FacebookShareButton>
             </MatchMediaProvider>
           </MuiThemeProvider>
       </Router>

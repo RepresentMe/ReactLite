@@ -201,6 +201,17 @@ class DynamicConfigEditor extends Component {
             style={{ width: '90%' }}
           />
         </div>
+        <div>
+          <IconButton onClick={e => this.copyToClipboard("prodtwoField")}>
+            <CopyIcon />
+          </IconButton>
+          <TextField
+            id="prodtwoField"
+            value={`https://please.represent.me/survey/${this.syrveyId.get()}/${this.dynamicConfigString.get()}`}
+            multiLine={true}
+            style={{ width: '90%' }}
+          />
+        </div>
       </div>) : 'Please enter survey ID'}
 
     </div>)

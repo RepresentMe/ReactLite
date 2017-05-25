@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import CollectionSearch from '../CollectionSearch';
+import {Helmet} from "react-helmet";
 //import smallLogo from './represent_white_outline.svg';
 
 import './CollectionsList.css';
@@ -78,8 +79,24 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
         )
       })}
       </div>
+      <OgTags />
     </div>
   );
 }))
+
+const OgTags = ({}) => {
+  const og = {
+    url: `https://openv2.represent.me/`,
+    title: "Represent: Democracy as it should be. Survey",
+    image: 'https://represent.me/assets/img/ogimage.jpg',
+    desc: "We’re modernising democracy. Join the Heard."
+  }
+  return (<Helmet>
+    <meta property="og:url" content={og.url} />
+    <meta property="og:title" content={og.title} />
+    <meta property="og:image" content={og.image} />
+    <meta property="og:description" content={og.desc} />
+  </Helmet>)
+}
 
 export default CollectionsList;
