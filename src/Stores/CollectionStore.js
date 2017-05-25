@@ -116,7 +116,7 @@ class CollectionStore {
         if(item.type === 'Q') { // If item is a question, update QuestionStore
           window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
           delete item.content_object; // Remove the question data as now stored in QuestionStore
-
+        }
 
 
           let items = this.collectionItems.get(parent);
@@ -124,7 +124,7 @@ class CollectionStore {
           this.collectionItems.set(parent, items);
 
           resolve(items)
-        }
+
       }).catch((error) => {
         reject(error)
       })
@@ -226,8 +226,7 @@ class CollectionStore {
           this.collectionItems.set(collectionId, []);
         } else {
           this.collectionItems.set(collectionId, items);
-          console.log('this.collectionItems from ITEMS',this.collectionItems)
-        }
+          }
       }.bind(this))
       .catch(function(error) {
         console.log(error, error.response.data);
@@ -327,12 +326,12 @@ class CollectionStore {
             }
             shouldDelete = false;
             break;
-          }        
+          }
         }
-        if(shouldDelete) itemsToDelete.push(oldItems[i])  
+        if(shouldDelete) itemsToDelete.push(oldItems[i])
       }
 
-      let queue = itemsToPatch.map((item) => window.API.patch(`/api/question_collection_items/${item.id}/`, { order: item.order, type: item.type, object_id: item.object_id, content_object: null, parent:item.parent }))
+      let queue = itemsToPatch.map((item) => window.API.patch(`/api/question_collection_items/${item.id}/`, { order: item.order, type: item.type, object_id: item.object_id, content_object: item.content_object, parent:item.parent }))
       queue = queue.concat(itemsToDelete.map((item) => window.API.delete(`/api/question_collection_items/${item.id}/`)))
 
       window.API.all(queue).then(window.API.spread(function() {

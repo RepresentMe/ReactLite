@@ -114,3 +114,7 @@
             margin: 6px 0px !important;
         }
     }
+
+  a.menuItem div div div{
+    color: black;
+  }

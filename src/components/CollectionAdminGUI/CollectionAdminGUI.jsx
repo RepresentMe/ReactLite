@@ -48,9 +48,6 @@ class CollectionAdminGUI extends Component { // The view only for the collection
   }
 
   render() {
-    console.log('this.props.QuestionStore',this.props.QuestionStore)
-    console.log('this.state',this.state)
-
 
     if(this.state.showAddExistingQuestionDialog && this.state.existingQuestionDialogText.length > 1) {
       if(!isNaN(parseFloat(this.state.existingQuestionDialogText)) && isFinite(this.state.existingQuestionDialogText)) { // If numeric, check for question ID
@@ -60,14 +57,12 @@ class CollectionAdminGUI extends Component { // The view only for the collection
           this.props.QuestionStore.loadQuestion(parseInt(this.state.existingQuestionDialogText));
         }
       }else { // Not numeric, perform a text search
-        console.log('Entered else')
          this.props.QuestionStore.searchQuestions(this.state.existingQuestionDialogText).then(res => {
           this.existingQuestionDialogResults.replace(res.map(q => this.props.QuestionStore.questions.get(q)));
           });
       }
     }
     let existingQuestionDialogResults = this.existingQuestionDialogResults.peek();
-    console.log('existingQuestionDialogResults', existingQuestionDialogResults)
 
     return (
       <div>
@@ -116,7 +111,7 @@ class CollectionAdminGUI extends Component { // The view only for the collection
             title="Add a Break"
             actions={[
               <FlatButton
-                label="Cancel"
+                label="close"
                 secondary={true}
                 onTouchTap={() => this.setState({showAddBreakDialog: false})}
               />,
@@ -167,7 +162,7 @@ class CollectionAdminGUI extends Component { // The view only for the collection
             title="Add an Existing Question"
             actions={
               <FlatButton
-                label="Cancel"
+                label="close"
                 secondary={true}
                 onTouchTap={() => this.setState({showAddExistingQuestionDialog: false})}
               />
@@ -188,12 +183,12 @@ class CollectionAdminGUI extends Component { // The view only for the collection
             {existingQuestionDialogResults && existingQuestionDialogResults.map((question, index) => {
               return (
                 <ListItem onClick={() => {
-                    this.setState({showAddExistingQuestionDialog: false});
+                    //this.setState({showAddExistingQuestionDialog: false});
                     this.setState({existingQuestionDialogText: ""});
                     //this.props.addQuestion(this.props.QuestionStore.questions.get(question).id);
                     this.props.addItem({
-                      parent: this.props.collectionId, 
-                      object_id: question.id, 
+                      parent: this.props.collectionId,
+                      object_id: question.id,
                       type: "Q"
                     });
                   }}
@@ -233,17 +228,11 @@ const SortableQuestions = SortableContainer(({items, question_objects, onRemove}
   return (
     <List>
       {items.map((item, index) => {
-        if(item.type === "Q") { // Type is question
-          // items.map((value, index) => {
-          //   if(!value) {
-          //     return <SortableQuestionLoading key={`item-${index}`} index={index}/>;
-          //   }else {
+        if(item.type === "Q") { // Type is 'question'
           const item_display = question_objects.filter(q => q.id === item.object_id)
               return <SortableQuestion key={`item-${index}`} index={index} value={item_display[0]} orderNumber={(index + 1)} onRemove={() => onRemove(item.id)} />
-            // }
-          //})
-        } else if(item.type === "B") { // Type is break
-            return <SortableQuestion key={`item-${index}`} index={index} orderNumber={(index + 1)} onRemove={() => onRemove(item.id)} />
+          } else if(item.type === "B") { // Type is 'break'
+            return <SortableQuestion key={`item-${index}`} index={index} value={item} orderNumber={(index + 1)} onRemove={() => onRemove(item.id)} />
         }
       })}
     </List>
@@ -252,7 +241,7 @@ const SortableQuestions = SortableContainer(({items, question_objects, onRemove}
 
 const SortableQuestion = SortableElement(({value, orderNumber, onRemove}) => {
   return (
-    <ListItem primaryText={value ? value.question : '------------------'} rightIcon={<Clear onClick={onRemove}/>}/>
+    <ListItem primaryText={value.question ? value.question : value.content_object.title} rightIcon={<Clear onClick={onRemove}/>}/>
   )
 });
 

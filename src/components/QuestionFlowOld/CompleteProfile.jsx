@@ -54,7 +54,7 @@ export default @inject("UserStore") @observer class CompleteProfile extends Comp
     if(this.props.UserStore.userData.has("id") && !this.state.checkedProfile) {
       let profile = this.props.UserStore.userData.toJS();
       if(profile.dob === null || profile.gender === 0 || profile.address === "") {
-        console.log("Check", (profile.address.length > 0 ? true : false))
+        //console.log("Check", (profile.address.length > 0 ? true : false))
         this.setState({
           checkedProfile: true,
           shown: true,

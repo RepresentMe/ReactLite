@@ -10,7 +10,6 @@ var AuthCode = inject("UserStore")(observer((props) => {
     code,
     email,
   }).then((response) => {
-    console.log(response.data);
     if(response.data.access_token) {
       props.UserStore.setupAuthToken(response.data.access_token);
       props.history.push("/" + decodeURIComponent(props.match.params.redirect));

@@ -45,7 +45,7 @@ import './CollectionIntro.css';
     const url = `/survey/${collectionId}/flow/0/vote/`;
     this.dynamicConfig.addRedirect(url);
     const dynamicConfigStr = this.dynamicConfig.getEncodedConfig();
-    console.log('startVoting: ', dynamicConfigStr);
+    //console.log('startVoting: ', dynamicConfigStr);
 
     this.props.history.push(url+dynamicConfigStr)
   }
@@ -128,7 +128,7 @@ import './CollectionIntro.css';
                 {/*this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id === this.props.UserStore.userData.get("id") && <Link to={ "/survey/" + collectionId + "/edit" }><RaisedButton label="Edit" primary /></Link>*/}
               </div>
             </div>
-           
+
         </div>
         {collection ? <OgTags collection={collection} /> : null}
       </div>

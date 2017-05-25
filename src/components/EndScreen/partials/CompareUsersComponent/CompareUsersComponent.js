@@ -256,7 +256,7 @@ const UserCompareCarousel = observer(({compareData, users, following, collection
   return (<div  style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
 
     {compareData && users.map((user) => {
-      //console.log('userB, data', user, data)
+
       return (
         <div key={user.id} >
           <UserCardSmall user={user}
@@ -389,7 +389,7 @@ class UserCardSmall extends Component {
     )
 
     const barStyle = this.areCompareDetailsShowing.get() ? {display: 'block'} : {display: 'none'}
-    //console.log('this.state', this.state, barStyle)
+
     return (
       this.props &&
       <Card

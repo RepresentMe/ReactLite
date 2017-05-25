@@ -80,7 +80,6 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
 
   componentWillUpdate(nextProps){
     if (this.state.shown != nextProps.shown && nextProps.user){
-      console.log(nextProps)
       this.setState({ ddDOB: nextProps.user.dob, ddGender: nextProps.user.gender, txtPostcode: nextProps.user.address, shown: true})
     }
   }

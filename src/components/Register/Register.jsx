@@ -184,8 +184,7 @@ import MenuItem from 'material-ui/MenuItem';
       });
     }else {
       this.props.UserStore.register().then((response) => {
-        console.log(response);
-      }).catch((response) => {
+        }).catch((response) => {
         this.setState({
           registrationErrors: ["Server returned error on registration: " + response],
           showErrorDialog: true

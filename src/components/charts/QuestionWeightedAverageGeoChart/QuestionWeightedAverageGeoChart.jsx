@@ -108,7 +108,7 @@ export default @inject("DemographicsDataStore", "QuestionStore") @observer class
       }
     }
 
-    console.log(geoData);
+    //console.log(geoData);
 
     let keyValueGeos = []
     let totalSampleSize = 0

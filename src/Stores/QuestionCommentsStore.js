@@ -4,7 +4,7 @@ import Promise from 'promise';
 const instance = null;
 
 class QuestionCommentsStore {
-  
+
   questionToComments = observable({
     // 1399: {
     //   page: 1,
@@ -37,7 +37,6 @@ class QuestionCommentsStore {
     return new Promise((resolve, reject) => {
       window.API.post('/api/comments/', comment)
         .then((res) => {
-          console.log(res)
           this.questionToComments[comment.question].addComments([res.data])
           resolve()
         })
@@ -58,7 +57,7 @@ class QuestionCommentsStore {
       ===========================
       ${text}`
     }
-    console.log(data)
+    //console.log(data)
 
     //ToDo temporary code, just not to send many emails to Edd while develepmont process
     // remove to production
