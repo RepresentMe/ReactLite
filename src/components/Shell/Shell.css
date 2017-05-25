@@ -1,116 +1,124 @@
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: Roboto, sans-serif;
-    }
+.replogo {
+    vertical-align: middle;
+    margin: 5px 6px 0px 0px;
+    top: -4px;
+    position: relative;
+}
 
-    a {
-        color: rgb(0, 172, 193);
-        text-decoration: none;
-    }
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, sans-serif;
+}
 
-    a:hover {
-        color: rgba(0, 172, 193, 0.5);
-    }
+a {
+    color: rgb(0, 172, 193);
+    text-decoration: none;
+}
 
-    .FakeLink {
-        cursor: pointer;
-        display: inline-block;
-        color: rgb(0, 172, 193);
-    }
+a:hover {
+    color: rgba(0, 172, 193, 0.5);
+}
 
-    .FakeLink:hover {
-        opacity: 0.5;
-    }
-    /* GLOBAL TRANSITION */
+.FakeLink {
+    cursor: pointer;
+    display: inline-block;
+    color: rgb(0, 172, 193);
+}
 
-    .FlowTransition-enter {
-        animation: FlowTransitionEntering 1s ease-in-out;
-    }
+.FakeLink:hover {
+    opacity: 0.5;
+}
 
-    .FlowTransition-leave {
+
+/* GLOBAL TRANSITION */
+
+.FlowTransition-enter {
+    animation: FlowTransitionEntering 1s ease-in-out;
+}
+
+.FlowTransition-leave {
+    opacity: 0;
+    animation: FlowTransitionLeaving 1s ease-in-out;
+}
+
+@keyframes FlowTransitionEntering {
+    0% {
         opacity: 0;
-        animation: FlowTransitionLeaving 1s ease-in-out;
+        transform: translate(0, 50px) rotateX(50deg);
     }
-
-    @keyframes FlowTransitionEntering {
-        0% {
-            opacity: 0;
-            transform: translate(0, 50px) rotateX(50deg);
-        }
-        30% {
-            opacity: 0;
-            transform: translate(0, 50px) rotateX(50deg);
-        }
-        100% {
-            opacity: 1;
-            transform: rotateX(0deg);
-        }
+    30% {
+        opacity: 0;
+        transform: translate(0, 50px) rotateX(50deg);
     }
-
-    @keyframes FlowTransitionLeaving {
-        0% {
-            opacity: 1;
-            transform: scale(1);
-        }
-        70% {
-            opacity: 0;
-            transform: translate(0, -100px) rotateX(50deg);
-        }
-        100% {
-            opacity: 0;
-            transform: translate(0, -100px) rotateX(50deg);
-        }
+    100% {
+        opacity: 1;
+        transform: rotateX(0deg);
     }
+}
 
+@keyframes FlowTransitionLeaving {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    70% {
+        opacity: 0;
+        transform: translate(0, -100px) rotateX(50deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(0, -100px) rotateX(50deg);
+    }
+}
+
+.appBar {
+    background: #1B8AAE !important;
+}
+
+@media only screen and (max-width: 900px) {
+    .appBar {
+        background: #fff !important;
+    }
+}
+
+@media only screen and (min-width: 901px) {
     .appBar {
         background: #1B8AAE !important;
+        height: 40px !important;
     }
-
-    @media only screen and (max-width: 900px) {
-        .appBar {
-            background: #fff !important;
-        }
+    .answered {
+        top: 42px;
+        text-align: left;
+        padding-left: 15px;
     }
-
-    @media only screen and (min-width: 901px) {
-        .appBar {
-            background: #1B8AAE !important;
-            height: 40px !important;
-        }
-        .answered {
-            top: 42px;
-            text-align: left;
-            padding-left: 15px;
-        }
-        .answering-mode-wrapper {
-            position: fixed;
-            top: 5px;
-            margin-right: 10px;
-        }
-        .answering-mode-wrapper svg {
-          fill: rgba(255,255,255,0.7) !important;
-          height: 20px;
-          width: 20px;
-        }
-        .answering-mode-wrapper a {
-            font-size: 1em;
-            color: rgba(255,255,255,0.7) !important;
-            line-height: 30px !important;
-
-/*<<<<<<< HEAD
+    .answering-mode-wrapper {
+        position: fixed;
+        top: 5px;
+        margin-right: 10px;
+    }
+    .answering-mode-wrapper svg {
+        fill: rgba(255, 255, 255, 0.7) !important;
+        height: 20px;
+        width: 20px;
+    }
+    .answering-mode-wrapper a {
+        font-size: 1em;
+        color: rgba(255, 255, 255, 0.7) !important;
+        line-height: 30px !important;
+        /*<<<<<<< HEAD
 .appBar {
   background: #1B8AAE !important;
 }
 =======*/
-        }
-        .progressbar-container {
-            top: 40px;
-        }
-        .appAvatar {
-            height: 26px !important;
-            width: 26px !important;
-            margin: 6px 0px !important;
-        }
     }
+    .progressbar-container {
+        top: 40px;
+    }
+    .appAvatar {
+        height: 26px !important;
+        width: 26px !important;
+        margin: 6px 0px !important;
+    }
+}

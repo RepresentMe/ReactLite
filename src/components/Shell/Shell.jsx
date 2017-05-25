@@ -301,7 +301,10 @@ export default class Shell extends Component {
                     onRequestChange={(open) => this.setState({open})}
                   >
                     <List style={{paddingTop: 0}}>
-                    <ListItem primaryText="#RepresentMe" style={{background: '#1B8AAE', color: '#fff'}} />
+                    <h1 style={{background: '#1B8AAE', color: '#fff', fontSize: 24, fontWeight: 100, margin: 0, padding: '5px'}}> 
+                      <img src="/img/represent_white_outline.svg" alt="Represent.me" height="40" className="replogo" />
+                      Represent
+                    </h1> 
                     {this.breakpoints.sm && <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />}
                     <ListItem primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
                     <ListItem primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
