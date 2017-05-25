@@ -53,9 +53,12 @@ import './SurveyFlow.css'
     //create session analytics variables
     //currently turned off - function calls 3rd party api to get geo details
     //this.getUserIP();
+    var url = (window.location != window.parent.location)
+            ? document.referrer
+            : document.location.href;
     const analytics_browser = window.navigator.appCodeName; //Browser details
     const analytics_os = window.navigator.appVersion.slice(0,100); //OS
-    const analytics_parent_url = window.parent.location.href.slice(0,200); //parent url (for embed) or current url in other cases
+    const analytics_parent_url = url.slice(0,200); //parent url (for embed) or current url in other cases
     const session_vars = Object.assign({},
       {
         analytics_os,
