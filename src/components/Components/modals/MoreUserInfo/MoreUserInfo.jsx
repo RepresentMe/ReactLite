@@ -36,17 +36,17 @@ const autocompleteStyle = {
 
 
 const styles = {
-  dialogRoot: { 
+  dialogRoot: {
   },
-  dialogContent: { 
-    padding: 0, 
+  dialogContent: {
+    padding: 0,
   },
 
   dialogBody: {
     padding: 0,
   },
   radioButton: {
-    fontSize: 13, 
+    fontSize: 13,
   },
   floatingLabelText: {
     color: '#444'
@@ -84,7 +84,9 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
       this.setState({ ddDOB: nextProps.user.dob, ddGender: nextProps.user.gender, txtPostcode: nextProps.user.address, shown: true})
     }
   }
-
+  // componentWillUnmount(){
+  //   this.props.callNextModal(1,2)
+  // }
   getLocation = () => {
     this.setState({ checkedPostcode: false }, () => {
 
@@ -207,7 +209,9 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         bodyStyle={ styles.dialogBody }
         style={ styles.dialogRoot }
         actions={actions}
-        autoScrollBodyContent={false}>
+        autoScrollBodyContent={false}
+        overlayStyle={{backgroundColor: 'white'}}
+        >
 
         <div style={{width: '90%', display: 'block', margin: '20px auto'}}>
           <p style={{ margin: 0, fontSize: 16, color: '#333'}}>How do you compare?</p>
