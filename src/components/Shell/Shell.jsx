@@ -49,6 +49,8 @@ import CandidateNew from '../CandidateNew';
 import IntroCarousel from '../IntroCarousel';
 
 import smallLogo from './represent_white_outline.svg';
+import IconButton from 'material-ui/IconButton';
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 
 // import CompareUsers from '../CompareUsersComponent';
 import CompareUsers from '../EndScreen/partials/CompareUsersComponent';
@@ -58,7 +60,7 @@ import CompareUsersDetails from '../EndScreen/partials/CompareUsersDetailsCompon
 import AuthTokenComponent from '../AuthTokenComponent'
 
 
-import Drawer from 'material-ui/Drawer'; 
+import Drawer from 'material-ui/Drawer';
 
 
 
@@ -145,7 +147,7 @@ const styles = {
 
 
 
-@inject("UserStore",  "QuestionStore") 
+@inject("UserStore",  "QuestionStore")
 @observer
 export default class Shell extends Component {
 
@@ -164,7 +166,7 @@ export default class Shell extends Component {
       sm: '(max-width: 900px)',
       lg: '(min-width: 901px)',
     });
-  
+
   }
 
   onLogout() {
@@ -238,11 +240,13 @@ export default class Shell extends Component {
                       <AppBar
                       className="appBar"
                         iconElementLeft={
-                            <img  src={smallLogo}
-                                  style={leftIconStyle}
-                                  onTouchTap={this.handleToggle}
-                            />
-                        }
+                          <IconButton style={{height: 20, width: 20, border: 'none', position: 'relative', top: 0, left: 0, cursor: 'pointer'}}
+                            iconStyle={{fill: 'white', position: 'absolute', height: 20, width: 20, top: 0, left: 0}}>
+                            <MenuIcon />
+                          </IconButton>}
+                        onLeftIconButtonTouchTap={this.handleToggle}
+
+
                         iconElementRight={
                           <span>
                             { isAuthenticated ? (
@@ -274,7 +278,7 @@ export default class Shell extends Component {
                   <div>
 
 
-                  <Drawer 
+                  <Drawer
                   open={this.state.open || this.breakpoints.lg}
                   docked={this.breakpoints.lg}
                   >
@@ -296,7 +300,7 @@ export default class Shell extends Component {
                     <Divider />
                     <Subheader>Topics</Subheader>
                     <ListItem primaryText="Coming soon" disabled={true} />
-                    <Divider /> 
+                    <Divider />
                     <ListItem
                       primaryText="About Represent"
                       initiallyOpen={false}
@@ -308,7 +312,7 @@ export default class Shell extends Component {
                         <ListItem primaryText="API" href=" https://represent.me/api" />,
                         <ListItem primaryText="About us" href="https://represent.me" />,
                         <ListItem primaryText="Privacy policy" href="https://represent.me/legal/privacy-policy/" />,
-                        <ListItem primaryText="Terms" href="https://represent.me/legal/terms/" /> ,                         
+                        <ListItem primaryText="Terms" href="https://represent.me/legal/terms/" /> ,
                       ]}
                     />
                   </List>
@@ -316,9 +320,9 @@ export default class Shell extends Component {
 
                   </Drawer>
                 </div>
-                
 
-                
+
+
 
                   <IntroCarousel
                     modalOpened={this.state.modalOpened}
