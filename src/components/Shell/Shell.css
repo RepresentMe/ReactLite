@@ -1,74 +1,83 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: Roboto, sans-serif;
-}
-
-a {
-  color: rgb(0, 172, 193);
-  text-decoration: none;
-}
-
-a:hover {
-  color: rgba(0, 172, 193, 0.5);
-}
-
-.FakeLink {
-  cursor: pointer;
-  display: inline-block;
-  color: rgb(0, 172, 193);
-}
-
-.FakeLink:hover {
-  opacity: 0.5;
-}
-
-/* GLOBAL TRANSITION */
-
-.FlowTransition-enter {
-  animation: FlowTransitionEntering 1s ease-in-out;
-}
-
-.FlowTransition-leave {
-  opacity: 0;
-  animation: FlowTransitionLeaving 1s ease-in-out;
-}
-
-@keyframes FlowTransitionEntering {
-    0% {
-      opacity: 0;
-      transform: translate(0, 50px) rotateX(50deg);
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Roboto, sans-serif;
     }
-
-    30% {
-      opacity: 0;
-      transform: translate(0, 50px) rotateX(50deg);
+    
+    a {
+        color: rgb(0, 172, 193);
+        text-decoration: none;
     }
-
-    100% {
-      opacity: 1;
-      transform: rotateX(0deg);
+    
+    a:hover {
+        color: rgba(0, 172, 193, 0.5);
     }
-}
-
-@keyframes FlowTransitionLeaving {
-    0% {
-      opacity: 1;
-      transform: scale(1);
+    
+    .FakeLink {
+        cursor: pointer;
+        display: inline-block;
+        color: rgb(0, 172, 193);
     }
-
-    70% {
-      opacity: 0;
-      transform: translate(0, -100px) rotateX(50deg);
+    
+    .FakeLink:hover {
+        opacity: 0.5;
     }
-
-    100% {
-      opacity: 0;
-      transform: translate(0, -100px) rotateX(50deg);
+    /* GLOBAL TRANSITION */
+    
+    .FlowTransition-enter {
+        animation: FlowTransitionEntering 1s ease-in-out;
     }
-}
+    
+    .FlowTransition-leave {
+        opacity: 0;
+        animation: FlowTransitionLeaving 1s ease-in-out;
+    }
+    
+    @keyframes FlowTransitionEntering {
+        0% {
+            opacity: 0;
+            transform: translate(0, 50px) rotateX(50deg);
+        }
+        30% {
+            opacity: 0;
+            transform: translate(0, 50px) rotateX(50deg);
+        }
+        100% {
+            opacity: 1;
+            transform: rotateX(0deg);
+        }
+    }
+    
+    @keyframes FlowTransitionLeaving {
+        0% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        70% {
+            opacity: 0;
+            transform: translate(0, -100px) rotateX(50deg);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(0, -100px) rotateX(50deg);
+        }
+    }
+    
+    .appBar {
+        background: #1B8AAE !important;
+    }
+    
+    @media only screen and (max-width: 600px) {
+        .appBar {
+            background: #fff !important;
 
-
-.appBar {
-  background: #1B8AAE !important;
-}
+        }
+    }
+    
+    @media only screen and (min-width: 601px) {
+        .appBar {
+            background: #1B8AAE !important;
+            height: 40px !important;
+        }
+    }
