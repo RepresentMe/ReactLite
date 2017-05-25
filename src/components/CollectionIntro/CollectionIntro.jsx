@@ -26,12 +26,15 @@ import './CollectionIntro.css';
 
   componentWillMount() {
     let { CollectionStore, match } = this.props
-  CollectionStore.getCollectionById(parseInt(match.params.collectionId))
+    CollectionStore.getCollectionById(parseInt(match.params.collectionId))
       .then((collection) => {
         console.log('COLLECTION', collection);
         this.setState({collection: collection})
         console.log('COLLECTION', collection, this.state.collection);
       })
+    this.props.CollectionStore.getCollectionItemsById(parseInt(match.params.collectionId))
+      .then((resolve) => { })
+      .catch((error) => { this.setState({ networkError: true }) })
 
     this.dynamicConfig = DynamicConfigService;
     if(this.props.match.params.dynamicConfig) {
