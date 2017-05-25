@@ -233,6 +233,7 @@ export default class Shell extends Component {
 
     const avatar = (
       <Avatar style={avatarStyle}
+        className="appAvatar"
         icon={!this.props.UserStore.userData.has("id") ? <Face /> : null}
         src={this.props.UserStore.userData.has("photo") ? photo.replace("localhost:8000", "represent.me") : null}
         backgroundColor={cyan600}
@@ -294,7 +295,8 @@ export default class Shell extends Component {
                     width={256}
                     onRequestChange={(open) => this.setState({open})}
                   >
-                    <List style={{color: '#222'}}>
+                    <List style={{paddingTop: 0}}>
+                    <ListItem primaryText="#RepresentMe" style={{background: '#1B8AAE', color: '#fff'}} />
                     {this.breakpoints.sm && <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />}
                     <ListItem primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
                     <ListItem primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
