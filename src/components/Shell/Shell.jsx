@@ -281,7 +281,7 @@ export default class Shell extends Component {
                     onRequestChange={(open) => this.setState({open})}
                   >
                     <List style={{color: '#222'}}>
-                    <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />
+                    {this.breakpoints.sm && <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />}
                     <ListItem primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
                     <ListItem primaryText="Share" leftIcon={<Share />} />
                     <Divider />
