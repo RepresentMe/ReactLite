@@ -230,6 +230,7 @@ export default class Shell extends Component {
                 {split_pathname[1] !== 'joingroup' &&
                   <div>
                     <AppBar
+                      className="appBar"
                       iconElementLeft={
                           <img  src={smallLogo}
                                 style={leftIconStyle}

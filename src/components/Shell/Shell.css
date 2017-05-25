@@ -67,3 +67,8 @@ a:hover {
       transform: translate(0, -100px) rotateX(50deg);
     }
 }
+
+
+.appBar {
+  background: #1B8AAE !important;
+}
