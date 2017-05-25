@@ -226,8 +226,7 @@ class CollectionStore {
           this.collectionItems.set(collectionId, []);
         } else {
           this.collectionItems.set(collectionId, items);
-          console.log('this.collectionItems from ITEMS',this.collectionItems)
-        }
+          }
       }.bind(this))
       .catch(function(error) {
         console.log(error, error.response.data);

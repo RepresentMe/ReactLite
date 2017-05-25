@@ -81,7 +81,6 @@ const roundUp = (x) => {
     let groupId = parseInt(this.props.match.params.groupId);
     window.API.get("/api/groups/" + groupId + "/")
       .then((response) => {
-        console.log('GROUP', response.data)
         this.setState({group: response.data});
         if(response.data.my_membership) {
           this.setState({joinComplete: true})
@@ -91,7 +90,6 @@ const roundUp = (x) => {
 
   handleNext = () => {
     const {stepIndex} = this.state;
-    console.log('handleNext', stepIndex)
     if (stepIndex === 0){
       this.setState({
         stepIndex: stepIndex + 1,
@@ -157,7 +155,6 @@ const roundUp = (x) => {
     if (!this.state.emailChecked){
     window.API.get('/auth/check_email/?email=' + this.state.email)
       .then((response) => {
-        console.log('response', response)
         if(response.data.result) {
           this.setState({emailExists: true, emailChecked: true});
           return true;
@@ -272,7 +269,7 @@ const roundUp = (x) => {
     }
 
     let memberGoal = roundUp(this.state.group.member_count);
-    //console.log('this.state', this.state)
+    
     const randomPic = `./img/pic${Math.floor(Math.random()*7)}.png`;
     const groupLogo = this.state.group.image ? this.state.group.image.replace("localhost:8000", "represent.me") : randomPic;
 

@@ -159,7 +159,6 @@ const styles = {
   checkEmail = () => {
     window.API.get('/auth/check_email/?email=' + this.state.email)
       .then(function (response) {
-        console.log('response', response)
         if(response.data.result) {
           this.setState({emailExists: true});
         }
@@ -288,7 +287,6 @@ const styles = {
             gender: this.state.gender,
             dob: this.state.dob.substring(0, 10),
           }).then((response) => {
-            console.log('response', response)
             this.props.UserStore.setupAuthToken(response.data.auth_token)
               .then(() => {
                 this.props.history.push(this.dynamicConfig.getNextRedirect())
@@ -321,7 +319,6 @@ const styles = {
   }
   render(){
     const {joinComplete, stepIndex} = this.state;
-    console.log('this.state', this.state)
     return (
       <Paper zDepth={0} style={styles.containerStyle}>
         <p style={{fontWeight: 'bold', margin: '10px 0'}}>

@@ -47,7 +47,6 @@ class EndScreen extends Component {
   }
 
   checkUserDetailsAll(){
-    console.log('checkUserDetailsAll fired')
     this.props.UserStore.getCachedMe().then(data => {
       if(!this.isUserDataSet(data)) {
         this.setState({
@@ -63,7 +62,6 @@ class EndScreen extends Component {
   }
 
   checkToShowJoinGroupModal() {
-    console.log('checkToShowJoinGroupModal fired')
     const { GroupStore } = this.props;
     if(this.dynamicConfig.config.survey_end.showJoinGroup_id) {
       GroupStore.getGroup(this.dynamicConfig.config.survey_end.showJoinGroup_id).then((group) => {
@@ -81,7 +79,6 @@ class EndScreen extends Component {
   }
 
   checkToShowFollowUserModal() {
-    console.log('checkToShowFollowUserModal fired')
     const { UserStore } = this.props;
     if(this.dynamicConfig.config.survey_end.showFollowUser_id) {
       const userToFollowId = this.dynamicConfig.config.survey_end.showFollowUser_id;
@@ -108,7 +105,6 @@ class EndScreen extends Component {
   }
 
   render() {
-    console.log('this.state', this.state)
     const usersToCompare = observable.shallowArray(this.dynamicConfig.config.survey_end.compare_users)
     return (
       <div>
