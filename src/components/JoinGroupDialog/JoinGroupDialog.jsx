@@ -16,8 +16,8 @@ const styles = {
   },
   firstCheckboxStyle: {
     margin: '20px auto 0 auto',
-  }, 
-} 
+  },
+}
 
 @inject("GroupStore")
 class JoinGroupDialog extends Component {
@@ -69,7 +69,7 @@ class JoinGroupDialog extends Component {
   }
 
   render() {
-     const actions = [ 
+     const actions = [
       <FlatButton
         label="Continue"
         primary={true}
@@ -86,15 +86,16 @@ class JoinGroupDialog extends Component {
         autoScrollBodyContent={true}
         actions={actions}
         bodyStyle={{padding: '10px'}}
+        overlayStyle={{backgroundColor: 'white'}}
       >
 
         {!this.state.group && 'Loading...'}
         {this.state.group && <div>
-    
+
           <table className="icons-wrapper-icon">
             <tr>
             <td width="50%" styles={{textAlign: 'right'}}>
-              <img src={this.state.group.image} className="avatar" /> 
+              <img src={this.state.group.image} className="avatar" />
             </td>
             <td width="50%" styles={{textAlign: 'left'}}>
               <img src="/static/media/represent_white_outline.dbff67a6.svg"  className="avatar" />
