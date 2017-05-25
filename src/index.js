@@ -10,6 +10,7 @@ import DevTools, { setLogEnabled } from 'mobx-react-devtools';
 import createHistory from 'history/createBrowserHistory'
 import createMemoryHistory from 'history/createMemoryHistory'
 
+
 /* STORES */
 import UserStore from './Stores/UserStore.js';
 import CollectionStore from './Stores/CollectionStore.js';
@@ -23,6 +24,15 @@ import GroupStore from './Stores/GroupStore.js';
 import ReactGA from 'react-ga';
 
 injectTapEventPlugin();
+
+const breakpoints = observable({
+  xs: '(max-width: 767px)',
+  su: '(min-width: 768px)',
+  sm: '(min-width: 768px) and (max-width: 991px)',
+  md: '(min-width: 992px) and (max-width: 1199px)',
+  mu: '(min-width: 992px)',
+  lg: '(min-width: 1200px)',
+});
 
 ReactGA.initialize('UA-59994709-1', {
   debug: false,
