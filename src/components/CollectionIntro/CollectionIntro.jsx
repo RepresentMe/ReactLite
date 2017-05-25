@@ -140,7 +140,7 @@ import './CollectionIntro.css';
 
 const OgTags = ({collection}) => {
   const og = {
-    url: `https://openv2.represent.me/survey/${collection.id}`,
+    url: `${window.location.origin}/survey/${collection.id}`,
     title: `${collection.name} - Represent`,
     image: collection.photo || 'https://represent.me/assets/img/ogimage.jpg',
     desc: collection.desc || "We’re modernising democracy. Join the Heard. And Survey"

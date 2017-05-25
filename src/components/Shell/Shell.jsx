@@ -386,7 +386,7 @@ export default class Shell extends Component {
                 {/* Hidden fb share button to make share button in left nav possible */}
                 <FacebookShareButton
                   style={{display: 'none'}}
-                  url={`https://openv2.represent.me/`}
+                  url={window.location.origin}
                   title={`Represent: Democracy as it should be. Survey`}
                   picture={`https://represent.me/assets/img/ogimage.jpg`}
                   className='fb-network__share-button'>

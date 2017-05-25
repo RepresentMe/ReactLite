@@ -197,6 +197,7 @@ import './SurveyFlow.css'
 
 const OgTags = ({collection}) => {
   const og = {
+    url: `${window.location.origin}/survey/${collection.id}`,
     title: collection.name+' - Represent' || "Represent: Democracy as it should be. Survey",
     image: collection.photo || 'https://represent.me/assets/img/ogimage.jpg',
     desc: collection.desc || "We’re modernising democracy. Join the Heard. And Survey"

@@ -86,7 +86,7 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 
 const OgTags = ({}) => {
   const og = {
-    url: `https://openv2.represent.me/`,
+    url: window.location.origin,
     title: "Represent: Democracy as it should be. Survey",
     image: 'https://represent.me/assets/img/ogimage.jpg',
     desc: "We’re modernising democracy. Join the Heard."

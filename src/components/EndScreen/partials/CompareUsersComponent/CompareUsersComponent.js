@@ -375,7 +375,7 @@ class UserCardSmall extends Component {
     //${window.location.origin}
     const fb = (
       <FacebookShareButton
-        url={`https://openv2.represent.me/survey/${collectionId}`}
+        url={`${window.location.origin}/survey/${collectionId}`}
         title={`I'm ${match}% match with ${name}. How do you compare?`}
         picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
         className='fb-network__share-button'
