@@ -16,5 +16,6 @@ php_flag  log_errors on
     </IfModule>
 
     RewriteRule ^static/                   -                          [L]
+    RewriteRule ^img/                   -                          [L]
     RewriteRule ^                      index.html                     [B,L]
 </IfModule>
