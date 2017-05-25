@@ -42,8 +42,8 @@ import LinearProgress from 'material-ui/LinearProgress';
     const { CollectionStore } = this.props;
     CollectionStore.getCollectionById(this.collectionId).then((collection) => {
       this.props.UserStore.getCachedMe().then((user) => {
-        console.log('collection: ', collection, collection.user.id, user);
-        if(collection.user.id != this.props.UserStore.getCachedMe().id) { // if not an owner
+        //console.log('collection: ', collection, collection.user.id, user);
+        if(collection.user.id != user.id) { // if not an owner
           return this.props.history.push("/survey/" + this.collectionId);
         }
         this.fillDetailsFromStore();

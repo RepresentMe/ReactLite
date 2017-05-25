@@ -107,12 +107,7 @@ a:hover {
         font-size: 1em;
         color: rgba(255, 255, 255, 0.7) !important;
         line-height: 30px !important;
-        /*<<<<<<< HEAD
-.appBar {
-  background: #1B8AAE !important;
-}
-=======*/
-    }
+      }
     .progressbar-container {
         top: 40px;
     }
@@ -121,4 +116,8 @@ a:hover {
         width: 26px !important;
         margin: 6px 0px !important;
     }
-}
+} 
+
+  a.menuItem div div div{
+    color: black;
+  } 

@@ -105,7 +105,6 @@ const styles = {
   componentDidMount(){
     window.API.get('/user_count/')
       .then((response) => {
-        console.log('response', response)
         if(response.data.result) {
           this.setState({user_count: response.data.result});
         }
@@ -170,7 +169,6 @@ const styles = {
     if (!this.state.emailChecked){
     window.API.get('/auth/check_email/?email=' + this.state.email)
       .then((response) => {
-        console.log('response', response)
         if(response.data.result) {
           this.setState({emailExists: true, emailChecked: true});
           return true;
@@ -239,7 +237,6 @@ const styles = {
           password: this.state.password,
           agreed_terms: this.state.agreedTerms
         }).then((response) => {
-          console.log('response from /auth/register/', response)
           this.props.UserStore.setupAuthToken(response.data.auth_token)
             .then(() => {
               return true;

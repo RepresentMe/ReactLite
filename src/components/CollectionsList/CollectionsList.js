@@ -9,7 +9,7 @@ import {Helmet} from "react-helmet";
 
 import './CollectionsList.css';
 
- 
+
 
 const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) => {
 
@@ -26,7 +26,7 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
       {collections.map((collection_obj) => {
         const id = collection_obj[0];
         const collection = collection_obj[1];
-        //console.log(collection);
+        
         const first_name = collection.user.first_name ? collection.user.first_name : '';
         const last_name = collection.user.last_name ? collection.user.last_name : '';
         const user_name = `${first_name} ${last_name}`;

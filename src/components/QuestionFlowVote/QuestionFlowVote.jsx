@@ -95,7 +95,7 @@ class QuestionFlowVote extends Component {
     const { items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion, currentQuestion } = this.props
     const item = items[index];
     const { hiddenIcon, icon } = styles
-    const showAnswered = !!currentQuestion.my_vote.length
+    const showAnswered = item.type === "Q" && !!currentQuestion.my_vote.length
 
 
 
@@ -196,7 +196,7 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
 const RenderedBreak = ({title, text, onContinue}) => (
   <MiddleDiv style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>
     <h1 className="questionBreak">{ title }</h1>
-    <ReactMarkdown source={ text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
+    {text && <ReactMarkdown source={ text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>}
     <RaisedButton label="Continue" onClick={onContinue} primary />
   </MiddleDiv>
 )

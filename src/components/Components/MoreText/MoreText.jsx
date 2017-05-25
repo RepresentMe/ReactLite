@@ -40,7 +40,8 @@ class MoreText extends Component {
     const buttonStyle={
       cursor: 'pointer'
     }
-    console.log('truncatedComment', truncatedComment, this.props)
+    if(!text) return null;
+    //console.log('truncatedComment', truncatedComment, this.props)
     return (
       <div className="moreText">
         {this.props.markdownEnabled ?

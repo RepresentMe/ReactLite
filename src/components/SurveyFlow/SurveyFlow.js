@@ -43,7 +43,7 @@ import './SurveyFlow.css'
       .then((collectionItems) => {this.setState({collectionItems})})
       .catch((error) => {this.setState({networkError: true})})
 
-    console.log('pATCH', this.props.match.params.dynamicConfig);
+    //console.log('pATCH', this.props.match.params.dynamicConfig);
     // if(this.props.match.params.dynamicConfig) {
     //   this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
     // }
@@ -53,9 +53,12 @@ import './SurveyFlow.css'
     //create session analytics variables
     //currently turned off - function calls 3rd party api to get geo details
     //this.getUserIP();
+    var url = (window.location != window.parent.location)
+            ? document.referrer
+            : document.location.href;
     const analytics_browser = window.navigator.appCodeName; //Browser details
     const analytics_os = window.navigator.appVersion.slice(0,100); //OS
-    const analytics_parent_url = window.parent.location.href.slice(0,200); //parent url (for embed) or current url in other cases
+    const analytics_parent_url = url.slice(0,200); //parent url (for embed) or current url in other cases
     const session_vars = Object.assign({},
       {
         analytics_os,
@@ -164,7 +167,7 @@ import './SurveyFlow.css'
     return (
       <span>
          <Progress completed={completed} color="#1b8aae"/>
-         
+
 {/*
          {
            //if user is logged show button to navigate to EndScreen
@@ -174,7 +177,7 @@ import './SurveyFlow.css'
               tooltip="skip to end"
               touch={true}
               tooltipPosition="bottom-left"
-              onTouchTap={() => this.navigateEnd2()} 
+              onTouchTap={() => this.navigateEnd2()}
               style={{position: 'absolute', right: 12, top: -9}}>
               <SkipToEnd color='#999' hoverColor='#1B8AAE' />
             </IconButton>

@@ -15,8 +15,8 @@ import './CollectionIntro.css';
 
 @inject("UserStore", "CollectionStore") @observer class CollectionIntro extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       collection: null,
       collectionImageLoaded: false,
@@ -28,11 +28,13 @@ import './CollectionIntro.css';
     let { CollectionStore, match } = this.props
     CollectionStore.getCollectionById(parseInt(match.params.collectionId))
       .then((collection) => {
-        this.setState({collection})
+        console.log('COLLECTION', collection);
+        this.setState({collection: collection})
+        console.log('COLLECTION', collection, this.state.collection);
       })
-      .catch((error) => {
-        this.setState({networkError: true})
-      })
+    this.props.CollectionStore.getCollectionItemsById(parseInt(match.params.collectionId))
+      .then((resolve) => { })
+      .catch((error) => { this.setState({ networkError: true }) })
 
     this.dynamicConfig = DynamicConfigService;
     if(this.props.match.params.dynamicConfig) {
@@ -45,7 +47,7 @@ import './CollectionIntro.css';
     const url = `/survey/${collectionId}/flow/0/vote/`;
     this.dynamicConfig.addRedirect(url);
     const dynamicConfigStr = this.dynamicConfig.getEncodedConfig();
-    console.log('startVoting: ', dynamicConfigStr);
+    //console.log('startVoting: ', dynamicConfigStr);
 
     this.props.history.push(url+dynamicConfigStr)
   }
@@ -108,11 +110,11 @@ import './CollectionIntro.css';
 
                 <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{ collection.name }</h1>
               {/* <ReactMarkdown source={ collection.desc } className="markDownText" renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}} /> */}
-              <MoreText className="moreText"
-                  text={collection.desc}
+              {collection.desc && <MoreText className="moreText"
+                  text={collection.desc || ""}
                   markdownEnabled={true}
                   chars={150}
-                  />
+                  />}
                 {collection ?
                   collection.question_count  ?
                     <RaisedButton label="Start" primary onClick={this.startVoting} style={{marginTop: 15}}/>
@@ -128,7 +130,7 @@ import './CollectionIntro.css';
                 {/*this.props.UserStore.userData.has("id") && this.props.CollectionStore.collections.get(collectionId).user.id === this.props.UserStore.userData.get("id") && <Link to={ "/survey/" + collectionId + "/edit" }><RaisedButton label="Edit" primary /></Link>*/}
               </div>
             </div>
-           
+
         </div>
         {collection ? <OgTags collection={collection} /> : null}
       </div>
