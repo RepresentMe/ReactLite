@@ -17,7 +17,7 @@ import { white, cyan600, black, grey700 } from 'material-ui/styles/colors';
 import IconMenu from 'material-ui/IconMenu';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 
@@ -58,7 +58,7 @@ import CompareUsersDetails from '../EndScreen/partials/CompareUsersDetailsCompon
 import AuthTokenComponent from '../AuthTokenComponent'
 
 
-import Drawer from 'material-ui/Drawer'; 
+import Drawer from 'material-ui/Drawer';
 
 
 
@@ -145,7 +145,7 @@ const styles = {
 
 
 
-@inject("UserStore",  "QuestionStore") 
+@inject("UserStore", "QuestionStore")
 @observer
 export default class Shell extends Component {
 
@@ -164,7 +164,7 @@ export default class Shell extends Component {
       sm: '(max-width: 900px)',
       lg: '(min-width: 901px)',
     });
-  
+
   }
 
   onLogout() {
@@ -178,17 +178,17 @@ export default class Shell extends Component {
   toggleIntro = () => {
     //e.preventDefault()
     const modalOpened = !this.state.modalOpened;
-    this.setState({modalOpened})
+    this.setState({ modalOpened })
   }
 
 
 
-  handleToggle = () => this.setState({open: !this.state.open});
+  handleToggle = () => this.setState({ open: !this.state.open });
 
 
   render() {
     const raw_config = this.dynamicConfig.getDynamicConfig(this.props.history.location.pathname);
-    if(raw_config) {
+    if (raw_config) {
       this.dynamicConfig.setConfigFromRaw(raw_config)
     }
 
@@ -199,7 +199,7 @@ export default class Shell extends Component {
       position: "relative"
     }
 
-    if(split_pathname[1] === 'joingroup' || split_pathname[1] === 'undividedrender') {
+    if (split_pathname[1] === 'joingroup' || split_pathname[1] === 'undividedrender') {
       mainContentStyle.height = "100%";
     }
 
@@ -226,144 +226,144 @@ export default class Shell extends Component {
       />
     )
 
-    return(
+    return (
       <Router history={this.props.history}>
-          <MuiThemeProvider muiTheme={muiTheme}>
-            <MatchMediaProvider breakpoints={this.breakpoints}>
-              <div style={pageWraperStyle}>
-                <div style={mainContentStyle}>
+        <MuiThemeProvider muiTheme={muiTheme}>
+          <MatchMediaProvider breakpoints={this.breakpoints}>
+            <div style={pageWraperStyle}>
+              <div style={mainContentStyle}>
 
-                  {split_pathname[1] !== 'joingroup' &&
-                    <div>
-                      <AppBar
-                        iconElementLeft={
-                            <img  src={smallLogo}
-                                  style={leftIconStyle}
-                                  onTouchTap={this.handleToggle}
-                            />
-                        }
-                        iconElementRight={
-                          <span>
-                            { isAuthenticated ? (
-                                <IconMenu
-                                  iconButtonElement={
-                                    avatar
-                                  }
-                                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                                  targetOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                                >
-                                  <MenuItem primaryText="Edit profile" href="https://app.represent.me/me/edit/main/"/>
-                                  <MenuItem primaryText="View my profile" href={`https://app.represent.me/profile/${userId}/${username}/`}/>
-                                  <Divider />
-                                  <MenuItem primaryText="Logout" onClick={this.onLogout}/>
-                                </IconMenu> ) : (
-                                  avatar
-                                )
-                          }
-                          </span>
-                        }
-                        style={style}
-                        iconStyleLeft={iconStyleLeft}
-                        iconStyleRight={iconStyleRight}
-                        titleStyle={titleStyle}
-                        />
-                    </div>
-                  }
-
+                {split_pathname[1] !== 'joingroup' &&
                   <div>
-                  <Drawer 
-                  open={this.state.open || this.breakpoints.lg}
-                  docked={this.breakpoints.lg}
-                  >
-                    <List style={{color: '#222'}}>
-                    <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />
-                    <ListItem primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
-                    <ListItem primaryText="Share" leftIcon={<Share />} />
-                    <Divider />
-                    <ListItem primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
-                    <Divider />
-                    <Subheader>Compare to the parties</Subheader>
-                    <ListItem primaryText="All in one"  href="/survey/47" />
-                    <ListItem primaryText="Conservatives"   href="/survey/119" />
-                    <ListItem primaryText="Green Party (E&W)" href="/survey/121" />
-                    <ListItem primaryText="Labour"  href="/survey/50" />
-                    <ListItem primaryText="Liberal democrats"   href="/survey/116" />
-                    <ListItem primaryText="Plaid Cymru"  href="/survey/112" />
-                    <ListItem primaryText="Women's Equality Party"   href="/survey/118" />
-                    <Divider />
-                    <Subheader>Topics</Subheader>
-                    <ListItem primaryText="Coming soon" disabled={true} />
-                    <Divider /> 
-                    <ListItem
-                      primaryText="About Represent"
-                      initiallyOpen={false}
-                      primaryTogglesNestedList={true}
-                      nestedItems={[
-                        <ListItem primaryText="Get involved" href="https://represent.me/volunteer" />,
-                        <ListItem primaryText="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2MD34EJQFC7ME" />,
-                        <ListItem primaryText="Statistics" href="Statistics" />,
-                        <ListItem primaryText="API" href=" https://represent.me/api" />,
-                        <ListItem primaryText="About us" href="https://represent.me" />,
-                        <ListItem primaryText="Privacy policy" href="https://represent.me/legal/privacy-policy/" />,
-                        <ListItem primaryText="Terms" href="https://represent.me/legal/terms/" /> ,                         
-                      ]}
+                    <AppBar
+                      iconElementLeft={
+                        <img src={smallLogo}
+                          style={leftIconStyle}
+                          onTouchTap={this.handleToggle}
+                        />
+                      }
+                      iconElementRight={
+                        <span>
+                          {isAuthenticated ? (
+                            <IconMenu
+                              iconButtonElement={
+                                avatar
+                              }
+                              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                              targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                            >
+                              <MenuItem primaryText="Edit profile" href="https://app.represent.me/me/edit/main/" />
+                              <MenuItem primaryText="View my profile" href={`https://app.represent.me/profile/${userId}/${username}/`} />
+                              <Divider />
+                              <MenuItem primaryText="Logout" onClick={this.onLogout} />
+                            </IconMenu>) : (
+                              avatar
+                            )
+                          }
+                        </span>
+                      }
+                      style={style}
+                      iconStyleLeft={iconStyleLeft}
+                      iconStyleRight={iconStyleRight}
+                      titleStyle={titleStyle}
                     />
-                  </List>
+                  </div>
+                }
+
+                <div>
+                  <Drawer
+                    open={this.breakpoints.sm && this.state.open || this.breakpoints.lg}
+                    docked={this.breakpoints.lg}
+                    width={256}
+                  >
+                    <List style={{ color: '#222' }}>
+                      <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />
+                      <ListItem primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
+                      <ListItem primaryText="Share" leftIcon={<Share />} />
+                      <Divider />
+                      <ListItem primaryText="What's important to you" leftIcon={<Important />} href="/survey/47" />
+                      <Divider />
+                      <Subheader>Compare to the parties</Subheader>
+                      <ListItem primaryText="All in one" href="/survey/47" />
+                      <ListItem primaryText="Conservatives" href="/survey/119" />
+                      <ListItem primaryText="Green Party (E&W)" href="/survey/121" />
+                      <ListItem primaryText="Labour" href="/survey/50" />
+                      <ListItem primaryText="Liberal democrats" href="/survey/116" />
+                      <ListItem primaryText="Plaid Cymru" href="/survey/112" />
+                      <ListItem primaryText="Women's Equality Party" href="/survey/118" />
+                      <Divider />
+                      <Subheader>Topics</Subheader>
+                      <ListItem primaryText="Coming soon" disabled={true} />
+                      <Divider />
+                      <ListItem
+                        primaryText="About Represent"
+                        initiallyOpen={false}
+                        primaryTogglesNestedList={true}
+                        nestedItems={[
+                          <ListItem primaryText="Get involved" href="https://represent.me/volunteer" />,
+                          <ListItem primaryText="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2MD34EJQFC7ME" />,
+                          <ListItem primaryText="Statistics" href="Statistics" />,
+                          <ListItem primaryText="API" href=" https://represent.me/api" />,
+                          <ListItem primaryText="About us" href="https://represent.me" />,
+                          <ListItem primaryText="Privacy policy" href="https://represent.me/legal/privacy-policy/" />,
+                          <ListItem primaryText="Terms" href="https://represent.me/legal/terms/" />,
+                        ]}
+                      />
+                    </List>
 
 
                   </Drawer>
                 </div>
-                
 
-                
 
-                  <IntroCarousel
-                    modalOpened={this.state.modalOpened}
-                    toggleIntro={this.toggleIntro}/>
 
-                  <Scrollbars autoHide>
-                    <ReactCSSTransitionGroup
-                      transitionName="QuestionFlowTransition"
-                      transitionEnterTimeout={1000}
-                      transitionLeaveTimeout={1000}>
-                      {/*}<Links/>*/}
-                      <Switch>
-                        <Route exact path="/candidate" component={CandidateIntro}/>
-                        <Route exact path="/candidate/new/:email" component={CandidateNew}/>
-                        <Route exact path="/login/:dynamicConfig?" component={RegisterNewUser}/>
-                        <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode}/>
-                        <Route exact path="/login/:dynamicConfig/:email" component={RegisterNewUser}/>
-                        <Route exact path="/loginuser/:dynamicConfig" component={Login}/>
-                        <Route exact path="/loginuser/:dynamicConfig/:email" component={Login}/>
-                        <Route exact path="/register" component={RegisterPage}/>
-                        <Route exact path="/register/:redirect" component={RegisterPage}/>
-                        <Route exact path="/join/:dynamicConfig?" component={Join}/>
-                        <Route exact path="/joingroup/:groupId" component={JoinGroup}/>
-                        <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup}/>
-                        <Route exact path="/survey/create" component={CreateCollection}/>
-                        <Route exact path="/survey/:collectionId/:dynamicConfig?" component={CollectionIntro}/>
-                        <Route exact path="/edit/:collectionId" component={EditCollection}/>
-                        <Route exact path="/survey/:surveyId/flow/:itemNumber/:activeTab/:dynamicConfig?" component={SurveyFlow}/>
-                        <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd}/>
-                        <Route exact path="/survey/:collectionId/end2/:dynamicConfig?" component={EndScreen}/>
-                        <Route exact path="/test" component={Test}/>
-                        <Route exact path="/undividedrender/:questionId" component={UndividedRender}/>
-                        <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay}/>
-                        <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
-                        <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
-                        {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
-                        <Route exact path='/compare' component={CompareUsers}/>
-                        <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
-                        <Route exact path="/builder" component={DynamicConfigEditor}/>
-                        <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
-                      </Switch>
-                    </ReactCSSTransitionGroup>
-                  </Scrollbars>
-                </div>
-                {/*<DevTools />*/}
-                </div>
-            </MatchMediaProvider>
-          </MuiThemeProvider>
+
+                <IntroCarousel
+                  modalOpened={this.state.modalOpened}
+                  toggleIntro={this.toggleIntro} />
+                <Scrollbars autoHide style={{float:'right', width: this.breakpoints.lg ? 'calc(100% - 256px)' : '100%'}}>
+                  <ReactCSSTransitionGroup
+                    transitionName="QuestionFlowTransition"
+                    transitionEnterTimeout={1000}
+                    transitionLeaveTimeout={1000}>
+                    {/*}<Links/>*/}
+                    <Switch>
+                      <Route exact path="/candidate" component={CandidateIntro} />
+                      <Route exact path="/candidate/new/:email" component={CandidateNew} />
+                      <Route exact path="/login/:dynamicConfig?" component={RegisterNewUser} />
+                      <Route exact path="/authcode/:code/:email/:redirect" component={AuthCode} />
+                      <Route exact path="/login/:dynamicConfig/:email" component={RegisterNewUser} />
+                      <Route exact path="/loginuser/:dynamicConfig" component={Login} />
+                      <Route exact path="/loginuser/:dynamicConfig/:email" component={Login} />
+                      <Route exact path="/register" component={RegisterPage} />
+                      <Route exact path="/register/:redirect" component={RegisterPage} />
+                      <Route exact path="/join/:dynamicConfig?" component={Join} />
+                      <Route exact path="/joingroup/:groupId" component={JoinGroup} />
+                      <Route exact path="/joingroup/:groupId/:redirect" component={JoinGroup} />
+                      <Route exact path="/survey/create" component={CreateCollection} />
+                      <Route exact path="/survey/:collectionId/:dynamicConfig?" component={CollectionIntro} />
+                      <Route exact path="/edit/:collectionId" component={EditCollection} />
+                      <Route exact path="/survey/:surveyId/flow/:itemNumber/:activeTab/:dynamicConfig?" component={SurveyFlow} />
+                      <Route exact path="/survey/:collectionId/end/:dynamicConfig?" component={CollectionEnd} />
+                      <Route exact path="/survey/:collectionId/end2/:dynamicConfig?" component={EndScreen} />
+                      <Route exact path="/test" component={Test} />
+                      <Route exact path="/undividedrender/:questionId" component={UndividedRender} />
+                      <Route exact path='/charts/pie/question/:questionId' component={QuestionLiquidDisplay} />
+                      <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts} />
+                      <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent} />
+                      {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
+                      <Route exact path='/compare' component={CompareUsers} />
+                      <Route exact path='/compare/:userId' component={CompareUsersDetails} />
+                      <Route exact path="/builder" component={DynamicConfigEditor} />
+                      <Route exact path="/:dynamicConfig?" component={CollectionsList} />
+                    </Switch>
+                  </ReactCSSTransitionGroup>
+                </Scrollbars>
+              </div>
+              {/*<DevTools />*/}
+            </div>
+          </MatchMediaProvider>
+        </MuiThemeProvider>
       </Router>
 
     )
