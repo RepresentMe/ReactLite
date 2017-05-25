@@ -68,7 +68,7 @@ const Page1 = (props) => {
                 I agree to the <a href="https://represent.me/legal/terms/">terms</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/>
               </span>
             }
-            labelPosition='right' 
+            labelPosition='right'
 
             value={props.agreedTermsValue}
             checked={props.agreedTermsValue}

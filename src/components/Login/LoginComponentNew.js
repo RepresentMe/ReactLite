@@ -90,13 +90,16 @@ const styles = {
     }
   }
   attemptLogin = () => {
-    this.props.UserStore.authLogin(this.state.email, this.state.password).catch((error) => {
+    this.props.UserStore.authLogin(this.state.email, this.state.password)
+    .then(res =>
+      this.props.history.push(this.dynamicConfig.getNextRedirect()))
+      .catch((error) => {
       if(error.response.data.non_field_errors) {
         this.setState({problems: ["Username / password combination not found! Please check your details and try again"]});
-      }else {
+        }else {
         this.setState({problems: JSON.stringify(error.response.data).replace(/:/g,": ").replace(/[&\/\\#+()$~%.'"*?<>{}\[\]]/g, "").split(",")});
       }
-      this.props.history.push(this.dynamicConfig.getNextRedirect())
+
     })
   }
   render() {
@@ -111,7 +114,7 @@ const styles = {
           Welcome back!
         </h2>
         </div>
-
+        {/* <div>{this.state.problems.length > 0 && this.state.problems.map(p => <li>{p}</li>)}</div> */}
         <TextField
           floatingLabelText="Email address"
           floatingLabelFocusStyle={styles.floatingLabelText}

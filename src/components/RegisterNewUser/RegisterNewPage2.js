@@ -45,7 +45,7 @@ const Page2 = (props) => {
           It's important to know that
           everyone voting is a real person. You can vote anonymously,
           but you must be real and unique.
-        </p> 
+        </p>
 
         <TextField //hintText="Cell phone number  email"
           floatingLabelText="Email address"
@@ -56,7 +56,7 @@ const Page2 = (props) => {
           errorText={props.emailProblem}
           errorStyle={styles.errorStyle}
           /><br />
-        <TextField 
+        <TextField
           hintText="Must be at least 6 characters long!"
           floatingLabelText="Password"
           floatingLabelFocusStyle={styles.floatingLabelText}
