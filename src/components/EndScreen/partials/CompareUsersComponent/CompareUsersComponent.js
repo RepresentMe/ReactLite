@@ -12,7 +12,7 @@ import LoadingIndicator from '../../../LoadingIndicator';
 import MessengerPlugin from 'react-messenger-plugin';
 
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-import { TwitterButton } from "react-social"; 
+import { TwitterButton } from "react-social";
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 
@@ -201,19 +201,20 @@ class CompareCollectionUsers extends Component {
         collectionId={this.props.collectionId}
       />}
 
-      <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
+
       {this.viewData.isComparingCandidatesShowing.get() && <UserCompareCarousel
         compareData={this.viewData.compareCandidatesData}
         users={this.viewData.candidates}
         following={this.viewData.followingCandidates}
         collectionId={this.props.collectionId}
       />}
-      
+      <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId}/>
+
       <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB}/>
 
       <div>
        <div id="shareMe">
-       Want to share? Click to copy: 
+       Want to share? Click to copy:
         <TextField
           id="copyToClipboardEnd"
           value={`${window.location.origin}/survey/${this.props.collectionId}`}
@@ -222,7 +223,7 @@ class CompareCollectionUsers extends Component {
           inputStyle={{textAlign: 'center'}}
         />
         <span onClick={e => this.copyToClipboard('copyToClipboardEnd')}> URL</span>
-   
+
         &nbsp; &middot; &nbsp;
         <TextField
           id="copyToClipboardEmbed"
@@ -236,7 +237,7 @@ class CompareCollectionUsers extends Component {
         </div>
       </div>
 
-      
+
     </div>)
   }
 }
@@ -287,9 +288,9 @@ render(){
     <strong>Vote on important issues, tell your MP, and track how well they represent you -- all directly from Facebook Messenger!</strong>
     <br />
     <span style={{ color: '#1B8AAE', maxWidth: 600, margin: '0 auto 5px auto', fontSize: 14, lineHeight: 1}}>
-    Click the button below to get started. 
+    Click the button below to get started.
     </span>
-    </p> 
+    </p>
       <MessengerPlugin
         appId={String(window.authSettings.facebookId)}
         pageId={String(window.authSettings.facebookPageId)}
@@ -380,7 +381,7 @@ class UserCardSmall extends Component {
         className='fb-network__share-button'
         description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
         >
-        
+
         <FacebookIcon
           size={32}
           round />
@@ -411,7 +412,7 @@ class UserCardSmall extends Component {
               <MatchBarchart compareData={this.props.compareData} />
               </div>
             ) : <p></p>}
-            
+
               <FlatButton
                 label={this.areCompareDetailsShowing.get() ? "Hide detail" : 'Show Detail'}
                 primary={true}
@@ -434,17 +435,17 @@ class UserCardSmall extends Component {
                 onTouchTap={this.setFollowing}
                 /> }
               <RaisedButton
-                onClick={this.clickFB} 
+                onClick={this.clickFB}
                 label=""
-                style={{marginLeft: 12}} 
-                backgroundColor="#3b5998" 
+                style={{marginLeft: 12}}
+                backgroundColor="#3b5998"
                 icon={fb}
               />
             </div>
         </CardText>
 
         <CardText style={{backgroundColor: '#e6f7ff', padding: '4px 4px'}}>
-       
+
             {this.areCompareDetailsShowing.get() ? <div style={barStyle}>
               {/*<CompareUsersDetailsComponent userIds={[this.props.user.id]} />*/}
               <CompareUsersDetails userId={this.props.user.id} userData={this.props.user} />
