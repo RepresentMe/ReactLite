@@ -39,7 +39,7 @@ class EndScreen extends Component {
     }
   }
 
-  componentWillMount(){ // WEIRD CODE WRITTED IN LAST NIGHT BEFORE DEPLOY
+  componentWillMount(){ // WEIRD CODE WRITTEN IN LAST NIGHT BEFORE DEPLOY
     this.props.UserStore.getCachedMe().then(data => {
       if(!this.isUserDataSet(data)) {
         this.setState({

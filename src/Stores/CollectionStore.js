@@ -29,7 +29,7 @@ class CollectionStore {
       return true;
     }
 
-    window.API.get('/api/question_collections/', {params: {id: collectionId}})
+    return window.API.get('/api/question_collections/', {params: {id: collectionId}})
       .then(function (response) {
         this.collections.set(response.data.results[0].id, response.data.results[0]);
       }.bind(this));
@@ -120,7 +120,7 @@ class CollectionStore {
 
 
           let items = this.collectionItems.get(parent);
-          items.push(item);
+          items.unshift(item);
           this.collectionItems.set(parent, items);
 
           resolve(items)
@@ -311,6 +311,34 @@ class CollectionStore {
       .catch(function(error) {
         console.log(error, error.response.data);
       });
+  }
+
+  updateCollectionItems(collectionId, newItems) {
+    this.getCollectionItemsById(collectionId).then((oldItems) => {
+      let itemsToDelete = [];
+      let itemsToPatch = [];
+      for (var i = 0; i < oldItems.length; i++) {
+        let shouldDelete = true;
+        for (var j = 0; j < newItems.length; j++) {
+          if(oldItems[i].id == newItems[j].id) {
+            if(oldItems[i].order != j) {
+              newItems[j].order = j;
+              itemsToPatch.push(newItems[j])
+            }
+            shouldDelete = false;
+            break;
+          }        
+        }
+        if(shouldDelete) itemsToDelete.push(oldItems[i])  
+      }
+
+      let queue = itemsToPatch.map((item) => window.API.patch(`/api/question_collection_items/${item.id}/`, { order: item.order, type: item.type, object_id: item.object_id, content_object: null, parent:item.parent }))
+      queue = queue.concat(itemsToDelete.map((item) => window.API.delete(`/api/question_collection_items/${item.id}/`)))
+
+      window.API.all(queue).then(window.API.spread(function() {
+      }.bind(this)));
+    })
+    // return window.API.patch(`/api/question_collection_items/${collectionItem.id}/`, collectionItem)
   }
 
 }

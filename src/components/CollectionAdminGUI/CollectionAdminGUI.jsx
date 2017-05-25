@@ -191,7 +191,11 @@ class CollectionAdminGUI extends Component { // The view only for the collection
                     this.setState({showAddExistingQuestionDialog: false});
                     this.setState({existingQuestionDialogText: ""});
                     //this.props.addQuestion(this.props.QuestionStore.questions.get(question).id);
-                    this.props.addItem({parent: this.props.collectionId, object_id: question.id, type: "Q", content_object: null});
+                    this.props.addItem({
+                      parent: this.props.collectionId, 
+                      object_id: question.id, 
+                      type: "Q"
+                    });
                   }}
                   key={index}
                   hoverColor={green100}
