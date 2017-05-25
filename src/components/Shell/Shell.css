@@ -4,36 +4,36 @@
         padding: 0;
         font-family: Roboto, sans-serif;
     }
-    
+
     a {
         color: rgb(0, 172, 193);
         text-decoration: none;
     }
-    
+
     a:hover {
         color: rgba(0, 172, 193, 0.5);
     }
-    
+
     .FakeLink {
         cursor: pointer;
         display: inline-block;
         color: rgb(0, 172, 193);
     }
-    
+
     .FakeLink:hover {
         opacity: 0.5;
     }
     /* GLOBAL TRANSITION */
-    
+
     .FlowTransition-enter {
         animation: FlowTransitionEntering 1s ease-in-out;
     }
-    
+
     .FlowTransition-leave {
         opacity: 0;
         animation: FlowTransitionLeaving 1s ease-in-out;
     }
-    
+
     @keyframes FlowTransitionEntering {
         0% {
             opacity: 0;
@@ -48,7 +48,7 @@
             transform: rotateX(0deg);
         }
     }
-    
+
     @keyframes FlowTransitionLeaving {
         0% {
             opacity: 1;
@@ -63,17 +63,17 @@
             transform: translate(0, -100px) rotateX(50deg);
         }
     }
-    
+
     .appBar {
         background: #1B8AAE !important;
     }
-    
+
     @media only screen and (max-width: 900px) {
         .appBar {
             background: #fff !important;
         }
     }
-    
+
     @media only screen and (min-width: 901px) {
         .appBar {
             background: #1B8AAE !important;
@@ -99,6 +99,11 @@
             color: rgba(255,255,255,0.7) !important;
             line-height: 30px !important;
 
+/*<<<<<<< HEAD
+.appBar {
+  background: #1B8AAE !important;
+}
+=======*/
         }
         .progressbar-container {
             top: 40px;
