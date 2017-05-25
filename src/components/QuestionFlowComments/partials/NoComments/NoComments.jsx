@@ -17,7 +17,7 @@ class NoComments extends Component {
   render() {
     return (
       <Paper zDepth={0} style={style}>
-        <h3> No comments to this question</h3>
+        <h1> Be the first to leave a comment</h1>
       </Paper>
     );
   }
