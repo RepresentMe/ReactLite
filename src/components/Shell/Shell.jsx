@@ -78,6 +78,18 @@ import {
   Route,
 } from 'react-router-dom'
 
+import {
+  ShareButtons,
+  generateShareIcon
+} from 'react-share';
+
+const {
+  FacebookShareButton
+} = ShareButtons;
+
+
+const FacebookIcon = generateShareIcon('facebook')
+
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: white,
@@ -181,7 +193,9 @@ export default class Shell extends Component {
     this.setState({modalOpened})
   }
 
-
+  clickFB = (e) => {
+    document.getElementsByClassName(`fb-network__share-button`)[0].click()
+  }
 
   handleToggle = () => this.setState({open: !this.state.open});
 
@@ -283,7 +297,7 @@ export default class Shell extends Component {
                     <List style={{color: '#222'}}>
                     {this.breakpoints.sm && <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />}
                     <ListItem primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
-                    <ListItem primaryText="Share" leftIcon={<Share />} />
+                    <ListItem primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
                     <Divider />
                     <ListItem primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
                     <Divider />
@@ -367,6 +381,17 @@ export default class Shell extends Component {
                 </div>
                 {/*<DevTools />*/}
                 </div>
+                {/* Hidden fb share button to make share button in left nav possible */}
+                <FacebookShareButton
+                  style={{display: 'none'}}
+                  url={`https://openv2.represent.me/`}
+                  title={`Represent: Democracy as it should be. Survey`}
+                  picture={`https://represent.me/assets/img/ogimage.jpg`}
+                  className='fb-network__share-button'>
+                  <FacebookIcon
+                    size={32}
+                    round />
+                </FacebookShareButton>
             </MatchMediaProvider>
           </MuiThemeProvider>
       </Router>
