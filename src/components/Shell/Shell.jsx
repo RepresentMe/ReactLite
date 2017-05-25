@@ -236,6 +236,7 @@ export default class Shell extends Component {
                   {split_pathname[1] !== 'joingroup' &&
                     <div>
                       <AppBar
+                      className="appBar"
                         iconElementLeft={
                             <img  src={smallLogo}
                                   style={leftIconStyle}
@@ -271,6 +272,8 @@ export default class Shell extends Component {
                   }
 
                   <div>
+
+
                   <Drawer 
                   open={this.state.open || this.breakpoints.lg}
                   docked={this.breakpoints.lg}
