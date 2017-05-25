@@ -22,11 +22,11 @@ class EndScreen extends Component {
       },
       followUserModal: {
         isOpen: false,
-        groupId: null
+        userId: null
       },
       userDataModal: {
-        user: null,
-        isOpen: false
+        isOpen: false,
+        user: null
       },
       messengerModal: {
         isOpen: false
@@ -39,22 +39,31 @@ class EndScreen extends Component {
     }
   }
 
-  componentWillMount(){ // WEIRD CODE WRITTEN IN LAST NIGHT BEFORE DEPLOY
+  // All 3 modals will be checked for need to be opened
+  // If they need to be opened, they will be shown one behind another,
+  // so that only top modal will be visible
+  componentWillMount(){
+    this.checkUserDetailsAll();
+  }
+
+  checkUserDetailsAll(){
+    console.log('checkUserDetailsAll fired')
     this.props.UserStore.getCachedMe().then(data => {
       if(!this.isUserDataSet(data)) {
         this.setState({
           userDataModal: {
             user: data,
-            isOpen: true
+            isOpen: true,
+            shouldOpen: true,
           }
         })
-      } else {
-        this.checkToShowJoinGroupModal();
-      }
-    })
+      }})
+    this.checkToShowJoinGroupModal();
+    this.checkToShowFollowUserModal();
   }
 
   checkToShowJoinGroupModal() {
+    console.log('checkToShowJoinGroupModal fired')
     const { GroupStore } = this.props;
     if(this.dynamicConfig.config.survey_end.showJoinGroup_id) {
       GroupStore.getGroup(this.dynamicConfig.config.survey_end.showJoinGroup_id).then((group) => {
@@ -62,29 +71,27 @@ class EndScreen extends Component {
           this.setState({
             joinGroupModal: {
               isOpen: true,
+              shouldOpen: true,
               groupId: this.dynamicConfig.config.survey_end.showJoinGroup_id
             }
           })
-        } else { // check if follow user modal should be shown
-          this.checkToShowFollowUserModal();
         }
       })
-    } else {
-      this.checkToShowFollowUserModal()
     }
-
   }
 
   checkToShowFollowUserModal() {
+    console.log('checkToShowFollowUserModal fired')
     const { UserStore } = this.props;
     if(this.dynamicConfig.config.survey_end.showFollowUser_id) {
       const userToFollowId = this.dynamicConfig.config.survey_end.showFollowUser_id;
       UserStore.getMe().then((curUser) => {
         UserStore.amFollowingUser(curUser.id, userToFollowId).then((following) => {
-          if(following.results.length == 0) {
+          if(following.results.length === 0) {
             this.setState({
               followUserModal: {
                 isOpen: true,
+                shouldOpen: true,
                 userId: this.dynamicConfig.config.survey_end.showFollowUser_id
               }
             })
@@ -93,19 +100,22 @@ class EndScreen extends Component {
       })
     }
   }
+  callNextModal(){
 
+  }
   isUserDataSet(user) {
-    return (user.dob && typeof user.gender == 'number' && user.address !== "");
+    return (user.dob && typeof user.gender === 'number' && user.address !== "");
   }
 
   render() {
+    console.log('this.state', this.state)
     const usersToCompare = observable.shallowArray(this.dynamicConfig.config.survey_end.compare_users)
     return (
       <div>
         <CompareCollectionUsers userIds={usersToCompare} collectionId={this.props.match.params.collectionId}/>
-        <MoreUserInfo shown={this.state.userDataModal.isOpen} user={this.state.userDataModal.user} />
-        <JoinGroupDialog isOpen={this.state.joinGroupModal.isOpen} groupId={this.state.joinGroupModal.groupId}/>
         <FollowUserDialog isOpen={this.state.followUserModal.isOpen} userId={this.state.followUserModal.userId}/>
+        <JoinGroupDialog isOpen={this.state.joinGroupModal.isOpen} groupId={this.state.joinGroupModal.groupId}/>
+        <MoreUserInfo shown={this.state.userDataModal.isOpen} user={this.state.userDataModal.user} />
         {/*<MessengerModal isOpen={this.state.messengerModal.isOpen} />*/}
       </div>
     );

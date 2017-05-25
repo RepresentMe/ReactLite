@@ -15,8 +15,8 @@ const styles = {
     textAlign: 'center'
   },
   checkboxStyle: {
-    margin: '40px auto 0 auto', 
-    minWidth: '200px', 
+    margin: '40px auto 0 auto',
+    minWidth: '200px',
     width: '200px'
   },
   submitButton: {
@@ -74,14 +74,15 @@ class FollowUserDialog extends Component {
         open={this.state.isDialogOpen}
         contentStyle={styles.contentStyle}
         autoScrollBodyContent={true}
+        overlayStyle={{backgroundColor: 'white'}}
       >
         {!user && 'Loading...'}
         {user && <div>
-      
+
             <table className="icons-wrapper-icon">
             <tr>
             <td width="50%" styles={{textAlign: 'right'}}>
-              <img src={user.photo} className="avatar" /> 
+              <img src={user.photo} className="avatar" />
             </td>
             <td width="50%" styles={{textAlign: 'left'}}>
               <img src="/static/media/represent_white_outline.dbff67a6.svg"  className="avatar" />
@@ -90,7 +91,7 @@ class FollowUserDialog extends Component {
             </table>
 
           <p>
-            I'm working with Represent to modernise democracy. Follow me for updates and new questions.             
+            I'm working with Represent to modernise democracy. Follow me for updates and new questions.
           </p>
 
           <div>
