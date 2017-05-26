@@ -52,9 +52,14 @@ class QuestionFlowResults extends Component {
             <MapMarker className={curTab == 'map' ? "selectedButton" : ""} />
           </IconButton>
         </div>
-        {(curTab == 'pie' || curTab == 'bar') && <QuestionLiquidPiechart questionId={question.id} pie={curTab == 'pie'}/>}
-        {(curTab == 'map' || curTab == 'people') && <PlaceholderScreen tab={this.showingTabIndex} question={question} />}
-        
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{flex: 1}}>
+            {(curTab == 'pie' || curTab == 'bar') && <QuestionLiquidPiechart questionId={question.id} pie={curTab == 'pie'}/>}
+            {(curTab == 'map' || curTab == 'people') && <PlaceholderScreen tab={this.showingTabIndex} question={question} />}
+          </div>
+        </div>
+
+
       </div>
     )
   }

@@ -8,7 +8,7 @@ const OneLevelPieChartTitle = observer(({data}) => {
     <div>
 	    {data.values
 				&&
-				<p style={{zIndex: 10, fontWeight: '600', margin: 10, textAlign: 'center', color: 'rgb(64, 64, 64)'}}>
+				<p style={{flex: 1, zIndex: 10, fontWeight: '600', margin: 10, textAlign: 'center', color: 'rgb(64, 64, 64)'}}>
 					{data.values[0].title}
 				</p>
 				||
