@@ -6,7 +6,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Provider } from 'mobx-react';
 import { observable } from 'mobx';
 import axios from 'axios';
-import DevTools, { setLogEnabled } from 'mobx-react-devtools';
+// import DevTools, { setLogEnabled } from 'mobx-react-devtools';
 import createHistory from 'history/createBrowserHistory'
 import createMemoryHistory from 'history/createMemoryHistory'
 
