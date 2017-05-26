@@ -103,7 +103,7 @@ const styles = {
   }
 
   componentDidMount(){
-    window.API.get('/user_count/')
+    window.API.get('/api/user_count/')
       .then((response) => {
         if(response.data.result) {
           this.setState({user_count: response.data.result});
