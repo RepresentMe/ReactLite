@@ -3,6 +3,7 @@
     margin: 5px 6px 0px 0px;
     top: -4px;
     position: relative;
+    cursor: pointer;
 }
 
 html,
@@ -116,22 +117,22 @@ a:hover {
         width: 26px !important;
         margin: 6px 0px !important;
     }
-} 
+}
 
   a.menuItem div div div{
     color: black;
     margin: 0 !important;
-    font-size: 15px !important; 
+    font-size: 15px !important;
     line-height: 1 !important;
     padding: 0 !important;
-  } 
+  }
 
 a.menuItem9 {
   /*background: #ffc !important;*/
     font-weight: bold !important;
 }
 
-  a.menuItem div div { 
+  a.menuItem div div {
     margin: 0 !important;
     font-size: 15px !important;
-  } 
+  }
