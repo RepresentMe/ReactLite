@@ -19,7 +19,7 @@ import TextField from 'material-ui/TextField';
 import DynamicConfigService from '../../../../services/DynamicConfigService';
 
 import Results from '../ResultsComponent';
-import CompareUsersDetailsComponent from '../CompareUsersDetailsComponent';
+//import CompareUsersDetailsComponent from '../CompareUsersDetailsComponent';
 import CompareUsersDetails from '../CompareUsersDetails';
 import './CompareUsers.css';
 
@@ -195,14 +195,19 @@ class CompareCollectionUsers extends Component {
 
     // TODO make it computed
     if (!(this.viewData.pageReadiness.isCompareUsersReady.get()
-      && this.viewData.pageReadiness.isQuestionResultsReady.get() && this.viewData.pageReadiness.isCompareCandidatesReady.get())) return <LoadingIndicator />;
-    return (<div className='endPage'>
-      {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel
-        compareData={this.viewData.compareData}
-        users={this.viewData.users}
-        following={this.viewData.following}
-        collectionId={this.props.collectionId}
-      />}
+      && this.viewData.pageReadiness.isQuestionResultsReady.get() && this.viewData.pageReadiness.isCompareCandidatesReady.get()))
+      return (
+         <div style={{display: 'flex', justifyContent: 'center'}}>
+          <LoadingIndicator />
+         </div>
+      );
+      return (<div className='endPage'>
+        {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel
+          compareData={this.viewData.compareData}
+          users={this.viewData.users}
+          following={this.viewData.following}
+          collectionId={this.props.collectionId}
+        />}
 
 
       {this.viewData.isComparingCandidatesShowing.get() && <UserCompareCarousel
@@ -353,7 +358,7 @@ const QuestionResultsCarousel = observer(({questions, collectionId}) => {
           </WhatsappShareButton>
         </div>
 
-        <div style={{ display: 'flex', flex: 1, flexFlow: 'row nowrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
+        <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
           {questions.length > 0 &&
             questions.peek().map((question, i) => {
               return (
