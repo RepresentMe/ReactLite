@@ -369,10 +369,8 @@ render(){
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
   return (
     <div>
-      <Subheader style={{fontWeight: 600, textTransform: 'upperCase', textAlign: 'center'}} >All Results</Subheader>
-      <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
 
-        <div style={{ display: 'flex', flex: 1, flexFlow: 'row nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
+      <div style={{ display: 'flex', flex: 1, flexFlow: 'row nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
           <FacebookShareButton
             url={window.location.origin}
             title={`Represent: Democracy as it should be. Survey`}
@@ -403,6 +401,10 @@ const QuestionResultsCarousel = observer(({questions, collectionId}) => {
           </WhatsappShareButton>
         </div>
 
+      <Subheader style={{fontWeight: 600, textTransform: 'upperCase', textAlign: 'center'}} >All Results</Subheader>
+      <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
+
+      
         <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
           {questions.length > 0 &&
             questions.peek().map((question, i) => {
