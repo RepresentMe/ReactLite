@@ -190,6 +190,11 @@ export default class Shell extends Component {
     this.props.history.push('/login/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname))
   }
 
+  navigateToRoot(e) {
+    e.preventDefault();
+    this.props.history.push('/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname))
+  }
+
   toggleIntro = () => {
     //e.preventDefault()
     const modalOpened = !this.state.modalOpened;
@@ -302,19 +307,20 @@ export default class Shell extends Component {
                     onRequestChange={(open) => this.setState({open})}
                   >
                     <List style={{paddingTop: 0}}>
-                    <h1 style={{background: '#1B8AAE', color: '#fff', fontSize: 24, fontWeight: 100, margin: 0, padding: '5px'}}> 
+                    <h1 style={{cursor: 'pointer', background: '#1B8AAE', color: '#fff', fontSize: 24, fontWeight: 100, margin: 0, padding: '5px'}}
+                      onTouchTap={(e) => this.navigateToRoot(e)}>
                       <img src="/img/long-100.gif" alt="Represent.me" height="40" className="replogo" />
                       Represent
-                    </h1>  
-                    
+                    </h1>
+
                     <ListItem key='menuItem-2' primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
                     <ListItem key='menuItem-3' primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
                     <Divider />
                     <ListItem className='menuItem menuItem9' key='menuItem-4' primaryText="Who Should I Vote For?" leftIcon={<Important />}  href="/survey/122" />
-                    <Divider /> 
+                    <Divider />
 
                     <Subheader>COMPARE BY PARTY</Subheader>
- 
+
                     <ListItem className='menuItem' key='menuItem-6' primaryText="Conservatives"   href="/survey/119" />
                     <ListItem className='menuItem' key='menuItem-7' primaryText="Green Party (E&W)" href="/survey/121" />
                     <ListItem className='menuItem' key='menuItem-8' primaryText="Labour"  href="/survey/50" />
@@ -323,10 +329,10 @@ export default class Shell extends Component {
                     <ListItem className='menuItem' key='menuItem-11' primaryText="Women's Equality Party"   href="/survey/118" />
 
                     {/*<ListItem className='menuItem' key='menuItem-5' primaryText="All in one"  href="/survey/47" />*/}
-                  
+
 
                     <Divider />
- 
+
                     <ListItem key='menuItem-13'
                       primaryText="Topics"
                       initiallyOpen={false}
