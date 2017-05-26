@@ -23,7 +23,7 @@ const IntroCarouselCard = (props) => {
               {props.title &&
                 <div>
                   <h2 style={{fontSize: 20, color: 'white', fontWeight: 'bold', position: 'none', display: 'block', textAlign: 'center'}}>{props.title}</h2>
-                  <p style={{fontSize: 18, color: 'white', position: 'none', display: 'block', textAlign: 'center', width: '80%'}}>{props.subtitle}</p>
+                  <p style={{fontSize: 16, color: 'white', position: 'none', display: 'block', textAlign: 'center', width: '80%'}}>{props.subtitle}</p>
                 </div>
                 }
 
