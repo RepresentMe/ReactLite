@@ -22,7 +22,7 @@ import './IntroCarousel.css';
 class IntroCarousel extends React.Component {
   state = {
     items: [
-      {id: 0, backgroundColor: 'white', title: '', subtitle: "", img: '', headerText: "Welcome!", text0: "It looks like you've not used Represent before. Let's take a quick tour.", button: null},
+      {id: 0, backgroundColor: '#1B8AAE', title: 'Welcome!', subtitle: "Let's take a quick tour so you get the most out of Represent.", img: 'intro_answer.png', headerText: "", text0: "", button: null},
       {id: 1, backgroundColor: '#1B8AAE', title: "Represent is the people's political platform.", subtitle: "",  headerText: " ", text: "Our mission together is to modernise democracy and help you guide representatives to make wise and informed decisions. ", button: null},
       {id: 2, backgroundColor: '#900', title: "Beyond petitions. ", subtitle: "Vote on issues and Represent shows your MP what you, and everyone else, wants.",  headerText: " ", text: "", button: null},
       {id: 3, backgroundColor: '#1B8AAE', title: "Make your voice heard", subtitle: "Vote on issues you care about",  headerText: " ", text: "adsf", button: null},
