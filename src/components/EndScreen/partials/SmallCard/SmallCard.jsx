@@ -4,7 +4,7 @@ import {Card} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { cyan400, cyan200, grey100 } from 'material-ui/styles/colors';
 
-import ChangeAnswer from 'material-ui/svg-icons/content/undo';
+import ChangeAnswer from 'material-ui/svg-icons/action/autorenew';
 import SocialShare from 'material-ui/svg-icons/social/share';
 import ChartIcon from 'material-ui/svg-icons/editor/insert-chart';
 import IconButton from 'material-ui/IconButton';
@@ -72,9 +72,7 @@ class SmallCard extends Component {
                         <InsertComment style={iconStyles} color='#999' hoverColor='#1B8AAE' />
                       </IconButton>
                       <div style={{position: 'absolute',
-                        top: 12, left: 40, fontSize: 8, borderRadius: '50%',
-                        border: `1px solid ${cyan400}`, backgroundColor: cyan200,
-                        color: 'white', width: 10, height: 10, paddingTop: 1, textAlign: 'center'}}
+                        top: 12, left: 40, fontSize: 10, borderRadius: '50%', color: '#999',}}
                         >
                           {this.props.data.values[0].count_comments}
                       </div>
