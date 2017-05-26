@@ -4,7 +4,7 @@ import { observer, inject } from "mobx-react"
 import Progress from 'react-progressbar';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import SkipToEnd from 'material-ui/svg-icons/navigation/last-page';
+import SkipToEnd from 'material-ui/svg-icons/av/fast-forward';
 
 import {Helmet} from "react-helmet";
 
@@ -168,7 +168,7 @@ import './SurveyFlow.css'
       <span>
          <Progress completed={completed} color="#1b8aae"/>
 
-{/*
+ 
          {
            //if user is logged show button to navigate to EndScreen
            this.props.UserStore.userData.has("id") &&
@@ -182,7 +182,7 @@ import './SurveyFlow.css'
               <SkipToEnd color='#999' hoverColor='#1B8AAE' />
             </IconButton>
          }
-       */}
+        
           <QuestionFlow
             activeTab={this.state.activeTab}
             items={items}

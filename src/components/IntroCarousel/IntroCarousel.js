@@ -22,17 +22,16 @@ import './IntroCarousel.css';
 class IntroCarousel extends React.Component {
   state = {
     items: [
-      {id: 0, backgroundColor: '#1B8AAE', title: 'Welcome!', subtitle: "Let's take a quick tour so you get the most out of Represent.", img: 'intro_answer.png', headerText: "", text0: "", button: null},
-      {id: 1, backgroundColor: '#1B8AAE', title: "Represent is the people's political platform.", subtitle: "",  headerText: " ", text: "Our mission together is to modernise democracy and help you guide representatives to make wise and informed decisions. ", button: null},
-      {id: 2, backgroundColor: '#900', title: "Beyond petitions. ", subtitle: "Vote on issues and Represent shows your MP what you, and everyone else, wants.",  headerText: " ", text: "", button: null},
-      {id: 3, backgroundColor: '#1B8AAE', title: "Make your voice heard", subtitle: "Vote on issues you care about",  headerText: " ", text: "adsf", button: null},
-      {id: 4, backgroundColor: '#1B8AAE', title: "Work with your MP - whoever they are", subtitle: "",  headerText: " ", text: "adsf", button: null},
-      {id: 5, backgroundColor: '#1B8AAE', title: "Track your MP in Parliament", subtitle: "",  headerText: " ", text: "adsf", button: null},
-      {id: 6, backgroundColor: greenA700, title: 'Copy votes of people you trust', subtitle: "", img: 'debate.gif', headerText: "", text: "Build your reputation by making good points, voting on comments, and sharing solutions and useful information.", button: null},
-      {id: 7, backgroundColor: tealA700, title: 'Vote and contact your MP on Messenger', subtitle: "", img: 'changemind.gif', headerText: "", text: "You can change your mind any time you like - and remember it's a good thing to do - it proves you're thinking!", button: null},
-      {id: 8, backgroundColor: red400, title: 'Your data is safe', subtitle: "", img: 'private.gif', headerText: "", text: "You can also edit your settings to make all your answers private — (though you will lose the ability to compare yourself if you do this!)", button: null},
-      {id: 9, backgroundColor: cyan700, title: 'Compare with others', subtitle: "", img: 'compare.png', headerText: "", text: "When you’ve answered more 20-30 questions you can see compare to friends, locals, and people in 57 countries around the world!", button: null},
-      {id: 10, backgroundColor: indigoA200, title: 'Right here if you need help!', subtitle: "", img: 'help.gif', headerText: "", text: "Click 'help' on your profile menu (top right!) and we'll be with you as soon as we can!", button: null},
+      {id: 0, backgroundColor: '#1B8AAE', title: 'Welcome!', subtitle: "Let's take a quick tour so you get the most out of Represent.", img: '', headerText: "", text0: "", button: null},
+      {id: 1, backgroundColor: tealA700,  title: "", subtitle: "",  headerText: " ", text: "Our mission together is to modernise democracy and help you guide representatives to make wise and informed decisions. ", button: null},
+      {id: 2, backgroundColor: '#900', title: "It's really simple ", subtitle: "One vote every 5 years isn't enough to represent you. Represent lets you vote on issues you care about, and anonymously publishes maps and graphs to show your MP what constituents want.",  headerText: " ", text: "", button: null},
+      {id: 3, backgroundColor: '#1B8AAE', title: "Evidence-led decisions", subtitle: "Maps, demographics, consensus.. it's all here", img:'intro_answer.png', headerText: " ", text: "", button: null},
+      {id: 4, backgroundColor: tealA700, title: 'Vote directly from Facebook Messenger', subtitle: "Or use it contact your MP or local authority", img: 'messenger.png', headerText: "", text: "", button: null},
+      {id: 5, backgroundColor: '#1B8AAE', title: "Track and guide your MP", subtitle: "Vote on the same issues your MP does Subscribe for updates when they vote",  headerText: " ", text: "", button: null},
+      {id: 6, backgroundColor: greenA700, title: 'Copy votes of people you trust', subtitle: "", img: '', headerText: "", text: "You don't have to know about everything - you can find and copy the votes of people you trust on any issue.", button: null},
+      {id: 7, backgroundColor: red400, title: 'Your data is safe', subtitle: "", img: '', headerText: "", text: "You can also edit your settings to make all your answers private — (though you will lose the ability to compare yourself if you do this!)", button: null},
+      {id: 8, backgroundColor: cyan700, title: 'Find out how you compare', subtitle: "", img: 'compare.png', headerText: "", text: "", button: null},
+      {id: 9, backgroundColor: indigoA200, title: 'Any more questions?', subtitle: "", img: '', headerText: "", text: "Drop us a line at hello@represent.me or tweet @representlive!", button: null},
       ],
     //modalOpened: true,
     step: 0
