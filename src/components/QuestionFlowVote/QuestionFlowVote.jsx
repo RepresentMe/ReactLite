@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import Checkbox from './partials/Checkbox'
 import IconButton from 'material-ui/IconButton';
 import {grey400} from 'material-ui/styles/colors';
+import MoreText from '../Components/MoreText';
 
 import Left from 'material-ui/svg-icons/navigation/arrow-back';
 import Right from 'material-ui/svg-icons/navigation/arrow-forward';
@@ -177,7 +178,7 @@ const MiddleDiv = ({children, classNames}) => (
 
 const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, index, onVote, defHideAnswer, classNames}) => {
 
-  let {question, my_vote, subtype, choices} = QuestionStore.questions.get(id)
+  let {question, description, my_vote, subtype, choices} = QuestionStore.questions.get(id)
 
   let myVote = null;
   if(my_vote.length > 0 && subtype === 'likert') {myVote = my_vote[0].value}
@@ -186,6 +187,11 @@ const RenderedQuestion = inject("QuestionStore")(observer(({QuestionStore, id, i
   return (
     <MiddleDiv classNames={classNames}>
       <p className={"questionText questionTextFix-" + index} style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>{question}</p>
+      <p style={{marginBottom: 20}}>
+        {description && <MoreText className="moreText"
+          text={description || ""}
+          />}
+      </p>
       {subtype === "likert" && <LikertButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer}/>}
       {subtype === "mcq" && <MCQButtons value={myVote} onVote={onVote} defHideAnswer={defHideAnswer} choices={choices}/>}
     </MiddleDiv>

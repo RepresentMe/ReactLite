@@ -16,6 +16,10 @@ import { TwitterButton } from "react-social";
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 
+// import IconButton from 'material-ui/IconButton';
+// import {grey400} from 'material-ui/styles/colors';
+// import Left from 'material-ui/svg-icons/navigation/arrow-back';
+
 import DynamicConfigService from '../../../../services/DynamicConfigService';
 
 import Results from '../ResultsComponent';
@@ -62,12 +66,14 @@ class CompareCollectionUsers extends Component {
       pageReadiness: {
         isCompareUsersReady: observable(false),
         isQuestionResultsReady: observable(false),
-        isCompareCandidatesReady: observable(false)
+        isCompareCandidatesReady: observable(false),
+        isCompareDefaultCandidatesReady: observable(false)
       },
       isComparingUsersShowing: observable(false),
       isComparingCandidatesShowing: observable(false),
       users: observable.shallowArray([]),
       candidates: observable.shallowArray([]),
+      defaultCandidates: observable.shallowArray([]),
       compareData: observable.shallowMap(),
       compareCandidatesData: observable.shallowMap(),
       following: observable.shallowMap(),
@@ -133,6 +139,8 @@ class CompareCollectionUsers extends Component {
         //       })
         //   }
         //   getCollectionTags();
+
+
         if(propUserIds.length) {
           this.viewData.isComparingUsersShowing.set(true);
           UserStore.amFollowingUsers(currentUserId, propUserIds).then(res => {
@@ -156,6 +164,20 @@ class CompareCollectionUsers extends Component {
           this.viewData.pageReadiness.isCompareUsersReady.set(true);
         }
 
+        //candidates shown by default
+        const defaultCandidatesIds=[17351,17663,17667,17687,17689,17710,17711,17692];
+        if (defaultCandidatesIds.length){
+        UserStore.getUsersById(defaultCandidatesIds).then((usersData) => {
+          usersData.results.ids.forEach((id) => {
+            this.viewData.defaultCandidates.push(usersData.results[id])
+          })
+          this.viewData.pageReadiness.isCompareDefaultCandidatesReady.set(true);
+
+        })} else {
+          this.viewData.pageReadiness.isCompareDefaultCandidatesReady.set(true);
+        }
+
+
         if(UserStore.isLoggedIn()) {
           UserStore.getCachedMe().then(user => {
             if(this.dynamicConfig.config.survey_end.should_show_compare_candidates) {
@@ -167,8 +189,17 @@ class CompareCollectionUsers extends Component {
                   this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
                   return;
                 }
+
+                let defaultCandidates;
+                if (defaultCandidatesIds.length){
+                  defaultCandidates = this.viewData.defaultCandidates.peek();
+                  candidates = candidates.concat(defaultCandidates)
+                }
+
                 this.viewData.candidates.replace(candidates);
                 let candidatesIds = candidates.map(user => { return user.id });
+                if (defaultCandidatesIds.length) candidatesIds = candidatesIds.concat(defaultCandidatesIds)
+
                 UserStore.amFollowingUsers(currentUserId, candidatesIds).then(res => {
                   const results = res.results;
                   results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
@@ -195,13 +226,27 @@ class CompareCollectionUsers extends Component {
 
     // TODO make it computed
     if (!(this.viewData.pageReadiness.isCompareUsersReady.get()
-      && this.viewData.pageReadiness.isQuestionResultsReady.get() && this.viewData.pageReadiness.isCompareCandidatesReady.get()))
+      && this.viewData.pageReadiness.isQuestionResultsReady.get()
+      && this.viewData.pageReadiness.isCompareCandidatesReady.get()
+      && this.viewData.pageReadiness.isCompareDefaultCandidatesReady.get()
+    ))
       return (
          <div style={{display: 'flex', justifyContent: 'center'}}>
           <LoadingIndicator />
          </div>
       );
-      return (<div className='endPage'>
+      return (
+      <div className='endPage'>
+
+        {/* <IconButton
+          style={{position: 'fixed', top: 30, left: 10}}
+          tooltip="Back to questions"
+          tooltipPosition="bottom-right"
+          //onTouchTap={this.handleGetPrevQuestion}
+          iconStyle={{fill: grey400}}
+          ><Left/>
+        </IconButton> */}
+
         {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel
           compareData={this.viewData.compareData}
           users={this.viewData.users}
