@@ -286,14 +286,20 @@ render(){
   const loggedFB = this.props.loggedFB;
 
   return (
-    <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE', width: '100vw', background: 'rgba(27,138,174,0.11)', padding: 10, margin: '10px auto',  textAlign: 'center', maxHeight: loggedFB.get() ? 400 : 0, display: loggedFB.get() ? 'block':'none'}}>
-    <p style={{ color: '#1B8AAE', maxWidth: 400, margin: '5px auto 0 auto', fontSize: 18}}>
-    <strong>Vote on important issues, tell your MP, and track how well they represent you -- all directly from Facebook Messenger!</strong>
-    <br />
-    <span style={{ color: '#1B8AAE', maxWidth: 600, margin: '0 auto 5px auto', fontSize: 14, lineHeight: 1}}>
-    Click the button below to get started.
-    </span>
-    </p>
+    <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{ borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE',
+        width: '100vw', background: 'rgba(27,138,174,0.11)',
+        padding: 10, margin: '10px auto',  textAlign: 'center',
+        maxHeight: loggedFB.get() ? 400 : 0, display: loggedFB.get() ? 'block':'none',
+        }}>
+
+      <p style={{ color: '#1B8AAE', maxWidth: 400, margin: '5px auto 0 auto', fontSize: 18}}>
+        <strong>Vote on important issues, tell your MP, and track how well they represent you -- all directly from Facebook Messenger!</strong>
+        <br />
+        <span style={{ color: '#1B8AAE', maxWidth: 600, margin: '0 auto 5px auto', fontSize: 14, lineHeight: 1}}>
+        Click the button below to get started.
+        </span>
+      </p>
       <MessengerPlugin
         appId={String(window.authSettings.facebookId)}
         pageId={String(window.authSettings.facebookPageId)}
@@ -301,6 +307,7 @@ render(){
         passthroughParams={messengerRefData}
       />
     </div>
+  </div>
   )
 
 
@@ -310,54 +317,55 @@ render(){
 
 
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
-  return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
-  <Subheader style={{fontWeight: 600, textTransform: 'upperCase'}} >All Results</Subheader>
+  return (
+    <div>
+      <Subheader style={{fontWeight: 600, textTransform: 'upperCase', textAlign: 'center'}} >All Results</Subheader>
+      <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
 
+        <div style={{ display: 'flex', flex: 1, flexFlow: 'row nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
+          <FacebookShareButton
+            url={window.location.origin}
+            title={`Represent: Democracy as it should be. Survey`}
+            picture={`https://represent.me/assets/img/ogimage.jpg`}
+            className='fb-network__share-button'>
+            <FacebookIcon
+              size={48}
+              round />
+          </FacebookShareButton>
+          <TwitterShareButton
+            url={window.location.origin}
+            title={`Represent: Democracy as it should be. Survey`}
+            picture={`https://represent.me/assets/img/ogimage.jpg`}
+            className='fb-network__share-button'>
+            <TwitterIcon
+              size={48}
+              round />
+          </TwitterShareButton>
 
-<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
-  <FacebookShareButton 
-    url={window.location.origin}
-    title={`Represent: Democracy as it should be. Survey`}
-    picture={`https://represent.me/assets/img/ogimage.jpg`}
-    className='fb-network__share-button'>
-    <FacebookIcon
-      size={48}
-      round />
-  </FacebookShareButton>
-  <TwitterShareButton 
-    url={window.location.origin}
-    title={`Represent: Democracy as it should be. Survey`}
-    picture={`https://represent.me/assets/img/ogimage.jpg`}
-    className='fb-network__share-button'>
-    <TwitterIcon
-      size={48}
-      round /> 
-  </TwitterShareButton>
+          <WhatsappShareButton
+            url={window.location.origin}
+            title={`Represent: Democracy as it should be. Survey`}
+            picture={`https://represent.me/assets/img/ogimage.jpg`}
+            className='fb-network__share-button'>
+            <WhatsappIcon
+              size={48}
+              round />
+          </WhatsappShareButton>
+        </div>
 
-  <WhatsappShareButton 
-    url={window.location.origin}
-    title={`Represent: Democracy as it should be. Survey`}
-    picture={`https://represent.me/assets/img/ogimage.jpg`}
-    className='fb-network__share-button'>
-    <WhatsappIcon
-      size={48}
-      round />
-  </WhatsappShareButton>
-  </div>
-
-
-
-      {questions.length > 0 &&
-        questions.peek().map((question, i) => {
-          return (
-          <div key={`ques-${i}`} style={{}}>
-            <Results questionId={question.object_id} id={i} collectionId={collectionId}/>
-
-          </div>
-        )
-      })
-        }
-  </div>)
+        <div style={{ display: 'flex', flex: 1, flexFlow: 'row nowrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
+          {questions.length > 0 &&
+            questions.peek().map((question, i) => {
+              return (
+              <div key={`ques-${i}`} style={{}}>
+                <Results questionId={question.object_id} id={i} collectionId={collectionId}/>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
 })
 
 
