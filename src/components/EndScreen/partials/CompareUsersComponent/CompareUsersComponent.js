@@ -35,6 +35,9 @@ const {
   WhatsappShareButton
 } = ShareButtons;
 const FacebookIcon = generateShareIcon('facebook')
+const TwitterIcon = generateShareIcon('twitter')
+const WhatsappIcon = generateShareIcon('whatsapp')
+const TelegramShareButton = generateShareIcon('telegram')
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -309,6 +312,39 @@ render(){
 const QuestionResultsCarousel = observer(({questions, collectionId}) => {
   return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
   <Subheader style={{fontWeight: 600, textTransform: 'upperCase'}} >All Results</Subheader>
+
+
+<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
+  <FacebookShareButton 
+    url={window.location.origin}
+    title={`Represent: Democracy as it should be. Survey`}
+    picture={`https://represent.me/assets/img/ogimage.jpg`}
+    className='fb-network__share-button'>
+    <FacebookIcon
+      size={48}
+      round />
+  </FacebookShareButton>
+  <TwitterShareButton 
+    url={window.location.origin}
+    title={`Represent: Democracy as it should be. Survey`}
+    picture={`https://represent.me/assets/img/ogimage.jpg`}
+    className='fb-network__share-button'>
+    <TwitterIcon
+      size={48}
+      round /> 
+  </TwitterShareButton>
+
+  <WhatsappShareButton 
+    url={window.location.origin}
+    title={`Represent: Democracy as it should be. Survey`}
+    picture={`https://represent.me/assets/img/ogimage.jpg`}
+    className='fb-network__share-button'>
+    <WhatsappIcon
+      size={48}
+      round />
+  </WhatsappShareButton>
+  </div>
+
 
 
       {questions.length > 0 &&

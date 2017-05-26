@@ -70,6 +70,7 @@ import Everyone from 'material-ui/svg-icons/places/all-inclusive';
 import Share from 'material-ui/svg-icons/social/share';
 import Important from 'material-ui/svg-icons/action/thumbs-up-down';
 import Party from 'material-ui/svg-icons/social/group';
+import Contacts from 'material-ui/svg-icons/communication/contacts';
 import Close from 'material-ui/svg-icons/navigation/close';
 
 
@@ -305,25 +306,37 @@ export default class Shell extends Component {
                       <img src="/img/long-100.gif" alt="Represent.me" height="40" className="replogo" />
                       Represent
                     </h1>  
-                    {this.breakpoints.sm && <ListItem primaryText="Close" leftIcon={<Close />} onTouchTap={this.handleToggle} />}
+                    
                     <ListItem key='menuItem-2' primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
                     <ListItem key='menuItem-3' primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
                     <Divider />
-                    <ListItem className='menuItem' key='menuItem-4' primaryText="What's important to you" leftIcon={<Important />}  href="/survey/47" />
-                    <Divider />
-                    <Subheader>Compare to the parties</Subheader>
-                    <ListItem className='menuItem' key='menuItem-5' primaryText="All in one"  href="/survey/47" />
+                    <ListItem className='menuItem menuItem9' key='menuItem-4' primaryText="Who Should I Vote For?" leftIcon={<Important />}  href="/survey/122" />
+                    <Divider /> 
+
+                    <Subheader>COMPARE BY PARTY</Subheader>
+ 
                     <ListItem className='menuItem' key='menuItem-6' primaryText="Conservatives"   href="/survey/119" />
                     <ListItem className='menuItem' key='menuItem-7' primaryText="Green Party (E&W)" href="/survey/121" />
                     <ListItem className='menuItem' key='menuItem-8' primaryText="Labour"  href="/survey/50" />
                     <ListItem className='menuItem' key='menuItem-9' primaryText="Liberal democrats"   href="/survey/116" />
                     <ListItem className='menuItem' key='menuItem-10' primaryText="Plaid Cymru"  href="/survey/112" />
                     <ListItem className='menuItem' key='menuItem-11' primaryText="Women's Equality Party"   href="/survey/118" />
+
+                    {/*<ListItem className='menuItem' key='menuItem-5' primaryText="All in one"  href="/survey/47" />*/}
+                  
+
                     <Divider />
-                    <Subheader>Topics</Subheader>
-                    <ListItem key='menuItem-12' primaryText="Coming soon" disabled={true} />
-                    <Divider />
+ 
                     <ListItem key='menuItem-13'
+                      primaryText="Topics"
+                      initiallyOpen={false}
+                      primaryTogglesNestedList={true}
+                      nestedItems={[
+                        <ListItem className='menuItem' key='nestedItem-1' primaryText="Coming soon" disabled={true} />
+                        ]}
+                    />
+                    <Divider />
+                    <ListItem key='menuItem-14'
                       primaryText="About Represent"
                       initiallyOpen={false}
                       primaryTogglesNestedList={true}
@@ -338,6 +351,8 @@ export default class Shell extends Component {
                       ]}
                     />
                   </List>
+                  <Divider />
+                  {this.breakpoints.sm && <ListItem primaryText="Close menu" leftIcon={<Close />} onTouchTap={this.handleToggle} />}
 
 
                   </Drawer>
