@@ -197,7 +197,7 @@ const RenderedBreak = ({title, text, onContinue}) => (
   <MiddleDiv style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>
     <h1 className="questionBreak">{ title }</h1>
     {text && <ReactMarkdown source={ text } renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>}
-    <RaisedButton label="Continue" onClick={onContinue} primary />
+    <RaisedButton label="Okay!" onClick={onContinue} primary />
   </MiddleDiv>
 )
 
@@ -235,7 +235,7 @@ class MCQButtons extends Component {
             <div key={`p-${index}`} className={`mcqButton ${activeMCQ}`} onTouchTap={() => onVote(choice.id)}
                 onMouseEnter={() => this.choiceHovers[index] = true} onMouseLeave={() => this.choiceHovers[index] = false}>
               <Checkbox style={styles.checkbox} selected={activeMCQ} isHovered={this.choiceHovers[index]} />
-              <span style={{ display:'inline-block', margin: '4px'}}>{choice.text}</span>
+              <span style={{ display:'block', margin: '4px 25px'}}>{choice.text}</span>
             </div>
           );
         })}
