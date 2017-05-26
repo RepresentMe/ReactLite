@@ -171,7 +171,7 @@ class UserStore {
 
 
   logout() {
-    Cookies.expire("representAuthToken", { path: (window.location.origin.indexOf("http://localhost") != -1) ? null : 'represent.me' });
+    Cookies.expire("representAuthToken", { domain: (window.location.origin.indexOf("http://localhost") != -1) ? null : 'represent.me' });
     this.sessionData.set("authToken", "");
     this.userData.replace({});
     this.sessionData.set("showUserDialogue", false);
