@@ -28,9 +28,7 @@ import './CollectionIntro.css';
     let { CollectionStore, match } = this.props
     CollectionStore.getCollectionById(parseInt(match.params.collectionId))
       .then((collection) => {
-        console.log('COLLECTION', collection);
-        this.setState({collection: collection})
-        console.log('COLLECTION', collection, this.state.collection);
+        this.setState({collection: collection});
       })
     this.props.CollectionStore.getCollectionItemsById(parseInt(match.params.collectionId))
       .then((resolve) => { })
