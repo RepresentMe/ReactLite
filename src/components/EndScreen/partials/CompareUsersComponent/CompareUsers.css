@@ -1,59 +1,65 @@
 .container {
-  display: flex;
-  flex-flow: row nowrap;
-  width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
 }
-.containerSmall{
-  display: flex;
-  flex-flow: row nowrap;
-  width: 100%;
-  justify-content: space-around;
+
+.containerSmall {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    justify-content: space-around;
 }
+
 .inner {
-  border: 1px solid #AABBC3;
-  flex: 1;
-  font-size: 14px;
-  font-weight: bold;
-  transition: background-color 0.5s ease;
+    border: 1px solid #AABBC3;
+    flex: 1;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.5s ease;
 }
+
 .inner p {
-  margin: 3px 0;
-  color: #999 !important;
-  font-weight: normal !important;
+    margin: 3px 0;
+    color: #999 !important;
+    font-weight: normal !important;
 }
+
 .innerSmall {
-  flex: 1;
-  font-size: 14px;
-  align-self: center;
-  max-width: 100px;
+    flex: 1;
+    font-size: 14px;
+    align-self: center;
+    max-width: 100px;
 }
-.inner:hover{
-  background-color: rgb(242, 242, 242);
+
+.inner:hover {
+    background-color: rgb(242, 242, 242);
 }
-.inner:nth-child(1), .inner:nth-child(3){
-  border-left: none;
-  border-right: none
+
+.inner:nth-child(1),
+.inner:nth-child(3) {
+    border-left: none;
+    border-right: none
 }
-.barContainer{
-  width: 100%;
-  min-height: 300px;
-  overflow: hidden;
-  background-color: #e6ffff;
+
+.barContainer {
+    width: 100%;
+    min-height: 300px;
+    overflow: hidden;
+    background-color: #e6ffff;
 }
 
 .sign-in-to-see {
-  text-align: center;
-  margin: 20px;
-  color: #999;
+    text-align: center;
+    margin: 20px;
+    color: #999;
 }
-
 
 .fb-send-to-messenger {
-  width: 175px;
-  margin: 7px auto;
-  display: block;
+    width: 175px;
+    margin: 7px auto;
+    display: block;
 }
-
 
 .scrollbar .cardTitle,
 .scrollbar .cardText {
@@ -61,32 +67,53 @@
     background: #F5FBFF !important;
 }
 
-.scrollbar div {
-  padding-bottom: 0 !important;
+@media all and (max-width: 599px) {
+    .scrollbar {
+        width: 96vw !important;
+        margin: 1vh 2vw !important;
+    }
 }
-   
+
+@media all and (max-width: 900px) and (min-width: 600px) {
+    .scrollbar {
+        width: 48vw !important;
+        margin: 1vh 1vw !important;
+    }
+}
+
+@media all  (min-width: 900px) {
+    .scrollbar {
+        width: 27vw !important;
+        margin: 1vh 2vw !important;
+    }
+} 
+
+.scrollbar div {
+    padding-bottom: 0 !important;
+}
+
 #shareMe {
-  position: fixed;
-  display: none;
-  bottom: 0;
-  margin: 0 auto;
-  background: rgba(0,0,0,0.8);
-  color: #fff;
-  padding: 0 3px !important;
-  font-size: 12px; 
-  z-index: 10000000000000 !important;
+    position: fixed;
+    display: none;
+    bottom: 0;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 0 3px !important;
+    font-size: 12px;
+    z-index: 10000000000000 !important;
 }
 
 #shareMe span {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 #copyToClipboardEnd {
-margin: 0;
-padding: 0;
-font-size: 10px;
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
 }
 
 .fb-network__share-button div {
-  margin: 0 8px;
+    margin: 0 8px;
 }

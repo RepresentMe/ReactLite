@@ -7,6 +7,9 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
 
+import ChartIcon from 'material-ui/svg-icons/editor/insert-chart';
+import SocialShare from 'material-ui/svg-icons/social/share';
+import Follow from 'material-ui/svg-icons/social/person-add';
 import LoadingIndicator from '../../../LoadingIndicator';
 
 import MessengerPlugin from 'react-messenger-plugin';
@@ -495,12 +498,13 @@ class UserCardSmall extends Component {
             </div>
           ) : <p></p>}
 
-          <FlatButton
+{/*           <FlatButton
             label={this.areCompareDetailsShowing.get() ? "Hide detail" : 'Show Detail'}
             primary={true}
             style={{ color: '#999', fontSize: 12, lineHeight: 1, textTransform: 'none' }}
             onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
           />
+        */}
         </CardText>
 
 
@@ -511,18 +515,28 @@ class UserCardSmall extends Component {
                 label="following"
                 primary={true}
                 onTouchTap={this.removeFollowing}
+                style={{  minWidth: 40  }}
               /> :
-              <RaisedButton
-                label="follow"
+              <RaisedButton 
                 onTouchTap={this.setFollowing}
+                tooltip="Back to questions"
+                style={{   minWidth: 30, width: 40 }}
+                primary={true}
+                icon={<Follow />}
               />}
             <RaisedButton
               onClick={this.clickFB}
-              label=""
-              style={{ marginLeft: 12 }}
-              backgroundColor="#3b5998"
-              icon={fb}
+              style={{ marginLeft: 12, minWidth: 30, width: 40 }}
+              
+            primary={true}
+              icon={<SocialShare />}
             />
+            <RaisedButton
+            primary={true}
+            icon={<ChartIcon />}
+            style={{ color: '#999', marginLeft: 12 , minWidth: 30, width: 40}}
+            onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
+          />
           </div>
         </CardText>
 
