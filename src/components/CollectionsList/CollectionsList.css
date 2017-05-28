@@ -3,7 +3,8 @@
     flex-direction: row wrap;
     flex-wrap: wrap;
     align-items: flex-start;
-    background-image: url('/img/repbg.png') !important;
+    background: #F6F7F9;
+    /*background: url('/img/repbg.png') !important;*/
     justify-content: space-around;
 }
 

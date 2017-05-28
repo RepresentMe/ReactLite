@@ -1,6 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Bevan|Source+Sans+Pro:600,700');
 .replogo {
+    
+    cursor: pointer;
+    background: #1B8AAE;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    padding: 5px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.replogo img {
     vertical-align: middle;
-    margin: 5px 6px 0px 0px;
+    margin: 4px 2px 0px 0px;
     top: -4px;
     position: relative;
     cursor: pointer;
