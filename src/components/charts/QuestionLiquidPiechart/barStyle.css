@@ -62,13 +62,33 @@
     border: 1px solid #ccc;
 }
 
-.shareMe {
-    display: 'flex';
-    flex: 1;
-    flex-flow: 'row nowrap';
-    justify-content: 'space-around';
-    align-items: 'center';
+.shareLinks { 
+    z-index: 100000;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+    padding: 3px;
+    background: #1B8AAE;
+    border-radius: 5px 0 0 0;
 }
+.shareLinksButtons { 
+    display: flex; 
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    /*width: 200px;*/
+}
+.shareLinksButtons .SocialMediaShareButton {
+
+}
+.shareLinks p { 
+    margin: 0 0 3px 0;
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+    text-transform: uppercase;
+    font-size: 10px;
+    }
 
 .questionTextEnd {
     padding: 10px;

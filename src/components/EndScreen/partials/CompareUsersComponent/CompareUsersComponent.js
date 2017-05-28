@@ -324,11 +324,11 @@ class MessengerPluginBlock extends Component {
           maxHeight: loggedFB.get() ? 400 : 0, display: loggedFB.get() ? 'block' : 'none',
         }}>
 
-          <p style={{ color: '#1B8AAE', maxWidth: 400, margin: '5px auto 0 auto', fontSize: 18 }}>
-            <strong>Vote on important issues, tell your MP, and track how well they represent you -- all directly from Facebook Messenger!</strong>
+          <p style={{ color: '#1B8AAE', maxWidth: 400, margin: '5px auto 0 auto', fontSize: 16 }}>
+            <strong>Vote on important issues and track your MP from Facebook Messenger!</strong>
             <br />
             <span style={{ color: '#1B8AAE', maxWidth: 600, margin: '0 auto 5px auto', fontSize: 14, lineHeight: 1 }}>
-              Click the button below to get started.
+              Click the button to get started.
         </span>
           </p>
           <MessengerPlugin
@@ -352,14 +352,16 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
   return (
     <div>
 
-      <div className="shareMe">
+      <div className="shareLinks">
+      <p>Share and compare</p>
+      <div className="shareLinksButtons">
           <FacebookShareButton
             url={window.location.origin}
             title={`Represent: Democracy as it should be. Survey`}
             picture={`https://represent.me/assets/img/ogimage.jpg`}
             className='fb-network__share-button'>
             <FacebookIcon
-              size={48}
+              size={30}
               round />
           </FacebookShareButton>
           <TwitterShareButton
@@ -368,7 +370,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
             picture={`https://represent.me/assets/img/ogimage.jpg`}
             className='fb-network__share-button'>
             <TwitterIcon
-              size={48}
+              size={30}
               round />
           </TwitterShareButton>
 
@@ -378,9 +380,10 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
             picture={`https://represent.me/assets/img/ogimage.jpg`}
             className='fb-network__share-button'>
             <WhatsappIcon
-              size={48}
+              size={30}
               round />
           </WhatsappShareButton>
+        </div>
         </div>
 
       <Subheader style={{fontWeight: 600, textTransform: 'upperCase', textAlign: 'center'}} >All Results</Subheader>
@@ -469,6 +472,7 @@ class UserCardSmall extends Component {
     const barStyle = this.areCompareDetailsShowing.get() ? { display: 'block' } : { display: 'none' }
 
     return (
+
       this.props &&
       <Card
         style={{ margin: '0 5px 10px 5px', padding: '10px 0 0 0', width: 260, overflowX: 'hidden' }}
@@ -477,7 +481,7 @@ class UserCardSmall extends Component {
 
         <Avatar src={photo} size={50} style={{ alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px' }} />
 
-        <CardTitle title="ed" subtitle={location} style={{ textAlign: 'center', padding: '4px 16px', }} titleStyle={{ lineHeight: 1, fontSize: 18, fontWeight: 600 }} />
+        <CardTitle title={name} subtitle={location} style={{ textAlign: 'center', padding: '4px 16px', }} titleStyle={{ lineHeight: 1, fontSize: 18, fontWeight: 600 }} />
 
 
         <CardText style={{ backgroundColor: '#e6f7ff', padding: '10px 4px', marginTop: 10 }}>
