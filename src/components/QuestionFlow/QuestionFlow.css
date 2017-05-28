@@ -11,6 +11,10 @@
     opacity: 1;
 }
 
+.voteChoices {
+    padding-top: 20px;
+}
+
 .likertButton1 {
     background-image: url(./images/button_strongly_disagree.png);
 }
@@ -32,8 +36,8 @@
 }
 
 .likertButton {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     background-size: contain;
     background-repeat: no-repeat !important;
     overflow: hidden;
@@ -63,7 +67,7 @@
 }
 
 .likertButtonDimmed {
-    opacity: 0.7;
+    opacity: 0.9;
     transform: scale(1);
 }
 
@@ -137,7 +141,7 @@
 .menu-tab div,
 .menu-tab-active,
 .menu-tab-active div {
-    height: 32px !important;
+    height: 28px !important;
 }
 
 .tabs-wrapper > div >div:first-child {
@@ -152,12 +156,12 @@
 }
 
 .menu-tab {
-    background-color: #fafafa !important;
-    border-top: 1px solid #ccc !important;
-    /*border-right: 1px solid #f5f5f5 !important;
-    border-left: 1px solid #f5f5f5 !important;*/
-    box-shadow: #cccccc 0PX 8px 4px -4px inset;
-}
+    background-color: #eee !important;
+    border-top: 1px solid #ccc !important; 
+    box-shadow: #cccccc 0PX 6px 3px -3px inset;
+    font-size: 10px !important;
+    line-height: 1;
+} 
 
 .menu-tab-active {
     background-color: white !important;
@@ -168,6 +172,8 @@
 
 .menu-tab svg {
     fill: #999 !important;
+    height: 20px !important;
+    width: 20px !important;
 }
 
 .menu-tab-active svg {
@@ -175,9 +181,9 @@
 }
 
 .menu-tab-active button, .menu-tab button{
-  padding: 5px 0px 0px 0px !important;
+  padding: 3px 0px 0px 0px !important;
 }
-.menu-tab-active div, .menu-tab div{
+.menu-tab-active div {
   background-color: white !important;
 }
 
@@ -219,8 +225,13 @@ a {
 
 .questionText {
     color: #444;
-    margin-bottom: 1em;
-    font-weight: bold
+    margin-bottom: 0em;
+    font-weight: 600;
+}
+
+.questionDescription {
+    color: #888;
+    font-size: 14px;
 }
 
 @media all and (max-width: 599px) {
@@ -232,19 +243,19 @@ a {
 
 @media all and (max-width: 900px) and (min-width: 600px) {
     .questionText {
-        font-size: 1.6em
+        font-size: 1.8em
     }
 }
 
 @media all and (max-width: 1200px) and (min-width: 900px) {
     .questionText {
-        font-size: 2em
+        font-size: 2.2em
     }
 }
 
 @media all and (max-width: 1800px) and (min-width: 1200px) {
     .questionText {
-        font-size: 2em
+        font-size: 2.5em
     }
 }
 

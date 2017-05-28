@@ -1,6 +1,7 @@
 .endPage {
-    background-image: url('/img/repbg.png') !important;
+    /*background-image: url('/img/repbg.png') !important;*/
     padding-top: 10px !important;
+    background: #F6F7F9;
 }
 
 .bar {
@@ -52,12 +53,23 @@
     color: #999;
     padding-right: 5px;
 }
+
 .endCard {
-    box-shadow: 2px 2px 3px #aaa !important;
+    box-shadow: 2px 2px 3px #ccc !important;
     border-radius: 0;
     margin: 10px;
     width: 300px;
+    border: 1px solid #ccc;
 }
+
+.shareMe {
+    display: 'flex';
+    flex: 1;
+    flex-flow: 'row nowrap';
+    justify-content: 'space-around';
+    align-items: 'center';
+}
+
 .questionTextEnd {
     padding: 10px;
     font-weight: bold;

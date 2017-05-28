@@ -352,7 +352,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
   return (
     <div>
 
-      <div style={{ display: 'flex', flex: 1, flexFlow: 'row nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
+      <div className="shareMe">
           <FacebookShareButton
             url={window.location.origin}
             title={`Represent: Democracy as it should be. Survey`}
@@ -477,7 +477,7 @@ class UserCardSmall extends Component {
 
         <Avatar src={photo} size={50} style={{ alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px' }} />
 
-        <CardTitle title={name} subtitle={location} style={{ textAlign: 'center', padding: '4px 16px', }} titleStyle={{ lineHeight: 1, fontSize: 18, fontWeight: 600 }} />
+        <CardTitle title="ed" subtitle={location} style={{ textAlign: 'center', padding: '4px 16px', }} titleStyle={{ lineHeight: 1, fontSize: 18, fontWeight: 600 }} />
 
 
         <CardText style={{ backgroundColor: '#e6f7ff', padding: '10px 4px', marginTop: 10 }}>

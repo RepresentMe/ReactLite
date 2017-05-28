@@ -58,6 +58,11 @@
 .scrollbar .cardTitle,
 .scrollbar .cardText {
     padding: 4px 16px !important;
+    background: #F5FBFF !important;
+}
+
+.scrollbar div {
+  padding-bottom: 0 !important;
 }
    
 #shareMe {
