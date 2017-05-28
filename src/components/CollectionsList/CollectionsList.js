@@ -5,10 +5,11 @@ import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
 import CollectionSearch from '../CollectionSearch';
 import {Helmet} from "react-helmet";
+import RaisedButton from 'material-ui/RaisedButton';
 //import smallLogo from './represent_white_outline.svg';
 
 import './CollectionsList.css';
-
+ 
 
 
 const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) => {
@@ -19,8 +20,34 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 
   let collections = CollectionStore.collections.entries();
 
+
+
   return (
     <div>
+ 
+
+
+ 
+        <div style={{background: 'url(http://imgur.com/cO2X2tN.png)', padding: '70px 0 90px 0'}} >
+           <div className="imageContainer">
+            <div className="contentBox">
+
+                <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>The 2017 General Election: Who should I vote for?</h1>
+               
+                <p>Find which party best matches your values, then track and hold them to account during the next five years.</p>
+
+                <RaisedButton label="Start" primary href="/survey/122/flow/0/vote/" style={{marginTop: 15}}/>
+                
+              </div>
+            </div>
+
+        </div>
+     
+
+
+
+
+
       <div><CollectionSearch /></div>
       <div className='containerStyles'>
       {collections.map((collection_obj) => {
@@ -87,9 +114,9 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 const OgTags = ({}) => {
   const og = {
     url: window.location.origin,
-    title: "Represent: Democracy as it should be. Survey",
-    image: 'https://represent.me/assets/img/ogimage.jpg',
-    desc: "We’re modernising democracy. Join the Heard."
+    title: "Let's modernise democracy",
+    image: 'https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png',
+    desc: "Put your government back on track"
   }
   return (<Helmet>
     <meta property="og:url" content={og.url} />

@@ -1,29 +1,49 @@
-.introslidesBody div div {
-  padding: 1px 0 0 0 !important;
-  margin: 0px !important;
-}
-.cardStyleIntro {
-  width: 100%; 
-  position: none;
-  display: block;
-  margin: 40px 0  !important;
-  vertical-align: top; 
-  border: none;
-}
-.carouselMedia{
-  max-height: 250px;
-  max-width: 200px;
-  margin: 0 auto;
+.introslidesBody h2 {
+    margin: 0;
 }
 
-/*for small screens*/
-@media screen and (max-width: 419px) {
-   .cardStyleIntro {
-    /*width: 250px;*/
-    /*margin: 10px auto;*/
+@media all and (max-width: 599px) {
+    .introslidesBody div div {
+        padding: 1px 0 0 0 !important;
+        margin: 0px !important;
+    }
+    .carouselMedia {
+        max-height: 250px;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+}
+
+@media all (min-width: 600px) {
+    .introslidesBody div div {
+        padding: 1px 0 0 0 !important;
+        margin: 0px !important;
+    }
+    .carouselMedia {
+        max-height: 250px;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+}
+
+.cardStyleIntro {
+    width: 100%;
+    position: none;
     display: block;
-    font-size: 14px;
+    margin: 40px 0 !important;
+    vertical-align: top;
+    border: none;
+}
+
+
+/*for small screens*/
+
+@media screen and (max-width: 419px) {
+    .cardStyleIntro {
+        /*width: 250px;*/
+        /*margin: 10px auto;*/
+        display: block;
+        font-size: 14px;
     }
-    .carouselMedia{ 
-    }
-} 
+    .carouselMedia {}
+}

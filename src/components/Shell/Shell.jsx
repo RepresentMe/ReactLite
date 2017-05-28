@@ -307,9 +307,8 @@ export default class Shell extends Component {
                     onRequestChange={(open) => this.setState({open})}
                   >
                     <List style={{paddingTop: 0}}>
-                    <h1 style={{cursor: 'pointer', background: '#1B8AAE', color: '#fff', fontSize: 24, fontWeight: 100, margin: 0, padding: '5px'}}
-                      onTouchTap={(e) => this.navigateToRoot(e)}>
-                      <img src="/img/long-100.gif" alt="Represent.me" height="40" className="replogo" />
+                    <h1 onTouchTap={(e) => this.navigateToRoot(e)} className="replogo">
+                      <img src="/img/long-100.gif" alt="Represent.me" height="40" />
                       Represent
                     </h1>
 

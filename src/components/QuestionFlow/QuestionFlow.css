@@ -12,7 +12,7 @@
 }
 
 .voteChoices {
-    padding-top: 20px;
+    padding-top: 0px;
 }
 
 .likertButton1 {
@@ -223,10 +223,16 @@ a {
     font-size: 0.9em;
 }
 
+
+
+
 .questionText {
     color: #444;
     margin-bottom: 0em;
     font-weight: 600;
+    font-family: 'Bevan', cursive;
+    line-height: 1.1;
+
 }
 
 .questionDescription {
@@ -237,7 +243,7 @@ a {
 @media all and (max-width: 599px) {
     .questionText {
         font-size: 1.2em;
-        margin-bottom: 0.8em;
+        margin-bottom: 0em;
     }
 }
 

@@ -360,8 +360,8 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
       <div className="shareLinksButtons">
           <FacebookShareButton
             url={window.location.origin}
-            title={`Represent: Democracy as it should be. Survey`}
-            picture={`https://represent.me/assets/img/ogimage.jpg`}
+            title={`Let's modernise democracy`}
+            picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
             className='fb-network__share-button'>
             <FacebookIcon
               size={30}
@@ -369,8 +369,8 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
           </FacebookShareButton>
           <TwitterShareButton
             url={window.location.origin}
-            title={`Represent: Democracy as it should be. Survey`}
-            picture={`https://represent.me/assets/img/ogimage.jpg`}
+            title={`Let's modernise democracy`}
+            picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
             className='fb-network__share-button'>
             <TwitterIcon
               size={30}
@@ -379,8 +379,8 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
 
           <WhatsappShareButton
             url={window.location.origin}
-            title={`Represent: Democracy as it should be. Survey`}
-            picture={`https://represent.me/assets/img/ogimage.jpg`}
+            title={`Let's modernise democracy`}
+            picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
             className='fb-network__share-button'>
             <WhatsappIcon
               size={30}

@@ -141,9 +141,9 @@ import './CollectionIntro.css';
 const OgTags = ({collection}) => {
   const og = {
     url: `${window.location.origin}/survey/${collection.id}`,
-    title: `${collection.name} - Represent`,
-    image: collection.photo || 'https://represent.me/assets/img/ogimage.jpg',
-    desc: collection.desc || "We’re modernising democracy. Join the Heard. And Survey"
+    title: `${collection.name} - #RepresentMe`, 
+    image: collection.photo || 'https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png',
+    desc: collection.desc || "Put your government back on track"
   }
   return (<Helmet>
     <meta property="og:url" content={og.url} />
