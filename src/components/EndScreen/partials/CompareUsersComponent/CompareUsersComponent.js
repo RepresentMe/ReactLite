@@ -389,7 +389,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
         </div>
         </div>
 
-      <Subheader style={{fontWeight: 600, textTransform: 'upperCase', textAlign: 'center'}} >All Results</Subheader>
+      <Subheader className="heading" >All Results</Subheader>
       <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
 
       
@@ -509,24 +509,24 @@ class UserCardSmall extends Component {
 
 
         <CardText style={{ textAlign: 'center', padding: '8px 16px 0 16px', color: '#444' }} className='cardText'>
-          <div style={{ margin: '5px' }}>
+          <div style={{ margin: '0' }}>
             {this.props.following.get() > 0 ?
               <RaisedButton
                 label="following"
                 primary={true}
                 onTouchTap={this.removeFollowing}
-                style={{  minWidth: 40  }}
+                style={{margin: 5,  minWidth: 40  }}
               /> :
               <RaisedButton 
                 onTouchTap={this.setFollowing}
                 tooltip="Back to questions"
-                style={{   minWidth: 30, width: 40 }}
+                style={{ margin: 5,  minWidth: 30, width: 40 }}
                 primary={true}
                 icon={<Follow />}
               />}
             <RaisedButton
               onClick={this.clickFB}
-              style={{ marginLeft: 12, minWidth: 30, width: 40 }}
+              style={{ margin: 5, minWidth: 30, width: 40 }}
               
             primary={true}
               icon={<SocialShare />}
@@ -534,7 +534,7 @@ class UserCardSmall extends Component {
             <RaisedButton
             primary={true}
             icon={<ChartIcon />}
-            style={{ color: '#999', marginLeft: 12 , minWidth: 30, width: 40}}
+            style={{ color: '#999', margin: 5, minWidth: 30, width: 40}}
             onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
           />
           </div>
