@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 
-import moment from 'moment';
 // import Paper from 'material-ui/Paper';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';

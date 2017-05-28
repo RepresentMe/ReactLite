@@ -6,7 +6,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Popover from 'material-ui/Popover/Popover';
 import {Menu, MenuItem} from 'material-ui/Menu';
 import TextField from 'material-ui/TextField';
-import moment from 'moment'
 import MoreText from '../../../Components/MoreText'
 
 import {
@@ -110,7 +109,9 @@ class Comment extends Component {
           round />
       </TwitterShareButton>
     ) 
-    
+    const m_names = new Array("Jan", "Feb", "Mar",
+      "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+      "Oct", "Nov", "Dec");
 
     return (
       <div className="comment">
@@ -136,7 +137,7 @@ class Comment extends Component {
             */}
             <a className="change-answer" onClick={this.changeMyAnswer}>Change my answer</a>
             <span className="dot"> · </span>
-            <span className="date">{moment(comment.modified_at).format('DD MMM')}</span>
+            <span className="date">{new Date(comment.modified_at).getDate()} {m_names[new Date(comment.modified_at).getMonth()]}</span>
             <span className="dot"> · </span>
             <a className="report" onClick={onReport} >Report</a>
             <span className="dot"> · </span>
