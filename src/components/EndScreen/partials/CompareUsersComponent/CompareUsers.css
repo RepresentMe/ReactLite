@@ -72,26 +72,31 @@
     background: #F5FBFF !important;
 }
 
-@media all and (max-width: 599px) {
-    .scrollbar {
-        width: 96vw !important;
-        margin: 1vh 2vw !important;
-    }
-}
+.scrollbar {
+    padding: 10px 0 0 0;
+    overflow-x: hidden;
+} 
 
-@media all and (max-width: 900px) and (min-width: 600px) {
+
+@media (max-width: 899px) {
     .scrollbar {
-        width: 48vw !important;
+        width: calc((96vw)/2) !important;  
         margin: 1vh 1vw !important;
     }
 }
 
-@media all  (min-width: 900px) {
+@media (min-width: 901px) {
     .scrollbar {
-        width: 27vw !important;
-        margin: 1vh 2vw !important;
+        width: calc((94vw - 260px)/3) !important;  
+        margin: 1vh 1vw !important;
     }
 } 
+@media (max-width: 400px) {
+    .scrollbar {
+        width: 96vw !important;  
+        margin: 1vh 2vw !important;
+    }
+}
 
 .scrollbar div {
     padding-bottom: 0 !important;

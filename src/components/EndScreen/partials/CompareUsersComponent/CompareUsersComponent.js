@@ -277,16 +277,7 @@ class CompareCollectionUsers extends Component {
       </div>)
   }
 }
-
-const heading = {
-  textAlign: 'left !important',
-  cssFloat: 'left',
-  fontSize: 16,
-  color: '#999',
-  textTransform: 'uppercase',
-  marginBottom: '0.5em',
-  marginTop: '2em',
-};
+ 
 
 const UserCompareCarousel = observer(({ compareData, users, following, collectionId }) => {
   return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start' }}>
@@ -477,10 +468,7 @@ class UserCardSmall extends Component {
     return (
 
       this.props &&
-      <Card
-        style={{ margin: '0 5px 10px 5px', padding: '10px 0 0 0', width: 260, overflowX: 'hidden' }}
-        className='scrollbar'
-      >
+      <Card className='scrollbar'>
 
         <Avatar src={photo} size={50} style={{ alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px' }} />
 

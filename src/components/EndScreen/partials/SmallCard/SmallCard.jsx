@@ -36,11 +36,8 @@ class SmallCard extends Component {
         {!this.props.data && <p></p>}
         {this.props.data.values &&
 
-          <div style={{   }}>
+          <div>
             <Card className="endCard">
-
-                <div style={{}}>
-
                   <div className='questionTextEnd' style={{ wordWrap: 'break-word'}}>
                     {this.props.data.values[0].title}
                     {/* {this.props.data.values[0].full_name ? <p style={{color: '#999', fontSize: 14, fontWeight: 'bold', textAlign: 'left', }}>{`YOU: ${this.props.data.values[0].full_name}`}</p> : ''}  */}
@@ -104,8 +101,7 @@ class SmallCard extends Component {
                         <ChartIcon style={iconStyles} color='#999' hoverColor='#1B8AAE' />
                       </IconButton>
                     </div>
-                  </div>
-                </div>
+                  </div> 
 
           </Card>
         </div>}
