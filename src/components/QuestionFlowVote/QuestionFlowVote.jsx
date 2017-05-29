@@ -50,14 +50,14 @@ class QuestionFlowVote extends Component {
     const text = this.state.votingModePrivate ? 'public' : 'private'
 
     //patch user object with his choice to vote public or privately
-    window.API.patch("/auth/me/", {
-      defHideAnswers: newValue
-    }).then((response) => {
-      //refresh user object in UserStore
-      this.props.UserStore.getMe();
-    }).catch((error) => {
-      console.log(JSON.stringify(error.response.data))
-    });
+    // window.API.patch("/auth/me/", {
+    //   defHideAnswers: newValue
+    // }).then((response) => {
+    //   //refresh user object in UserStore
+    //   this.props.UserStore.getMe();
+    // }).catch((error) => {
+    //   console.log(JSON.stringify(error.response.data))
+    // });
 
     //set component state
     this.setVotingModeState(newValue, text)
@@ -252,7 +252,7 @@ class MCQButtons extends Component {
           let activeMCQ = value === choice.id ? 'activeMCQ' : '';
           let isHovered = observable(false);
           return (
-            <div key={`p-${index}`} className={`mcqButton ${activeMCQ}`} onTouchTap={() => onVote(choice.id)}
+            <div key={`p-${index}`} className={`mcqButton ${activeMCQ}`} onTouchTap={() => onVote(choice.id, defHideAnswer)}
                 onMouseEnter={() => this.choiceHovers[index] = true} onMouseLeave={() => this.choiceHovers[index] = false}>
               <Checkbox style={styles.checkbox} selected={activeMCQ} isHovered={this.choiceHovers[index]} />
               <span style={{ display:'block', margin: '4px 25px'}}>{choice.text}</span>
