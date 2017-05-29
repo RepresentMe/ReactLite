@@ -1,7 +1,7 @@
 .endPage {
     /*background-image: url('/img/repbg.png') !important;*/
-    padding-top: 10px !important;
-    background: #F6F7F9;
+    padding-top: 0px !important;
+    background: #F6F7F9; 
 }
 
 .bar {

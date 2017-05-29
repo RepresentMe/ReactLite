@@ -221,6 +221,9 @@ class CompareCollectionUsers extends Component {
     return (
       <div className='endPage'>
 
+      <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB} />
+
+
         {/* <IconButton
           style={{position: 'fixed', top: 30, left: 10}}
           tooltip="Back to questions"
@@ -246,8 +249,7 @@ class CompareCollectionUsers extends Component {
         />}
         <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId} />
 
-        <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB} />
-
+        
         <div>
           <div id="shareMe">
             Want to share? Click to copy:
@@ -309,30 +311,23 @@ class MessengerPluginBlock extends Component {
     }
     const loggedFB = this.props.loggedFB;
 
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{
-          borderTop: '2px solid #1B8AAE', borderBottom: '2px solid #1B8AAE',
-          width: '100vw', background: 'rgba(27,138,174,0.11)',
-          padding: 10, margin: '10px auto', textAlign: 'center',
+    return ( 
+        <div className="fbMessage" style={{         
           maxHeight: loggedFB.get() ? 400 : 0, display: loggedFB.get() ? 'block' : 'none',
         }}>
 
-          <p style={{ color: '#1B8AAE', maxWidth: 400, margin: '5px auto 0 auto', fontSize: 16 }}>
-            <strong>Vote on important issues and track your MP from Facebook Messenger!</strong>
-            <br />
-            <span style={{ color: '#1B8AAE', maxWidth: 600, margin: '0 auto 5px auto', fontSize: 14, lineHeight: 1 }}>
-              Click the button to get started.
-        </span>
+          <p>
+            <strong>Vote on issues and track your MP directly from Facebook Messenger. Click to get started.</strong>
+          
           </p>
           <MessengerPlugin
             appId={String(window.authSettings.facebookId)}
             pageId={String(window.authSettings.facebookPageId)}
-            size="xlarge"
+            size="large"
+            color="white"
             passthroughParams={messengerRefData}
           />
-        </div>
-      </div>
+        </div>  
     )
 
 

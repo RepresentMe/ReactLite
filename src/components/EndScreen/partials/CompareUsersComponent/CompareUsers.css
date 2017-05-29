@@ -1,8 +1,12 @@
 .heading {
     font-weight: 500;
     text-transform: uppercase;
+    background: #1B8AAE;
+    color: #fff !important;
+    margin: 30px 0;
     text-align: center;
-} 
+}
+
 .container {
     display: flex;
     flex-flow: row nowrap;
@@ -75,26 +79,53 @@
 .scrollbar {
     padding: 10px 0 0 0;
     overflow-x: hidden;
-} 
-
+}
 
 @media (max-width: 899px) {
     .scrollbar {
-        width: calc((96vw)/2) !important;  
+        width: calc((96vw)/2) !important;
         margin: 1vh 1vw !important;
     }
 }
 
 @media (min-width: 901px) {
     .scrollbar {
-        width: calc((94vw - 260px)/3) !important;  
+        width: calc((94vw - 260px)/3) !important;
         margin: 1vh 1vw !important;
     }
-} 
+}
+
 @media (max-width: 400px) {
     .scrollbar {
-        width: 96vw !important;  
+        width: 96vw !important;
         margin: 1vh 2vw !important;
+    }
+}
+
+.fbMessage {
+    /*border-bottom: 2px solid #1B8AAE;*/
+    background: rgb(204, 85, 159);
+    color: #fff;
+    padding: 10px 0;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+.fbMessage p {
+    margin: 0;
+}
+
+@media (min-width: 901px) {
+    .fbMessage {
+        width: calc(100vw-260px) !important;
+    }
+}
+@media (max-width: 901px) {
+    .fbMessage {
+        width: calc(100vw) !important;
     }
 }
 
