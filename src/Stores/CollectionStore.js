@@ -11,7 +11,7 @@ class CollectionStore {
 
   constructor() {
 
-    window.API.get('/api/question_collections/')
+    window.API.get('/api/question_collections/?ordering=-modified_at')
       .then(function (response) {
         for (let collection of response.data.results) {
           this.collections.set(collection.id, collection);
