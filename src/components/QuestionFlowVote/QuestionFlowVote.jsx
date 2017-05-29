@@ -93,7 +93,6 @@ class QuestionFlowVote extends Component {
   }
 
   render() {
-    console.log('this.props', this.props)
     const { items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion, currentQuestion } = this.props
     const item = items[index];
     const { hiddenIcon, icon } = styles

@@ -32,6 +32,7 @@ class DynamicConfigEditor extends Component {
 
     autorun(() => {
       this.dynamicConfigObj.survey_end.compare_users;
+      this.dynamicConfigObj.survey_end.candidatesIds;
       this.dynamicConfigObj.survey_end.should_show_compare_candidates;
       this.dynamicConfigObj.survey_end.showJoinGroup_id;
       this.dynamicConfigObj.survey_end.showFollowUser_id;
@@ -39,11 +40,11 @@ class DynamicConfigEditor extends Component {
     })
   }
 
-  onDynamicConfigChange =(e,value) => {
+  onDynamicConfigChange = (e,value) => {
     this.dynamicConfigString.set(value);
     extendObservable(this.dynamicConfigObj, JSON.parse(decodeURIComponent(decodeURIComponent(decodeURIComponent(value)))))
   }
-  
+
   saveToString = () => {
     this.dynamicConfigString.set(
       encodeURIComponent(
@@ -63,6 +64,11 @@ class DynamicConfigEditor extends Component {
   setCompareUsersValue = (v) => {
     v = this.replaceAll(v, ' ', '');
     this.dynamicConfigObj.survey_end.compare_users = v.split(',');
+  }
+
+  setCandidatesIdsValue = (v) => {
+    v = this.replaceAll(v, ' ', '');
+    this.dynamicConfigObj.survey_end.candidatesIds = v.split(',');
   }
 
   setJoinGrouprValue = (v) => {
@@ -108,14 +114,27 @@ class DynamicConfigEditor extends Component {
             value={this.dynamicConfigObj.survey_end.compare_users}
             onChange={(e,v) => this.setCompareUsersValue(v)}
           />
+          <TextField
+            hintText="Compare candidates"
+            floatingLabelText="Candidates(separate by comma)"
+            multiLine={true}
+            rows={2}
+            onBlur={() => {
+              this.dynamicConfigObj.survey_end.candidatesIds.replace(this.dynamicConfigObj.survey_end.candidatesIds.filter((user) => {
+                return !!user; // filter out empty strings
+              }))
+            }}
+            value={this.dynamicConfigObj.survey_end.candidatesIds}
+            onChange={(e,v) => this.setCandidatesIdsValue(v)}
+          />
           <p style={{fontSize:10}}>
-            Labour: 17351 , 
-            Conservative: 17663 , 
-            Womens Equality: 17667 , 
-            Green E&W: 17687 , 
-            Plaid:  17689, 
-            UKIP:  17710, 
-            SNP:  17711, 
+            Labour: 17351 ,
+            Conservative: 17663 ,
+            Womens Equality: 17667 ,
+            Green E&W: 17687 ,
+            Plaid:  17689,
+            UKIP:  17710,
+            SNP:  17711,
             LibDem: 17692 <br /> ALL: <pre>17351,17663,17667,17687,17689,17710,17711,17692</pre>
           </p>
         </div>

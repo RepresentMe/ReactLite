@@ -171,7 +171,7 @@ class CompareCollectionUsers extends Component {
         UserStore.getCandidatesByLocation(user.region).then(candidates => {
           console.log('candidates: ', candidates);
           this.viewData.candidates.replace(this.viewData.candidates.peek());
-          setCandidatesStat()          
+          setCandidatesStat()
         })
       } else {
         setCandidatesStat()
@@ -180,7 +180,8 @@ class CompareCollectionUsers extends Component {
     const setCandidatesStat = () => {
       //candidates shown by default
       this.viewData.areLocalCandidatesShowing.set(true);
-      let candidatesIds = [17351, 17663, 17667, 17687, 17689, 17710, 17711, 17692];
+      //let candidatesIds = [17351, 17663, 17667, 17687, 17689, 17710, 17711, 17692];
+      let candidatesIds = this.dynamicConfig.config.survey_end.candidatesIds;
       UserStore.getUsersById(candidatesIds).then((usersData) => {
         usersData.results.ids.forEach((id) => {
           this.viewData.candidates.push(usersData.results[id])
@@ -196,7 +197,7 @@ class CompareCollectionUsers extends Component {
       UserStore.compareMultipleUsers(currentUserId, candidatesIds).then((compareData) => {
         candidatesIds.forEach((id) => {
           this.viewData.compareCandidatesData.set(id, compareData.results[id])
-        })
+      })
         this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
       })
     }
@@ -249,7 +250,7 @@ class CompareCollectionUsers extends Component {
         />}
         <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId} />
 
-        
+
         <div>
           <div id="shareMe">
             Want to share? Click to copy:
@@ -279,7 +280,7 @@ class CompareCollectionUsers extends Component {
       </div>)
   }
 }
- 
+
 
 const UserCompareCarousel = observer(({ compareData, users, following, collectionId }) => {
   return (<div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start' }}>
@@ -311,14 +312,14 @@ class MessengerPluginBlock extends Component {
     }
     const loggedFB = this.props.loggedFB;
 
-    return ( 
-        <div className="fbMessage" style={{         
+    return (
+        <div className="fbMessage" style={{
           maxHeight: loggedFB.get() ? 400 : 0, display: loggedFB.get() ? 'block' : 'none',
         }}>
 
           <p>
           <strong>Want to have more say over your future? </strong> You can now vote on issues and track your MP directly from Facebook Messenger. Democracy doesn't get any easier or more powerful!
-          
+
           </p>
           <MessengerPlugin
             appId={String(window.authSettings.facebookId)}
@@ -328,7 +329,7 @@ class MessengerPluginBlock extends Component {
             className="fbiframe"
             passthroughParams={messengerRefData}
           />
-        </div>  
+        </div>
     )
 
 
@@ -379,7 +380,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
       <Subheader className="heading" >All Results</Subheader>
       <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
 
-      
+
         <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
           {questions.length > 0 &&
             questions.peek().map((question, i) => {
@@ -501,7 +502,7 @@ class UserCardSmall extends Component {
                 onTouchTap={this.removeFollowing}
                 style={{margin: 5,  minWidth: 40  }}
               /> :
-              <RaisedButton 
+              <RaisedButton
                 onTouchTap={this.setFollowing}
                 tooltip="Back to questions"
                 style={{ margin: 5,  minWidth: 30, width: 40 }}
@@ -511,7 +512,7 @@ class UserCardSmall extends Component {
             <RaisedButton
               onClick={this.clickFB}
               style={{ margin: 5, minWidth: 30, width: 40 }}
-              
+
             primary={true}
               icon={<SocialShare />}
             />
