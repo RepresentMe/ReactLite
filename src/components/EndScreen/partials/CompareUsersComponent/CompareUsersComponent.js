@@ -422,7 +422,7 @@ class UserCardSmall extends Component {
   }
 
   clickFB = (e) => {
-    document.getElementsByClassName(`fb-network__share-button`)[0].click()
+    document.getElementsByClassName(`fb-network__share-button__${this.props.user.id}`)[0].click()
   }
 
   render() {
@@ -444,21 +444,6 @@ class UserCardSmall extends Component {
       match = Math.floor(100 - this.props.compareData.difference_percent);
       questions_counted = this.props.compareData.questions_counted;
     }
-    //${window.location.origin}
-    const fb = (
-      <FacebookShareButton
-        url={`${window.location.origin}/survey/${collectionId}`}
-        title={`I'm ${match}% match with ${name}. How do you compare?`}
-        picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
-        className='fb-network__share-button'
-        description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
-      >
-
-        <FacebookIcon
-          size={32}
-          round />
-      </FacebookShareButton>
-    )
 
     const barStyle = this.areCompareDetailsShowing.get() ? { display: 'block' } : { display: 'none' }
 
@@ -512,8 +497,7 @@ class UserCardSmall extends Component {
             <RaisedButton
               onClick={this.clickFB}
               style={{ margin: 5, minWidth: 30, width: 40 }}
-
-            primary={true}
+              primary={true}
               icon={<SocialShare />}
             />
             <RaisedButton
@@ -532,6 +516,19 @@ class UserCardSmall extends Component {
             <CompareUsersDetails userId={this.props.user.id} userData={this.props.user} />
           </div> : null}
         </CardText>
+        <FacebookShareButton
+          url={`${window.location.origin}/survey/${collectionId}`}
+          title={`I'm ${match}% match with ${name}`}
+          picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
+          className={`fb-network__share-button__${user.id}`}
+          description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
+          style={{display: 'none'}}
+        >
+
+          <FacebookIcon
+            size={32}
+            round />
+        </FacebookShareButton>
       </Card>
     )
   }
