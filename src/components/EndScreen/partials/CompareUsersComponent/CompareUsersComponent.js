@@ -521,7 +521,7 @@ class UserCardSmall extends Component {
           title={`I'm ${match}% match with ${name}`}
           picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
           className={`fb-network__share-button__${user.id}`}
-          description="Represent needs you to help build a better democracy. Please come and have your say."
+          description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
           style={{display: 'none'}}
         >
 
