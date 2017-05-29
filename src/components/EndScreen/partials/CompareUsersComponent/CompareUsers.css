@@ -105,19 +105,27 @@
 .fbMessage {
     /*border-bottom: 2px solid #1B8AAE;*/
     background: rgb(204, 85, 159);
-    color: #fff;
-    padding: 10px 0;
-    display: flex;
-    justify-content: left;
-    align-items: center;
+    /*background-image: url('https://images.unsplash.com/photo-1468234847176-28606331216a?dpr=1&auto=format&fit=crop&w=1080&h=533&q=80&cs=tinysrgb&crop=&bg=');*/
+    background-position: 50% 40%;
+    
+    padding: 15px 10px 10px 10px;
     margin: 0 0 10px 0;
     text-align: center;
 }
 
-.fbMessage p {
-    margin: 0;
+.fbMessage iframe {  
+    margin-left: 40px;
 }
 
+.fbMessage p {
+    margin: 0 auto 0px auto;
+    max-width: 600px;
+    color: #fff;
+    /*background: rgba(255,255,255,0.4);*/
+    font-size: 20px;
+    font-weight: 100;
+}
+ 
 @media (min-width: 901px) {
     .fbMessage {
         width: calc(100vw-260px) !important;

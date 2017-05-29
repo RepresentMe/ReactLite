@@ -317,7 +317,7 @@ class MessengerPluginBlock extends Component {
         }}>
 
           <p>
-            <strong>Vote on issues and track your MP directly from Facebook Messenger. Click to get started.</strong>
+          <strong>Want to have more say over your future? </strong> You can now vote on issues and track your MP directly from Facebook Messenger. Democracy doesn't get any easier or more powerful!
           
           </p>
           <MessengerPlugin
@@ -325,6 +325,7 @@ class MessengerPluginBlock extends Component {
             pageId={String(window.authSettings.facebookPageId)}
             size="large"
             color="white"
+            className="fbiframe"
             passthroughParams={messengerRefData}
           />
         </div>  
