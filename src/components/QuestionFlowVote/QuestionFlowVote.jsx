@@ -93,6 +93,7 @@ class QuestionFlowVote extends Component {
   }
 
   render() {
+    console.log('this.props', this.props)
     const { items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion, currentQuestion } = this.props
     const item = items[index];
     const { hiddenIcon, icon } = styles
@@ -121,10 +122,10 @@ class QuestionFlowVote extends Component {
                 tooltip="Prev"
                 tooltipPosition="top-right"
                 onTouchTap={this.handleGetPrevQuestion}
-                style={{position: 'absolute', top: '50%', left: 0}}
+                style={{position: 'absolute', top: '50%', left: 0, display: (index < 1) ? 'none' : 'block'}}
                 iconStyle={{fill: grey400}}
                 >
-                <Left style={ Object.assign({ left:'0px', float:'left'}, (index < 1) ? hiddenIcon : icon, ) } />
+                <Left style={ Object.assign({ left:'0px', float:'left'}, (index < 1) ? hiddenIcon : icon ) } />
               </IconButton>
             </div>
 
