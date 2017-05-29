@@ -104,10 +104,10 @@
 
 .fbMessage {
     /*border-bottom: 2px solid #1B8AAE;*/
-    background: rgb(204, 85, 159);
-    /*background-image: url('https://images.unsplash.com/photo-1468234847176-28606331216a?dpr=1&auto=format&fit=crop&w=1080&h=533&q=80&cs=tinysrgb&crop=&bg=');*/
-    background-position: 50% 40%;
+    /*background: rgb(204, 85, 159);*/
     
+    background-image: url('/img/messenger.png') !important;
+    background-position: 0 51%;
     padding: 15px 10px 10px 10px;
     margin: 0 0 10px 0;
     text-align: center;
