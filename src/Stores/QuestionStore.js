@@ -135,7 +135,7 @@ class QuestionStore {
     question[voteType]++;
     question[`liquid_vote_count`]++;
   }
-  
+
 
   updateMCResults(questionId, choiceId, isPrivate) {
     const question = this.questions.get(questionId);
@@ -149,7 +149,7 @@ class QuestionStore {
         question.choices[i].liquid_vote_count++;
         question.choices[i].modified_at = (new Date()).toDateString();
         break;
-      } 
+      }
     }
   }
 

@@ -48,6 +48,18 @@ class QuestionFlowVote extends Component {
   changeVoteMode() {
     const newValue = !this.state.votingModePrivate
     const text = this.state.votingModePrivate ? 'public' : 'private'
+
+    //patch user object with his choice to vote public or privately
+    window.API.patch("/auth/me/", {
+      defHideAnswers: newValue
+    }).then((response) => {
+      //refresh user object in UserStore
+      this.props.UserStore.getMe();
+    }).catch((error) => {
+      console.log(JSON.stringify(error.response.data))
+    });
+
+    //set component state
     this.setVotingModeState(newValue, text)
   }
 
