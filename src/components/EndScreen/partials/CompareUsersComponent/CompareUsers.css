@@ -133,7 +133,7 @@
 }
 @media (max-width: 901px) {
     .fbMessage {
-        width: calc(100vw) !important;
+        /*width: calc(100vw) !important;*/
     }
 }
 
