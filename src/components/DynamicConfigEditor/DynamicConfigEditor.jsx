@@ -101,8 +101,9 @@ class DynamicConfigEditor extends Component {
 
       <div>
         <div>
+          <h4>Compare users block:</h4>
           <TextField
-            hintText="Compare users"
+            hintText="Common users"
             floatingLabelText="Users(separate by comma)"
             multiLine={true}
             rows={2}
@@ -115,7 +116,7 @@ class DynamicConfigEditor extends Component {
             onChange={(e,v) => this.setCompareUsersValue(v)}
           />
           <TextField
-            hintText="Compare candidates"
+            hintText="Default candidates"
             floatingLabelText="Candidates(separate by comma)"
             multiLine={true}
             rows={2}
@@ -139,10 +140,11 @@ class DynamicConfigEditor extends Component {
           </p>
         </div>
         <Checkbox
-          label="Show candidates"
+          label="Show local candidates"
           value={this.dynamicConfigObj.survey_end.should_show_compare_candidates}
           onCheck={(e,v) => this.dynamicConfigObj.survey_end.should_show_compare_candidates = v}
         />
+        <h4>-------------------------------</h4>
         <TextField
           hintText="Join group"
           floatingLabelText="Join group"
