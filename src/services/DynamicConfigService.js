@@ -1,4 +1,4 @@
-import merge from 'deepmerge'
+// import merge from 'deepmerge'
 
 class DynamicConfigService {
 
@@ -21,7 +21,7 @@ class DynamicConfigService {
 
   setConfigFromRaw(rawConfig) {
     try {
-      this.config = merge(this.config, JSON.parse(decodeURIComponent(decodeURIComponent(decodeURIComponent(rawConfig)))))
+      this.config =  JSON.parse(decodeURIComponent(decodeURIComponent(decodeURIComponent(rawConfig))))
     }catch(e){}
     if(this.config) {
       return true
