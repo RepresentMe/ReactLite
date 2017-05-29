@@ -273,6 +273,12 @@ a {
 
 .questionBreak {
     color: #1B8AAE;
+} 
+.questionBreakp {
+    color: #1B8AAE;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #999;
 }
 
 .mcqBox {
