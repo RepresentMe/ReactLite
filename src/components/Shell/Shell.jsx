@@ -333,7 +333,7 @@ export default class Shell extends Component {
                     {/*<ListItem className='menuItem' key='menuItem-5' primaryText="All in one"  href="/survey/47" />*/}
 
 
-                    <Divider />
+{/*                    <Divider />
 
                     <ListItem key='menuItem-13'
                       primaryText="Topics"
@@ -342,13 +342,14 @@ export default class Shell extends Component {
                       nestedItems={[
                         <ListItem className='menuItem' key='nestedItem-1' primaryText="Coming soon" disabled={true} />
                         ]}
-                    />
+                    /> */}
                     <Divider />
                     <ListItem key='menuItem-14'
-                      primaryText="About Represent"
+                      primaryText="About"
                       initiallyOpen={false}
                       primaryTogglesNestedList={true}
                       nestedItems={[
+                        <ListItem className='menuItem' key='nestedItem-8' primaryText="News" href="https://represent.me/news/" /> ,
                         <ListItem className='menuItem' key='nestedItem-1' primaryText="Get involved" href="https://represent.me/volunteer" />,
                         <ListItem className='menuItem' key='nestedItem-2' primaryText="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2MD34EJQFC7ME" />,
                         <ListItem className='menuItem' key='nestedItem-3' primaryText="Statistics" href="Statistics" />,
