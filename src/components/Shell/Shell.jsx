@@ -326,9 +326,9 @@ export default class Shell extends Component {
                     <ListItem className='menuItem' key='menuItem-6' primaryText="Conservatives"   href="/survey/119" />
                     <ListItem className='menuItem' key='menuItem-7' primaryText="Green Party (E&W)" href="/survey/121" />
                     <ListItem className='menuItem' key='menuItem-8' primaryText="Labour"  href="/survey/50" />
-                    <ListItem className='menuItem' key='menuItem-9' primaryText="Liberal democrats"   href="/survey/116" />
+                    <ListItem className='menuItem' key='menuItem-9' primaryText="Liberal Democrats"   href="/survey/116" />
                     <ListItem className='menuItem' key='menuItem-10' primaryText="Plaid Cymru"  href="/survey/112" />
-                    <ListItem className='menuItem' key='menuItem-11' primaryText="Women's Equality Party"   href="/survey/118" />
+                    <ListItem className='menuItem' key='menuItem-11' primaryText="SNP"   href="/survey/124" />
 
                     {/*<ListItem className='menuItem' key='menuItem-5' primaryText="All in one"  href="/survey/47" />*/}
 
