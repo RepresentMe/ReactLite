@@ -129,7 +129,8 @@ const styles = {
         joinComplete: true,
         problems: []
       });
-      this.props.history.push(this.dynamicConfig.getNextRedirect())
+      this.redirectToLogin()
+      //this.props.history.push(this.dynamicConfig.getNextRedirect())
     }
   };
 

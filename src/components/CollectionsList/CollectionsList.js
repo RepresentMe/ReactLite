@@ -87,6 +87,8 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
                 />
               </Link>
               <CardText style={{wordWrap: 'break-word'}} className='cardText'>
+
+              <div style={{margin:'0 0 3px 0', fontSize: 11, color: '#999'}}>{collection.question_count} questions</div>
               {collection.desc ?
                 <div>
                   {collection.desc.slice(0, 100 + collection.desc.indexOf(' ')) + ' '}
