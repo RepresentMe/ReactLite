@@ -56,7 +56,7 @@ class CompareUsersDetails extends Component {
         disagree: Math.round(1000 * (diff[3]) / totalCount) / 10,
         strongly_disagree: Math.round(1000 * (diff[4]) / totalCount) / 10
       };
-      const matchPercent = Math.round(100 - 100 * n / totalCount / 4);
+      const matchPercent = Math.floor(100 - 100 * n / totalCount / 4);
       diffs_array.push({
         values,
         name: key,

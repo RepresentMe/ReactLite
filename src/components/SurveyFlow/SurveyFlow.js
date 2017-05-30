@@ -40,7 +40,9 @@ import './SurveyFlow.css'
       .catch((error) => {this.setState({networkError: true})})
 
     this.props.CollectionStore.getCollectionItemsById(parseInt(this.props.match.params.surveyId))
-      .then((collectionItems) => {this.setState({collectionItems})})
+      .then((collectionItems) => {
+        console.log(collectionItems);
+        this.setState({collectionItems})})
       .catch((error) => {this.setState({networkError: true})})
 
     //console.log('pATCH', this.props.match.params.dynamicConfig);
@@ -157,18 +159,18 @@ import './SurveyFlow.css'
 
   render() {
     const items = this.state.collectionItems
-    const currentItemIndex = this.props.match.params.itemNumber
+    const currentItemIndex = this.props.match.params.itemNumber;
 
     let completed = 0
     if (items && items.length) {
-      completed = currentItemIndex / (items.length - 1) * 100
+      completed = (parseInt(currentItemIndex) + 1) / (items.length) * 100
     }
 
     return (
       <span>
          <Progress completed={completed} color="#1b8aae"/>
 
- 
+
          {
            //if user is logged show button to navigate to EndScreen
            this.props.UserStore.userData.has("id") &&
@@ -182,7 +184,7 @@ import './SurveyFlow.css'
               <SkipToEnd color='#999' hoverColor='#1B8AAE' />
             </IconButton>
          }
-        
+
           <QuestionFlow
             activeTab={this.state.activeTab}
             items={items}
