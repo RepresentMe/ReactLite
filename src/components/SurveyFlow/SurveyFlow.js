@@ -41,7 +41,6 @@ import './SurveyFlow.css'
 
     this.props.CollectionStore.getCollectionItemsById(parseInt(this.props.match.params.surveyId))
       .then((collectionItems) => {
-        console.log(collectionItems);
         this.setState({collectionItems})})
       .catch((error) => {this.setState({networkError: true})})
 

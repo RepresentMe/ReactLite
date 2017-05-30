@@ -190,8 +190,8 @@ export default class Shell extends Component {
     this.props.history.push('/login/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname))
   }
 
-  navigateToRoot(e) {
-    e.preventDefault();
+  navigateToRoot() {
+    //e.preventDefault();
     this.props.history.push('/' + this.dynamicConfig.getNextConfigWithRedirect(this.props.history.location.pathname))
   }
 
@@ -310,7 +310,7 @@ export default class Shell extends Component {
                     onRequestChange={(open) => this.setState({open})}
                   >
                     <List style={{paddingTop: 0}}>
-                    <h1 onTouchTap={(e) => this.navigateToRoot(e)} className="replogo">
+                    <h1 onTouchTap={() => this.navigateToRoot()} className="replogo">
                       <img src="/img/long-100.gif" alt="Represent.me" height="40" />
                       Represent
                     </h1>

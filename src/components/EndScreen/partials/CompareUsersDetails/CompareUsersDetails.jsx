@@ -109,7 +109,7 @@ class CompareUsersDetails extends Component {
                 </div>
 
                 {this.topicsCompare.peek().map((topic) => {
-                  return <div key={`BarChart-${topic.id}`}>
+                  return (topic.totalCount> 2 && <div key={`BarChart-${topic.id}`}>
                     <div style={{ padding: 5, height: 6 }}>
                       <span style={{ fontSize: 12, position: 'relative', float: 'left' }}>
                         {`${topic.matchPercent}% on ${topic.name}`}
@@ -119,7 +119,7 @@ class CompareUsersDetails extends Component {
                       </span>
                     </div>
                     <MatchBarchartSmall values={topic.values} />
-                  </div>
+                  </div>)
                 })}
               </div> :
               <p>loading...</p>}
