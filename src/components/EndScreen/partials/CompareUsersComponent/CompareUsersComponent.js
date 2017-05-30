@@ -148,17 +148,11 @@ class CompareCollectionUsers extends Component {
         const results = res.results;
         results.forEach(({ following, id }) => this.viewData.following.set(following, id))
       })
-
-      propUserIds.forEach((id) => {
-        UserStore.compareUsers(currentUserId, id).then((compareData) => {
-          this.viewData.compareData.set(id, compareData)
+      UserStore.compareMultipleUsers(currentUserId, propUserIds).then((compareData) => {
+        propUserIds.forEach((id) => {
+          this.viewData.compareData.set(id, compareData.results[id])
         })
       })
-      // UserStore.compareMultipleUsers(currentUserId, propUserIds).then((compareData) => {
-      //   propUserIds.forEach((id) => {
-      //     this.viewData.compareData.set(id, compareData.results[id])
-      //   })
-      // })
 
       UserStore.getUsersById(propUserIds).then((usersData) => {
         usersData.results.ids.forEach((id) => {
@@ -174,7 +168,6 @@ class CompareCollectionUsers extends Component {
     UserStore.getCachedMe().then(user => {
       if (this.dynamicConfig.config.survey_end.should_show_compare_candidates) {
         UserStore.getCandidatesByLocation(user.region).then(candidates => {
-          console.log('candidates: ', candidates);
           this.viewData.candidates.replace(this.viewData.candidates.peek());
           setCandidatesStat()
         })
@@ -200,17 +193,12 @@ class CompareCollectionUsers extends Component {
         results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
         this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
       })
-      candidatesIds.forEach((id) => {
-        UserStore.compareUsers(currentUserId, id).then((compareData) => {
-          this.viewData.compareCandidatesData.set(id, compareData)
+      UserStore.compareMultipleUsers(currentUserId, candidatesIds).then((compareData) => {
+        candidatesIds.forEach((id) => {
+          this.viewData.compareCandidatesData.set(id, compareData.results[id])
         })
+        this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
       })
-      // UserStore.compareMultipleUsers(currentUserId, candidatesIds).then((compareData) => {
-      //   candidatesIds.forEach((id) => {
-      //     this.viewData.compareCandidatesData.set(id, compareData.results[id])
-      //   })
-      //   this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
-      // })
     }
   }
 
@@ -395,11 +383,11 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
         <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
           {questions.length > 0 &&
             questions.peek().map((question, i) => {
-              return (
+              return question.type == 'Q' ? (
                 <div key={`ques-${i}`} style={{}}>
                   <Results questionId={question.object_id} id={i} collectionId={collectionId} />
                 </div>
-              )
+              ) : null
             })}
         </div>
       </div>

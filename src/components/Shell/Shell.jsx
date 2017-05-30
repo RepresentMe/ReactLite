@@ -217,8 +217,11 @@ export default class Shell extends Component {
     let split_pathname = this.props.history.location.pathname.split("/");
 
     let mainContentStyle = {
-      height: "calc(100% - 28px)",
-      position: "relative"
+      height: "100%",
+      position: "relative",
+      boxSizing: "border-box",
+      paddingBottom: "28px",
+      paddingLeft: this.breakpoints.lg ? "256px" : 0
     }
 
     if(split_pathname[1] === 'joingroup' || split_pathname[1] === 'undividedrender') {
@@ -261,7 +264,7 @@ export default class Shell extends Component {
                       <AppBar
                       className="appBar"
                         iconElementLeft={
-                          <IconButton style={{height: 20, width: 20, border: 'none', position: 'relative', top: 0, left: 0, cursor: 'pointer'}}
+                          <IconButton style={{height: 20, width: 20, border: 'none', position: 'relative', top: 0, left: 0, cursor: 'pointer', display: this.breakpoints.lg ? 'none' : 'initial'}}
                             iconStyle={{fill: cyan600, position: 'absolute', height: 20, width: 20, top: 0, left: 0}}>
                             <MenuIcon />
                           </IconButton>}
@@ -369,8 +372,8 @@ export default class Shell extends Component {
                   <IntroCarousel
                     modalOpened={this.state.modalOpened}
                     toggleIntro={this.toggleIntro}/>
-
-                  <Scrollbars autoHide style={{float: 'right', width: (this.breakpoints.lg ? 'calc(100% - 256px)' : '100%')}}>
+{/*(this.breakpoints.lg ? 'calc(100% - 256px)' : '100%')*/}
+                  <Scrollbars autoHide style={{float: 'right', width: '100%' }}>
                     <ReactCSSTransitionGroup
                       transitionName="QuestionFlowTransition"
                       transitionEnterTimeout={1000}
