@@ -12,7 +12,7 @@
 }
 
 .voteChoices {
-    padding-top: 0px;
+    padding-top: 20px;
 }
 
 .likertButton1 {
@@ -229,8 +229,8 @@ a {
 .questionText {
     color: #444;
     margin-bottom: 0em;
-    font-weight: 600;
-    font-family: 'Bevan', cursive;
+    font-weight: 800;
+    font-family: 'Source Sans Pro', sans-serif;
     line-height: 1.1;
 
 }
