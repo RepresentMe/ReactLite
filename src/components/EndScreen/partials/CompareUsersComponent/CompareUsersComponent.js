@@ -149,11 +149,16 @@ class CompareCollectionUsers extends Component {
         results.forEach(({ following, id }) => this.viewData.following.set(following, id))
       })
 
-      UserStore.compareMultipleUsers(currentUserId, propUserIds).then((compareData) => {
-        propUserIds.forEach((id) => {
-          this.viewData.compareData.set(id, compareData.results[id])
+      propUserIds.forEach((id) => {
+        UserStore.compareUsers(currentUserId, id).then((compareData) => {
+          this.viewData.compareData.set(id, compareData)
         })
       })
+      // UserStore.compareMultipleUsers(currentUserId, propUserIds).then((compareData) => {
+      //   propUserIds.forEach((id) => {
+      //     this.viewData.compareData.set(id, compareData.results[id])
+      //   })
+      // })
 
       UserStore.getUsersById(propUserIds).then((usersData) => {
         usersData.results.ids.forEach((id) => {
@@ -193,13 +198,19 @@ class CompareCollectionUsers extends Component {
       UserStore.amFollowingUsers(currentUserId, candidatesIds).then(res => {
         const results = res.results;
         results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
-      })
-      UserStore.compareMultipleUsers(currentUserId, candidatesIds).then((compareData) => {
-        candidatesIds.forEach((id) => {
-          this.viewData.compareCandidatesData.set(id, compareData.results[id])
-      })
         this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
       })
+      candidatesIds.forEach((id) => {
+        UserStore.compareUsers(currentUserId, id).then((compareData) => {
+          this.viewData.compareCandidatesData.set(id, compareData)
+        })
+      })
+      // UserStore.compareMultipleUsers(currentUserId, candidatesIds).then((compareData) => {
+      //   candidatesIds.forEach((id) => {
+      //     this.viewData.compareCandidatesData.set(id, compareData.results[id])
+      //   })
+      //   this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
+      // })
     }
   }
 
