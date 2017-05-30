@@ -168,7 +168,6 @@ class CompareCollectionUsers extends Component {
     UserStore.getCachedMe().then(user => {
       if (this.dynamicConfig.config.survey_end.should_show_compare_candidates) {
         UserStore.getCandidatesByLocation(user.region).then(candidates => {
-          console.log('candidates: ', candidates);
           this.viewData.candidates.replace(this.viewData.candidates.peek());
           setCandidatesStat()
         })
@@ -384,11 +383,11 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
         <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
           {questions.length > 0 &&
             questions.peek().map((question, i) => {
-              return (
+              return question.type == 'Q' ? (
                 <div key={`ques-${i}`} style={{}}>
                   <Results questionId={question.object_id} id={i} collectionId={collectionId} />
                 </div>
-              )
+              ) : null
             })}
         </div>
       </div>
