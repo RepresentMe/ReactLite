@@ -217,8 +217,10 @@ export default class Shell extends Component {
     let split_pathname = this.props.history.location.pathname.split("/");
 
     let mainContentStyle = {
-      height: "calc(100% - 28px)",
-      position: "relative"
+      height: "100%",
+      position: "relative",
+      boxSizing: "border-box",
+      paddingBottom: "28px"
     }
 
     if(split_pathname[1] === 'joingroup' || split_pathname[1] === 'undividedrender') {
