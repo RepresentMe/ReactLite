@@ -415,8 +415,9 @@ export default class Shell extends Component {
                 <FacebookShareButton
                   style={{display: 'none'}}
                   url={window.location.origin}
-                  title={`Represent: Democracy as it should be. Survey`}
-                  picture={`https://represent.me/assets/img/ogimage.jpg`}
+                  title={`This is what democracy looks like`}
+                  picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
+                  description={`Put your government back on track`}
                   className='fb-network__share-button'>
                   <FacebookIcon
                     size={32}
