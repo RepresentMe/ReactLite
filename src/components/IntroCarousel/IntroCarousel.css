@@ -2,6 +2,12 @@
     margin: 0;
 }
 
+.carouselMedia {
+    max-height: 300px;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
 @media all and (max-width: 599px) {
     .introslidesBody div div {
         padding: 1px 0 0 0 !important;
