@@ -26,13 +26,43 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
     <div>
  
 
+ <div className="aboutus clear">
+
+    <div  className="aboutus_right">
+
+      <img src="https://i1.wp.com/represent.me/wp-content/uploads/results.gif" alt="chatbot" />
+
+    </div>
+
+    <div  className="aboutus_left">
+
+    <p><strong> At Represent we believe a fairer, modern democracy is within reach. </strong></p>
+
+
+    <p>Represent gives you continous democracy to let you work with your MP between elections.  You can 
+    vote, discuss, compare, and work with the people you trust.
+    </p>
+    <p>
+      Represent is free, open to everyone, and keeps your information secure. Anyone can make use of the results - we work for the people, 
+      not the parties. 
+    </p>
+
+
+    <p>
+     <RaisedButton label="Sign Up" href="https://represent.me/features/" target="_blank" style={{marginRight: 10}}/>
+     <RaisedButton label="All features" primary="true" href="https://represent.me/features/" target="_blank"  />
+    </p>
+  
+    </div>
+ </div>
+
 
  
         <div style={{background: 'url(http://imgur.com/cO2X2tN.png)', padding: '70px 0 90px 0'}} >
            <div className="imageContainer">
             <div className="contentBox">
 
-                <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>The 2017 General Election: Who should I vote for?</h1>
+                <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>Who should I vote for?</h1>
                
                 <p>Find which party best matches your values, then track and hold them to account during the next five years.</p>
 
