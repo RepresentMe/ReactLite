@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
 
+import IconButton from 'material-ui/IconButton';
 import ChartIcon from 'material-ui/svg-icons/editor/insert-chart';
 import SocialShare from 'material-ui/svg-icons/social/share';
 import Follow from 'material-ui/svg-icons/social/person-add';
@@ -405,7 +406,7 @@ class UserCardSmall extends Component {
     this.areCompareDetailsShowing = observable(false)
     this.state = {
       //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
-      checked: [true, true, false, false, false]
+      iconsDisplay: false
     }
   }
 
@@ -420,8 +421,25 @@ class UserCardSmall extends Component {
     this.props.following.set(0);
   }
 
+  openSocial = () => {
+    let iconsDisplay = !this.state.iconsDisplay;
+    this.setState({iconsDisplay})
+  }
+
   clickFB = (e) => {
     document.getElementsByClassName(`fb-network__share-button__${this.props.user.id}`)[0].click()
+    let iconsDisplay = !this.state.iconsDisplay;
+    this.setState({iconsDisplay})
+  }
+  clickTW = (e) => {
+    document.getElementsByClassName(`twitter-network__share-button__${this.props.user.id}`)[0].click()
+    let iconsDisplay = !this.state.iconsDisplay;
+    this.setState({iconsDisplay})
+  }
+  clickWA = (e) => {
+    document.getElementsByClassName(`whatsapp-network__share-button__${this.props.user.id}`)[0].click()
+    let iconsDisplay = !this.state.iconsDisplay;
+    this.setState({iconsDisplay})
   }
 
   render() {
@@ -479,6 +497,38 @@ class UserCardSmall extends Component {
 
         <CardText style={{ textAlign: 'center', padding: '8px 16px 0 16px', color: '#444' }} className='cardText'>
           <div style={{ margin: '0' }}>
+
+            <div style={{
+                display: this.state.iconsDisplay ? 'flex' : 'none',
+                flexFlow: 'row nowrap', justifyContent: 'center', width: '100%'
+              }}>
+
+            <div style={{
+                display: this.state.iconsDisplay ? 'flex' : 'none',
+                flexFlow: 'row nowrap', justifyContent: 'space-around', alignItems: 'center', width: '150px'
+              }}>
+              <IconButton
+                onClick={this.clickFB}
+                style={{flex: 1, margin: 'auto', padding: 0, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
+                >
+                <FacebookIcon size={30} round={true} />
+              </IconButton>
+              <IconButton
+                onClick={this.clickTW}
+                style={{flex: 1, margin: 'auto', padding: 0, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
+                >
+                <TwitterIcon size={30} round={true}/>
+              </IconButton>
+              <IconButton
+                onClick={this.clickWA}
+                style={{flex: 1, margin: 'auto', padding: 0, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
+                >
+                <WhatsappIcon size={30} round={true}/>
+              </IconButton>
+            </div>
+
+          </div>
+
             {this.props.following.get() > 0 ?
               <RaisedButton
                 label="following"
@@ -493,12 +543,14 @@ class UserCardSmall extends Component {
                 primary={true}
                 icon={<Follow />}
               />}
+
             <RaisedButton
-              onClick={this.clickFB}
+              onClick={this.openSocial} //open dropdown menu
               style={{ margin: 5, minWidth: 30, width: 40 }}
               primary={true}
               icon={<SocialShare />}
             />
+
             <RaisedButton
             primary={true}
             icon={<ChartIcon />}
@@ -523,24 +575,33 @@ class UserCardSmall extends Component {
           description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
           style={{display: 'none'}}
         >
-
           <FacebookIcon
             size={32}
             round />
         </FacebookShareButton>
-        {/* <TwitterButton
+        <TwitterShareButton
           url={`${window.location.origin}/survey/${collectionId}`}
           title={`I'm ${match}% match with ${name}`}
-          picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
-          className={`fb-network__share-button__${user.id}`}
-          description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
+          via='representme'
+          hashtags={['representme', 'democracy']}
+          className={`twitter-network__share-button__${user.id}`}
           style={{display: 'none'}}
         >
-
           <TwitterIcon
             size={32}
             round />
-        </TwitterButton> */}
+        </TwitterShareButton>
+        <WhatsappShareButton
+          url={`${window.location.origin}/survey/${collectionId}`}
+          title={`I'm ${match}% match with ${name}. This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account.`}
+          picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
+          className={`whatsapp-network__share-button__${user.id}`}
+          style={{display: 'none'}}
+        >
+          <WhatsappIcon
+            size={32}
+            round />
+        </WhatsappShareButton>
       </Card>
     )
   }
