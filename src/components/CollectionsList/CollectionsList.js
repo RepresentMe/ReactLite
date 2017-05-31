@@ -12,7 +12,7 @@ import './CollectionsList.css';
  
 
 
-const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) => {
+const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ CollectionStore, UserStore, history }) => {
 
   if (CollectionStore.collections.size <= 0) {
     return null;
@@ -26,7 +26,7 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
     <div>
  
 
- <div className="aboutus clear">
+ {!UserStore.isLoggedIn() && <div className="aboutus clear">
 
     <div  className="aboutus_right">
 
@@ -49,12 +49,12 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 
 
     <p>
-     <RaisedButton label="Sign Up" href="https://represent.me/features/" target="_blank" style={{marginRight: 10}}/>
+     <RaisedButton label="Sign Up" onClick={() => history.push('/login')} style={{marginRight: 10}}/>
      <RaisedButton label="All features" primary="true" href="https://represent.me/features/" target="_blank"  />
     </p>
   
     </div>
- </div>
+ </div>}
 
 
  
