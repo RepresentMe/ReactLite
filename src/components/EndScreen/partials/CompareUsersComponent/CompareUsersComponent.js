@@ -457,9 +457,10 @@ class UserCardSmall extends Component {
 
     let match = '';
     let questions_counted = null;
+    const isCompareDataExist = this.props.compareData.difference_percent !== null;
     if (this.props.compareData) {
-      match = Math.floor(100 - this.props.compareData.difference_percent);
       questions_counted = this.props.compareData.questions_counted;
+      match = isCompareDataExist ? Math.floor(100 - this.props.compareData.difference_percent) : '-';
     }
 
     const barStyle = this.areCompareDetailsShowing.get() ? { display: 'block' } : { display: 'none' }
@@ -475,13 +476,13 @@ class UserCardSmall extends Component {
 
 
         <CardText style={{ backgroundColor: '#e6f7ff', padding: '10px 4px', marginTop: 10 }}>
-          <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center' }}>{`${match}%`}</h2>
+          <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center' }}>{isCompareDataExist ? `${match}%` : '-'}</h2>
 
           {this.props.compareData ? (
             <div>
 
-              <p style={{ color: '#999', margin: 0, }}>{`match on ${questions_counted} questions`}</p>
-              <MatchBarchart compareData={this.props.compareData} />
+              <p style={{ color: '#999', margin: 0, }}>{isCompareDataExist ? `match on ${questions_counted} questions` : 'you need to answer more questions in common'}</p>
+              {isCompareDataExist && <MatchBarchart compareData={this.props.compareData} />}
             </div>
           ) : <p></p>}
 
@@ -544,19 +545,19 @@ class UserCardSmall extends Component {
                 icon={<Follow />}
               />}
 
-            <RaisedButton
+            {isCompareDataExist && <RaisedButton
               onClick={this.openSocial} //open dropdown menu
               style={{ margin: 5, minWidth: 30, width: 40 }}
               primary={true}
               icon={<SocialShare />}
-            />
+            />}
 
-            <RaisedButton
+            {isCompareDataExist && <RaisedButton
             primary={true}
             icon={<ChartIcon />}
             style={{ color: '#999', margin: 5, minWidth: 30, width: 40}}
             onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
-          />
+          />}
           </div>
         </CardText>
 
