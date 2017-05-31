@@ -39,15 +39,14 @@ import './SurveyFlow.css'
       .then((collection) => {this.setState({collection})})
       .catch((error) => {this.setState({networkError: true})})
 
-    this.props.CollectionStore.getCollectionItemsById(parseInt(this.props.match.params.surveyId))
-      .then((collectionItems) => {
-        this.setState({collectionItems})})
-      .catch((error) => {this.setState({networkError: true})})
+    // this.props.CollectionStore.getCollectionItemsById(parseInt(this.props.match.params.surveyId))
+    //   .then((collectionItems) => {
+    //     this.setState({collectionItems})
+    //   })
+    //   .catch((error) => {this.setState({networkError: true})})
 
-    //console.log('pATCH', this.props.match.params.dynamicConfig);
-    // if(this.props.match.params.dynamicConfig) {
-    //   this.dynamicConfig.setConfigFromRaw(this.props.match.params.dynamicConfig)
-    // }
+    let currentItemIndex = this.props.match.params.itemNumber;
+    this.loadCollectionQuestions(currentItemIndex);
 
     this.setState({activeTab: this.props.match.params.activeTab})
 
@@ -76,6 +75,51 @@ import './SurveyFlow.css'
   componentWillReceiveProps(nextProps) {
     if(this.state.activeTab !== nextProps.match.params.activeTab) {
       this.setState({activeTab: nextProps.match.params.activeTab})
+    }
+  }
+
+  
+  loadCollectionQuestions = (curItemIndex) => {
+    let curPage = Math.ceil(curItemIndex/10);
+    curPage = curPage == 0 ? 1 : curPage;
+    const surveyId = this.props.match.params.surveyId;
+
+    this.loadQuestionsByPage(curPage);
+    
+    if(curPage > 1) {
+      setTimeout(() => {
+        for (var i = 1; i < curPage; i++) {
+          this.loadQuestionsByPage(i);          
+        }
+      }, 350)
+    }
+  }
+
+  loadQuestionsByPage = (page) => {
+    const surveyId = this.props.match.params.surveyId;
+    this.props.CollectionStore.getCollectionItemsByPage(surveyId, page)
+      .then((res) => {
+        this.setState((prevState) => {
+          if(!prevState.collectionItems) {
+            prevState.collectionItems = [];
+            for (var j = 0; j < res.count; j++) {
+              prevState.collectionItems[j] = null;              
+            }
+          }
+          for (var i = 0; i < res.results.length; i++) {
+            prevState.collectionItems[(page-1)*10+i] = res.results[i];         
+          }
+          return prevState.collectionItems;
+        })
+      })
+  }
+
+  loadNextQuestionsPage = (curIndex) => {
+    let curPage = Math.ceil(curIndex/10);
+    let nextIndex = curPage*10;
+    let shouldLoadNextPage = nextIndex < this.state.collectionItems.length && !this.state.collectionItems[nextIndex];
+    if(shouldLoadNextPage) {
+      this.loadQuestionsByPage(curPage+1)
     }
   }
 
@@ -125,6 +169,7 @@ import './SurveyFlow.css'
       // this.navigateEnd()
       this.navigateEnd2()
     } else {
+      this.loadNextQuestionsPage(parseInt(this.props.match.params.itemNumber));
       this.props.history.push('/survey/' + this.props.match.params.surveyId + '/flow/' + (parseInt(this.props.match.params.itemNumber) + 1) + '/vote/' + this.dynamicConfig.getEncodedConfig())
     }
   }
@@ -138,6 +183,7 @@ import './SurveyFlow.css'
       // this.navigateEnd()
       this.navigateEnd2()
     } else {
+      this.loadNextQuestionsPage(n);
       const nextUrl = `/survey/${this.props.match.params.surveyId}/flow/${n}/vote/`;
       this.dynamicConfig.addRedirect(nextUrl);
       this.props.history.push(nextUrl+this.dynamicConfig.getEncodedConfig());

@@ -64,7 +64,7 @@ class CollectionStore {
         return
       }
 
-      this.getCollectionItemsByIdPage(collectionId, 1)
+      this.getCollectionItemsAllPages(collectionId, 1)
         .then((response) => {
           let items = response
           for(let item of items) {
@@ -82,7 +82,7 @@ class CollectionStore {
     });
   }
 
-  getCollectionItemsByIdPage(collectionId, page) {
+  getCollectionItemsAllPages(collectionId, page) {
     return new Promise((resolve, reject) => {
       window.API.get('/api/question_collection_items/', {params: { parent: collectionId, ordering: 'order', page } })
         .then((response) => {
@@ -92,7 +92,7 @@ class CollectionStore {
           if(items.length < 10 || page === count) {
             resolve(items)
           } else {
-            this.getCollectionItemsByIdPage(collectionId, page + 1)
+            this.getCollectionItemsAllPages(collectionId, page + 1)
               .then((inner_items) => {
                 resolve(items.concat(inner_items))
               })
@@ -105,6 +105,40 @@ class CollectionStore {
           resolve([])
         })
     })
+  }
+
+  getCollectionItemsByPage(collectionId, page) {
+    let dataObj = {
+      params: { 
+        parent: collectionId, 
+        ordering: 'order', 
+        page_size: 10,
+        page 
+      } 
+    }
+    return window.API.get('/api/question_collection_items/', dataObj)
+        .then((response) => {
+          let items = response.data.results;
+          for(let item of items) {
+            if(item.type === 'Q') { // If item is a question, update QuestionStore
+              window.stores.QuestionStore.questions.set(item.content_object.id, item.content_object); // Add question to QuestionStore
+              delete item.content_object; // Remove the question data as now stored in QuestionStore
+            }
+          }
+          let collectionItems = this.collectionItems.get(collectionId);
+          if(!collectionItems) {
+            collectionItems = [];
+            for (var j = 0; j < response.data.count; j++) {
+              collectionItems[j] = null;
+            }
+          }
+          for (var i = 0; i < items.length; i++) {
+            collectionItems[(page-1)*10+i] = items[i];              
+          }
+          this.collectionItems.set(collectionId, collectionItems);
+          response.data.results = items;
+          return response.data;
+        })
   }
 
   setCollectionQuestionById = ({parent, object_id, type, content_object}) => {
