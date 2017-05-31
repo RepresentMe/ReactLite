@@ -12,7 +12,7 @@ import './CollectionsList.css';
  
 
 
-const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) => {
+const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ CollectionStore, UserStore, history }) => {
 
   if (CollectionStore.collections.size <= 0) {
     return null;
@@ -26,7 +26,7 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
     <div>
  
 
- <div className="aboutus clear">
+ {!UserStore.isLoggedIn() && <div className="aboutus clear">
 
     <h2><strong> Represent believes a more effective democracy is within reach </strong></h2>
 
@@ -47,13 +47,13 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
     </p>
 
 
-    <p>
-     <RaisedButton label="Sign up" href="https://represent.me/features/" target="_blank" style={{marginRight: 10}}/>
-     <RaisedButton label="Features" primary="true" href="https://represent.me/features/" target="_blank"  />
+    <p> 
+     <RaisedButton label="Sign Up" onClick={() => history.push('/login')} style={{marginRight: 10}}/>
+     <RaisedButton label="All features" primary="true" href="https://represent.me/features/" target="_blank"  />
     </p>
   
     </div>
- </div>
+ </div>}
 
 
  
