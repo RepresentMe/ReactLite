@@ -39,19 +39,23 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
     <div  className="aboutus_left">
 
 
-    <p>Represent gives your views and values a voice. 
-
+    <p><strong>
+      Represent gives your views and values a voice. 
+      </strong>
     </p>
     <p>
-    One central place to vote on the issues, so politicians, groups, and we the people have a clear
-    understanding of what is important (and not important) to everyone.
-
+      One central place to vote on the issues and work with the politicians and groups you trust to represent you.  
     </p>
     <p>
-      Represent is free, open to everyone, and totally anonymous and secure. 
+      Represent is free, open to everyone, anonymous and secure. 
+
       We are your trusted partner, making our combined voices more powerful and effective 
       to create the world we want.
     </p>
+
+ 
+ 
+
 
 
     <p> 
@@ -152,9 +156,11 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
 const OgTags = ({}) => {
   const og = {
     url: window.location.origin,
-    title: "Let's modernise democracy",
-    image: 'https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png',
-    desc: "Put your government back on track"
+    title: "Let's build a better democracy",
+    image: 'http://i.imgur.com/wrW7xwp.png',
+    desc: "Have your say!"
+
+ 
   }
   return (<Helmet>
     <meta property="og:url" content={og.url} />
