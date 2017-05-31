@@ -39,19 +39,23 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
     <div  className="aboutus_left">
 
 
-    <p>Represent gives your views and values a voice. 
-
+    <p><strong>
+      Represent gives your views and values a voice. 
+      </strong>
     </p>
     <p>
-    One central place to vote on the issues, so politicians, groups, and we the people have a clear
-    understanding of what is important (and not important) to everyone.
-
+      One central place to vote on the issues, show what you want, and work with the politicians and groups you trust to help them represent you.  
     </p>
     <p>
-      Represent is free, open to everyone, and totally anonymous and secure. 
+      Represent is free, open to everyone, anonymous and secure. 
+
       We are your trusted partner, making our combined voices more powerful and effective 
       to create the world we want.
     </p>
+
+ 
+ 
+
 
 
     <p> 
