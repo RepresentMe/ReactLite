@@ -28,6 +28,8 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 
  <div className="aboutus clear">
 
+    <h2><strong> Represent believes a more effective democracy is within reach </strong></h2>
+
     <div  className="aboutus_right">
 
       <img src="https://i1.wp.com/represent.me/wp-content/uploads/results.gif" alt="chatbot" />
@@ -36,21 +38,18 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 
     <div  className="aboutus_left">
 
-    <p><strong> At Represent we believe a fairer, modern democracy is within reach. </strong></p>
 
+    <p>Represent gives your views and values a voice. One central place to capture your votes on political and issue-based topics, so politicians and issue-based groups have a deep and nuanced understanding of what is important (and not important) to everyone they are meant to represent.       
 
-    <p>Represent gives you continous democracy to let you work with your MP between elections.  You can 
-    vote, discuss, compare, and work with the people you trust.
     </p>
     <p>
-      Represent is free, open to everyone, and keeps your information secure. Anyone can make use of the results - we work for the people, 
-      not the parties. 
+      Represent is free, open to everyone, and totally anonymous and secure. We are your trusted partner, making our combined voices more powerful and effective to create the world we want.
     </p>
 
 
     <p>
-     <RaisedButton label="Sign Up" href="https://represent.me/features/" target="_blank" style={{marginRight: 10}}/>
-     <RaisedButton label="All features" primary="true" href="https://represent.me/features/" target="_blank"  />
+     <RaisedButton label="Sign up" href="https://represent.me/features/" target="_blank" style={{marginRight: 10}}/>
+     <RaisedButton label="Features" primary="true" href="https://represent.me/features/" target="_blank"  />
     </p>
   
     </div>
@@ -64,7 +63,7 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 
                 <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>Who should I vote for?</h1>
                
-                <p>Find which party best matches your values, then track and hold them to account during the next five years.</p>
+                <p>Confused about which party to vote for on June 9th? Find out which party best matches your values.</p>
 
                 <RaisedButton label="Start" primary href="/survey/122/flow/0/vote/" style={{marginTop: 15}}/>
                 
