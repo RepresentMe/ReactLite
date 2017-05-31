@@ -347,18 +347,18 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
       <p>Share and compare</p>
       <div className="shareLinksButtons">
           <FacebookShareButton
-            url={window.location.origin}
-            title={`Let's modernise democracy`}
-            picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
+            title={`Represent helps you modernise democracy.`}
+            picture={`http://i.imgur.com/wrW7xwp.png`}
+            description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button'>
             <FacebookIcon
               size={30}
               round />
           </FacebookShareButton>
           <TwitterShareButton
-            url={window.location.origin}
-            title={`Let's modernise democracy`}
-            picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
+            title={`Represent helps you modernise democracy.`}
+            picture={`http://i.imgur.com/wrW7xwp.png`}
+            description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button'>
             <TwitterIcon
               size={30}
@@ -367,8 +367,9 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
 
           <WhatsappShareButton
             url={window.location.origin}
-            title={`Let's modernise democracy`}
-            picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
+            title={`Represent helps you modernise democracy.`}
+            picture={`http://i.imgur.com/wrW7xwp.png`}
+            description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button'>
             <WhatsappIcon
               size={30}
