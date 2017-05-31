@@ -22,10 +22,15 @@
 .aboutus {
     padding: 15px;
     max-width: 800px;
+    text-align: center;
+    color: #1B8AAE;
     margin: 0 auto;
     text-align: left !important;
 }
 
+.aboutus h2 { 
+    text-align: center;
+}
 .aboutus .aboutus_left {
     float: left;
     width: 55%;
@@ -33,7 +38,8 @@
 }
 
 .aboutus .aboutus_left p {
-    font-weight: 600;
+    font-weight: 500;
+    color: #444;
     text-align: left !important;
     font-size: 16px;
     font-family: 'Source Sans Pro', sans-serif;
