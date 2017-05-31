@@ -528,6 +528,19 @@ class UserCardSmall extends Component {
             size={32}
             round />
         </FacebookShareButton>
+        {/* <TwitterButton
+          url={`${window.location.origin}/survey/${collectionId}`}
+          title={`I'm ${match}% match with ${name}`}
+          picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
+          className={`fb-network__share-button__${user.id}`}
+          description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
+          style={{display: 'none'}}
+        >
+
+          <TwitterIcon
+            size={32}
+            round />
+        </TwitterButton> */}
       </Card>
     )
   }
