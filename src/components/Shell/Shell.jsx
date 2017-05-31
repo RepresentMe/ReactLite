@@ -318,7 +318,7 @@ export default class Shell extends Component {
                     <ListItem key='menuItem-2' primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
                     <ListItem key='menuItem-3' primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
                     <Divider />
-                    <ListItem className='menuItem menuItem9' key='menuItem-4' primaryText="Who Should I Vote For?" leftIcon={<Important />}  href="/survey/122" />
+                    <ListItem className='menuItem menuItem9' key='menuItem-4' primaryText="Who should I vote for?" leftIcon={<Important />}  href="/survey/122" />
                     <Divider />
 
                     <Subheader>COMPARE BY PARTY</Subheader>
