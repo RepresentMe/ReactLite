@@ -163,6 +163,13 @@ const OgTags = ({}) => {
  
   }
   return (<Helmet>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@representlive" />
+    <meta name="twitter:creator" content="@representlive" />
+    <meta name="twitter:title" content={og.title} />
+    <meta name="twitter:description" content={og.desc} />
+    <meta name="twitter:image" content={og.image} />
+    
     <meta property="og:url" content={og.url} />
     <meta property="og:title" content={og.title} />
     <meta property="og:image" content={og.image} />

@@ -349,7 +349,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
           <FacebookShareButton
             url={`${window.location.origin}/survey/${collectionId}`}
             title={`Represent helps you modernise democracy.`}
-            picture={`http://i.imgur.com/wrW7xwp.png`}
+            picture={`/img/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button'>
             <FacebookIcon
@@ -359,7 +359,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
           <TwitterShareButton
             url={`${window.location.origin}/survey/${collectionId}`}
             title={`Represent helps you modernise democracy.`}
-            picture={`http://i.imgur.com/wrW7xwp.png`}
+            picture={`/img/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button'>
             <TwitterIcon
@@ -370,7 +370,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
           <WhatsappShareButton
             url={`${window.location.origin}/survey/${collectionId}`}
             title={`Represent helps you modernise democracy.`}
-            picture={`http://i.imgur.com/wrW7xwp.png`}
+            picture={`/img/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button'>
             <WhatsappIcon
@@ -387,7 +387,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
         <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
           {questions.length > 0 &&
             questions.peek().map((question, i) => {
-              return question.type == 'Q' ? (
+              return (question && question.type == 'Q') ? (
                 <div key={`ques-${i}`} style={{}}>
                   <Results questionId={question.object_id} id={i} collectionId={collectionId} />
                 </div>
