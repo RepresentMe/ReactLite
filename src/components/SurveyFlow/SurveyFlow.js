@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+ import React, { Component } from 'react'
 import { observer, inject } from "mobx-react"
 
 import Progress from 'react-progressbar';
@@ -250,11 +250,13 @@ const OgTags = ({collection}) => {
     url: `${window.location.origin}/survey/${collection.id}`,
     title: collection.name+' - #RepresentMe' || "Let's modernise democracy",   
     image: collection.photo || 'http://i.imgur.com/wrW7xwp.png',
-    desc: collection.desc || "Have your say!"
+    desc: collection.desc || "Have your say!",
   }
   return (<Helmet>
     <meta property="og:url" content={og.url} />
-    <meta property="og:title" content={og.title} />
+    <meta property="og:title" content={og.title} /> 
+    <meta property="og:type" content="website" />
+    <meta property="fb:app_id" content="1499361770335561" /> 
     <meta property="og:image" content={og.image} />
     <meta property="og:description" content={og.desc} />
   </Helmet>)

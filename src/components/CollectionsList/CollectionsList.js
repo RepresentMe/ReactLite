@@ -166,6 +166,8 @@ const OgTags = ({}) => {
     <meta property="og:url" content={og.url} />
     <meta property="og:title" content={og.title} />
     <meta property="og:image" content={og.image} />
+    <meta property="og:type" content="website" />
+    <meta property="fb:app_id" content="1499361770335561" /> 
     <meta property="og:description" content={og.desc} />
   </Helmet>)
 }
