@@ -571,10 +571,10 @@ class UserCardSmall extends Component {
         </CardText>
         <FacebookShareButton
           url={`${window.location.origin}/survey/${collectionId}`}
-          title={`I'm ${match}% match with ${name}`}
+          title={`I'm a ${match}% match with ${name} - how about you?`}
           picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
           className={`fb-network__share-button__${user.id}`}
-          description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
+          description="BTW, this isn't just another party comparison / data sucking thing. It's a really cool new way of doing democracy and giving people a really clear voice. Think petitions, but .. done better :)"
           style={{display: 'none'}}
         >
           <FacebookIcon
@@ -583,7 +583,7 @@ class UserCardSmall extends Component {
         </FacebookShareButton>
         <TwitterShareButton
           url={`${window.location.origin}/survey/${collectionId}`}
-          title={`I'm ${match}% match with ${name}`}
+          title={`I'm a ${match}% match with ${name} - how about you?`}
           via='representme'
           hashtags={['representme', 'democracy']}
           className={`twitter-network__share-button__${user.id}`}
@@ -595,7 +595,7 @@ class UserCardSmall extends Component {
         </TwitterShareButton>
         <WhatsappShareButton
           url={`${window.location.origin}/survey/${collectionId}`}
-          title={`I'm ${match}% match with ${name}. This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account.`}
+          title={`I'm a ${match}% match with ${name}. How about you? BTW, this isn't just another party comparison / data sucking thing. It's a really cool new way of doing democracy and giving people a really clear voice. Think petitions, but .. done better :) `}
           picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
           className={`whatsapp-network__share-button__${user.id}`}
           style={{display: 'none'}}
