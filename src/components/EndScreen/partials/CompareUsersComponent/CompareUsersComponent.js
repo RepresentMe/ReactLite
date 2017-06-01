@@ -185,6 +185,7 @@ class CompareCollectionUsers extends Component {
         usersData.results.ids.forEach((id) => {
           this.viewData.candidates.push(usersData.results[id])
         })
+        this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
       })
 
       candidatesIds = candidatesIds.concat(this.viewData.candidates.map(user => { return user.id }));
@@ -192,7 +193,6 @@ class CompareCollectionUsers extends Component {
       UserStore.amFollowingUsers(currentUserId, candidatesIds).then(res => {
         const results = res.results;
         results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
-        this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
       })
       UserStore.compareMultipleUsers(currentUserId, candidatesIds).then((compareData) => {
         candidatesIds.forEach((id) => {
@@ -347,6 +347,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
       <p>Share and compare</p>
       <div className="shareLinksButtons">
           <FacebookShareButton
+            url={`${window.location.origin}/survey/${collectionId}`}
             title={`Represent helps you modernise democracy.`}
             picture={`http://i.imgur.com/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
@@ -356,6 +357,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
               round />
           </FacebookShareButton>
           <TwitterShareButton
+            url={`${window.location.origin}/survey/${collectionId}`}
             title={`Represent helps you modernise democracy.`}
             picture={`http://i.imgur.com/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
@@ -366,7 +368,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
           </TwitterShareButton>
 
           <WhatsappShareButton
-            url={window.location.origin}
+            url={`${window.location.origin}/survey/${collectionId}`}
             title={`Represent helps you modernise democracy.`}
             picture={`http://i.imgur.com/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
@@ -445,7 +447,7 @@ class UserCardSmall extends Component {
 
   render() {
     // if (!this.props.user) return null;
-    if (!this.props.user) return <LoadingIndicator />;
+    if (!this.props.user || !this.props.compareData) return <LoadingIndicator />;
 
     const { user, UserStore, collectionId } = this.props
 
@@ -540,7 +542,6 @@ class UserCardSmall extends Component {
               /> :
               <RaisedButton
                 onTouchTap={this.setFollowing}
-                tooltip="Back to questions"
                 style={{ margin: 5,  minWidth: 30, width: 40 }}
                 primary={true}
                 icon={<Follow />}
