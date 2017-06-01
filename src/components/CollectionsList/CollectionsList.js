@@ -60,7 +60,7 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
 
     <p> 
      <RaisedButton label="Sign Up" onClick={() => history.push('/login')} style={{marginRight: 10}}/>
-     <RaisedButton label="Features" primary="true" href="https://represent.me/features/" target="_blank"  />
+     <RaisedButton label="Features" primary={true} href="https://represent.me/features/" target="_blank"  />
     </p>
   
     </div>

@@ -243,13 +243,13 @@ export default class Shell extends Component {
     const isAuthenticated = !!userData.get('id')
 
     const avatar = (
-      <Avatar style={avatarStyle}
+      <IconButton><Avatar style={avatarStyle}
         className="appAvatar"
         icon={!this.props.UserStore.userData.has("id") ? <Face /> : null}
         src={this.props.UserStore.userData.has("photo") ? photo.replace("localhost:8000", "represent.me") : null}
         backgroundColor={cyan600}
         onClick={!isAuthenticated ? this.navigateToLogin : null}
-      />
+      /></IconButton>
     )
 
     return(
@@ -304,8 +304,8 @@ export default class Shell extends Component {
 
 
                   <Drawer
-                    open={this.breakpoints.sm && this.state.open || this.breakpoints.lg}
-                    docked={this.breakpoints.lg}
+                    open={this.breakpoints.sm && this.state.open || !!this.breakpoints.lg}
+                    docked={!!this.breakpoints.lg}
                     width={256}
                     onRequestChange={(open) => this.setState({open})}
                   >
