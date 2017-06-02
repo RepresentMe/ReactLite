@@ -5,6 +5,7 @@ import GeoService from '../services/GeoService'
 class UserStore {
 
   userData = observable.shallowMap({});
+  userInstance = observable.shallowMap({});
   sessionData = observable.shallowMap({
     authToken: "",
     showUserDialog: false
@@ -74,6 +75,24 @@ class UserStore {
     });
 
   }
+
+  getCurrUserInstance(id){
+    return new Promise((resolve, reject) => {
+      if(!this.userData.has("id")) {
+        reject("No auth token");
+      }
+
+    window.API.get(`api/users/${id}/`)
+      .then(response => {
+        this.userInstance.replace(response.data);
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error)
+      })
+    });
+  }
+
 
   getCandidatesByLocation(region){
     return new Promise((resolve, reject) => {
@@ -307,6 +326,11 @@ class UserStore {
     return userData;
   }
 
+  countShareClicks(obj){
+    window.API.post('api/analytics_event/url_share/', obj)
+      .then(response => {
+      }).catch(err => console.log('err', err));
+    }
 
   } //end of UserStore
 

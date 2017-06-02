@@ -78,7 +78,7 @@ const styles = {
   }
 
   handleQuestionAdd(question) {
-    this.setState({showQuestionPicker: false})
+    //this.setState({showQuestionPicker: false})
     this.props.onItemAdd({
       type: 'Q',
       object_id: question

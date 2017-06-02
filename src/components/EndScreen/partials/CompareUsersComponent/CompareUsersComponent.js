@@ -81,11 +81,32 @@ class CompareCollectionUsers extends Component {
       following: observable.shallowMap(),
       followingCandidates: observable.shallowMap(),
       questions: observable.shallowArray(),
-      collection_tags: observable.shallowArray([])
+      collection_tags: observable.shallowArray([]),
+      session_vars: null,
+      userInstance: null
     });
   }
 
+  componentWillMount(){
+    let url = (window.location !== window.parent.location)
+            ? document.referrer
+            : document.location.href;
+    const analytics_browser = window.navigator.appCodeName; //Browser details
+    const analytics_os = window.navigator.appVersion.slice(0,100); //OS
+    const analytics_parent_url = url.slice(0,200); //parent url (for embed) or current url in other cases
+    const session_vars = Object.assign({},
+      {
+        analytics_interface: 'collection',
+        analytics_os,
+        analytics_browser,
+        analytics_parent_url,
+        url: window.location.origin
+      }
+    )
+    this.setState({session_vars})
+  }
   componentDidMount = () => {
+    this.getUserLocation();
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
     let shouldAutorunDispose = false;
     let autorunDispose = autorun(() => { // aurotun called multiple times, shouldAutorunDispose needed
@@ -116,12 +137,36 @@ class CompareCollectionUsers extends Component {
     document.execCommand('copy')
   }
 
+  getUserLocation = () => {
+    navigator.geolocation.getCurrentPosition(({coords}) => {
+      const { latitude, longitude, accuracy } = coords;
+      let location = "";
+      try {
+        location = [latitude, longitude, accuracy].toString();
+      }
+      catch (err) { console.log(err) }
+
+      const new_session_vars = Object.assign(this.state.session_vars, {analytics_location: location})
+      this.setState({session_vars: new_session_vars})
+      },
+    err => {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    })
+  }
+
+  countShare = () => {
+    this.props.UserStore.countShareClicks(this.state.session_vars)
+  }
 
   loadData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
     let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
     const propUserIds = userIds.peek();
-    //const propUserIds = [6,100,1000]
+    this.props.UserStore.getCurrUserInstance(currentUserId)
+
+
+      //.then(res => console.log('userInstance', res));
+
     CollectionStore.getCollectionItemsById(collectionId)
       .then((res) => {
         this.viewData.questions.replace(res);
@@ -204,6 +249,7 @@ class CompareCollectionUsers extends Component {
   }
 
   render() {
+    console.log('userInstance', this.props.UserStore.userInstance.get('id'))
     // if (!userIds.length) console.log('No users specified to compare');
     // return <CompareCollectionUsersView data={this.viewData} />
     if (!this.viewData.isLoggedIn.get()) return <SignInToSeeView />;
@@ -248,7 +294,11 @@ class CompareCollectionUsers extends Component {
           following={this.viewData.followingCandidates}
           collectionId={this.props.collectionId}
         />}
-        <QuestionResultsCarousel questions={this.viewData.questions} collectionId={this.props.collectionId} />
+        <QuestionResultsCarousel
+          questions={this.viewData.questions}
+          collectionId={this.props.collectionId}
+          countShare={this.countShare}
+          />
 
 
         <div>
@@ -339,11 +389,12 @@ class MessengerPluginBlock extends Component {
 
 
 
-const QuestionResultsCarousel = observer(({ questions, collectionId }) => {
+const QuestionResultsCarousel = observer(({ questions, collectionId, countShare }) => {
+
   return (
     <div>
 
-      <div className="shareLinks">
+      <div className="shareLinks" onTouchTap={() => countShare()}>
       <p>Share and compare</p>
       <div className="shareLinksButtons">
           <FacebookShareButton
@@ -405,7 +456,6 @@ class UserCardSmall extends Component {
 
     this.areCompareDetailsShowing = observable(false)
     this.state = {
-      //0-str.agree, 1-agree, 2-neutral, 3-disagree, 4-str.disagree
       iconsDisplay: false
     }
   }
@@ -421,25 +471,22 @@ class UserCardSmall extends Component {
     this.props.following.set(0);
   }
 
-  openSocial = () => {
+  toggleSocial = () => {
     let iconsDisplay = !this.state.iconsDisplay;
     this.setState({iconsDisplay})
   }
 
   clickFB = (e) => {
     document.getElementsByClassName(`fb-network__share-button__${this.props.user.id}`)[0].click()
-    let iconsDisplay = !this.state.iconsDisplay;
-    this.setState({iconsDisplay})
+    this.toggleSocial()
   }
   clickTW = (e) => {
     document.getElementsByClassName(`twitter-network__share-button__${this.props.user.id}`)[0].click()
-    let iconsDisplay = !this.state.iconsDisplay;
-    this.setState({iconsDisplay})
+    this.toggleSocial()
   }
   clickWA = (e) => {
     document.getElementsByClassName(`whatsapp-network__share-button__${this.props.user.id}`)[0].click()
-    let iconsDisplay = !this.state.iconsDisplay;
-    this.setState({iconsDisplay})
+    this.toggleSocial()
   }
 
   render() {
@@ -538,14 +585,14 @@ class UserCardSmall extends Component {
               /> :
               <RaisedButton
                 onTouchTap={this.setFollowing}
-                tooltip="Back to questions"
+                //tooltip="Back to questions"
                 style={{ margin: 5,  minWidth: 30, width: 40 }}
                 primary={true}
                 icon={<Follow />}
               />}
 
             <RaisedButton
-              onClick={this.openSocial} //open dropdown menu
+              onClick={this.toggleSocial} //toggle menu with social buttons
               style={{ margin: 5, minWidth: 30, width: 40 }}
               primary={true}
               icon={<SocialShare />}
