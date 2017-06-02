@@ -137,19 +137,29 @@ import './CollectionIntro.css';
   }
 
 }
+ 
 
 const OgTags = ({collection}) => {
   const og = {
     url: `${window.location.origin}/survey/${collection.id}`,
     title: `${collection.name} - #RepresentMe`, 
-    image: collection.photo || 'https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png',
-    desc: collection.desc || "Put your government back on track"
+    image: collection.photo || 'http://i.imgur.com/wrW7xwp.png',
+    desc: collection.desc || "Have your say!"
   }
   return (<Helmet>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@representlive" />
+    <meta name="twitter:creator" content="@representlive" />
+    <meta name="twitter:title" content={og.title} />
+    <meta name="twitter:description" content={og.desc} />
+    <meta name="twitter:image" content={og.image} />
+    
     <meta property="og:url" content={og.url} />
     <meta property="og:title" content={og.title} />
     <meta property="og:image" content={og.image} />
     <meta property="og:description" content={og.desc} />
+    <meta property="og:type" content="website" />
+    <meta property="fb:app_id" content="1499361770335561" /> 
   </Helmet>)
 }
 

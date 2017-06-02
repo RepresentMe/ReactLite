@@ -8,14 +8,12 @@ import SmallCard from '../SmallCard'
 @observer
 class Results extends Component {
 
-  question = observable.shallowObject({})
-
   constructor(props) {
     super(props);
 
-    this.viewData = observable.shallowObject({
-      values: null
-    });
+    this.state = {
+      value: null
+    }
   }
 
   componentDidMount() {
@@ -62,7 +60,7 @@ class Results extends Component {
               ))
             }
           }
-          this.viewData.values = result;
+          this.setState({value: result[0]});
         }
         //if question is MCQ and user voted
         else if (question.my_vote.length > 0 && question.subtype === 'mcq'){
@@ -90,7 +88,7 @@ class Results extends Component {
               {questionId: this.props.questionId}
             ))
           }}
-          this.viewData.values = result;
+          this.setState({value: result[0]});
         }
         //if didn't answer that question
         else if (!question.my_vote.length){
@@ -100,7 +98,7 @@ class Results extends Component {
             {percentage: null},
             {fill: 'white'},
             {title: question['question']}))
-          this.viewData.values = result;
+          this.setState({value: result[0]});
         }
     })
   }
@@ -108,10 +106,9 @@ class Results extends Component {
   render() {
     const { QuestionStore, questionId, collectionId, id} = this.props;
     const url = `/survey/${collectionId}/flow/${id}/`;
-    
     return (
       <div>
-        <SmallCard data={this.viewData} url={url}/>
+        <SmallCard data={this.state.value} url={url}/>
       </div>
     )
   }

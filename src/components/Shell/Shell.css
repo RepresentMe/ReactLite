@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,700');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:500,600,700');
 .replogo {
     
     cursor: pointer;
@@ -16,6 +16,12 @@
     top: -4px;
     position: relative;
     cursor: pointer;
+}
+
+.clear:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 html,

@@ -14,14 +14,50 @@
     box-shadow: 2px 2px 3px #aaa !important;
     border: 1px solid transparent;
 }
+
 .cardStyles:hover {
     border: 1px solid #1B8AAE;
 }
- 
+
+.aboutus {
+    padding: 15px;
+    max-width: 800px;
+    text-align: center;
+    color: #1B8AAE;
+    margin: 0 auto;
+    text-align: left !important;
+}
+
+.aboutus h2 { 
+    text-align: center;
+}
+.aboutus .aboutus_left {
+    float: left;
+    width: 55%;
+    padding-right: 5%;
+}
+
+.aboutus .aboutus_left p {
+    font-weight: 500;
+    color: #444;
+    text-align: left !important;
+    font-size: 16px;
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height: 1.1;
+}
+
+.aboutus_right {
+    float: right;
+    width: 40%;
+}
+
+.aboutus img {
+    /*width: 200px;*/
+    width: 100%;
+}
+
 
 /*for small screens*/
-
-
 
 @media (max-width: 949px) {
     .cardStyles {
@@ -30,18 +66,23 @@
     }
 }
 
-@media  (max-width: 700px) {
+@media (max-width: 700px) {
     .cardStyles {
         width: 49% !important;
         margin: 0.5% !important;
     }
 }
+
 @media (max-width: 350px) {
     .cardStyles {
         width: 98% !important;
         margin: 1% !important;
     }
+    .aboutus_right {
+        display: none;
+    }
 }
+
 .cardStyles .cardTitle,
 .cardStyles .cardText {
     padding: 4px 16px !important;

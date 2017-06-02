@@ -243,13 +243,13 @@ export default class Shell extends Component {
     const isAuthenticated = !!userData.get('id')
 
     const avatar = (
-      <Avatar style={avatarStyle}
+      <IconButton><Avatar style={avatarStyle}
         className="appAvatar"
         icon={!this.props.UserStore.userData.has("id") ? <Face /> : null}
         src={this.props.UserStore.userData.has("photo") ? photo.replace("localhost:8000", "represent.me") : null}
         backgroundColor={cyan600}
         onClick={!isAuthenticated ? this.navigateToLogin : null}
-      />
+      /></IconButton>
     )
 
     return(
@@ -304,8 +304,8 @@ export default class Shell extends Component {
 
 
                   <Drawer
-                    open={this.breakpoints.sm && this.state.open || this.breakpoints.lg}
-                    docked={this.breakpoints.lg}
+                    open={this.breakpoints.sm && this.state.open || !!this.breakpoints.lg}
+                    docked={!!this.breakpoints.lg}
                     width={256}
                     onRequestChange={(open) => this.setState({open})}
                   >
@@ -318,7 +318,7 @@ export default class Shell extends Component {
                     <ListItem key='menuItem-2' primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
                     <ListItem key='menuItem-3' primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
                     <Divider />
-                    <ListItem className='menuItem menuItem9' key='menuItem-4' primaryText="Who Should I Vote For?" leftIcon={<Important />}  href="/survey/122" />
+                    <ListItem className='menuItem menuItem9' key='menuItem-4' primaryText="Who should I vote for?" leftIcon={<Important />}  href="/survey/122" />
                     <Divider />
 
                     <Subheader>COMPARE BY PARTY</Subheader>
@@ -419,9 +419,9 @@ export default class Shell extends Component {
                 <FacebookShareButton
                   style={{display: 'none'}}
                   url={window.location.origin}
-                  title={`This is what democracy looks like`}
-                  picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
-                  description={`Put your government back on track`}
+                  title={`Represent helps you modernise democracy.`}
+                  picture={`http://i.imgur.com/wrW7xwp.png`}
+                  description={`Compare the policies. Find your match. Make it work for you.`}
                   className='fb-network__share-button'>
                   <FacebookIcon
                     size={32}

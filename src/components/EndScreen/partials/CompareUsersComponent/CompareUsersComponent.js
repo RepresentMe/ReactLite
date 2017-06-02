@@ -230,6 +230,7 @@ class CompareCollectionUsers extends Component {
         usersData.results.ids.forEach((id) => {
           this.viewData.candidates.push(usersData.results[id])
         })
+        this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
       })
 
       candidatesIds = candidatesIds.concat(this.viewData.candidates.map(user => { return user.id }));
@@ -237,7 +238,6 @@ class CompareCollectionUsers extends Component {
       UserStore.amFollowingUsers(currentUserId, candidatesIds).then(res => {
         const results = res.results;
         results.forEach(({ following, id }) => this.viewData.followingCandidates.set(following, id))
-        this.viewData.pageReadiness.isCompareCandidatesReady.set(true);
       })
       UserStore.compareMultipleUsers(currentUserId, candidatesIds).then((compareData) => {
         candidatesIds.forEach((id) => {
@@ -398,18 +398,20 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
       <p>Share and compare</p>
       <div className="shareLinksButtons">
           <FacebookShareButton
-            url={window.location.origin}
-            title={`Let's modernise democracy`}
-            picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
+            url={`${window.location.origin}/survey/${collectionId}`}
+            title={`Represent helps you modernise democracy.`}
+            picture={`/img/wrW7xwp.png`}
+            description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button'>
             <FacebookIcon
               size={30}
               round />
           </FacebookShareButton>
           <TwitterShareButton
-            url={window.location.origin}
-            title={`Let's modernise democracy`}
-            picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
+            url={`${window.location.origin}/survey/${collectionId}`}
+            title={`Represent helps you modernise democracy.`}
+            picture={`/img/wrW7xwp.png`}
+            description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button'>
             <TwitterIcon
               size={30}
@@ -417,9 +419,10 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
           </TwitterShareButton>
 
           <WhatsappShareButton
-            url={window.location.origin}
-            title={`Let's modernise democracy`}
-            picture={`https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png`}
+            url={`${window.location.origin}/survey/${collectionId}`}
+            title={`Represent helps you modernise democracy.`}
+            picture={`/img/wrW7xwp.png`}
+            description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button'>
             <WhatsappIcon
               size={30}
@@ -435,7 +438,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
         <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
           {questions.length > 0 &&
             questions.peek().map((question, i) => {
-              return question.type == 'Q' ? (
+              return (question && question.type == 'Q') ? (
                 <div key={`ques-${i}`} style={{}}>
                   <Results questionId={question.object_id} id={i} collectionId={collectionId} />
                 </div>
@@ -491,7 +494,7 @@ class UserCardSmall extends Component {
 
   render() {
     // if (!this.props.user) return null;
-    if (!this.props.user) return <LoadingIndicator />;
+    if (!this.props.user || !this.props.compareData) return <LoadingIndicator />;
 
     const { user, UserStore, collectionId } = this.props
 
@@ -504,9 +507,10 @@ class UserCardSmall extends Component {
 
     let match = '';
     let questions_counted = null;
+    const isCompareDataExist = this.props.compareData.difference_percent !== null;
     if (this.props.compareData) {
-      match = Math.floor(100 - this.props.compareData.difference_percent);
       questions_counted = this.props.compareData.questions_counted;
+      match = isCompareDataExist ? Math.floor(100 - this.props.compareData.difference_percent) : '-';
     }
 
     const barStyle = this.areCompareDetailsShowing.get() ? { display: 'block' } : { display: 'none' }
@@ -522,13 +526,13 @@ class UserCardSmall extends Component {
 
 
         <CardText style={{ backgroundColor: '#e6f7ff', padding: '10px 4px', marginTop: 10 }}>
-          <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center' }}>{`${match}%`}</h2>
+          <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center' }}>{isCompareDataExist ? `${match}%` : '-'}</h2>
 
           {this.props.compareData ? (
             <div>
 
-              <p style={{ color: '#999', margin: 0, }}>{`match on ${questions_counted} questions`}</p>
-              <MatchBarchart compareData={this.props.compareData} />
+              <p style={{ color: '#999', margin: 0, }}>{isCompareDataExist ? `match on ${questions_counted} questions` : 'you need to answer more questions in common'}</p>
+              {isCompareDataExist && <MatchBarchart compareData={this.props.compareData} />}
             </div>
           ) : <p></p>}
 
@@ -585,25 +589,25 @@ class UserCardSmall extends Component {
               /> :
               <RaisedButton
                 onTouchTap={this.setFollowing}
-                //tooltip="Back to questions"
                 style={{ margin: 5,  minWidth: 30, width: 40 }}
                 primary={true}
                 icon={<Follow />}
               />}
 
-            <RaisedButton
-              onClick={this.toggleSocial} //toggle menu with social buttons
+            {isCompareDataExist && <RaisedButton
+              onClick={this.openSocial} //open dropdown menu
+
               style={{ margin: 5, minWidth: 30, width: 40 }}
               primary={true}
               icon={<SocialShare />}
-            />
+            />}
 
-            <RaisedButton
+            {isCompareDataExist && <RaisedButton
             primary={true}
             icon={<ChartIcon />}
             style={{ color: '#999', margin: 5, minWidth: 30, width: 40}}
             onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
-          />
+          />}
           </div>
         </CardText>
 
@@ -616,10 +620,10 @@ class UserCardSmall extends Component {
         </CardText>
         <FacebookShareButton
           url={`${window.location.origin}/survey/${collectionId}`}
-          title={`I'm ${match}% match with ${name}`}
+          title={`I'm a ${match}% match with ${name} - how about you?`}
           picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
           className={`fb-network__share-button__${user.id}`}
-          description="This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account."
+          description="BTW, this isn't just another party comparison / data sucking thing. It's a really cool new way of doing democracy and giving people a really clear voice. Think petitions, but .. done better :)"
           style={{display: 'none'}}
         >
           <FacebookIcon
@@ -628,7 +632,7 @@ class UserCardSmall extends Component {
         </FacebookShareButton>
         <TwitterShareButton
           url={`${window.location.origin}/survey/${collectionId}`}
-          title={`I'm ${match}% match with ${name}`}
+          title={`I'm a ${match}% match with ${name} - how about you?`}
           via='representme'
           hashtags={['representme', 'democracy']}
           className={`twitter-network__share-button__${user.id}`}
@@ -640,7 +644,7 @@ class UserCardSmall extends Component {
         </TwitterShareButton>
         <WhatsappShareButton
           url={`${window.location.origin}/survey/${collectionId}`}
-          title={`I'm ${match}% match with ${name}. This isn't just another party comparison tool. Yes, you'll find your best match, but you'll also be able to tell whoever gets elected what you want and hold them to account.`}
+          title={`I'm a ${match}% match with ${name}. How about you? BTW, this isn't just another party comparison / data sucking thing. It's a really cool new way of doing democracy and giving people a really clear voice. Think petitions, but .. done better :) `}
           picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
           className={`whatsapp-network__share-button__${user.id}`}
           style={{display: 'none'}}

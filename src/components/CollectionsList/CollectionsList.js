@@ -12,7 +12,7 @@ import './CollectionsList.css';
  
 
 
-const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore }) => {
+const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ CollectionStore, UserStore, history }) => {
 
   if (CollectionStore.collections.size <= 0) {
     return null;
@@ -26,15 +26,55 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
     <div>
  
 
+ {!UserStore.isLoggedIn() && <div className="aboutus clear">
+
+    <h2><strong> Represent believes a more effective democracy is within reach </strong></h2>
+
+    <div  className="aboutus_right">
+
+      <img src="https://i1.wp.com/represent.me/wp-content/uploads/results.gif" alt="chatbot" />
+
+    </div>
+
+    <div  className="aboutus_left">
+
+
+    <p><strong>
+      Represent gives your views and values a voice. 
+      </strong>
+    </p>
+    <p>
+      One central place to vote on the issues and work with the politicians and groups you trust to represent you.  
+    </p>
+    <p>
+      Represent is free, open to everyone, anonymous and secure. 
+
+      We are your trusted partner, making our combined voices more powerful and effective 
+      to create the world we want.
+    </p>
+
+ 
+ 
+
+
+
+    <p> 
+     <RaisedButton label="Sign Up" onClick={() => history.push('/login')} style={{marginRight: 10}}/>
+     <RaisedButton label="Features" primary={true} href="https://represent.me/features/" target="_blank"  />
+    </p>
+  
+    </div>
+ </div>}
+
 
  
         <div style={{background: 'url(http://imgur.com/cO2X2tN.png)', padding: '70px 0 90px 0'}} >
            <div className="imageContainer">
             <div className="contentBox">
 
-                <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>The 2017 General Election: Who should I vote for?</h1>
+                <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>Who should I vote for?</h1>
                
-                <p>Find which party best matches your values, then track and hold them to account during the next five years.</p>
+                <p>Confused about which party to vote for on June 9th? Find out which party best matches your values.</p>
 
                 <RaisedButton label="Start" primary href="/survey/122/flow/0/vote/" style={{marginTop: 15}}/>
                 
@@ -116,14 +156,25 @@ const CollectionsList = inject("CollectionStore")(observer(({ CollectionStore })
 const OgTags = ({}) => {
   const og = {
     url: window.location.origin,
-    title: "Let's modernise democracy",
-    image: 'https://s3.eu-central-1.amazonaws.com:443/static.represent.me/images/a794ce71-0649-4669-9272-c124eb1c72c6.png',
-    desc: "Put your government back on track"
+    title: "Let's build a better democracy",
+    image: 'http://i.imgur.com/wrW7xwp.png',
+    desc: "Have your say!"
+
+ 
   }
   return (<Helmet>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@representlive" />
+    <meta name="twitter:creator" content="@representlive" />
+    <meta name="twitter:title" content={og.title} />
+    <meta name="twitter:description" content={og.desc} />
+    <meta name="twitter:image" content={og.image} />
+    
     <meta property="og:url" content={og.url} />
     <meta property="og:title" content={og.title} />
     <meta property="og:image" content={og.image} />
+    <meta property="og:type" content="website" />
+    <meta property="fb:app_id" content="1499361770335561" /> 
     <meta property="og:description" content={og.desc} />
   </Helmet>)
 }

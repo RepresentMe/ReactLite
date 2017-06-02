@@ -31,29 +31,30 @@ class SmallCard extends Component {
     this.props.RoutingStore.history.push(`${this.props.url}${tab}`)
   }
 	render(){
+    let values = [this.props.data];
+    // console.log('render', values);
     return (
       <div>
-        {!this.props.data && <p></p>}
-        {this.props.data.values &&
+        {!!this.props.data &&
 
           <div>
             <Card className="endCard">
                   <div className='questionTextEnd' style={{ wordWrap: 'break-word'}}>
-                    {this.props.data.values[0].title}
-                    {/* {this.props.data.values[0].full_name ? <p style={{color: '#999', fontSize: 14, fontWeight: 'bold', textAlign: 'left', }}>{`YOU: ${this.props.data.values[0].full_name}`}</p> : ''}  */}
+                    {values[0].title}
+                    {/* {values[0].full_name ? <p style={{color: '#999', fontSize: 14, fontWeight: 'bold', textAlign: 'left', }}>{`YOU: ${values[0].full_name}`}</p> : ''}  */}
                   </div>
                   <div style={{marginBottom: 5}}>
-                    {this.props.data.values[0].full_name ? <QuestionLiquidPiechart questionId={this.props.data.values[0].questionId} pie={false} endScreen={true}/> : ""}
+                    {values[0].full_name ? <QuestionLiquidPiechart questionId={values[0].questionId} pie={false} endScreen={true}/> : ""}
                   </div>
 
 
-                    {this.props.data.values[0].full_name ? <span>{}</span> :
-                     <div style={{color: 'white', fontWeight: 'bold', width: 220, borderBottom: '1px solid #ccc', backgroundColor: this.props.data.values[0].fill, minHeight: 60, padding: 10}}>
+                    {values[0].full_name ? <span>{}</span> :
+                     <div style={{color: 'white', fontWeight: 'bold', width: 220, borderBottom: '1px solid #ccc', backgroundColor: values[0].fill, minHeight: 60, padding: 10}}>
                      <p className='didnotanswer'>No vote. <span className='linkit' onTouchTap={(e) => this.redirect(e, 'vote')}>Answer now?</span></p></div>}
 
 {/*
-                     <p style={{color: 'white', fontWeight: 'bold', fontSize: 35, margin: 0, textAlign: 'left'}}>{`${this.props.data.values[0].percentage}%`}</p>
-                    {this.props.data.values[0].full_name ? <p style={{color: 'white', fontSize: 14, textAlign: 'left',  margin: 0, fontWeight: '200', opacity: '0.8'}}>{`${this.props.data.values[0].full_name}`}</p> : ''}
+                     <p style={{color: 'white', fontWeight: 'bold', fontSize: 35, margin: 0, textAlign: 'left'}}>{`${values[0].percentage}%`}</p>
+                    {values[0].full_name ? <p style={{color: 'white', fontSize: 14, textAlign: 'left',  margin: 0, fontWeight: '200', opacity: '0.8'}}>{`${values[0].full_name}`}</p> : ''}
 */}
 
 
@@ -71,7 +72,7 @@ class SmallCard extends Component {
                       <div style={{position: 'absolute',
                         top: 12, left: 40, fontSize: 10, borderRadius: '50%', color: '#999',}}
                         >
-                          {this.props.data.values[0].count_comments}
+                          {values[0].count_comments}
                       </div>
                       <IconButton
                         tooltip="change answer"
