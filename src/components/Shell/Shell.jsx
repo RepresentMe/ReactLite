@@ -181,6 +181,21 @@ export default class Shell extends Component {
     });
 
   }
+  componentWillMount(){
+    //if generalAnalyticsData is not loaded, load it into UserStore
+    if (!this.props.UserStore.generalAnalyticsData.analytics_os){
+      this.props.UserStore.getGeneralAnalyticsData();
+    }
+  }
+
+  countShare = () => {
+    if (this.props.userData.get('id')){
+      this.props.UserStore.countShareClicks({
+        analytics_interface: 'collection',
+        url: `${window.location.origin}`
+      })
+    }
+  }
 
   onLogout() {
     this.props.UserStore.logout()
@@ -202,7 +217,8 @@ export default class Shell extends Component {
   }
 
   clickFB = (e) => {
-    document.getElementsByClassName(`fb-network__share-button`)[0].click()
+    document.getElementsByClassName(`fb-network__share-button`)[0].click();
+    this.countShare();
   }
 
   handleToggle = () => this.setState({open: !this.state.open});
@@ -316,7 +332,7 @@ export default class Shell extends Component {
                     </h1>
 
                     <ListItem key='menuItem-2' primaryText="What's this?" leftIcon={<RemoveRedEye />} onTouchTap={() => this.toggleIntro()} />
-                    <ListItem key='menuItem-3' primaryText="Share" leftIcon={<Share />} onClick={this.clickFB} />
+                    <ListItem key='menuItem-3' primaryText="Share" leftIcon={<Share />} onTouchTap={this.clickFB} />
                     <Divider />
                     <ListItem className='menuItem menuItem9' key='menuItem-4' primaryText="Who should I vote for?" leftIcon={<Important />}  href="/survey/122" />
                     <Divider />

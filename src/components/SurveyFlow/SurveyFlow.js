@@ -22,7 +22,7 @@ import './SurveyFlow.css'
       collectionItems: null,
       networkError: false,
       activeTab: 'vote',
-      session_vars: null
+      //session_vars: null
     }
     this.dynamicConfig = DynamicConfigService;
 
@@ -35,6 +35,10 @@ import './SurveyFlow.css'
   }
 
   componentWillMount() {
+    //if generalAnalyticsData is not loaded, load it into UserStore
+    if (!this.props.UserStore.generalAnalyticsData.analytics_os){
+      this.props.UserStore.getGeneralAnalyticsData();
+    }
     this.props.CollectionStore.getCollectionById(parseInt(this.props.match.params.surveyId))
       .then((collection) => {this.setState({collection})})
       .catch((error) => {this.setState({networkError: true})})
@@ -53,20 +57,20 @@ import './SurveyFlow.css'
     //create session analytics variables
     //currently turned off - function calls 3rd party api to get geo details
     //this.getUserIP();
-    var url = (window.location != window.parent.location)
-            ? document.referrer
-            : document.location.href;
-    const analytics_browser = window.navigator.appCodeName; //Browser details
-    const analytics_os = window.navigator.appVersion.slice(0,100); //OS
-    const analytics_parent_url = url.slice(0,200); //parent url (for embed) or current url in other cases
-    const session_vars = Object.assign({},
-      {
-        analytics_os,
-        analytics_browser,
-        analytics_parent_url
-      }
-    )
-    this.setState({session_vars})
+    // var url = (window.location != window.parent.location)
+    //         ? document.referrer
+    //         : document.location.href;
+    // const analytics_browser = window.navigator.appCodeName; //Browser details
+    // const analytics_os = window.navigator.appVersion.slice(0,100); //OS
+    // const analytics_parent_url = url.slice(0,200); //parent url (for embed) or current url in other cases
+    // const session_vars = Object.assign({},
+    //   {
+    //     analytics_os,
+    //     analytics_browser,
+    //     analytics_parent_url
+    //   }
+    // )
+    // this.setState({session_vars})
   }
   componentDidMount(){
     // this.getUserLocation();
@@ -78,18 +82,18 @@ import './SurveyFlow.css'
     }
   }
 
-  
+
   loadCollectionQuestions = (curItemIndex) => {
     let curPage = Math.ceil(curItemIndex/10);
     curPage = curPage == 0 ? 1 : curPage;
     const surveyId = this.props.match.params.surveyId;
 
     this.loadQuestionsByPage(curPage);
-    
+
     if(curPage > 1) {
       setTimeout(() => {
         for (var i = 1; i < curPage; i++) {
-          this.loadQuestionsByPage(i);          
+          this.loadQuestionsByPage(i);
         }
       }, 350)
     }
@@ -103,11 +107,11 @@ import './SurveyFlow.css'
           if(!prevState.collectionItems) {
             prevState.collectionItems = [];
             for (var j = 0; j < res.count; j++) {
-              prevState.collectionItems[j] = null;              
+              prevState.collectionItems[j] = null;
             }
           }
           for (var i = 0; i < res.results.length; i++) {
-            prevState.collectionItems[(page-1)*10+i] = res.results[i];         
+            prevState.collectionItems[(page-1)*10+i] = res.results[i];
           }
           return prevState.collectionItems;
         })
@@ -125,30 +129,57 @@ import './SurveyFlow.css'
 
   //gets longitude, latitude, and acccuracy in meters
   //gets info from navigator and stores it in localStorage
-  getUserLocation = () => {
-    navigator.geolocation.getCurrentPosition(({coords}) => {
-      const { latitude, longitude, accuracy } = coords
-      const location = [latitude, longitude, accuracy]
-      try { localStorage.setItem('location', location) }
-      catch (err) { console.log(err) }
-    },
-    err => {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    })
-  }
+  // getUserLocation = () => {
+  //   navigator.geolocation.getCurrentPosition(({coords}) => {
+  //     const { latitude, longitude, accuracy } = coords
+  //     const location = [latitude, longitude, accuracy]
+  //     try { localStorage.setItem('location', location) }
+  //     catch (err) { console.log(err) }
+  //   },
+  //   err => {
+  //     console.warn(`ERROR(${err.code}): ${err.message}`);
+  //   })
+  // }
+
+  // onVote(i, votingMode) {
+  //   if(!this.props.UserStore.userData.has("id")){
+  //     this.props.history.push("/login/" + this.dynamicConfig.getEncodedConfig());
+  //   } else {
+  //     let question = this.props.QuestionStore.questions.get(this.state.collectionItems[this.props.match.params.itemNumber].object_id)
+  //     const userLocation = localStorage.getItem('location')
+  //     const analytics_location = userLocation ? userLocation : null
+  //     const sessionData = [
+  //       question.id, i, this.state.collection.id, votingMode,
+  //       this.state.session_vars.analytics_os,
+  //       this.state.session_vars.analytics_browser,
+  //       this.state.session_vars.analytics_parent_url,
+  //       analytics_location
+  //     ]
+  //     if(question.subtype === 'likert') {
+  //       this.props.QuestionStore.voteQuestionLikert(
+  //         ...sessionData
+  //       )
+  //     } else if(question.subtype === 'mcq') {
+  //       this.props.QuestionStore.voteQuestionMCQ(
+  //         ...sessionData
+  //       )
+  //     }
+  //     this.navigateNext()
+  //   }
+  // }
 
   onVote(i, votingMode) {
     if(!this.props.UserStore.userData.has("id")){
       this.props.history.push("/login/" + this.dynamicConfig.getEncodedConfig());
     } else {
       let question = this.props.QuestionStore.questions.get(this.state.collectionItems[this.props.match.params.itemNumber].object_id)
-      const userLocation = localStorage.getItem('location')
+      const userLocation = this.props.UserStore.generalAnalyticsData.get('analytics_location')
       const analytics_location = userLocation ? userLocation : null
       const sessionData = [
         question.id, i, this.state.collection.id, votingMode,
-        this.state.session_vars.analytics_os,
-        this.state.session_vars.analytics_browser,
-        this.state.session_vars.analytics_parent_url,
+        this.props.UserStore.generalAnalyticsData.get('analytics_os'),
+        this.props.UserStore.generalAnalyticsData.get('analytics_browser'),
+        this.props.UserStore.generalAnalyticsData.get('analytics_parent_url'),
         analytics_location
       ]
       if(question.subtype === 'likert') {
@@ -248,7 +279,7 @@ import './SurveyFlow.css'
 const OgTags = ({collection}) => {
   const og = {
     url: `${window.location.origin}/survey/${collection.id}`,
-    title: collection.name+' - #RepresentMe' || "Let's modernise democracy",   
+    title: collection.name+' - #RepresentMe' || "Let's modernise democracy",
     image: collection.photo || 'http://i.imgur.com/wrW7xwp.png',
     desc: collection.desc || "Have your say!",
   }
@@ -259,11 +290,11 @@ const OgTags = ({collection}) => {
     <meta name="twitter:title" content={og.title} />
     <meta name="twitter:description" content={og.desc} />
     <meta name="twitter:image" content={og.image} />
-    
+
     <meta property="og:url" content={og.url} />
-    <meta property="og:title" content={og.title} /> 
+    <meta property="og:title" content={og.title} />
     <meta property="og:type" content="website" />
-    <meta property="fb:app_id" content="1499361770335561" /> 
+    <meta property="fb:app_id" content="1499361770335561" />
     <meta property="og:image" content={og.image} />
     <meta property="og:description" content={og.desc} />
   </Helmet>)

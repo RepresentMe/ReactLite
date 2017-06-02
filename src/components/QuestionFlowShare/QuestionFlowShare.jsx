@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
+import { inject } from "mobx-react"
 
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
@@ -26,10 +27,10 @@ const TwitterIcon = generateShareIcon('twitter')
 const WhatsappIcon = generateShareIcon('whatsapp');
 
 const style = {
-  innerPaperStyle: { 
+  innerPaperStyle: {
 
   },
-  pageWrapperPaper: { 
+  pageWrapperPaper: {
   },
   textFieldStyle: {
     margin: 30,
@@ -40,6 +41,7 @@ const style = {
   }
 };
 
+@inject("UserStore")
 class QuestionFlowShare extends Component {
 
   constructor(props) {
@@ -55,25 +57,34 @@ class QuestionFlowShare extends Component {
     })
   }
 
+  countShare = () => {
+    this.props.UserStore.countShareClicks({
+      analytics_interface: 'collection',
+      url: `https://app.represent.me/question/${this.props.question.id}/`
+    })
+  }
+
   clickFB = (e) => {
-    document.getElementsByClassName(`fb-network__share-button`)[0].click()
+    document.getElementsByClassName(`fb-network__share-button`)[0].click();
+    this.countShare();
   }
 
   clickTwitter = (e) => {
-    document.getElementsByClassName(`twitter-network__share-button`)[0].click()
+    document.getElementsByClassName(`twitter-network__share-button`)[0].click();
+    this.countShare();
   }
 
-  clickWhatsApp= (e) => {
-    document.getElementsByClassName(`whatsapp-network__share-button`)[0].click()
+  clickWhatsApp = (e) => {
+    document.getElementsByClassName(`whatsapp-network__share-button`)[0].click();
+    this.countShare();
   }
-
 
   render() {
     const { question } = this.props
-    const { innerPaperStyle, 
-            textFieldStyle, 
-            pageWrapperPaper, 
-            button 
+    const { innerPaperStyle,
+            textFieldStyle,
+            pageWrapperPaper,
+            button
     } = style
 
     const imgSrc = `http://share.represent.me/graphic/${question.id}.png`
@@ -113,12 +124,12 @@ class QuestionFlowShare extends Component {
       </WhatsappShareButton>
     )
 
-  
+
     return (
       <div className='share-tab'>
 
         <Paper style={pageWrapperPaper} zDepth={0}>
-          
+
           <Paper style={innerPaperStyle} zDepth={0}>
             <img src={imgSrc} className='img-share'/>
           </Paper>
@@ -135,28 +146,28 @@ class QuestionFlowShare extends Component {
           </Paper>
           <Paper style={innerPaperStyle} zDepth={0}>
              <RaisedButton
-              onClick={this.clickFB} 
+              onTouchTap={this.clickFB}
               label="Share"
-              style={button} 
-              backgroundColor="#3b5998" 
+              style={button}
+              backgroundColor="#3b5998"
               icon={fb}
             />
             <RaisedButton
-              onClick={this.clickTwitter} 
+              onTouchTap={this.clickTwitter}
               label="Tweet"
               backgroundColor="#1da1f2"
-              style={button} 
+              style={button}
               icon={twitter}
             />
             <RaisedButton
-              onClick={this.clickWhatsApp} 
+              onTouchTap={this.clickWhatsApp}
               backgroundColor="#3EAC18"
-              label="WhatsApp" 
+              label="WhatsApp"
               icon={whatsapp}
             />
           </Paper>
         </Paper>
-        
+
       </div>
     )
   }

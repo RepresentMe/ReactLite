@@ -10,6 +10,14 @@ class UserStore {
     authToken: "",
     showUserDialog: false
   });
+  generalAnalyticsData = observable.shallowMap({
+    analytics_location: "",
+    analytics_interface: null,
+    analytics_os: null,
+    analytics_browser: null,
+    analytics_parent_url: null
+  });
+  //analytics_location = observable.shallowMap({});
   loggedFB = observable(false);
 
   userLocation = observable.shallowMap({
@@ -93,6 +101,49 @@ class UserStore {
     });
   }
 
+  //get general session analytics data (location + session_vars)
+  getUserLocation = () => {
+    navigator.geolocation.getCurrentPosition(({coords}) => {
+      const { latitude, longitude, accuracy } = coords;
+      let location = "";
+      try {
+        location = [latitude, longitude, accuracy].toString();
+      }
+      catch (err) { console.log(err) }
+      this.generalAnalyticsData.set('analytics_location', location)
+      },
+    err => {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    })
+  }
+
+  getGeneralAnalyticsData = () => {
+    this.getUserLocation();
+    let url = (window.location !== window.parent.location)
+            ? document.referrer
+            : document.location.href;
+    const analytics_browser = window.navigator.appCodeName; //Browser details
+    const analytics_os = window.navigator.appVersion.slice(0,100); //OS
+    const analytics_parent_url = url.slice(0,200); //parent url (for embed) or current url in other cases
+
+    this.generalAnalyticsData.set('analytics_browser', analytics_browser);
+    this.generalAnalyticsData.set('analytics_os', analytics_os);
+    this.generalAnalyticsData.set('analytics_parent_url', analytics_parent_url);
+  }
+
+  countShareClicks(obj){
+    let analyticsObj = Object.assign({},
+      {analytics_location: this.generalAnalyticsData.get('analytics_location')},
+      {analytics_browser: this.generalAnalyticsData.get('analytics_browser')},
+      {analytics_os: this.generalAnalyticsData.get('analytics_os')},
+      {analytics_parent_url: this.generalAnalyticsData.get('analytics_parent_url')},
+      {url: obj.url},
+      {analytics_interface: obj.analytics_interface}
+    )
+    window.API.post('api/analytics_event/url_share/', analyticsObj)
+      .then(response => {
+      }).catch(err => console.log('err', err));
+    }
 
   getCandidatesByLocation(region){
     return new Promise((resolve, reject) => {
@@ -326,11 +377,6 @@ class UserStore {
     return userData;
   }
 
-  countShareClicks(obj){
-    window.API.post('api/analytics_event/url_share/', obj)
-      .then(response => {
-      }).catch(err => console.log('err', err));
-    }
 
   } //end of UserStore
 

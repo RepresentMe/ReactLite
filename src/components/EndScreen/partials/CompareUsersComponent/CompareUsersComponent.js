@@ -81,32 +81,18 @@ class CompareCollectionUsers extends Component {
       following: observable.shallowMap(),
       followingCandidates: observable.shallowMap(),
       questions: observable.shallowArray(),
-      collection_tags: observable.shallowArray([]),
-      session_vars: null,
-      userInstance: null
+      collection_tags: observable.shallowArray([])
     });
   }
 
   componentWillMount(){
-    let url = (window.location !== window.parent.location)
-            ? document.referrer
-            : document.location.href;
-    const analytics_browser = window.navigator.appCodeName; //Browser details
-    const analytics_os = window.navigator.appVersion.slice(0,100); //OS
-    const analytics_parent_url = url.slice(0,200); //parent url (for embed) or current url in other cases
-    const session_vars = Object.assign({},
-      {
-        analytics_interface: 'collection',
-        analytics_os,
-        analytics_browser,
-        analytics_parent_url,
-        url: window.location.origin
-      }
-    )
-    this.setState({session_vars})
+    //if generalAnalyticsData is not loaded, load it into UserStore
+    if (!this.props.UserStore.generalAnalyticsData.analytics_os){
+      this.props.UserStore.getGeneralAnalyticsData();
+    }
   }
+
   componentDidMount = () => {
-    this.getUserLocation();
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
     let shouldAutorunDispose = false;
     let autorunDispose = autorun(() => { // aurotun called multiple times, shouldAutorunDispose needed
@@ -137,32 +123,20 @@ class CompareCollectionUsers extends Component {
     document.execCommand('copy')
   }
 
-  getUserLocation = () => {
-    navigator.geolocation.getCurrentPosition(({coords}) => {
-      const { latitude, longitude, accuracy } = coords;
-      let location = "";
-      try {
-        location = [latitude, longitude, accuracy].toString();
-      }
-      catch (err) { console.log(err) }
-
-      const new_session_vars = Object.assign(this.state.session_vars, {analytics_location: location})
-      this.setState({session_vars: new_session_vars})
-      },
-    err => {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    })
-  }
-
   countShare = () => {
-    this.props.UserStore.countShareClicks(this.state.session_vars)
+    this.props.UserStore.countShareClicks({
+      analytics_interface: 'collection',
+      url: `${window.location.origin}/survey/${this.props.collectionId}`
+    })
   }
 
   loadData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
     let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
     const propUserIds = userIds.peek();
-    this.props.UserStore.getCurrUserInstance(currentUserId)
+    if (!this.props.UserStore.userInstance.get('id')){
+      this.props.UserStore.getCurrUserInstance(currentUserId)
+    }
 
 
       //.then(res => console.log('userInstance', res));
@@ -249,6 +223,7 @@ class CompareCollectionUsers extends Component {
   }
 
   render() {
+
     console.log('userInstance', this.props.UserStore.userInstance.get('id'))
     // if (!userIds.length) console.log('No users specified to compare');
     // return <CompareCollectionUsersView data={this.viewData} />
@@ -402,7 +377,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
             title={`Represent helps you modernise democracy.`}
             picture={`/img/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
-            className='fb-network__share-button'>
+            className='fb-network__share-button_group'>
             <FacebookIcon
               size={30}
               round />
@@ -412,7 +387,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
             title={`Represent helps you modernise democracy.`}
             picture={`/img/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
-            className='fb-network__share-button'>
+            className='fb-network__share-button_group'>
             <TwitterIcon
               size={30}
               round />
@@ -423,7 +398,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
             title={`Represent helps you modernise democracy.`}
             picture={`/img/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
-            className='fb-network__share-button'>
+            className='fb-network__share-button_group'>
             <WhatsappIcon
               size={30}
               round />
@@ -479,17 +454,27 @@ class UserCardSmall extends Component {
     this.setState({iconsDisplay})
   }
 
+  countShare = () => {
+    this.props.UserStore.countShareClicks({
+      analytics_interface: 'collection',
+      url: `${window.location.origin}/survey/${this.props.collectionId}`
+    })
+  }
+
   clickFB = (e) => {
-    document.getElementsByClassName(`fb-network__share-button__${this.props.user.id}`)[0].click()
-    this.toggleSocial()
+    document.getElementsByClassName(`fb-network__share-button__end_${this.props.user.id}`)[0].click()
+    this.countShare();
+    this.toggleSocial();
   }
   clickTW = (e) => {
-    document.getElementsByClassName(`twitter-network__share-button__${this.props.user.id}`)[0].click()
-    this.toggleSocial()
+    document.getElementsByClassName(`twitter-network__share-button__end_${this.props.user.id}`)[0].click()
+    this.countShare();
+    this.toggleSocial();
   }
   clickWA = (e) => {
-    document.getElementsByClassName(`whatsapp-network__share-button__${this.props.user.id}`)[0].click()
-    this.toggleSocial()
+    document.getElementsByClassName(`whatsapp-network__share-button__end_${this.props.user.id}`)[0].click()
+    this.countShare();
+    this.toggleSocial();
   }
 
   render() {
@@ -556,23 +541,23 @@ class UserCardSmall extends Component {
 
             <div style={{
                 display: this.state.iconsDisplay ? 'flex' : 'none',
-                flexFlow: 'row nowrap', justifyContent: 'space-around', alignItems: 'center', width: '150px'
+                flexFlow: 'row nowrap', justifyContent: 'space-around', width: '150px'
               }}>
               <IconButton
-                onClick={this.clickFB}
-                style={{flex: 1, margin: 'auto', padding: 0, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
+                onTouchTap={this.clickFB}
+                style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
                 >
                 <FacebookIcon size={30} round={true} />
               </IconButton>
               <IconButton
-                onClick={this.clickTW}
-                style={{flex: 1, margin: 'auto', padding: 0, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
+                onTouchTap={this.clickTW}
+                style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
                 >
                 <TwitterIcon size={30} round={true}/>
               </IconButton>
               <IconButton
-                onClick={this.clickWA}
-                style={{flex: 1, margin: 'auto', padding: 0, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
+                onTouchTap={this.clickWA}
+                style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
                 >
                 <WhatsappIcon size={30} round={true}/>
               </IconButton>
@@ -596,7 +581,7 @@ class UserCardSmall extends Component {
 
             {isCompareDataExist && <RaisedButton
               onClick={this.openSocial} //open dropdown menu
-
+              onTouchTap={this.toggleSocial}
               style={{ margin: 5, minWidth: 30, width: 40 }}
               primary={true}
               icon={<SocialShare />}
@@ -622,7 +607,7 @@ class UserCardSmall extends Component {
           url={`${window.location.origin}/survey/${collectionId}`}
           title={`I'm a ${match}% match with ${name} - how about you?`}
           picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
-          className={`fb-network__share-button__${user.id}`}
+          className={`fb-network__share-button__end_${user.id}`}
           description="BTW, this isn't just another party comparison / data sucking thing. It's a really cool new way of doing democracy and giving people a really clear voice. Think petitions, but .. done better :)"
           style={{display: 'none'}}
         >
@@ -635,7 +620,7 @@ class UserCardSmall extends Component {
           title={`I'm a ${match}% match with ${name} - how about you?`}
           via='representme'
           hashtags={['representme', 'democracy']}
-          className={`twitter-network__share-button__${user.id}`}
+          className={`twitter-network__share-button__end_${user.id}`}
           style={{display: 'none'}}
         >
           <TwitterIcon
@@ -646,7 +631,7 @@ class UserCardSmall extends Component {
           url={`${window.location.origin}/survey/${collectionId}`}
           title={`I'm a ${match}% match with ${name}. How about you? BTW, this isn't just another party comparison / data sucking thing. It's a really cool new way of doing democracy and giving people a really clear voice. Think petitions, but .. done better :) `}
           picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
-          className={`whatsapp-network__share-button__${user.id}`}
+          className={`whatsapp-network__share-button__end_${user.id}`}
           style={{display: 'none'}}
         >
           <WhatsappIcon
