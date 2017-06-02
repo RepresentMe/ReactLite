@@ -189,7 +189,7 @@ export default class Shell extends Component {
   }
 
   countShare = () => {
-    if (this.props.userData.get('id')){
+    if (!!this.props.UserStore.userData.get('id')){
       this.props.UserStore.countShareClicks({
         analytics_interface: 'collection',
         url: `${window.location.origin}`

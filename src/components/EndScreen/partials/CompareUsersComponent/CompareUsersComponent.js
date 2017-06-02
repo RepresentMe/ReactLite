@@ -223,8 +223,6 @@ class CompareCollectionUsers extends Component {
   }
 
   render() {
-
-    console.log('userInstance', this.props.UserStore.userInstance.get('id'))
     // if (!userIds.length) console.log('No users specified to compare');
     // return <CompareCollectionUsersView data={this.viewData} />
     if (!this.viewData.isLoggedIn.get()) return <SignInToSeeView />;
