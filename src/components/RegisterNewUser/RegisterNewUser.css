@@ -2,9 +2,29 @@
     background: url('https://i2.wp.com/represent.me/wp-content/uploads/App2-Title-image-1-1.jpg');
     background-size: cover;
     background-position: center center;
-    width: 100%;
+    width: 98%;
     height: 100vh;
-    padding: 20px;
+    padding: 1vh 1%;
+}
+
+.regForm div div {
+    margin-right: 3px !important;
+}
+
+.regForm div label {
+    position: relative;
+    top: 3px;
+}
+
+.accountmgmt h2 {
+    font-size: 30px;
+    font-weight: 900;
+    margin: 0 !important;
+}
+
+.accountmgmt * {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
 }
 
 .containerStyle {
@@ -16,9 +36,12 @@
     box-shadow: 1px 1px 3px #ccc;
 }
 
+
+
 p {
-    margin: 15px auto;
+    margin: 10px auto;
     text-align: center;
+    font-weight: 500;
 }
 
 .button {
@@ -28,9 +51,9 @@ p {
     color: grey;
     font-size: 14px;
     text-align: center;
-    padding: 10px;
+    padding: 8px 0;
     font-size: 14px;
-    width: 95%;
+    width: 100%;
     cursor: pointer;
 }
 
@@ -67,7 +90,7 @@ label {
         font-size: 18px;
     }
     .containerStyle {
-        padding: 0px 20px;
+        padding: 0px 10px;
         min-width: 300px;
         max-width: 400px;
         margin: 0px auto;

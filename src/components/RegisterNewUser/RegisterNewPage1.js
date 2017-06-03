@@ -3,7 +3,7 @@ import FacebookLogin from 'react-facebook-login';
 import { Link } from 'react-router-dom';
 
 import TextField from 'material-ui/TextField';
-import { grey100, cyan600, orange500, indigo500 } from 'material-ui/styles/colors';
+import { grey200, cyan600, orange500, indigo500 } from 'material-ui/styles/colors';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
@@ -54,18 +54,26 @@ const Page1 = (props) => {
           <div style={{textAlign: 'center'}}>
       <img src="/static/media/represent_white_outline.dbff67a6.svg" className="introimage" />
       <h2 style={{margin: '10px 0'}}>
-          A better democracy
+          A Revolution in Democracy  
         </h2>
         </div>
-        <p style={{}}>
-          Vote on important issues, tell your MP, and track how well they represent you.
+        <p>
+          A more effective democracy is within reach. 
+          Represent gives your views and values a voice. One central place to vote on the issues and work with the politicians and groups you trust to represent you.
+        </p><p> 
+          Represent is free, open to everyone, community-driven, anonymous and secure. 
+        </p><p>
+          By signing up you can track your MP, have your say, and make our combined voices more powerful and effective to create the world we want. 
           <Link to="#" onTouchTap={() => props.toggleIntro()}><span> Learn more</span></Link>
         </p>
 
-        <Checkbox onCheck={() => props.agreedTerms()}
+        <Checkbox
+            className="regForm"
+            onCheck={() => props.agreedTerms()}
+            labelStyle={{ zIndex: 3 }}
             label={
               <span>
-                I agree to the <a href="https://represent.me/legal/terms/">terms</a> and <a href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/>
+                I agree to the <a href="https://represent.me/legal/terms/" target="_blank">terms</a> and <a  target="_blank" href="https://represent.me/legal/privacy-policy/">privacy policy</a><br/>
               </span>
             }
             labelPosition='right'
@@ -73,7 +81,7 @@ const Page1 = (props) => {
             value={props.agreedTermsValue}
             checked={props.agreedTermsValue}
             />
-
+ 
         <div>
           {props.agreedTermsValue ? <FacebookLogin
             appId={String(window.authSettings.facebookId)}
@@ -84,7 +92,7 @@ const Page1 = (props) => {
             textButton="login with Facebook"
             buttonStyle={{cursor: 'pointer', width: '100%', paddingBottom: 6, paddingTop: 9, textAlign: 'middle'}}
             disableMobileRedirect={true}
-            icon={<FacebookBox color='white' style={{verticalAlign: 'top', width: 16, height: 16, marginRight: 10 }}/>}
+            // icon={<FacebookBox color='white' style={{verticalAlign: 'top', width: 16, height: 16, marginRight: 10 }}/>}
 
             /> :
 
@@ -94,10 +102,10 @@ const Page1 = (props) => {
               onTouchTap={attemptNextPage}
               buttonStyle={{backgroundColor: '#5570A6'}}
               style={{width: '100%', color: '#eee'}}
-              icon={<FacebookBox color='#eee' style={{verticalAlign: 'middle', width: 16, height: 16}} />}
+              // icon={<FacebookBox color='#eee' style={{verticalAlign: 'middle', width: 16, height: 16}} />}
             />}
         </div>
-        <p style={{fontSize: 12, marginTop: 10, marginBottom: 20, color: '#999'}}>
+        <p style={{fontSize: 12, marginTop: 5, marginBottom: 12, color: '#999', fontWeight: 300,}}>
           We'll never post without your permission
         </p>
 
@@ -106,12 +114,12 @@ const Page1 = (props) => {
         <div>
           <div className='button'
             onTouchTap={attemptNextPage}
-            style={{backgroundColor: grey100, color: 'black'}}
-            >Create an account
+            style={{backgroundColor: grey200, color: 'black',  border:'1px solid #ccc'}}
+            >Create a Represent account
           </div>
           <div className='button'
             onTouchTap={props.redirectToLogin}
-            style={{backgroundColor: grey100, color: 'black'}}
+            style={{backgroundColor: grey200, color: 'black', border:'1px solid #ccc'}}
             >Already have an account? Login
           </div>
         </div>

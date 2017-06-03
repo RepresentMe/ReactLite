@@ -12,7 +12,7 @@ class DynamicConfigService {
         messenger_prompt: true,
         compare_users: [],
         candidatesIds: [17351, 17663, 17687, 17689, 17710, 17711, 17692],
-        should_show_compare_candidates: false,
+        should_show_compare_candidates: true,
         showFollowUser_id: false,
         showJoinGroup_id: false,
       }
