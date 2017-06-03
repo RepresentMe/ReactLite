@@ -33,7 +33,7 @@ const styles = {
 const Page2 = (props) => {
 
   return (
-    <div style={{width: '100%', height: '100%'}}>
+    <div className="accountmgmt">
       <Paper zDepth={0} className='containerStyle'>
       <div style={{textAlign: 'center'}}>
       <img src="/static/media/represent_white_outline.dbff67a6.svg" style={{ height: 60, margin: '10px auto'}} />
@@ -85,7 +85,7 @@ const Page2 = (props) => {
           primary={true}
           onTouchTap={props.nextPage}
           buttonStyle={{backgroundColor: '#1B8AAE'}}
-          style={{width: '100%', marginTop: 20}}
+          style={{width: '100%', marginTop: 20, marginBottom: 20 }}
         />
 
       </Paper>
