@@ -188,7 +188,7 @@ class CompareCollectionUsers extends Component {
     UserStore.getCachedMe().then(user => {
       if (this.dynamicConfig.config.survey_end.should_show_compare_candidates) {
         UserStore.getCandidatesByLocation(user.region).then(candidates => {
-          this.viewData.candidates.replace(this.viewData.candidates.peek());
+          this.viewData.candidates.replace(candidates); //this.viewData.candidates.peek()
           setCandidatesStat()
         })
       } else {
@@ -238,6 +238,7 @@ class CompareCollectionUsers extends Component {
           <LoadingIndicator />
         </div>
       );
+
     return (
       <div className='endPage'>
 
