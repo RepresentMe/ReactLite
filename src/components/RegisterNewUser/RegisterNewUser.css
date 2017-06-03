@@ -1,8 +1,19 @@
+.accountmgmt {
+    background: url('https://i2.wp.com/represent.me/wp-content/uploads/App2-Title-image-1-1.jpg');
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 100vh;
+    padding: 20px;
+}
+
 .containerStyle {
     padding: 10px 20px;
     min-width: 300px;
     max-width: 400px;
-    margin: 20px auto;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 3px #ccc;
 }
 
 p {

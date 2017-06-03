@@ -49,7 +49,7 @@ const Page1 = (props) => {
     }
   }
   return (
-    <div style={{width: '100%', height: '100%'}}>
+    <div className="accountmgmt">
       <Paper zDepth={0} className='containerStyle'>
           <div style={{textAlign: 'center'}}>
       <img src="/static/media/represent_white_outline.dbff67a6.svg" className="introimage" />
