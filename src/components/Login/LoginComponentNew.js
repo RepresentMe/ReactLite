@@ -103,7 +103,7 @@ const styles = {
   }
   render() {
   return (
-    <div style={{width: '100%', height: '100%'}}>
+    <div className="accountmgmt">
       <Paper zDepth={0} className='containerStyle'>
 
         <div style={{textAlign: 'center'}}>

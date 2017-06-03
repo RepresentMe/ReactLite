@@ -68,8 +68,8 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
 
 
  
-        <div style={{background: 'url(http://imgur.com/cO2X2tN.png)', padding: '70px 0 90px 0'}} >
-           <div className="imageContainer">
+        <div>
+           <div className="imageContainer"  style={{background: 'url(/img/montage.jpg)', padding: '70px 0 90px 0'}} >
             <div className="contentBox">
 
                 <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>Who should I vote for?</h1>

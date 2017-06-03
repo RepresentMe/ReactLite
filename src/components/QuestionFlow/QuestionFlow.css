@@ -207,9 +207,20 @@
     vertical-align: middle;
 }
 
-.progressbar-progress {
-    height: 5px !important;
+.progressbar-container {
+    position: fixed;
+    top: 24px;
+    width: 100%;
+    background-color: #a4d2f9;
+    background: #EAD0DB;
+    z-index: 10;
 }
+
+.progressbar-progress {
+    background: #DB5A81 !important;
+    height: 8px !important;
+}
+
 
 .hidden {
     display: none;
@@ -293,8 +304,8 @@ a {
     position: fixed;
     top: 28px;
     text-align: center;
-    padding-top: 6px;
-    font-size: 0.9em;
+    padding-top: 8px;
+    font-size: 0.8em;
     padding-bottom: 3px;
     border-bottom: 2px dotted #1B8AAE;
 }

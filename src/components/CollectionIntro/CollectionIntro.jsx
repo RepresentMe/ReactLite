@@ -99,6 +99,17 @@ import './CollectionIntro.css';
       innerStyle.background = '';
     }
 
+    if(collectionId === 122) {
+
+      outerStyle.backgroundColor = 'rgba(0,0,0,1)';
+      if(this.state.collectionImageLoaded) {
+        imageStyle.backgroundImage = 'url(/img/montage.jpg)';
+        outerStyle.backgroundColor = 'rgba(0,0,0,0)';
+      }
+      outerStyle.color = 'white';
+      innerStyle.background = '';
+    }
+
     return (
       <div style={imageStyle}>
         <div style={outerStyle}>

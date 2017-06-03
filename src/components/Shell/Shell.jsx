@@ -259,7 +259,7 @@ export default class Shell extends Component {
     const isAuthenticated = !!userData.get('id')
 
     const avatar = (
-      <IconButton><Avatar style={avatarStyle}
+      <IconButton className="headerface"><Avatar style={avatarStyle}
         className="appAvatar"
         icon={!this.props.UserStore.userData.has("id") ? <Face /> : null}
         src={this.props.UserStore.userData.has("photo") ? photo.replace("localhost:8000", "represent.me") : null}
