@@ -188,6 +188,7 @@ class CompareCollectionUsers extends Component {
     UserStore.getCachedMe().then(user => {
       if (this.dynamicConfig.config.survey_end.should_show_compare_candidates) {
         UserStore.getCandidatesByLocation(user.region).then(candidates => {
+          console.log(candidates, user.region)
           this.viewData.candidates.replace(candidates); //this.viewData.candidates.peek()
           setCandidatesStat()
         })
@@ -499,6 +500,12 @@ class UserCardSmall extends Component {
 
     const barStyle = this.areCompareDetailsShowing.get() ? { display: 'block' } : { display: 'none' }
 
+    let party = "";
+    let area = ""
+    if (user.politician_info) {
+      party = user.politician_info.group;
+      area = user.politician_info.area;
+    }
     return (
 
       this.props &&
@@ -507,7 +514,10 @@ class UserCardSmall extends Component {
         <Avatar src={photo} size={50} style={{ alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px' }} />
 
         <CardTitle title={name} subtitle={location} style={{ textAlign: 'center', padding: '4px 16px', }} titleStyle={{ lineHeight: 1, fontSize: 18, fontWeight: 600 }} />
-
+        {party && <CardText>
+          <div>{party}</div>
+          {area && <div>{area}</div>}
+        </CardText>}
 
         <CardText style={{ backgroundColor: '#e6f7ff', padding: '10px 4px', marginTop: 10 }}>
           <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center' }}>{isCompareDataExist ? `${match}%` : '-'}</h2>
