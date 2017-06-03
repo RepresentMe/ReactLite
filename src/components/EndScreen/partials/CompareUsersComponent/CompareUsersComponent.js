@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { observable, autorun, computed } from 'mobx';
 import { Link } from 'react-router-dom';
-import { Card, CardText, CardActions, CardTitle } from 'material-ui/Card';
+import { Card, CardText, CardActions, CardTitle, CardMedia } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
@@ -506,6 +506,7 @@ class UserCardSmall extends Component {
       party = user.politician_info.group;
       area = user.politician_info.area;
     }
+    const media = `https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`
     return (
 
       this.props &&
@@ -539,6 +540,9 @@ class UserCardSmall extends Component {
         */}
         </CardText>
 
+        <CardMedia>
+          <img src={media} />
+        </CardMedia>
 
         <CardText style={{ textAlign: 'center', padding: '8px 16px 0 16px', color: '#444' }} className='cardText'>
           <div style={{ margin: '0' }}>
