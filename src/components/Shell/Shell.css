@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:500,600,700');
 .replogo {
-    
     cursor: pointer;
     background: #1B8AAE;
     color: #fff;
@@ -10,6 +9,7 @@
     padding: 5px;
     font-family: 'Source Sans Pro', sans-serif;
 }
+
 .replogo img {
     vertical-align: middle;
     margin: 4px 2px 0px 0px;
@@ -19,9 +19,9 @@
 }
 
 .clear:after {
-  content: "";
-  display: table;
-  clear: both;
+    content: "";
+    display: table;
+    clear: both;
 }
 
 html,
@@ -29,6 +29,18 @@ body {
     margin: 0;
     padding: 0;
     font-family: Roboto, sans-serif;
+}
+
+.headerface {
+    height: 20px !important;
+    width: 20px !important;
+    padding: 0;
+}
+
+.headerface img {
+    height: 20px !important;
+    width: 20px !important;
+    margin: 2px 0 0 5px;
 }
 
 a {
@@ -126,7 +138,7 @@ a:hover {
         font-size: 1em;
         color: rgba(255, 255, 255, 0.7) !important;
         line-height: 30px !important;
-      }
+    }
     .progressbar-container {
         top: 40px;
     }
@@ -137,20 +149,20 @@ a:hover {
     }
 }
 
-  a.menuItem div div div{
+a.menuItem div div div {
     color: black;
     margin: 0 !important;
     font-size: 15px !important;
     line-height: 1 !important;
     padding: 0 !important;
-  }
+}
 
 a.menuItem9 {
-  /*background: #ffc !important;*/
+    /*background: #ffc !important;*/
     font-weight: bold !important;
 }
 
-  a.menuItem div div {
+a.menuItem div div {
     margin: 0 !important;
     font-size: 15px !important;
-  }
+}
