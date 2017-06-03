@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,500,600,700');
 .replogo {
     cursor: pointer;
     background: #1B8AAE;
@@ -34,7 +34,7 @@ body {
 .headerface {
     height: 20px !important;
     width: 20px !important;
-    padding: 0;
+    padding: 0 !important;
 }
 
 .headerface img {
