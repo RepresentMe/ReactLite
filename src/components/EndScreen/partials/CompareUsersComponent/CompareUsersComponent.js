@@ -501,26 +501,48 @@ class UserCardSmall extends Component {
     const barStyle = this.areCompareDetailsShowing.get() ? { display: 'block' } : { display: 'none' }
 
     let party = "";
-    let area = ""
+    let area = "";  
+    let linkedin = "";
+    let facebook_page = "";
+    let statement = "";
+    let twitter = "";
+    let pol_url = "";
     if (user.politician_info) {
       party = user.politician_info.group;
       area = user.politician_info.area;
+      party = user.politician_info.group;
+      linkedin = user.politician_info.linkedin;
+      facebook_page = user.politician_info.facebook_page;
+      twitter = `https://twitter.com/${user.politician_info.twitter}`;
+      statement = user.politician_info.statement;
+      pol_url = user.politician_info.fundraising_page;
     }
     const media = `https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`
     return (
 
       this.props &&
       <Card className='scrollbar'>
+        {party && area && 
+            <div className="partyIntro clear">
+              <strong>{name}</strong> is the 
+              <strong> {party}</strong> candidate for
+              <strong> {area}</strong> 
+            </div>
+           }
+
 
         <Avatar src={photo} size={50} style={{ alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px' }} />
 
-        <CardTitle title={name} subtitle={location} style={{ textAlign: 'center', padding: '4px 16px', }} titleStyle={{ lineHeight: 1, fontSize: 18, fontWeight: 600 }} />
-        {party && <CardText>
-          <div>{party}</div>
-          {area && <div>{area}</div>}
-        </CardText>}
+         
 
-        <CardText style={{ backgroundColor: '#e6f7ff', padding: '10px 4px', marginTop: 10 }}>
+ 
+
+        <CardTitle title={name} subtitle={location} subtitleStyle={{color: '#fff'}} style={{ textAlign: 'center', padding: '4px 16px', color: '#fff'  }} titleStyle={{ lineHeight: 1, fontSize: 24, fontWeight: 600, color: '#fff' }} />
+      
+
+
+        <CardText style={{ backgroundColor: '#fff', padding: '10px 4px', marginTop: 10 }}>
+
           <h2 style={{ fontSize: '45px', margin: '1px 0', lineHeight: 0.8, textAlign: 'center' }}>{isCompareDataExist ? `${match}%` : '-'}</h2>
 
           {this.props.compareData ? (
@@ -540,43 +562,55 @@ class UserCardSmall extends Component {
         */}
         </CardText>
 
-        <CardMedia>
-          <img src={media} />
-        </CardMedia>
+
+        <div className="partyInfo">  
+  
+          {statement}
+
+          <div className="links">  
+            {twitter && <a href={twitter} target="_blank" className="linkme"><i className="fa fa-lg fa-twitter" aria-hidden="true"></i></a>}
+            {facebook_page && <a href={facebook_page} target="_blank" className="linkme"><i className="fa fa-lg fa-facebook" aria-hidden="true"></i></a>}
+            {linkedin && <a href={linkedin} target="_blank" className="linkme"><i className="fa fa-lg fa-linkedin" aria-hidden="true"></i></a>}
+            {pol_url && <a href={pol_url} target="_blank" className="linkme"><i className="fa fa-lg fa-globe" aria-hidden="true"></i></a>}
+          </div>
+
+        </div>
+
 
         <CardText style={{ textAlign: 'center', padding: '8px 16px 0 16px', color: '#444' }} className='cardText'>
-          <div style={{ margin: '0' }}>
+          <div style={{ margin: '0', padding:0 }}>
 
             <div style={{
-                display: this.state.iconsDisplay ? 'flex' : 'none',
-                flexFlow: 'row nowrap', justifyContent: 'center', width: '100%'
+                display: this.state.iconsDisplay ? 'block' : 'none'                
               }}>
 
-            <div style={{
-                display: this.state.iconsDisplay ? 'flex' : 'none',
-                flexFlow: 'row nowrap', justifyContent: 'space-around', width: '150px'
-              }}>
-              <IconButton
-                onTouchTap={this.clickFB}
-                style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
-                >
-                <FacebookIcon size={30} round={true} />
-              </IconButton>
-              <IconButton
-                onTouchTap={this.clickTW}
-                style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
-                >
-                <TwitterIcon size={30} round={true}/>
-              </IconButton>
-              <IconButton
-                onTouchTap={this.clickWA}
-                style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
-                >
-                <WhatsappIcon size={30} round={true}/>
-              </IconButton>
+              <CardMedia>
+                <img src={media} />
+              </CardMedia>
+
+              <div className="personsharelinks">
+                <IconButton
+                  onTouchTap={this.clickFB}
+                  style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
+                  >
+                  <FacebookIcon size={30} round={true} />
+                </IconButton>
+                <IconButton
+                  onTouchTap={this.clickTW}
+                  style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
+                  >
+                  <TwitterIcon size={30} round={true}/>
+                </IconButton>
+                <IconButton
+                  onTouchTap={this.clickWA}
+                  style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
+                  >
+                  <WhatsappIcon size={30} round={true}/>
+                </IconButton>
+              </div>
+
             </div>
-
-          </div>
+ 
 
             {this.props.following.get() > 0 ?
               <RaisedButton
@@ -609,7 +643,7 @@ class UserCardSmall extends Component {
           </div>
         </CardText>
 
-        <CardText style={{ backgroundColor: '#e6f7ff', padding: '4px 4px' }}>
+        <CardText style={{ backgroundColor: '#e6f7ff', padding: '4px 4px 0 4px' }}>
 
           {this.areCompareDetailsShowing.get() ? <div style={barStyle}>
             {/*<CompareUsersDetailsComponent userIds={[this.props.user.id]} />*/}

@@ -1,3 +1,4 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 .heading {
     font-weight: 500;
     text-transform: uppercase;
@@ -70,17 +71,73 @@
     display: block;
 }
 
+.links {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.links a  {  
+    text-align: center;
+    width: 25%;
+    padding: 5px 0;
+    margin-top: 10px;
+}
+.links a:hover {  
+    background: #fff;
+    color: #F4335E;
+}
+.links a:hover i {
+    color: #F4335E;
+}
+
+.links a i { 
+    color: #fff;
+    text-align: center;
+    width: 25%;
+}
+
+
+.personsharelinks {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    width: 100%;
+}
+/*.personsharelinks button {
+    width: 30px !important;
+}
+*/
 .scrollbar .cardTitle,
 .scrollbar .cardText {
     padding: 4px 16px !important;
-    background: #F5FBFF !important;
+    /*background: #F5FBFF !important;*/
+
+}
+
+.scrollbar .partyIntro,
+.scrollbar .partyInfo  {
+    background: #F4335E;
+    color: #fff;
+    text-align: center;
+    padding: 10px !important;
+}
+
+.scrollbar .partyInfo  {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.3;
+    padding-bottom: 5px !important;
 }
 
 .scrollbar {
-    padding: 10px 0 0 0;
+    padding: 0 0 0 0 !important;
     overflow-x: hidden;
+    background: #2B3F4D !important;
 }
 
+ 
 @media (max-width: 899px) {
     .scrollbar {
         width: calc((96vw)/2) !important;
