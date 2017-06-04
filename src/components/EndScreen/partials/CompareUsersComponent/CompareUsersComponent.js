@@ -195,8 +195,8 @@ class CompareCollectionUsers extends Component {
 
     UserStore.getCachedMe().then(user => {
       if (this.dynamicConfig.config.survey_end.should_show_compare_candidates) {
-        UserStore.getCandidatesByLocation(user.region).then(candidates => {
-          console.log(candidates, user.region)
+        UserStore.getCandidatesByLocation(user.district).then(candidates => {
+          console.log(candidates, user.district)
           this.viewData.candidates.replace(candidates); //this.viewData.candidates.peek()
           setCandidatesStat()
         })
