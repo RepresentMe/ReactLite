@@ -98,6 +98,7 @@ class CompareCollectionUsers extends Component {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
     let shouldAutorunDispose = false;
     let autorunDispose = autorun(() => { // aurotun called multiple times, shouldAutorunDispose needed
+      UserStore.userData.toJS();
       if (UserStore.isLoggedIn() && !shouldAutorunDispose) {
         shouldAutorunDispose = true;
         this.viewData.isLoggedIn.set(true);
@@ -107,6 +108,11 @@ class CompareCollectionUsers extends Component {
         autorunDispose();
       }
     });
+    autorun(() => {
+      console.log('autorun');
+      UserStore.userData.toJS();
+      this.loadData();
+    })
     this.isPageReady.get();
   }
 

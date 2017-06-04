@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import { extendObservable } from "mobx";
 import { observer, inject } from "mobx-react";
 
 // import { Link } from 'react-router-dom';
@@ -178,10 +179,12 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         location: location,
       }).then((response) => {
         //this.setState({ shown: false })
+        this.props.UserStore.userData.replace(response.data);
+        // extendObservable(this.props.UserStore.userData, response.data);
         this.closeModal()
       }).catch((error) => {
         console.log(JSON.stringify(error.response.data))
-        this.setState({ problems: [JSON.stringify(error.response.data)] })
+        this.setState({ problems: [JSON.stringify(error.response.data)] });
       });
     }
   }
