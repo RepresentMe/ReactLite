@@ -13,6 +13,8 @@ import SocialShare from 'material-ui/svg-icons/social/share';
 import Follow from 'material-ui/svg-icons/social/person-add';
 import LoadingIndicator from '../../../LoadingIndicator';
 
+import MoreText from '../../../Components/MoreText';
+
 import MessengerPlugin from 'react-messenger-plugin';
 
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
@@ -537,7 +539,7 @@ class UserCardSmall extends Component {
 
  
 
-        <CardTitle title={name} subtitle={location} subtitleStyle={{color: '#fff'}} style={{ textAlign: 'center', padding: '4px 16px', color: '#fff'  }} titleStyle={{ lineHeight: 1, fontSize: 24, fontWeight: 600, color: '#fff' }} />
+        <CardTitle title={name} subtitle={location} subtitleStyle={{color: '#fff'}} style={{ textAlign: 'center', padding: 'st 16px', color: '#fff'  }} titleStyle={{ lineHeight: 1, fontSize: 24, fontWeight: 600, color: '#fff' }} />
       
 
 
@@ -564,8 +566,8 @@ class UserCardSmall extends Component {
 
 
         <div className="partyInfo">  
-  
-          {statement && <div className="statement">{statement}</div>}
+
+          {statement && <MoreText className="statement" text={statement || ""} />}
 
           <div className="links">  
             {twitter && <a href={twitter} target="_blank" className="linkme"><i className="fa fa-lg fa-twitter" aria-hidden="true"></i></a>}
