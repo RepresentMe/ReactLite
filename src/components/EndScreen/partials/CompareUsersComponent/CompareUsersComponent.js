@@ -565,7 +565,7 @@ class UserCardSmall extends Component {
 
         <div className="partyInfo">  
   
-          {statement}
+          {statement && <div className="statement">{statement}</div>}
 
           <div className="links">  
             {twitter && <a href={twitter} target="_blank" className="linkme"><i className="fa fa-lg fa-twitter" aria-hidden="true"></i></a>}
@@ -574,7 +574,7 @@ class UserCardSmall extends Component {
             {pol_url && <a href={pol_url} target="_blank" className="linkme"><i className="fa fa-lg fa-globe" aria-hidden="true"></i></a>}
           </div>
 
-        </div>
+        </div> 
 
 
         <CardText style={{ textAlign: 'center', padding: '8px 16px 0 16px', color: '#444' }} className='cardText'>
