@@ -82,7 +82,7 @@ class EndScreen extends Component {
     const { UserStore } = this.props;
     if(this.dynamicConfig.config.survey_end.showFollowUser_id) {
       const userToFollowId = this.dynamicConfig.config.survey_end.showFollowUser_id;
-      UserStore.getMe().then((curUser) => {
+      UserStore.getCachedMe().then((curUser) => {
         UserStore.amFollowingUser(curUser.id, userToFollowId).then((following) => {
           if(following.results.length === 0) {
             this.setState({

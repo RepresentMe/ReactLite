@@ -37,7 +37,7 @@ class UserStore {
     if (Cookies.enabled) { // Check if browser allows cookies and if so attempt auto-login
       let authToken = Cookies.get('representAuthToken'); // Check if cookie exists with authToken
       this.sessionData.set("authToken", authToken);
-      this.getMe();
+      this.getCachedMe();
     }
 
     window.API.interceptors.response.use(function (response) { // On successful response

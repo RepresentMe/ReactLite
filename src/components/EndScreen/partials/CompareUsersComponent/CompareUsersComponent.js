@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
-import { observable, autorun, computed } from 'mobx';
+import { observable, computed, reaction } from 'mobx';
 import { Link } from 'react-router-dom';
 import { Card, CardText, CardActions, CardTitle, CardMedia } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
@@ -96,34 +96,27 @@ class CompareCollectionUsers extends Component {
 
   componentDidMount = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
-    let shouldAutorunDispose = false;
-    let autorunDispose = autorun(() => { // aurotun called multiple times, shouldAutorunDispose needed
-      UserStore.userData.toJS();
-      if (UserStore.isLoggedIn() && !shouldAutorunDispose) {
-        shouldAutorunDispose = true;
+    this.loadQuestionsData();
+    reaction(() => UserStore.isLoggedIn(), () => {
+      if (UserStore.isLoggedIn()) {
         this.viewData.isLoggedIn.set(true);
-        this.loadData();
-      }
-      if (shouldAutorunDispose && autorunDispose) {
-        autorunDispose();
+        this.loadUsersCompareData();
       }
     });
-    autorun(() => {
-      console.log('autorun');
-      UserStore.userData.toJS();
-      this.loadData();
+    reaction(() => {
+      return UserStore.userData.get('district')
+    }, () => {
+      this.loadUsersCompareData();
     })
     this.isPageReady.get();
   }
 
-  isPageReady = computed(() => {
-    // return computed(() => {
-    // console.log('computed', this.viewData.pageReadiness.isQuestionResultsReady.get());
-    return
-    this.viewData.pageReadiness.isCompareUsersReady.get()
-      && this.viewData.pageReadiness.isQuestionResultsReady.get()
-    // }).get();
-  })
+  // isPageReady = computed(() => {
+  //   // return computed(() => {
+  //   // console.log('computed', this.viewData.pageReadiness.isQuestionResultsReady.get());
+  //   return this.viewData.pageReadiness.isCompareUsersReady.get()  && this.viewData.pageReadiness.isQuestionResultsReady.get()
+  //   // }).get();
+  // })
 
   copyToClipboard = (id) => {
     let textField = document.getElementById(id)
@@ -138,13 +131,8 @@ class CompareCollectionUsers extends Component {
     })
   }
 
-  loadData = () => {
+  loadQuestionsData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
-    let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
-    const propUserIds = userIds.peek();
-    if (!this.props.UserStore.userInstance.get('id')){
-      this.props.UserStore.getCurrUserInstance(currentUserId)
-    }
 
 
       //.then(res => console.log('userInstance', res));
@@ -155,6 +143,7 @@ class CompareCollectionUsers extends Component {
         this.viewData.pageReadiness.isQuestionResultsReady.set(true);
         return res;
       })
+  }
 
     // const getCollectionTags = (collectionId) => {
     //     window.API.get('/api/tags/?ordering=-followers_count')
@@ -169,6 +158,13 @@ class CompareCollectionUsers extends Component {
     //   }
     //   getCollectionTags();
 
+  loadUsersCompareData = () => {
+    let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
+    let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
+    const propUserIds = userIds.peek();
+    if (!this.props.UserStore.userInstance.get('id')){
+      this.props.UserStore.getCurrUserInstance(currentUserId)
+    }
 
     if (propUserIds.length) {
       this.viewData.isComparingUsersShowing.set(true);
@@ -194,7 +190,7 @@ class CompareCollectionUsers extends Component {
 
 
     UserStore.getCachedMe().then(user => {
-      if (this.dynamicConfig.config.survey_end.should_show_compare_candidates) {
+      if (this.dynamicConfig.config.survey_end.should_show_compare_candidates && user.district) {
         UserStore.getCandidatesByLocation(user.district).then(candidates => {
           console.log(candidates, user.district)
           this.viewData.candidates.replace(candidates); //this.viewData.candidates.peek()
@@ -420,7 +416,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
 
         <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
           {questions.length > 0 &&
-            questions.peek().map((question, i) => {
+            questions.slice().map((question, i) => {
               return (question && question.type == 'Q') ? (
                 <div key={`ques-${i}`} style={{}}>
                   <Results questionId={question.object_id} id={i} collectionId={collectionId} />
