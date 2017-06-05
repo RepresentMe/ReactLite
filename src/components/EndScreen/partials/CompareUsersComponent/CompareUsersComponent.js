@@ -66,7 +66,6 @@ class CompareCollectionUsers extends Component {
 
     this.dynamicConfig = DynamicConfigService;
     this.viewData = observable.shallowObject({
-      isLoggedIn: observable(null),
       pageReadiness: {
         isCompareUsersReady: observable(false),
         isQuestionResultsReady: observable(false),
@@ -95,18 +94,28 @@ class CompareCollectionUsers extends Component {
 
   componentDidMount = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
-    // this.loadQuestionsData();
-    reaction(() => UserStore.isLoggedIn(), () => {
-      if (UserStore.isLoggedIn()) {
-        this.viewData.isLoggedIn.set(true);
-        this.loadUsersCompareData();
-      }
-    });
-    reaction(() => {
-      return UserStore.userData.get('district')
-    }, () => {
+    if(UserStore.isLoggedIn()) {
       this.loadUsersCompareData();
-    })
+      if(!UserStore.userData.get('district')) {
+        reaction(() => UserStore.userData.get('district'), () => {
+          console.log('reaction: 2');
+          this.loadUsersCompareData();
+        })
+      }
+    } else {
+      reaction(() => UserStore.isLoggedIn(), (isLoggedIn) => {
+        console.log('reaction: 1');
+        if (isLoggedIn) {
+          this.loadUsersCompareData();
+          if(!UserStore.userData.get('district')) {
+            reaction(() => UserStore.userData.get('district'), () => {
+              console.log('reaction: 2');
+              this.loadUsersCompareData();
+            })
+          }
+        }
+      });
+    }
   }
 
   // isPageReady = computed(() => {
@@ -165,7 +174,9 @@ class CompareCollectionUsers extends Component {
 
   loadUsersCompareData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
-    let currentUserId = this.viewData.isLoggedIn.get() && UserStore.userData.get("id");
+    console.log('loadUsersCompareData: ', UserStore.userData.get("id"));
+    let currentUserId = UserStore.isLoggedIn() && UserStore.userData.get("id");
+    if(!currentUserId) return;
     const propUserIds = userIds.peek();
     if (!this.props.UserStore.userInstance.get('id')){
       this.props.UserStore.getCurrUserInstance(currentUserId)
@@ -235,7 +246,7 @@ class CompareCollectionUsers extends Component {
   render() {
     // if (!userIds.length) console.log('No users specified to compare');
     // return <CompareCollectionUsersView data={this.viewData} />
-    if (!this.viewData.isLoggedIn.get()) return <SignInToSeeView />;
+    if (!this.props.UserStore.isLoggedIn()) return <SignInToSeeView />;
 
 
     // TODO make it computed
