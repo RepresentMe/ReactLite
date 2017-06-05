@@ -6,13 +6,11 @@ import { Card, CardText, CardActions, CardTitle, CardMedia } from 'material-ui/C
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
-
+import LoadingIndicator from '../../../LoadingIndicator';
 import IconButton from 'material-ui/IconButton';
 import ChartIcon from 'material-ui/svg-icons/editor/insert-chart';
 import SocialShare from 'material-ui/svg-icons/social/share';
 import Follow from 'material-ui/svg-icons/social/person-add';
-import LoadingIndicator from '../../../LoadingIndicator';
-
 import MoreText from '../../../Components/MoreText';
 
 import MessengerPlugin from 'react-messenger-plugin';
@@ -83,7 +81,8 @@ class CompareCollectionUsers extends Component {
       following: observable.shallowMap(),
       followingCandidates: observable.shallowMap(),
       questions: observable.shallowArray(),
-      collection_tags: observable.shallowArray([])
+      collection_tags: observable.shallowArray([]),
+      resultsOpened: observable(false)
     });
   }
 
@@ -96,7 +95,7 @@ class CompareCollectionUsers extends Component {
 
   componentDidMount = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
-    this.loadQuestionsData();
+    // this.loadQuestionsData();
     reaction(() => UserStore.isLoggedIn(), () => {
       if (UserStore.isLoggedIn()) {
         this.viewData.isLoggedIn.set(true);
@@ -129,6 +128,13 @@ class CompareCollectionUsers extends Component {
       analytics_interface: 'collection',
       url: `${window.location.origin}/survey/${this.props.collectionId}`
     })
+  }
+
+  toggleResults = (e) => {
+    e.preventDefault();
+    this.loadQuestionsData()
+    const resultsOpened = !this.viewData.resultsOpened.get();
+    this.viewData.resultsOpened.set(resultsOpened);
   }
 
   loadQuestionsData = () => {
@@ -235,7 +241,7 @@ class CompareCollectionUsers extends Component {
 
     // TODO make it computed
     if (!(this.viewData.pageReadiness.isCompareUsersReady.get()
-      && this.viewData.pageReadiness.isQuestionResultsReady.get()
+      // && this.viewData.pageReadiness.isQuestionResultsReady.get()
       && this.viewData.pageReadiness.isCompareCandidatesReady.get()
     ))
       return (
@@ -273,11 +279,18 @@ class CompareCollectionUsers extends Component {
           following={this.viewData.followingCandidates}
           collectionId={this.props.collectionId}
         />}
-        <QuestionResultsCarousel
+
+        <Subheader style={{cursor: 'pointer'}} className="heading" onTouchTap={(e) => this.toggleResults(e)}>
+          {!this.viewData.resultsOpened.get() ? `Show All Results` : `All Results`}
+        </Subheader>
+
+        {this.viewData.resultsOpened.get() && !this.viewData.pageReadiness.isQuestionResultsReady.get() && <LoadingIndicator />}
+
+        {this.viewData.resultsOpened.get() && <QuestionResultsCarousel
           questions={this.viewData.questions}
           collectionId={this.props.collectionId}
           countShare={this.countShare}
-          />
+          />}
 
 
         <div>
@@ -410,7 +423,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
         </div>
         </div>
 
-      <Subheader className="heading" >All Results</Subheader>
+      {/* <Subheader className="heading" >All Results</Subheader> */}
       <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
 
 
@@ -505,7 +518,7 @@ class UserCardSmall extends Component {
     const barStyle = this.areCompareDetailsShowing.get() ? { display: 'block' } : { display: 'none' }
 
     let party = "";
-    let area = "";  
+    let area = "";
     let linkedin = "";
     let facebook_page = "";
     let statement = "";
@@ -526,23 +539,23 @@ class UserCardSmall extends Component {
 
       this.props &&
       <Card className='scrollbar'>
-        {party && area && 
+        {party && area &&
             <div className="partyIntro clear">
-              <strong>{name}</strong> is the 
+              <strong>{name}</strong> is the
               <strong> {party}</strong> candidate for
-              <strong> {area}</strong> 
+              <strong> {area}</strong>
             </div>
            }
 
 
         <Avatar src={photo} size={50} style={{ alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px' }} />
 
-         
 
- 
+
+
 
         <CardTitle title={name} subtitle={location} subtitleStyle={{color: '#fff'}} style={{ textAlign: 'center', padding: 'st 16px', color: '#fff'  }} titleStyle={{ lineHeight: 1, fontSize: 24, fontWeight: 600, color: '#fff' }} />
-      
+
 
 
         <CardText style={{ backgroundColor: '#fff', padding: '10px 4px', marginTop: 10 }}>
@@ -567,25 +580,25 @@ class UserCardSmall extends Component {
         </CardText>
 
 
-        <div className="partyInfo">  
+        <div className="partyInfo">
 
           {statement && <MoreText className="statement" text={statement || ""} />}
 
-          <div className="links">  
+          <div className="links">
             {twitter && <a href={twitter} target="_blank" className="linkme"><i className="fa fa-lg fa-twitter" aria-hidden="true"></i></a>}
             {facebook_page && <a href={facebook_page} target="_blank" className="linkme"><i className="fa fa-lg fa-facebook" aria-hidden="true"></i></a>}
             {linkedin && <a href={linkedin} target="_blank" className="linkme"><i className="fa fa-lg fa-linkedin" aria-hidden="true"></i></a>}
             {pol_url && <a href={pol_url} target="_blank" className="linkme"><i className="fa fa-lg fa-globe" aria-hidden="true"></i></a>}
           </div>
 
-        </div> 
+        </div>
 
 
         <CardText style={{ textAlign: 'center', padding: '8px 16px 0 16px', color: '#444' }} className='cardText'>
           <div style={{ margin: '0', padding:0 }}>
 
             <div style={{
-                display: this.state.iconsDisplay ? 'block' : 'none'                
+                display: this.state.iconsDisplay ? 'block' : 'none'
               }}>
 
               <CardMedia>
@@ -614,7 +627,7 @@ class UserCardSmall extends Component {
               </div>
 
             </div>
- 
+
 
             {this.props.following.get() > 0 ?
               <RaisedButton
@@ -647,7 +660,7 @@ class UserCardSmall extends Component {
           </div>
         </CardText>
 
-        <CardText style={{ backgroundColor: '#e6f7ff', padding: '4px 4px 0 4px' }}>
+        <CardText style={{ backgroundColor: '#e6f7ff', padding: 0 }}>
 
           {this.areCompareDetailsShowing.get() ? <div style={barStyle}>
             {/*<CompareUsersDetailsComponent userIds={[this.props.user.id]} />*/}

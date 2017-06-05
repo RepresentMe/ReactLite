@@ -74,7 +74,7 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
 
                 <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>Who should I vote for?</h1>
                
-                <p>Confused about which party to vote for on June 9th? Find out which party best matches your values.</p>
+                <p>Confused about which party to vote for on June 8th? Find out which party best matches your values.</p>
 
                 <RaisedButton label="Start" primary href="/survey/122/flow/0/vote/" style={{marginTop: 15}}/>
                 
