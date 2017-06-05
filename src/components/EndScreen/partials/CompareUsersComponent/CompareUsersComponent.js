@@ -651,7 +651,7 @@ class UserCardSmall extends Component {
           </div>
         </CardText>
 
-        <CardText style={{ backgroundColor: '#e6f7ff', padding: '4px 4px 0 4px' }}>
+        <CardText style={{ backgroundColor: '#e6f7ff', padding: 0 }}>
 
           {this.areCompareDetailsShowing.get() ? <div style={barStyle}>
             {/*<CompareUsersDetailsComponent userIds={[this.props.user.id]} />*/}
