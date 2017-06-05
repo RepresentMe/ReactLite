@@ -2,7 +2,15 @@ php_flag display_startup_errors on
 php_flag display_errors on
 php_flag html_errors on
 php_flag  log_errors on
-
+<filesMatch "\.(html|htm|css)$">
+  FileETag None
+  <ifModule mod_headers.c>
+     Header unset ETag
+     Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+     Header set Pragma "no-cache"
+     Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+  </ifModule>
+</filesMatch>
 <IfModule mod_headers.c>
     RequestHeader set X-Prerender-Token "dXMtd2VzdC0yOmQxM2RiMGE5LWVkYWEtNDg1ZC04ODJmLTNhYzNjMzY2YTYxNg.1cPp_yI5JOYXjp9OpQFN29fmcMZ_ConQQqWEfWmmPkI"
 </IfModule>
