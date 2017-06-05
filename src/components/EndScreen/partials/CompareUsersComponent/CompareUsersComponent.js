@@ -383,7 +383,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
           <FacebookShareButton
             url={`${window.location.origin}/survey/${collectionId}`}
             title={`Represent helps you modernise democracy.`}
-            picture={`/img/wrW7xwp.png`}
+            picture={`https://open.represent.me/img/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button_group'>
             <FacebookIcon
@@ -393,7 +393,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
           <TwitterShareButton
             url={`${window.location.origin}/survey/${collectionId}`}
             title={`Represent helps you modernise democracy.`}
-            picture={`/img/wrW7xwp.png`}
+            picture={`https://open.represent.me/img/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button_group'>
             <TwitterIcon
@@ -404,7 +404,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
           <WhatsappShareButton
             url={`${window.location.origin}/survey/${collectionId}`}
             title={`Represent helps you modernise democracy.`}
-            picture={`/img/wrW7xwp.png`}
+            picture={`https://open.represent.me/img/wrW7xwp.png`}
             description={`Compare the policies. Find your match. Make it work for you.`}
             className='fb-network__share-button_group'>
             <WhatsappIcon
