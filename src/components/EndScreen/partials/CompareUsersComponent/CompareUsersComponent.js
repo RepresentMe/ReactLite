@@ -83,7 +83,8 @@ class CompareCollectionUsers extends Component {
       following: observable.shallowMap(),
       followingCandidates: observable.shallowMap(),
       questions: observable.shallowArray(),
-      collection_tags: observable.shallowArray([])
+      collection_tags: observable.shallowArray([]),
+      resultsOpened: observable(false)
     });
   }
 
@@ -136,6 +137,12 @@ class CompareCollectionUsers extends Component {
       analytics_interface: 'collection',
       url: `${window.location.origin}/survey/${this.props.collectionId}`
     })
+  }
+
+  toggleResults = (e) => {
+    e.preventDefault()
+    const resultsOpened = !this.viewData.resultsOpened.get();
+    this.viewData.resultsOpened.set(resultsOpened);
   }
 
   loadData = () => {
@@ -277,11 +284,14 @@ class CompareCollectionUsers extends Component {
           following={this.viewData.followingCandidates}
           collectionId={this.props.collectionId}
         />}
-        <QuestionResultsCarousel
+
+        <Subheader style={{cursor: 'pointer'}} className="heading" onTouchTap={(e) => this.toggleResults(e)}>Show All Results</Subheader>
+
+        {this.viewData.resultsOpened.get() && <QuestionResultsCarousel
           questions={this.viewData.questions}
           collectionId={this.props.collectionId}
           countShare={this.countShare}
-          />
+          />}
 
 
         <div>
@@ -414,7 +424,7 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
         </div>
         </div>
 
-      <Subheader className="heading" >All Results</Subheader>
+      {/* <Subheader className="heading" >All Results</Subheader> */}
       <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
 
 
@@ -509,7 +519,7 @@ class UserCardSmall extends Component {
     const barStyle = this.areCompareDetailsShowing.get() ? { display: 'block' } : { display: 'none' }
 
     let party = "";
-    let area = "";  
+    let area = "";
     let linkedin = "";
     let facebook_page = "";
     let statement = "";
@@ -530,23 +540,23 @@ class UserCardSmall extends Component {
 
       this.props &&
       <Card className='scrollbar'>
-        {party && area && 
+        {party && area &&
             <div className="partyIntro clear">
-              <strong>{name}</strong> is the 
+              <strong>{name}</strong> is the
               <strong> {party}</strong> candidate for
-              <strong> {area}</strong> 
+              <strong> {area}</strong>
             </div>
            }
 
 
         <Avatar src={photo} size={50} style={{ alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px' }} />
 
-         
 
- 
+
+
 
         <CardTitle title={name} subtitle={location} subtitleStyle={{color: '#fff'}} style={{ textAlign: 'center', padding: 'st 16px', color: '#fff'  }} titleStyle={{ lineHeight: 1, fontSize: 24, fontWeight: 600, color: '#fff' }} />
-      
+
 
 
         <CardText style={{ backgroundColor: '#fff', padding: '10px 4px', marginTop: 10 }}>
@@ -571,25 +581,25 @@ class UserCardSmall extends Component {
         </CardText>
 
 
-        <div className="partyInfo">  
+        <div className="partyInfo">
 
           {statement && <MoreText className="statement" text={statement || ""} />}
 
-          <div className="links">  
+          <div className="links">
             {twitter && <a href={twitter} target="_blank" className="linkme"><i className="fa fa-lg fa-twitter" aria-hidden="true"></i></a>}
             {facebook_page && <a href={facebook_page} target="_blank" className="linkme"><i className="fa fa-lg fa-facebook" aria-hidden="true"></i></a>}
             {linkedin && <a href={linkedin} target="_blank" className="linkme"><i className="fa fa-lg fa-linkedin" aria-hidden="true"></i></a>}
             {pol_url && <a href={pol_url} target="_blank" className="linkme"><i className="fa fa-lg fa-globe" aria-hidden="true"></i></a>}
           </div>
 
-        </div> 
+        </div>
 
 
         <CardText style={{ textAlign: 'center', padding: '8px 16px 0 16px', color: '#444' }} className='cardText'>
           <div style={{ margin: '0', padding:0 }}>
 
             <div style={{
-                display: this.state.iconsDisplay ? 'block' : 'none'                
+                display: this.state.iconsDisplay ? 'block' : 'none'
               }}>
 
               <CardMedia>
@@ -618,7 +628,7 @@ class UserCardSmall extends Component {
               </div>
 
             </div>
- 
+
 
             {this.props.following.get() > 0 ?
               <RaisedButton
