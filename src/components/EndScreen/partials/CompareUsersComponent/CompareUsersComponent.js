@@ -107,7 +107,6 @@ class CompareCollectionUsers extends Component {
     }, () => {
       this.loadUsersCompareData();
     })
-    this.isPageReady.get();
   }
 
   // isPageReady = computed(() => {
