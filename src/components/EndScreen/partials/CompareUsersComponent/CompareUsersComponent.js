@@ -85,18 +85,18 @@ class CompareCollectionUsers extends Component {
     });
   }
 
-  componentWillMount(){
+  componentWillMount() {
     //if generalAnalyticsData is not loaded, load it into UserStore
-    if (!this.props.UserStore.generalAnalyticsData.analytics_os){
+    if (!this.props.UserStore.generalAnalyticsData.analytics_os) {
       this.props.UserStore.getGeneralAnalyticsData();
     }
   }
 
   componentDidMount = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
-    if(UserStore.isLoggedIn()) {
+    if (UserStore.isLoggedIn()) {
       this.loadUsersCompareData();
-      if(!UserStore.userData.get('district')) {
+      if (!UserStore.userData.get('district')) {
         reaction(() => UserStore.userData.get('district'), () => {
           console.log('reaction: 2');
           this.loadUsersCompareData();
@@ -107,7 +107,7 @@ class CompareCollectionUsers extends Component {
         console.log('reaction: 1');
         if (isLoggedIn) {
           this.loadUsersCompareData();
-          if(!UserStore.userData.get('district')) {
+          if (!UserStore.userData.get('district')) {
             reaction(() => UserStore.userData.get('district'), () => {
               console.log('reaction: 2');
               this.loadUsersCompareData();
@@ -149,7 +149,7 @@ class CompareCollectionUsers extends Component {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
 
 
-      //.then(res => console.log('userInstance', res));
+    //.then(res => console.log('userInstance', res));
 
     CollectionStore.getCollectionItemsById(collectionId)
       .then((res) => {
@@ -159,26 +159,26 @@ class CompareCollectionUsers extends Component {
       })
   }
 
-    // const getCollectionTags = (collectionId) => {
-    //     window.API.get('/api/tags/?ordering=-followers_count')
-    //       .then((response) => {
-    //         if(response.data.results) {
-    //           return viewData.collection_tags.push(response.data.results);
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         console.log(error, error.response.data);
-    //       })
-    //   }
-    //   getCollectionTags();
+  // const getCollectionTags = (collectionId) => {
+  //     window.API.get('/api/tags/?ordering=-followers_count')
+  //       .then((response) => {
+  //         if(response.data.results) {
+  //           return viewData.collection_tags.push(response.data.results);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.log(error, error.response.data);
+  //       })
+  //   }
+  //   getCollectionTags();
 
   loadUsersCompareData = () => {
     let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
     console.log('loadUsersCompareData: ', UserStore.userData.get("id"));
     let currentUserId = UserStore.isLoggedIn() && UserStore.userData.get("id");
-    if(!currentUserId) return;
+    if (!currentUserId) return;
     const propUserIds = userIds.peek();
-    if (!this.props.UserStore.userInstance.get('id')){
+    if (!this.props.UserStore.userInstance.get('id')) {
       this.props.UserStore.getCurrUserInstance(currentUserId)
     }
 
@@ -263,7 +263,7 @@ class CompareCollectionUsers extends Component {
     return (
       <div className='endPage'>
 
-      <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB} />
+        <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB} />
 
 
         {/* <IconButton
@@ -290,7 +290,7 @@ class CompareCollectionUsers extends Component {
           collectionId={this.props.collectionId}
         />}
 
-        <Subheader style={{cursor: 'pointer'}} className="heading" onTouchTap={(e) => this.toggleResults(e)}>
+        <Subheader style={{ cursor: 'pointer' }} className="heading" onTouchTap={(e) => this.toggleResults(e)}>
           {!this.viewData.resultsOpened.get() ? `Show All Results` : `All Results`}
         </Subheader>
 
@@ -300,13 +300,50 @@ class CompareCollectionUsers extends Component {
           questions={this.viewData.questions}
           collectionId={this.props.collectionId}
           countShare={this.countShare}
-          />}
+        />}
 
+
+        <div className="shareLinks" onTouchTap={() => this.countShare()}>
+          <p>Share and compare</p>
+          <div className="shareLinksButtons">
+            <FacebookShareButton
+              url={`${window.location.origin}/survey/${this.props.collectionId}`}
+              title={`Represent helps you modernise democracy.`}
+              picture={`https://open.represent.me/img/wrW7xwp.png`}
+              description={`Compare the policies. Find your match. Make it work for you.`}
+              className='fb-network__share-button_group'>
+              <FacebookIcon
+                size={30}
+                round />
+            </FacebookShareButton>
+            <TwitterShareButton
+              url={`${window.location.origin}/survey/${this.props.collectionId}`}
+              title={`Represent helps you modernise democracy.`}
+              picture={`https://open.represent.me/img/wrW7xwp.png`}
+              description={`Compare the policies. Find your match. Make it work for you.`}
+              className='fb-network__share-button_group'>
+              <TwitterIcon
+                size={30}
+                round />
+            </TwitterShareButton>
+
+            <WhatsappShareButton
+              url={`${window.location.origin}/survey/${this.props.collectionId}`}
+              title={`Represent helps you modernise democracy.`}
+              picture={`https://open.represent.me/img/wrW7xwp.png`}
+              description={`Compare the policies. Find your match. Make it work for you.`}
+              className='fb-network__share-button_group'>
+              <WhatsappIcon
+                size={30}
+                round />
+            </WhatsappShareButton>
+          </div>
+        </div>
 
         <div>
           <div id="shareMe">
             Want to share? Click to copy:
-        <TextField
+            <TextField
               id="copyToClipboardEnd"
               value={`${window.location.origin}/survey/${this.props.collectionId}`}
               multiLine={false}
@@ -316,7 +353,7 @@ class CompareCollectionUsers extends Component {
             <span onClick={e => this.copyToClipboard('copyToClipboardEnd')}> URL</span>
 
             &nbsp; &middot; &nbsp;
-        <TextField
+            <TextField
               id="copyToClipboardEmbed"
               value={`<iframe src="${window.location.origin}/survey/${this.props.collectionId}" height="600" width="100%" frameborder="0"></iframe>`}
               multiLine={false}
@@ -324,7 +361,6 @@ class CompareCollectionUsers extends Component {
               inputStyle={{ textAlign: 'center' }}
             />
             <span onClick={e => this.copyToClipboard('copyToClipboardEmbed')}>Embed code </span>
-
           </div>
         </div>
 
@@ -365,23 +401,23 @@ class MessengerPluginBlock extends Component {
     const loggedFB = this.props.loggedFB;
 
     return (
-        <div className="fbMessage" style={{
-          maxHeight: loggedFB.get() ? 400 : 0, display: loggedFB.get() ? 'block' : 'none',
-        }}>
+      <div className="fbMessage" style={{
+        maxHeight: loggedFB.get() ? 400 : 0, display: loggedFB.get() ? 'block' : 'none',
+      }}>
 
-          <p>
+        <p>
           <strong>Want to have more say over your future? </strong> You can now vote on issues and track your MP directly from Facebook Messenger. Democracy doesn't get any easier or more powerful!
 
           </p>
-          <MessengerPlugin
-            appId={String(window.authSettings.facebookId)}
-            pageId={String(window.authSettings.facebookPageId)}
-            size="large"
-            color="white"
-            className="fbiframe"
-            passthroughParams={messengerRefData}
-          />
-        </div>
+        <MessengerPlugin
+          appId={String(window.authSettings.facebookId)}
+          pageId={String(window.authSettings.facebookPageId)}
+          size="large"
+          color="white"
+          className="fbiframe"
+          passthroughParams={messengerRefData}
+        />
+      </div>
     )
 
 
@@ -396,48 +432,12 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
   return (
     <div>
 
-      <div className="shareLinks" onTouchTap={() => countShare()}>
-      <p>Share and compare</p>
-      <div className="shareLinksButtons">
-          <FacebookShareButton
-            url={`${window.location.origin}/survey/${collectionId}`}
-            title={`Represent helps you modernise democracy.`}
-            picture={`https://open.represent.me/img/wrW7xwp.png`}
-            description={`Compare the policies. Find your match. Make it work for you.`}
-            className='fb-network__share-button_group'>
-            <FacebookIcon
-              size={30}
-              round />
-          </FacebookShareButton>
-          <TwitterShareButton
-            url={`${window.location.origin}/survey/${collectionId}`}
-            title={`Represent helps you modernise democracy.`}
-            picture={`https://open.represent.me/img/wrW7xwp.png`}
-            description={`Compare the policies. Find your match. Make it work for you.`}
-            className='fb-network__share-button_group'>
-            <TwitterIcon
-              size={30}
-              round />
-          </TwitterShareButton>
-
-          <WhatsappShareButton
-            url={`${window.location.origin}/survey/${collectionId}`}
-            title={`Represent helps you modernise democracy.`}
-            picture={`https://open.represent.me/img/wrW7xwp.png`}
-            description={`Compare the policies. Find your match. Make it work for you.`}
-            className='fb-network__share-button_group'>
-            <WhatsappIcon
-              size={30}
-              round />
-          </WhatsappShareButton>
-        </div>
-        </div>
 
       {/* <Subheader className="heading" >All Results</Subheader> */}
-      <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center'}}>
+      <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center' }}>
 
 
-        <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start'}}>
+        <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start' }}>
           {questions.length > 0 &&
             questions.slice().map((question, i) => {
               return (question && question.type == 'Q') ? (
@@ -478,7 +478,7 @@ class UserCardSmall extends Component {
 
   toggleSocial = () => {
     let iconsDisplay = !this.state.iconsDisplay;
-    this.setState({iconsDisplay})
+    this.setState({ iconsDisplay })
   }
 
   countShare = () => {
@@ -550,12 +550,12 @@ class UserCardSmall extends Component {
       this.props &&
       <Card className='scrollbar'>
         {party && area &&
-            <div className="partyIntro clear">
-              <strong>{name}</strong> is the
+          <div className="partyIntro clear">
+            <strong>{name}</strong> is the
               <strong> {party}</strong> candidate for
               <strong> {area}</strong>
-            </div>
-           }
+          </div>
+        }
 
 
         <Avatar src={photo} size={50} style={{ alignSelf: 'center', display: 'block', margin: '0 auto', marginTop: '10px' }} />
@@ -564,7 +564,7 @@ class UserCardSmall extends Component {
 
 
 
-        <CardTitle title={name} subtitle={location} subtitleStyle={{color: '#fff'}} style={{ textAlign: 'center', padding: 'st 16px', color: '#fff'  }} titleStyle={{ lineHeight: 1, fontSize: 24, fontWeight: 600, color: '#fff' }} />
+        <CardTitle title={name} subtitle={location} subtitleStyle={{ color: '#fff' }} style={{ textAlign: 'center', padding: 'st 16px', color: '#fff' }} titleStyle={{ lineHeight: 1, fontSize: 24, fontWeight: 600, color: '#fff' }} />
 
 
 
@@ -580,7 +580,7 @@ class UserCardSmall extends Component {
             </div>
           ) : <p></p>}
 
-{/*           <FlatButton
+          {/*           <FlatButton
             label={this.areCompareDetailsShowing.get() ? "Hide detail" : 'Show Detail'}
             primary={true}
             style={{ color: '#999', fontSize: 12, lineHeight: 1, textTransform: 'none' }}
@@ -605,11 +605,11 @@ class UserCardSmall extends Component {
 
 
         <CardText style={{ textAlign: 'center', padding: '8px 16px 0 16px', color: '#444' }} className='cardText'>
-          <div style={{ margin: '0', padding:0 }}>
+          <div style={{ margin: '0', padding: 0 }}>
 
             <div style={{
-                display: this.state.iconsDisplay ? 'block' : 'none'
-              }}>
+              display: this.state.iconsDisplay ? 'block' : 'none'
+            }}>
 
               <CardMedia>
                 <img src={media} />
@@ -618,21 +618,21 @@ class UserCardSmall extends Component {
               <div className="personsharelinks">
                 <IconButton
                   onTouchTap={this.clickFB}
-                  style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
-                  >
+                  style={{ flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer' }}
+                >
                   <FacebookIcon size={30} round={true} />
                 </IconButton>
                 <IconButton
                   onTouchTap={this.clickTW}
-                  style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
-                  >
-                  <TwitterIcon size={30} round={true}/>
+                  style={{ flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer' }}
+                >
+                  <TwitterIcon size={30} round={true} />
                 </IconButton>
                 <IconButton
                   onTouchTap={this.clickWA}
-                  style={{flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer'}}
-                  >
-                  <WhatsappIcon size={30} round={true}/>
+                  style={{ flex: 1, margin: 'auto', paddingLeft: 10, minWidth: 30, maxWidth: 50, width: 30, cursor: 'pointer' }}
+                >
+                  <WhatsappIcon size={30} round={true} />
                 </IconButton>
               </div>
 
@@ -644,11 +644,11 @@ class UserCardSmall extends Component {
                 label="following"
                 primary={true}
                 onTouchTap={this.removeFollowing}
-                style={{margin: 5,  minWidth: 40  }}
+                style={{ margin: 5, minWidth: 40 }}
               /> :
               <RaisedButton
                 onTouchTap={this.setFollowing}
-                style={{ margin: 5,  minWidth: 30, width: 40 }}
+                style={{ margin: 5, minWidth: 30, width: 40 }}
                 primary={true}
                 icon={<Follow />}
               />}
@@ -662,11 +662,11 @@ class UserCardSmall extends Component {
             />}
 
             {isCompareDataExist && <RaisedButton
-            primary={true}
-            icon={<ChartIcon />}
-            style={{ color: '#999', margin: 5, minWidth: 30, width: 40}}
-            onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
-          />}
+              primary={true}
+              icon={<ChartIcon />}
+              style={{ color: '#999', margin: 5, minWidth: 30, width: 40 }}
+              onTouchTap={() => this.areCompareDetailsShowing.set(!this.areCompareDetailsShowing.get())}
+            />}
           </div>
         </CardText>
 
@@ -683,7 +683,7 @@ class UserCardSmall extends Component {
           picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
           className={`fb-network__share-button__end_${user.id}`}
           description="BTW, this isn't just another party comparison / data sucking thing. It's a really cool new way of doing democracy and giving people a really clear voice. Think petitions, but .. done better :)"
-          style={{display: 'none'}}
+          style={{ display: 'none' }}
         >
           <FacebookIcon
             size={32}
@@ -695,7 +695,7 @@ class UserCardSmall extends Component {
           via='representme'
           hashtags={['representme', 'democracy']}
           className={`twitter-network__share-button__end_${user.id}`}
-          style={{display: 'none'}}
+          style={{ display: 'none' }}
         >
           <TwitterIcon
             size={32}
@@ -706,7 +706,7 @@ class UserCardSmall extends Component {
           title={`I'm a ${match}% match with ${name}. How about you? BTW, this isn't just another party comparison / data sucking thing. It's a really cool new way of doing democracy and giving people a really clear voice. Think petitions, but .. done better :) `}
           picture={`https://share.represent.me/compare_users/compare_users_${UserStore.userData.get('id')}_${user.id}.png`}
           className={`whatsapp-network__share-button__end_${user.id}`}
-          style={{display: 'none'}}
+          style={{ display: 'none' }}
         >
           <WhatsappIcon
             size={32}
