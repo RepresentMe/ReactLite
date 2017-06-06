@@ -654,7 +654,7 @@ class UserCardSmall extends Component {
               onClick={this.openSocial} //open dropdown menu
               onTouchTap={this.toggleSocial}
               style={{ margin: 5, minWidth: 30, width: 40 }}
-              primary={true}
+              primary={false}
               icon={<SocialShare />}
             />}
 
