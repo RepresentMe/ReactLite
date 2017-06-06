@@ -140,7 +140,8 @@ class CompareCollectionUsers extends Component {
 
   toggleResults = (e) => {
     e.preventDefault();
-    this.loadQuestionsData()
+    if(this.viewData.resultsOpened.get()) return;
+    this.loadQuestionsData();
     const resultsOpened = !this.viewData.resultsOpened.get();
     this.viewData.resultsOpened.set(resultsOpened);
   }
