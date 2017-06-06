@@ -572,7 +572,7 @@ class UserCardSmall extends Component {
           {this.props.compareData ? (
             <div>
 
-              <p style={{ color: '#999', margin: 0, }}>{isCompareDataExist ? `match on ${questions_counted} questions` : 'you need to answer more questions in common'}</p>
+              <p style={{ color: '#999', margin: 0, }}>{isCompareDataExist ? `match on ${questions_counted} questions` : 'Too few answers to compare!'}</p>
               {isCompareDataExist && <MatchBarchart compareData={this.props.compareData} />}
             </div>
           ) : <p></p>}
