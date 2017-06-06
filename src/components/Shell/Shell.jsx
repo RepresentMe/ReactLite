@@ -345,6 +345,7 @@ export default class Shell extends Component {
                     <ListItem className='menuItem' key='menuItem-9' primaryText="Liberal Democrats"   href="/survey/116" />
                     <ListItem className='menuItem' key='menuItem-10' primaryText="Plaid Cymru"  href="/survey/112" />
                     <ListItem className='menuItem' key='menuItem-11' primaryText="SNP"   href="/survey/124" />
+                    <ListItem className='menuItem' key='menuItem-12' primaryText="UKIP"   href="/survey/130" />
 
                     {/*<ListItem className='menuItem' key='menuItem-5' primaryText="All in one"  href="/survey/47" />*/}
 
