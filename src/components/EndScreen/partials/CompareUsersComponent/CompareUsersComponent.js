@@ -564,7 +564,7 @@ class UserCardSmall extends Component {
 
 
 
-        <CardTitle title={name} subtitle={location} subtitleStyle={{color: '#fff'}} style={{ textAlign: 'center', padding: 'st 16px', color: '#fff'  }} titleStyle={{ lineHeight: 1, fontSize: 24, fontWeight: 600, color: '#fff' }} />
+        <CardTitle title={name} subtitle={location} subtitleStyle={{color: '#ccc'}} style={{ textAlign: 'center', padding: '16px', color: '#fff'  }} titleStyle={{ lineHeight: 1, fontSize: 24, fontWeight: 600, color: '#222', marginTop: 4, }} />
 
 
 
