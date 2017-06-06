@@ -5,7 +5,7 @@ import CompareCollectionUsers from './partials/CompareUsersComponent';
 import DynamicConfigService from '../../services/DynamicConfigService';
 import JoinGroupDialog from '../JoinGroupDialog';
 import FollowUserDialog from '../FollowUserDialog';
-import MessengerModal from './partials/MessengerModal';
+//import MessengerModal from './partials/MessengerModal';
 import MoreUserInfo from '../Components/modals/MoreUserInfo';
 
 @inject("UserStore", "GroupStore")

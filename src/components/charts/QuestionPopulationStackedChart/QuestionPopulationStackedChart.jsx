@@ -3,7 +3,7 @@ import { inject, observer } from "mobx-react";
 import { observable, reaction } from "mobx";
 
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { scaleTime } from 'd3-scale';
+//import { scaleTime } from 'd3-scale';
 import LoadingIndicator from '../../LoadingIndicator';
 import QuestionService from "../../../services/QuestionService";
 
@@ -31,7 +31,7 @@ const QuestionPopulationStackedChart = inject("CensusDataStore", "DemographicsDa
 
     if (!geoId) geoId = 59;
     CensusDataStore.getCensusData(geoId).then(function (res) {
-      if (res.results.length == 0) {
+      if (res.results.length === 0) {
         return CensusDataStore.getCensusData(59).then((res) => {
           censusData = res.results;
           finishedReqCount++;
@@ -60,7 +60,7 @@ const QuestionPopulationStackedChart = inject("CensusDataStore", "DemographicsDa
 
 
     let finish = () => {
-      if (finishedReqCount == 3) cb(censusData, demogrData, question);
+      if (finishedReqCount === 3) cb(censusData, demogrData, question);
     }
   }
 })

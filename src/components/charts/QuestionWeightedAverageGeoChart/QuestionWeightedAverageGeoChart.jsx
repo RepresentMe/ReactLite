@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from "mobx-react";
-import { observable, reaction } from "mobx";
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Text} from 'recharts';
+//import { observable, reaction } from "mobx";
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, Text} from 'recharts';
 
 const mergeDataPoints = (a, b) => {
 

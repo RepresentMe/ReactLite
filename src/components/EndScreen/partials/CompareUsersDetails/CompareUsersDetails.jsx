@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { observable, extendObservable } from 'mobx';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import LoadingIndicator from '../../../LoadingIndicator';
 
 @inject("UserStore")
 @observer
@@ -35,12 +33,12 @@ class CompareUsersDetails extends Component {
 
   setCompareDataValues = (compareData) => {
     let totalCount = compareData.difference_distances.reduce((a, b) => a + b, 0);
-    totalCount = totalCount == 0 ? 1 : totalCount;
+    totalCount = totalCount === 0 ? 1 : totalCount;
     this.voteValues.agree.set(Math.round(100 * (compareData.difference_distances[0]) / totalCount));
     this.voteValues.disagree.set(Math.round(100 * (compareData.difference_distances[4]) / totalCount));
 
     let diffs_array = [];
-    const keys = Object.keys(compareData.topic_diffs)
+    
     for (let key in compareData.topic_diffs) {
       let totalCount = 0;
       let diff = compareData.topic_diffs[key].diffs;

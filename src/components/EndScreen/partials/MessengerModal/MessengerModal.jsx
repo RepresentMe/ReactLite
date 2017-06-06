@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import { observer, inject } from "mobx-react";
+import { inject } from "mobx-react";
 import MessengerPlugin from 'react-messenger-plugin';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
-const styles = {
-}
 
 @inject("UserStore")
 class MessengerModal extends Component {
@@ -51,4 +49,3 @@ class MessengerModal extends Component {
 }
 
 export default MessengerModal;
-

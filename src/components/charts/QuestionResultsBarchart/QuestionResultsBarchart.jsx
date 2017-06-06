@@ -1,10 +1,9 @@
 import React from 'react';
 import { inject, observer } from "mobx-react";
-import { observable, reaction } from "mobx";
 
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Rectangle, Text, ResponsiveContainer } from 'recharts';
-import { scaleTime } from 'd3-scale';
-import LoadingIndicator from '../../LoadingIndicator'; 
+import { BarChart, Bar, XAxis, YAxis, Rectangle, Text, ResponsiveContainer } from 'recharts';
+
+import LoadingIndicator from '../../LoadingIndicator';
 import QuestionService from "../../../services/QuestionService";
 
 
@@ -25,7 +24,7 @@ const QuestionResultsBarchartView = observer(({ data }) => {
   return (
     <div>
       {!data.values && <LoadingIndicator />}
-      {data.values && 
+      {data.values &&
         <ResponsiveContainer minWidth={100} minHeight={data.values.length * (BAR_HEIGHT + BAR_MATGIN_TOP)}>
           <BarChart
             layout="vertical"
@@ -45,7 +44,7 @@ const CustomBar = (props) => {
   const { payload, x, y, width, height } = props;
   let customWidth = payload.isZeroPerc ? 0 : width;
   let bgWidth = (payload.isZeroPerc ? width : customWidth)* 100 / payload.votesPerc;
-  
+
   return (<g>
     {payload.isSelected && <Rectangle x={x - 1} y={y - 1} width={customWidth * 100 / payload.votesPerc + 2} height={height + 2} radius={[3, 3, 3, 3]} fill={SELECTED_BAR_BACKGROUND} />}
     <Rectangle x={x} y={y} width={bgWidth} height={height} radius={[3, 3, 3, 3]} fill={BAR_BACKGROUND} />
@@ -86,30 +85,30 @@ function generateLikertChartValues(q) {
   let colors = QuestionService.getLikertColors();
   let answerNames = ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"];
   let answerKeys = ["liquid_minimum", "liquid_low", "liquid_medium", "liquid_high", "liquid_maximum"];
-  let zeroVoteCount = q.liquid_vote_count == 0;
+  let zeroVoteCount = q.liquid_vote_count === 0;
   let tmp = !zeroVoteCount && 100 / q.liquid_vote_count; // used to calculate percentage of answer
 
   return answerNames.map((name, i) => {
     let curVoteCount = q[answerKeys[i]];
     return {
       name: name,
-      votesPerc: (zeroVoteCount || curVoteCount == 0) ? 1 : curVoteCount * tmp,
-      isZeroPerc: zeroVoteCount || curVoteCount == 0, // a tweak to make chart working
-      isSelected: q.my_vote[0].value == (i + 1),
+      votesPerc: (zeroVoteCount || curVoteCount === 0) ? 1 : curVoteCount * tmp,
+      isZeroPerc: zeroVoteCount || curVoteCount === 0, // a tweak to make chart working
+      isSelected: q.my_vote[0].value === (i + 1),
       color: colors[i]
     }
   })
 }
 function generateMcqChartValues(q) {
   let colors = QuestionService.getMcqColors(q.choices);
-  let zeroVoteCount = q.liquid_vote_count == 0;
+  let zeroVoteCount = q.liquid_vote_count === 0;
   let tmp = !zeroVoteCount && 100 / q.liquid_vote_count; // used to calculate percentage of answer
   return q.choices.map(function(choice, i) {
     return {
       name: choice.text,
-      votesPerc: (zeroVoteCount || choice.liquid_vote_count == 0) ? 1 : choice.liquid_vote_count * tmp,
-      isZeroPerc: zeroVoteCount || choice.liquid_vote_count == 0, // a tweak to make chart working
-      isSelected: q.my_vote[0].object_id == choice.id,
+      votesPerc: (zeroVoteCount || choice.liquid_vote_count === 0) ? 1 : choice.liquid_vote_count * tmp,
+      isZeroPerc: zeroVoteCount || choice.liquid_vote_count === 0, // a tweak to make chart working
+      isSelected: q.my_vote[0].object_id === choice.id,
       color: colors[choice.id]
     }
   })

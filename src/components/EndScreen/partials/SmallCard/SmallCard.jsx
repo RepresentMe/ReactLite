@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react";
 import {Card} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import { cyan400, cyan200, grey100 } from 'material-ui/styles/colors';
 
 import ChangeAnswer from 'material-ui/svg-icons/action/autorenew';
 import SocialShare from 'material-ui/svg-icons/social/share';
@@ -102,7 +100,7 @@ class SmallCard extends Component {
                         <ChartIcon style={iconStyles} color='#999' hoverColor='#1B8AAE' />
                       </IconButton>
                     </div>
-                  </div> 
+                  </div>
 
           </Card>
         </div>}

@@ -1,10 +1,10 @@
 import React from 'react';
 import { inject } from "mobx-react";
 import { observable } from "mobx";
-import difference from 'lodash/difference';
+
 
 import TwoLevelPieChartView from './TwoLevelPieChartComponent';
-import OneLevelPieChartView from './OneLevelPieChartComponent';
+//import OneLevelPieChartView from './OneLevelPieChartComponent';
 import BarChartView from './BarChartComponent';
 import BarChartViewEndScreen from './BarChartComponentEndScreen';
 import OneLevelPieChartTitle from './OneLevelPieChartTitle';
@@ -99,7 +99,7 @@ const QuestionLiquidPiechart = inject("QuestionStore")(({ QuestionStore, questio
         }
         else viewData.values = null;
     })
-    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+    //const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
 
     return (
       <div>

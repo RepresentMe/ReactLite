@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { observable, computed, reaction } from 'mobx';
-import { Link } from 'react-router-dom';
-import { Card, CardText, CardActions, CardTitle, CardMedia } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+
+import { Card, CardText, CardTitle, CardMedia } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
 import LoadingIndicator from '../../../LoadingIndicator';
@@ -15,8 +14,6 @@ import MoreText from '../../../Components/MoreText';
 
 import MessengerPlugin from 'react-messenger-plugin';
 
-import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-import { TwitterButton } from "react-social";
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
 
@@ -34,7 +31,6 @@ import './CompareUsers.css';
 
 import {
   ShareButtons,
-  ShareCounts,
   generateShareIcon
 } from 'react-share';
 const {
@@ -45,9 +41,9 @@ const {
 const FacebookIcon = generateShareIcon('facebook')
 const TwitterIcon = generateShareIcon('twitter')
 const WhatsappIcon = generateShareIcon('whatsapp')
-const TelegramShareButton = generateShareIcon('telegram')
+//const TelegramShareButton = generateShareIcon('telegram')
 
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
 
 const labels = {
@@ -93,7 +89,8 @@ class CompareCollectionUsers extends Component {
   }
 
   componentDidMount = () => {
-    let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
+    //let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
+    let { UserStore } = this.props;
     if (UserStore.isLoggedIn()) {
       this.loadUsersCompareData();
       if (!UserStore.userData.get('district')) {
@@ -147,10 +144,8 @@ class CompareCollectionUsers extends Component {
   }
 
   loadQuestionsData = () => {
-    let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
-
-
-    //.then(res => console.log('userInstance', res));
+    //let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
+    let { CollectionStore, collectionId = 1 } = this.props;
 
     CollectionStore.getCollectionItemsById(collectionId)
       .then((res) => {
@@ -174,8 +169,9 @@ class CompareCollectionUsers extends Component {
   //   getCollectionTags();
 
   loadUsersCompareData = () => {
-    let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
-    console.log('loadUsersCompareData: ', UserStore.userData.get("id"));
+    //let { CollectionStore, UserStore, collectionId = 1, userIds } = this.props;
+    let { UserStore, userIds } = this.props;
+    //console.log('loadUsersCompareData: ', UserStore.userData.get("id"));
     let currentUserId = UserStore.isLoggedIn() && UserStore.userData.get("id");
     if (!currentUserId) return;
     const propUserIds = userIds.peek();
@@ -266,15 +262,6 @@ class CompareCollectionUsers extends Component {
 
         <MessengerPluginBlock authToken={this.props.UserStore.getAuthToken()} loggedFB={this.props.UserStore.loggedFB} />
 
-
-        {/* <IconButton
-          style={{position: 'fixed', top: 30, left: 10}}
-          tooltip="Back to questions"
-          tooltipPosition="bottom-right"
-          //onTouchTap={this.handleGetPrevQuestion}
-          iconStyle={{fill: grey400}}
-          ><Left/>
-        </IconButton> */}
 
         {this.viewData.isComparingUsersShowing.get() && <UserCompareCarousel
           compareData={this.viewData.compareData}
@@ -392,7 +379,6 @@ const UserCompareCarousel = observer(({ compareData, users, following, collectio
 @inject("authToken", "loggedFB")
 @observer
 class MessengerPluginBlock extends Component {
-  //const MessengerPluginBlock = observer(({authToken, loggedFB}) => {
 
   render() {
     let messengerRefData = "get_started_with_token";
@@ -436,12 +422,10 @@ const QuestionResultsCarousel = observer(({ questions, collectionId, countShare 
 
       {/* <Subheader className="heading" >All Results</Subheader> */}
       <div style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-around', alignItems: 'center' }}>
-
-
         <div style={{ display: 'flex', flex: 1, flexFlow: 'row wrap', justifyContent: 'space-around', alignItems: 'flex-start' }}>
           {questions.length > 0 &&
             questions.slice().map((question, i) => {
-              return (question && question.type == 'Q') ? (
+              return (question && question.type === 'Q') ? (
                 <div key={`ques-${i}`} style={{}}>
                   <Results questionId={question.object_id} id={i} collectionId={collectionId} />
                 </div>
@@ -512,11 +496,11 @@ class UserCardSmall extends Component {
     const { user, UserStore, collectionId } = this.props
 
     const name = user.first_name ? `${user.first_name} ${user.last_name}` : user.username;
-    const age = user.age ? user.age : '';
-    const bio = user.bio ? user.bio : '';
+    // const age = user.age ? user.age : '';
+    // const bio = user.bio ? user.bio : '';
     const photo = user.photo ? user.photo.replace("localhost:8000", "represent.me") : `./img/pic${Math.floor(Math.random() * 7)}.png`;;
     const location = (user.country_info ? user.country_info.name + (user.region_info ? ', ' : '') : '') + (user.region_info ? user.region_info.name : '');
-    const { count_comments, count_followers, count_following_users, count_group_memberships, count_question_votes, count_votes } = user
+    //const { count_comments, count_followers, count_following_users, count_group_memberships, count_question_votes, count_votes } = user
 
     let match = '';
     let questions_counted = null;
@@ -671,7 +655,7 @@ class UserCardSmall extends Component {
         <CardText style={{ backgroundColor: '#e6f7ff', padding: 0 }}>
 
           {this.areCompareDetailsShowing.get() ? <div style={barStyle}>
-            {/*<CompareUsersDetailsComponent userIds={[this.props.user.id]} />*/}
+            
             <CompareUsersDetails userId={this.props.user.id} userData={this.props.user} />
           </div> : null}
         </CardText>

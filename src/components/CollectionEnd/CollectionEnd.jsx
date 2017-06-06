@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
-import { Link } from 'react-router-dom';
 import MessengerPlugin from 'react-messenger-plugin';
 import { FacebookButton, TwitterButton } from "react-social";
 import Slider from 'react-slick';
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 import CodeTags from 'material-ui-community-icons/icons/code-tags';
-import IconButton from 'material-ui/IconButton';
-import { indigo500, blue500, bluegrey500, white } from 'material-ui/styles/colors';
+import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
 import KeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 
-import QuestionPopulationStackedChart from '../charts/QuestionPopulationStackedChart';
+//import QuestionPopulationStackedChart from '../charts/QuestionPopulationStackedChart';
 import QuestionLiquidPiechart from '../charts/QuestionLiquidPiechart';
 import CompareCollectionUsers from '../CompareCollectionUsers';
 import DynamicConfigService from '../../services/DynamicConfigService';

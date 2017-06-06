@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { observable } from 'mobx';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import LoadingIndicator from '../../../LoadingIndicator';
 
@@ -102,32 +101,32 @@ const CompareCollectionUsersView = observer(({data})=> {
     })
   }
   render(){
-    let name, age, photo, bio,
-      location, count_comments,
-      count_followers, count_following_users,
-      count_group_memberships,
-      count_question_votes, count_votes;
-      let match = '';
+    let bio, count_question_votes, count_comments,count_followers;
+    // let location,
+    //   count_following_users,
+    //   count_group_memberships, name, age, photo,
+    //   count_votes;
+    let match = '';
       let totalCount = 0;
       let values = null;
-      let display_all = {};
+      //let display_all = {};
 
     if (!this.props && !this.props.compareData.topic_diffs) return null;
 
     else {
 
     if (this.props) {
-      name = this.props.user.first_name ? this.props.user.first_name + ' ' + this.props.user.last_name : this.props.user.username;
-      age = this.props.user.age ? this.props.user.age  : '';
+      //name = this.props.user.first_name ? this.props.user.first_name + ' ' + this.props.user.last_name : this.props.user.username;
+      //age = this.props.user.age ? this.props.user.age  : '';
       bio = this.props.user.bio ? this.props.user.bio  : '';
-      photo = this.props.user.photo ? this.props.user.photo.replace("localhost:8000", "represent.me") : `./img/pic${Math.floor(Math.random()*7)}.png`;;
-      location = (this.props.user.country_info ? this.props.user.country_info.name + (this.props.user.region_info ? ', ' : '') : '') + (this.props.user.region_info ? this.props.user.region_info.name : '');
+      //photo = this.props.user.photo ? this.props.user.photo.replace("localhost:8000", "represent.me") : `./img/pic${Math.floor(Math.random()*7)}.png`;;
+      //location = (this.props.user.country_info ? this.props.user.country_info.name + (this.props.user.region_info ? ', ' : '') : '') + (this.props.user.region_info ? this.props.user.region_info.name : '');
       count_comments = this.props.user.count_comments
       count_followers = this.props.user.count_followers
-      count_following_users = this.props.user.count_following_users
-      count_group_memberships = this.props.user.count_group_memberships
+      // count_following_users = this.props.user.count_following_users
+      // count_group_memberships = this.props.user.count_group_memberships
       count_question_votes = this.props.user.count_question_votes
-      count_votes = this.props.user.count_votes
+      //count_votes = this.props.user.count_votes
     }
 
     if (this.props.compareData && this.props.compareData.topic_diffs) {
@@ -178,74 +177,27 @@ const CompareCollectionUsersView = observer(({data})=> {
             <MatchBarchartSmallContainer compareData={this.props.compareData}/>
           </div>}
         </div>)
-        // <Card style={{marginBottom: '20px', border: 'none', minHeight: 500, minWidth: 450, width: 450, maxWidth: 450, margin: 0}}>
-        // <CardHeader
-        //   title={name}
-        //   subtitle={age ? age + ' years old, ' + location : location}
-        //   avatar={photo}
-        //   />
 
-          {/*
-          <div style={{width: '100%', display: 'flex', justifyContent: 'center', margin: '0px 0px 5px 0px'}}>
-          { this.props && this.props.following > 0 ?
-            <FlatButton
-              label="following"
-              primary={true}
-              style={{border: '2px solid green', borderRadius: 10, flex: 1, maxWidth: 120, color: 'green'}}
-              onTouchTap={this.removeFollowing}
-            /> :
-            <FlatButton
-              label="follow"
-              primary={false}
-              style={{border: '2px solid navy', borderRadius: 10, flex: 1, maxWidth: 120, color: 'navy'}}
-              onTouchTap={this.setFollowing}
-              /> }
-            </div>
-
-
-          <div className='container'>
-            <div className='inner'>
-              <p>{count_question_votes}<br/>
-                <span>Answers</span>
-              </p>
-            </div>
-            <div className='inner'>
-              <p>{count_followers}<br/>
-              <span>Followers</span>
-              </p>
-            </div>
-            <div className='inner'>
-              <p>{count_comments}<br/>
-                <span>Comments</span>
-              </p>
-            </div>
-
-          </div> */}
-
-
-      // </Card>}
-    // </div>
-  // )
 }}
 
 
-const CustomTooltip = (props) => {
-  const { active } = props;
-  const { payload } = props;
-  if (active) {
-
-  return (
-      <div style={{backgroundColor: '#f5f5f5', padding: 5, borderRadius: 5}}>
-        {payload.map((p,i)=>{
-          let name = payload[i].name;
-          return <span key={`p-${i}`} style={{color: payload[i].fill, margin: 2}}>{`${name}: ${Math.round(payload[i].payload[name])}%`}</span>
-        })
-      }
-      </div>
-    );
-  }
-  return null;
-};
+// const CustomTooltip = (props) => {
+//   const { active } = props;
+//   const { payload } = props;
+//   if (active) {
+//
+//   return (
+//       <div style={{backgroundColor: '#f5f5f5', padding: 5, borderRadius: 5}}>
+//         {payload.map((p,i)=>{
+//           let name = payload[i].name;
+//           return <span key={`p-${i}`} style={{color: payload[i].fill, margin: 2}}>{`${name}: ${Math.round(payload[i].payload[name])}%`}</span>
+//         })
+//       }
+//       </div>
+//     );
+//   }
+//   return null;
+// };
 
 const MatchBarchartSmallContainer = observer(({ compareData }) => {
   let diffs_array = [];

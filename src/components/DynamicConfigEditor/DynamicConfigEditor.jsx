@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { observable, extendObservable, autorun } from 'mobx';
 
 import DynamicConfigService from '../../services/DynamicConfigService';
@@ -239,37 +239,37 @@ class DynamicConfigEditor extends Component {
   }
 }
 
-@observer
-class UrlResult extends Component {
-
-  hosts = [
-    'http://localhost:3000',
-    'https://openv2.represent.me',
-    'https://open.represent.me',
-  ]
-  currentHost = observable(window.location.origin)
-
-  handleHostChange = (e,v) => {
-
-  }
-
-  render() {
-    return (<div>
-      <SelectField
-        floatingLabelText="Host"
-        value={this.currentHost.get()}
-        onChange={this.handleChange}
-      >
-        <MenuItem value={1} primaryText="Never" />
-        <MenuItem value={2} primaryText="Every Night" />
-        <MenuItem value={3} primaryText="Weeknights" />
-      </SelectField>
-
-      <div>
-        <input value={this.helperInputValue.get()} id="helperInput" />
-      </div>
-    </div>)
-  }
-}
+// @observer
+// class UrlResult extends Component {
+//
+//   hosts = [
+//     'http://localhost:3000',
+//     'https://openv2.represent.me',
+//     'https://open.represent.me',
+//   ]
+//   currentHost = observable(window.location.origin)
+//
+//   handleHostChange = (e,v) => {
+//
+//   }
+//
+//   render() {
+//     return (<div>
+//       <SelectField
+//         floatingLabelText="Host"
+//         value={this.currentHost.get()}
+//         onChange={this.handleChange}
+//       >
+//         <MenuItem value={1} primaryText="Never" />
+//         <MenuItem value={2} primaryText="Every Night" />
+//         <MenuItem value={3} primaryText="Weeknights" />
+//       </SelectField>
+//
+//       <div>
+//         <input value={this.helperInputValue.get()} id="helperInput" />
+//       </div>
+//     </div>)
+//   }
+// }
 
 export default DynamicConfigEditor;

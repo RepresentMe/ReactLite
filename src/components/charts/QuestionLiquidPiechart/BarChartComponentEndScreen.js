@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from "mobx-react";
 import LoadingIndicator from '../../LoadingIndicator';
-import Done from 'material-ui/svg-icons/action/done';
+//import Done from 'material-ui/svg-icons/action/done';
 import './barStyle.css';
 
 const CHART_HEIGHT = 10;

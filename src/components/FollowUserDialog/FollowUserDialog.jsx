@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import { observer, inject } from "mobx-react";
+import { inject } from "mobx-react";
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 
 import './styles.css'
@@ -39,7 +38,7 @@ class FollowUserDialog extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.isOpen && nextProps.userId && (!this.state.user || nextProps.userId != this.state.user.id)) {
+    if(nextProps.isOpen && nextProps.userId && (!this.state.user || nextProps.userId !== this.state.user.id)) {
       this.props.UserStore.getUserById(nextProps.userId).then((res) => {
         this.setState({
           isDialogOpen: true,

@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
-import { observable } from "mobx";
-import { Link } from 'react-router-dom';
 import CollectionAdminGUI from '../CollectionAdminGUI';
 import { arrayMove } from 'react-sortable-hoc';
 import LinearProgress from 'material-ui/LinearProgress';
@@ -43,7 +40,7 @@ import LinearProgress from 'material-ui/LinearProgress';
     CollectionStore.getCollectionById(this.collectionId).then((collection) => {
       this.props.UserStore.getCachedMe().then((user) => {
         //console.log('collection: ', collection, collection.user.id, user);
-        if(collection.user.id != user.id) { // if not an owner
+        if(collection.user.id !== user.id) { // if not an owner
           return this.props.history.push("/survey/" + this.collectionId);
         }
         this.fillDetailsFromStore();
@@ -68,16 +65,13 @@ import LinearProgress from 'material-ui/LinearProgress';
     CollectionStore.updateCollection(this.collectionId, this.state.title, this.state.description, this.state.endText);
     CollectionStore.updateCollectionItems(this.collectionId, this.state.questions);
 
-    // this.props.push("/survey/" + collectionId);
   }
 
   render() {
     let questions = null;
     let question_objects = null;
-    let question_breaks = null;
 
-
-    if(!this.state.questions || this.state.questions.length == 0) {
+    if(!this.state.questions || this.state.questions.length === 0) {
       return <LinearProgress mode="indeterminate" />;
     } else {
       this.props.CollectionStore.getCollectionItemsById(this.collectionId);
@@ -95,7 +89,6 @@ import LinearProgress from 'material-ui/LinearProgress';
           endText={this.state.endText}
           items={questions}
           question_objects={question_objects}
-          //question_breaks={question_breaks}
           collectionId={this.collectionId}
 
           textChange={(field, newValue) => {

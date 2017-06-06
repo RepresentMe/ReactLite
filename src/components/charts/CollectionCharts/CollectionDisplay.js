@@ -1,12 +1,12 @@
 import React from 'react';
 import { inject, observer  } from "mobx-react";
-import { observable } from "mobx";
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+
+import {Card} from 'material-ui/Card';
 import KeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import IconButton from 'material-ui/IconButton';
 import Slider from 'material-ui/Slider';
-import RaisedButton from 'material-ui/RaisedButton';
+
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import QuestionLiquidPiechart from '../QuestionLiquidPiechart';
@@ -118,7 +118,7 @@ class ResponsiveCollectionContainer extends React.Component{
     let {items} = this.props;
     const pie = this.state.pie;
     items = items.filter((item)=> item.type === "Q")
-    
+
     return (
       <div style={{position: 'relative', overflow: 'hidden', WebkitTransform: 'translate3d(0,0,0)'}}>
         <ArrowLeftContainer handleMoveLeft={this.handleMoveLeft} style={{left: 10}}/>

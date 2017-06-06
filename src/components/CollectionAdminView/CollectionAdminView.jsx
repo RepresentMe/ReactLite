@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { observer, inject } from "mobx-react";
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import { white, cyan600, green100, red500 } from 'material-ui/styles/colors';
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
+import { white, cyan600, green100 } from 'material-ui/styles/colors';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';

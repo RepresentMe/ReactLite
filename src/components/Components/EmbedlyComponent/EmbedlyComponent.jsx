@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import { observable, autorun } from 'mobx';
+
 import { observer, inject } from "mobx-react";
 import './EmbedlyComponent.css'
-@observer 
+@observer
 @inject ("UrlPreviewStore")
 class EmbedlyComponent extends Component {
 
@@ -21,7 +21,7 @@ class EmbedlyComponent extends Component {
     return(
       <div className="linkBoxing">
         {this.state.html && <div dangerouslySetInnerHTML={{__html: this.state.html}}/>}
-        {(this.state.type == 'photo' || this.state.thumbnail_url) && !this.state.html && <img className="linkImage" src={this.state.thumbnail_url || this.state.url}/>}
+        {(this.state.type === 'photo' || this.state.thumbnail_url) && !this.state.html && <img className="linkImage" src={this.state.thumbnail_url || this.state.url}/>}
         <div className="titleDescr">
           <div className="title"><a href={this.props.url} target="_blank">{this.state.title}</a></div>
           <br/>

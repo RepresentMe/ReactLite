@@ -1,18 +1,7 @@
-import React, { Component } from 'react';
-import { observer, inject } from "mobx-react";
-import { observable } from 'mobx';
-import { Link } from 'react-router-dom';
-import {Card, CardHeader, CardText, CardActions, CardTitle} from 'material-ui/Card';
+import React from 'react';
+
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
-
-import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
-import { TwitterButton } from "react-social";
-import { blue700, cyan700, tealA700, indigoA200, greenA700, red400, indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
-import IconButton from 'material-ui/IconButton';
-import ClearIcon from 'material-ui/svg-icons/content/clear';
-
-import Carousel from 'nuka-carousel';
 
 import IntroCarouselCard from './IntroCarouselCard';
 import './IntroCarousel.css';
@@ -56,7 +45,7 @@ class IntroCarousel extends React.Component {
        <FlatButton
          label="Close"
          onTouchTap={(e)=>this.closeModal(e)}
-       />, 
+       />,
        <FlatButton
          label="Next"
          primary={true}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from "mobx-react";
-import { observable, reaction } from "mobx";
+//import { observable, reaction } from "mobx";
 import {AreaChart, CartesianGrid, LineChart, Line, XAxis, YAxis, ReferenceArea, Tooltip, Legend, AxisLabel, ResponsiveContainer, Area} from 'recharts';
 
 const mergeDataPoints = (a, b) => {

@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import { observer, inject } from "mobx-react";
-//import MessengerPlugin from 'react-messenger-plugin';
+
 import { FacebookButton, TwitterButton } from "react-social";
-import { indigo500, blue500, bluegrey500 } from 'material-ui/styles/colors';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { indigo500, blue500 } from 'material-ui/styles/colors';
+import {Card, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
 import TwitterBox from 'material-ui-community-icons/icons/twitter-box';
 
 
 
-const LinksContainer = (props) => (
-    <div className='LinksContainer'>
-      {props.children}
-    </div>
-)
+// const LinksContainer = (props) => (
+//     <div className='LinksContainer'>
+//       {props.children}
+//     </div>
+// )
 
 class CollectionSharingLinksComponent extends Component {
 

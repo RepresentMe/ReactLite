@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
+//import ReactMarkdown from 'react-markdown';
 import {Helmet} from "react-helmet";
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import MoreText from '../Components/MoreText';
 import DynamicConfigService from '../../services/DynamicConfigService';
 import ErrorReload from '../ErrorReload';
-import ReactGA from 'react-ga';
 import './CollectionIntro.css';
 
 @inject("UserStore", "CollectionStore") @observer class CollectionIntro extends Component {
@@ -148,12 +146,12 @@ import './CollectionIntro.css';
   }
 
 }
- 
+
 
 const OgTags = ({collection}) => {
   const og = {
     url: `${window.location.origin}/survey/${collection.id}`,
-    title: `${collection.name} - #RepresentMe`, 
+    title: `${collection.name} - #RepresentMe`,
     image: collection.photo || 'http://i.imgur.com/wrW7xwp.png',
     desc: collection.desc || "Have your say!"
   }
@@ -164,13 +162,13 @@ const OgTags = ({collection}) => {
     <meta name="twitter:title" content={og.title} />
     <meta name="twitter:description" content={og.desc} />
     <meta name="twitter:image" content={og.image} />
-    
+
     <meta property="og:url" content={og.url} />
     <meta property="og:title" content={og.title} />
     <meta property="og:image" content={og.image} />
     <meta property="og:description" content={og.desc} />
     <meta property="og:type" content="website" />
-    <meta property="fb:app_id" content="1499361770335561" /> 
+    <meta property="fb:app_id" content="1499361770335561" />
   </Helmet>)
 }
 

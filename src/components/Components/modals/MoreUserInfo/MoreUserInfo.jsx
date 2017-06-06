@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
-//import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import { extendObservable } from "mobx";
 import { observer, inject } from "mobx-react";
 
-// import { Link } from 'react-router-dom';
-// import Tappable from 'react-tappable';
-
-// import Slider from 'material-ui/Slider';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-// import LinearProgress from 'material-ui/LinearProgress';
-import { white, cyan600, grey300, orange500 } from 'material-ui/styles/colors';
-// import ReactMarkdown from 'react-markdown';
+import { cyan600, orange500 } from 'material-ui/styles/colors';
+
 import Dialog from 'material-ui/Dialog';
 
-// import DateOfBirth from "../../../DateOfBirth";
-// import SelectField from 'material-ui/SelectField';
-// import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import GeoService from '../../../../services/GeoService';
 import Autocomplete from 'react-google-autocomplete';
@@ -80,7 +70,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
   }
 
   componentWillUpdate(nextProps){
-    if (this.state.shown != nextProps.shown && nextProps.user){
+    if (this.state.shown !== nextProps.shown && nextProps.user){
       this.setState({ ddDOB: nextProps.user.dob, ddGender: nextProps.user.gender, txtPostcode: nextProps.user.address, shown: true})
     }
   }
@@ -178,9 +168,7 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
         address: address,
         location: location,
       }).then((response) => {
-        //this.setState({ shown: false })
         this.props.UserStore.userData.replace(response.data);
-        // extendObservable(this.props.UserStore.userData, response.data);
         this.closeModal()
       }).catch((error) => {
         console.log(JSON.stringify(error.response.data))
@@ -232,7 +220,6 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
               placeholder="What's your postcode?"
             />
 
-          {/* <DateOfBirth onChange={(newValue) => this.updateField('ddDOB', newValue)} value={this.state.ddDOB} /> */}
           <TextField
             floatingLabelText="How old are you (in years)?"
             floatingLabelFocusStyle={styles.floatingLabelText}
@@ -270,17 +257,6 @@ export default @observer @inject("UserStore") class MoreUserInfo extends Compone
                 labelStyle={{color: 'grey'}}
               />
             </RadioButtonGroup>
-
-            {/* <SelectField
-              floatingLabelText="Gender"
-              value={this.state.ddGender}
-              style={{ width: '100%' }}
-              onChange={(e, newIndex, newValue) => this.updateField('ddGender', newValue)}
-            >
-              <MenuItem value={1} primaryText="Male" />
-              <MenuItem value={2} primaryText="Female" />
-              <MenuItem value={3} primaryText="Rather not say" />
-            </SelectField> */}
 
           {this.state.problems.map((problem, index) => {
             return (

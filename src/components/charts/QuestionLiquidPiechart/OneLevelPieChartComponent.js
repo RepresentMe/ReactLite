@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from "mobx-react";
-import {PieChart, Legend, Pie, Tooltip, ResponsiveContainer} from 'recharts';
+import {PieChart, Pie, Tooltip, ResponsiveContainer} from 'recharts';
 import LoadingIndicator from '../../LoadingIndicator';
 
 const PIE_HEIGHT = 300;

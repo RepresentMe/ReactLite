@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+
 import { observer, inject } from "mobx-react";
 import { observable } from "mobx";
-import { Link } from 'react-router-dom';
+
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import { white, cyan600, green100, red500 } from 'material-ui/styles/colors';
 import Divider from 'material-ui/Divider';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import {List, ListItem} from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 import Add from 'material-ui/svg-icons/content/add';
 import Clear from 'material-ui/svg-icons/content/clear';
 import IconMenu from 'material-ui/IconMenu';
@@ -245,12 +245,12 @@ const SortableQuestion = SortableElement(({value, orderNumber, onRemove}) => {
   )
 });
 
-const SortableQuestionLoading = SortableElement(() => {
-  return (
-    <ListItem primaryText="loading..." disabled={true}/>
-  )
-});
-
-var SortableQuestionHandle = SortableHandle(({orderNumber}) => <span>{orderNumber}</span>);
+// const SortableQuestionLoading = SortableElement(() => {
+//   return (
+//     <ListItem primaryText="loading..." disabled={true}/>
+//   )
+// });
+//
+// var SortableQuestionHandle = SortableHandle(({orderNumber}) => <span>{orderNumber}</span>);
 
 export default CollectionAdminGUI;

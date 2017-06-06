@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import React from 'react';
+import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { observer, inject } from "mobx-react";
 import { Link } from 'react-router-dom';
@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 //import smallLogo from './represent_white_outline.svg';
 
 import './CollectionsList.css';
- 
+
 
 
 const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ CollectionStore, UserStore, history }) => {
@@ -20,11 +20,9 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
 
   let collections = CollectionStore.collections.entries();
 
-
-
   return (
     <div>
- 
+
 
  {!UserStore.isLoggedIn() && <div className="aboutus clear">
 
@@ -40,49 +38,49 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
 
 
     <p><strong>
-      Represent gives your views and values a voice. 
+      Represent gives your views and values a voice.
       </strong>
     </p>
     <p>
-      One central place to vote on the issues and work with the politicians and groups you trust to represent you.  
+      One central place to vote on the issues and work with the politicians and groups you trust to represent you.
     </p>
     <p>
-      Represent is free, open to everyone, anonymous and secure. 
+      Represent is free, open to everyone, anonymous and secure.
 
-      We are your trusted partner, making our combined voices more powerful and effective 
+      We are your trusted partner, making our combined voices more powerful and effective
       to create the world we want.
     </p>
 
- 
- 
 
 
 
-    <p> 
+
+
+    <p>
      <RaisedButton label="Sign Up" onClick={() => history.push('/login')} style={{marginRight: 10}}/>
      <RaisedButton label="Features" primary={true} href="https://represent.me/features/" target="_blank"  />
     </p>
-  
+
     </div>
  </div>}
 
 
- 
+
         <div>
            <div className="imageContainer"  style={{background: 'url(/img/montage.jpg)', padding: '70px 0 90px 0'}} >
             <div className="contentBox">
 
                 <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>Who should I vote for?</h1>
-               
+
                 <p>Confused about which party to vote for on June 8th? Find out which party best matches your values.</p>
 
                 <RaisedButton label="Start" primary href="/survey/122/flow/0/vote/" style={{marginTop: 15}}/>
-                
+
               </div>
             </div>
 
         </div>
-     
+
 
 
 
@@ -93,17 +91,17 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
       {collections.map((collection_obj) => {
         const id = collection_obj[0];
         const collection = collection_obj[1];
-        
-        const first_name = collection.user.first_name ? collection.user.first_name : '';
-        const last_name = collection.user.last_name ? collection.user.last_name : '';
-        const user_name = `${first_name} ${last_name}`;
-        const bio = collection.user.bio ? collection.user.bio : '';
-        const location = collection.user.country_info ? collection.user.country_info.name : '';
-        const randomPic = `./img/pic${Math.floor(Math.random()*7)}.png`;
-        const photo = collection.user.photo ? collection.user.photo.replace("localhost:8000", "represent.me") : randomPic;
+
+        // const first_name = collection.user.first_name ? collection.user.first_name : '';
+        // const last_name = collection.user.last_name ? collection.user.last_name : '';
+        // const user_name = `${first_name} ${last_name}`;
+        // const bio = collection.user.bio ? collection.user.bio : '';
+        // const location = collection.user.country_info ? collection.user.country_info.name : '';
+        // const randomPic = `./img/pic${Math.floor(Math.random()*7)}.png`;
+        //const photo = collection.user.photo ? collection.user.photo.replace("localhost:8000", "represent.me") : randomPic;
         const image = collection.photo ? collection.photo.replace("localhost:8000", "represent.me") : null;
         //const link = "https://app.represent.me/profile/" + collection.user.id + "/" + collection.user.username; //our user
-        const subtitle = `${bio.substring(0, location ? 77-location.length : 77)}${bio && '...'} ${location}`
+        //const subtitle = `${bio.substring(0, location ? 77-location.length : 77)}${bio && '...'} ${location}`
 
         return (
 
@@ -160,7 +158,7 @@ const OgTags = ({}) => {
     image: 'http://i.imgur.com/wrW7xwp.png',
     desc: "Have your say!"
 
- 
+
   }
   return (<Helmet>
     <meta name="twitter:card" content="summary_large_image" />
@@ -169,12 +167,12 @@ const OgTags = ({}) => {
     <meta name="twitter:title" content={og.title} />
     <meta name="twitter:description" content={og.desc} />
     <meta name="twitter:image" content={og.image} />
-    
+
     <meta property="og:url" content={og.url} />
     <meta property="og:title" content={og.title} />
     <meta property="og:image" content={og.image} />
     <meta property="og:type" content="website" />
-    <meta property="fb:app_id" content="1499361770335561" /> 
+    <meta property="fb:app_id" content="1499361770335561" />
     <meta property="og:description" content={og.desc} />
   </Helmet>)
 }
