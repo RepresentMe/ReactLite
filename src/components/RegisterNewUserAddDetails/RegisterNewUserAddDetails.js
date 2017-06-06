@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import { observer, inject } from "mobx-react";
+import React from 'react';
 
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
-import { grey100, cyan600, orange500 } from 'material-ui/styles/colors';
+import { cyan600, orange500 } from 'material-ui/styles/colors';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 

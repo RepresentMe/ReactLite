@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
-import axios from 'axios';
-import TextField from 'material-ui/TextField';
+
 import { cyan600, grey100 } from 'material-ui/styles/colors';
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
 import LinearProgress from 'material-ui/LinearProgress';
-import MessengerPlugin from 'react-messenger-plugin';
-import Checkbox from 'material-ui/Checkbox';
-import MessengerCheckboxPlugin from '../MessengerCheckboxPlugin';
 import { observer, inject } from "mobx-react";
 import GeoService from '../../services/GeoService';
 import DynamicConfigService from '../../services/DynamicConfigService';
@@ -16,12 +10,6 @@ import IntroCarousel from '../IntroCarousel';
 
 import JoinGroupPage1 from './JoinGroupPage1';
 import JoinGroupPage2 from './JoinGroupPage2';
-
-const styles = {
-  floatingLabelText: {
-    color: cyan600,
-  }
-}
 
 const roundUp = (x) => {
     if(x < 10) {
@@ -269,7 +257,7 @@ const roundUp = (x) => {
     }
 
     let memberGoal = roundUp(this.state.group.member_count);
-    
+
     const randomPic = `./img/pic${Math.floor(Math.random()*7)}.png`;
     const groupLogo = this.state.group.image ? this.state.group.image.replace("localhost:8000", "represent.me") : randomPic;
 

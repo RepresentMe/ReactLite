@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { observer, inject } from "mobx-react"
+import { inject } from "mobx-react"
 
 import {Tabs, Tab} from 'material-ui/Tabs'
 import DonutSmall from 'material-ui/svg-icons/action/donut-small'
@@ -9,10 +9,6 @@ import CheckBox from 'material-ui/svg-icons/toggle/check-box'
 import Info from 'material-ui/svg-icons/action/info'
 
 import IconButton from 'material-ui/IconButton';
-import {cyan700} from 'material-ui/styles/colors';
-
-import SkiptoEnd from 'material-ui/svg-icons/content/send'
-
 
 import QuestionFlowComments from '../QuestionFlowComments';
 import QuestionFlowInfo from '../QuestionFlowInfo';

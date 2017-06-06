@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+
 import Popover from 'material-ui/Popover/Popover';
 import {Menu, MenuItem} from 'material-ui/Menu';
-import TextField from 'material-ui/TextField';
+
 import MoreText from '../../../Components/MoreText'
 
 import {
   ShareButtons,
-  ShareCounts,
   generateShareIcon
 } from 'react-share';
 
@@ -108,7 +105,7 @@ class Comment extends Component {
           size={32}
           round />
       </TwitterShareButton>
-    ) 
+    )
     const m_names = new Array("Jan", "Feb", "Mar",
       "Apr", "May", "Jun", "Jul", "Aug", "Sep",
       "Oct", "Nov", "Dec");
@@ -119,7 +116,7 @@ class Comment extends Component {
         <div className="content">
           <div className="comment-data">
             <a className="author">
-              <img src={comment.user.photo} />
+              <img alt='comment author' src={comment.user.photo} />
               <span className="name">{comment.user.first_name} {comment.user.last_name}</span>
             </a>
             <div className="pull-right">
@@ -131,7 +128,7 @@ class Comment extends Component {
             </div>
           </div>
           <div className="buttons">
-           {/*  
+           {/*
             <a className="reply">Reply</a>
             <span className="dot"> · </span>
             */}
@@ -149,18 +146,18 @@ class Comment extends Component {
               onRequestClose={this.handleSharePopoverClose}
             >
               <Menu>
-                <MenuItem primaryText="Share in FB" 
-                          leftIcon={fb} 
-                          onClick={this.clickFB} 
+                <MenuItem primaryText="Share in FB"
+                          leftIcon={fb}
+                          onClick={this.clickFB}
                 />
 
-                <MenuItem primaryText="Share in Twitter" 
+                <MenuItem primaryText="Share in Twitter"
                           leftIcon={twitter}
-                          onClick={this.clickTwitter} 
-                /> 
+                          onClick={this.clickTwitter}
+                />
               </Menu>
             </Popover>
-            {UserStore.isLoggedIn() && UserStore.userData.get("id") == comment.user.id && (<span>
+            {UserStore.isLoggedIn() && UserStore.userData.get("id") === comment.user.id && (<span>
               <span className="dot"> · </span>
               <a className="delete" onClick={onDelete} >Delete</a>
             </span>)}

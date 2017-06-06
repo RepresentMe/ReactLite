@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import LinearProgress from 'material-ui/LinearProgress';
-import axios from 'axios';
+//import axios from 'axios';
 import { white, cyan600 } from 'material-ui/styles/colors';
 
 export default class NetworkProgress extends Component {

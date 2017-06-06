@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 
-import RaisedButton from 'material-ui/RaisedButton';
-
 import AddComment from './partials/AddComment';
 import Comment from './partials/Comment';
 import NoComments from './partials/NoComments';
@@ -32,7 +30,7 @@ class QuestionFlowComments extends Component {
   componentWillMount(nextProps) {
     if(!this.props.QuestionCommentsStore.questionToComments[this.questionId]) {
       this.props.QuestionCommentsStore.getComments(this.questionId)
-    } 
+    }
   }
 
   showCommentDeleteDialog = (comment) => {
@@ -99,7 +97,7 @@ class QuestionFlowComments extends Component {
         )
 
       }
-     
+
       {this.props.UserStore.isLoggedIn() &&
       <AddComment {...this.props}/>
       }
@@ -107,17 +105,16 @@ class QuestionFlowComments extends Component {
   }
 }
 
-
-const Votes = () => {
-  return (<div className="votes">
-    <span className="up-vote">
-      <i className="fa fa-chevron-up"></i>
-    </span>
-    <span className="value">0</span>
-    <span className="down-vote">
-      <i className="fa fa-chevron-down"></i>
-    </span>
-  </div>)
-}
+// const Votes = () => {
+//   return (<div className="votes">
+//     <span className="up-vote">
+//       <i className="fa fa-chevron-up"></i>
+//     </span>
+//     <span className="value">0</span>
+//     <span className="down-vote">
+//       <i className="fa fa-chevron-down"></i>
+//     </span>
+//   </div>)
+// }
 
 export default QuestionFlowComments;

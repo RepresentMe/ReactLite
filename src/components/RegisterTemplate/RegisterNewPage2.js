@@ -1,16 +1,10 @@
-import React, { Component } from 'react';
-import { observer, inject } from "mobx-react";
-import FacebookLogin from 'react-facebook-login';
+import React from 'react';
 
 import TextField from 'material-ui/TextField';
-import Paper from 'material-ui/Paper';
-import { grey100, cyan600 } from 'material-ui/styles/colors';
-import Checkbox from 'material-ui/Checkbox';
-import RaisedButton from 'material-ui/RaisedButton';
+import { cyan600 } from 'material-ui/styles/colors';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import DynamicConfigService from '../../services/DynamicConfigService';
 import DateOfBirth from "../DateOfBirth";
 
 import './RegisterNew.css';

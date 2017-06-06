@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import { observer, inject } from "mobx-react";
+import { inject } from "mobx-react";
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 
 import './styles.css'
@@ -33,7 +32,7 @@ class JoinGroupDialog extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.isOpen && nextProps.groupId && (!this.state.group || nextProps.groupId != this.state.group.id)) {
+    if(nextProps.isOpen && nextProps.groupId && (!this.state.group || nextProps.groupId !== this.state.group.id)) {
       this.props.GroupStore.getGroup(nextProps.groupId).then((res) => {
         this.setState({
           isDialogOpen: true,

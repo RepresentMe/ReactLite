@@ -5,11 +5,6 @@ import TextField from 'material-ui/TextField';
 import { cyan600 } from 'material-ui/styles/colors';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
-//import Paper from 'material-ui/Paper';
-//import Dialog from 'material-ui/Dialog';
-//import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-
-import MessengerCheckboxPlugin from '../MessengerCheckboxPlugin';
 
 import './RegisterNew.css';
 

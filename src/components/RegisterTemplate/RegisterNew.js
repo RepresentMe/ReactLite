@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { observer, inject } from "mobx-react";
-import FacebookLogin from 'react-facebook-login';
 
-import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import { grey100, cyan600 } from 'material-ui/styles/colors';
 import Dialog from 'material-ui/Dialog';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import {Step, Stepper, StepLabel } from 'material-ui/Stepper';
+
+import {Step, Stepper } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 

@@ -1,18 +1,11 @@
 import React, {Component} from 'react'
 
-// import Paper from 'material-ui/Paper';
-import Avatar from 'material-ui/Avatar';
-import Chip from 'material-ui/Chip';
+// import Avatar from 'material-ui/Avatar';
+// import Chip from 'material-ui/Chip';
 import EmbedlyComponent from '../Components/EmbedlyComponent';
 import MoreText from '../Components/MoreText';
 
 import './QuestionFlowInfo.css';
-
-const style = {
-  minHeight: '300px',
-  padding: '20px 30px',
-  textAlign: 'center' 
-}
 
 class QuestionFlowInfo extends Component {
 
@@ -30,19 +23,19 @@ class QuestionFlowInfo extends Component {
   }
 }
 
-const QuestionLink = ({link}) => {
-  return (<div>
-    <a href={link.url}>{link.link}</a>
-  </div>)
-}
-
-const Author = ({user}) => {
-  const userName = user.first_name+' '+user.last_name;
-  return (<div>
-    <Chip>
-      <Avatar src={user.photo} />{userName}
-    </Chip>
-  </div>)
-}
+// const QuestionLink = ({link}) => {
+//   return (<div>
+//     <a href={link.url}>{link.link}</a>
+//   </div>)
+// }
+//
+// const Author = ({user}) => {
+//   const userName = user.first_name+' '+user.last_name;
+//   return (<div>
+//     <Chip>
+//       <Avatar src={user.photo} />{userName}
+//     </Chip>
+//   </div>)
+// }
 
 export default QuestionFlowInfo;

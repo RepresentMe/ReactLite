@@ -1,8 +1,7 @@
- import React, { Component } from 'react'
+import React, { Component } from 'react'
 import { observer, inject } from "mobx-react"
 
 import Progress from 'react-progressbar';
-import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import SkipToEnd from 'material-ui/svg-icons/av/fast-forward';
 
@@ -21,8 +20,7 @@ import './SurveyFlow.css'
       collection: null,
       collectionItems: null,
       networkError: false,
-      activeTab: 'vote',
-      //session_vars: null
+      activeTab: 'vote'
     }
     this.dynamicConfig = DynamicConfigService;
 
@@ -54,26 +52,6 @@ import './SurveyFlow.css'
 
     this.setState({activeTab: this.props.match.params.activeTab})
 
-    //create session analytics variables
-    //currently turned off - function calls 3rd party api to get geo details
-    //this.getUserIP();
-    // var url = (window.location != window.parent.location)
-    //         ? document.referrer
-    //         : document.location.href;
-    // const analytics_browser = window.navigator.appCodeName; //Browser details
-    // const analytics_os = window.navigator.appVersion.slice(0,100); //OS
-    // const analytics_parent_url = url.slice(0,200); //parent url (for embed) or current url in other cases
-    // const session_vars = Object.assign({},
-    //   {
-    //     analytics_os,
-    //     analytics_browser,
-    //     analytics_parent_url
-    //   }
-    // )
-    // this.setState({session_vars})
-  }
-  componentDidMount(){
-    // this.getUserLocation();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -85,7 +63,7 @@ import './SurveyFlow.css'
 
   loadCollectionQuestions = (curItemIndex) => {
     let curPage = Math.ceil(curItemIndex/10);
-    curPage = curPage == 0 ? 1 : curPage;
+    curPage = curPage === 0 ? 1 : curPage;
     const surveyId = this.props.match.params.surveyId;
 
     this.loadQuestionsByPage(curPage);
@@ -126,47 +104,6 @@ import './SurveyFlow.css'
       this.loadQuestionsByPage(curPage+1)
     }
   }
-
-  //gets longitude, latitude, and acccuracy in meters
-  //gets info from navigator and stores it in localStorage
-  // getUserLocation = () => {
-  //   navigator.geolocation.getCurrentPosition(({coords}) => {
-  //     const { latitude, longitude, accuracy } = coords
-  //     const location = [latitude, longitude, accuracy]
-  //     try { localStorage.setItem('location', location) }
-  //     catch (err) { console.log(err) }
-  //   },
-  //   err => {
-  //     console.warn(`ERROR(${err.code}): ${err.message}`);
-  //   })
-  // }
-
-  // onVote(i, votingMode) {
-  //   if(!this.props.UserStore.userData.has("id")){
-  //     this.props.history.push("/login/" + this.dynamicConfig.getEncodedConfig());
-  //   } else {
-  //     let question = this.props.QuestionStore.questions.get(this.state.collectionItems[this.props.match.params.itemNumber].object_id)
-  //     const userLocation = localStorage.getItem('location')
-  //     const analytics_location = userLocation ? userLocation : null
-  //     const sessionData = [
-  //       question.id, i, this.state.collection.id, votingMode,
-  //       this.state.session_vars.analytics_os,
-  //       this.state.session_vars.analytics_browser,
-  //       this.state.session_vars.analytics_parent_url,
-  //       analytics_location
-  //     ]
-  //     if(question.subtype === 'likert') {
-  //       this.props.QuestionStore.voteQuestionLikert(
-  //         ...sessionData
-  //       )
-  //     } else if(question.subtype === 'mcq') {
-  //       this.props.QuestionStore.voteQuestionMCQ(
-  //         ...sessionData
-  //       )
-  //     }
-  //     this.navigateNext()
-  //   }
-  // }
 
   onVote(i, votingMode) {
     if(!this.props.UserStore.userData.has("id")){

@@ -1,20 +1,13 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import { Link } from 'react-router-dom';
-import TextField from 'material-ui/TextField';
+
 import Paper from 'material-ui/Paper';
 import { grey100, cyan600, indigo500 } from 'material-ui/styles/colors';
-import Dialog from 'material-ui/Dialog';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+
 import Checkbox from 'material-ui/Checkbox';
 import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
 
-import DynamicConfigService from '../../services/DynamicConfigService';
-import GeoService from '../../services/GeoService';
-
-//import './RegisterNew.css';
 import smallLogo from './represent_white_outline.svg';
 
 const styles = {

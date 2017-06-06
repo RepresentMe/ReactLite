@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch } from 'react-router';
-import { inject, observer, toJS } from "mobx-react";
+import { inject, observer } from "mobx-react";
 import { observable } from 'mobx';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -13,9 +13,8 @@ import AppBar from 'material-ui/AppBar';
 import Face from 'material-ui/svg-icons/action/face';
 import Avatar from 'material-ui/Avatar';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { white, cyan600, black, grey700 } from 'material-ui/styles/colors';
+import { white, cyan600, grey700 } from 'material-ui/styles/colors';
 import IconMenu from 'material-ui/IconMenu';
-import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
@@ -48,14 +47,11 @@ import CandidateIntro from '../CandidateIntro';
 import CandidateNew from '../CandidateNew';
 import IntroCarousel from '../IntroCarousel';
 
-import smallLogo from './represent_white_outline.svg';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 
-// import CompareUsers from '../CompareUsersComponent';
-import CompareUsers from '../EndScreen/partials/CompareUsersComponent';
-// import CompareUsersDetails from '../CompareUsersComponent/CompareUsersDetailsComponent';
-import CompareUsersDetails from '../EndScreen/partials/CompareUsersDetailsComponent';
+// import CompareUsers from '../EndScreen/partials/CompareUsersComponent';
+// import CompareUsersDetails from '../EndScreen/partials/CompareUsersDetailsComponent';
 
 import AuthTokenComponent from '../AuthTokenComponent'
 
@@ -422,8 +418,8 @@ export default class Shell extends Component {
                         <Route exact path='/charts/pie/collection/:collectionId' component={CollectionCharts}/>
                         <Route exact path='/authtoken/:authtoken/:dynamicConfig' component={AuthTokenComponent}/>
                         {/* <Route exact path="/:dynamicConfig?" component={CollectionsList}/> */}
-                        <Route exact path='/compare' component={CompareUsers}/>
-                        <Route exact path='/compare/:userId' component={CompareUsersDetails}/>
+                        {/* <Route exact path='/compare' component={CompareUsers}/>
+                        <Route exact path='/compare/:userId' component={CompareUsersDetails}/> */}
                         <Route exact path="/builder" component={DynamicConfigEditor}/>
                         <Route exact path="/:dynamicConfig?" component={CollectionsList}/>
                       </Switch>

@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { observer, inject } from "mobx-react";
 
-import { grey100, cyan600 } from 'material-ui/styles/colors';
+import { grey100 } from 'material-ui/styles/colors';
 import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
 import IntroCarousel from '../IntroCarousel';
@@ -14,45 +13,6 @@ import './RegisterNewUser.css';
 
 import Page1 from './RegisterNewPage1';
 import Page2 from './RegisterNewPage2';
-
-const styles = {
-  containerStyle: {
-    padding: '10px 20px',
-    minWidth: '320px',
-    maxWidth: '500px',
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  },
-  imgStyle: {
-    height: '30px',
-    verticalAlign: 'middle',
-    marginRight: '10px',
-    marginTop: '-4px'
-  },
-  floatingLabelText: {
-    color: cyan600,
-  },
-  facebookLoginStyle: {
-    display: 'inline-block',
-    width: '100%',
-  },
-  liHeaderStyle: {
-    fontSize: '0.9rem',
-    textAlign: 'left',
-    textDecoration: 'underline'
-  },
-  liStyle: {
-    fontSize: '0.8rem',
-    fontStyle: 'italic',
-    textDecoration: 'none'
-  },
-  problemStyle: {
-    fontSize: '0.8rem',
-    fontStyle: 'italic',
-    textDecoration: 'none',
-    color: 'red'
-  }
-}
 
 @inject("UserStore") @observer class RegisterComponent extends React.Component {
   constructor(){
@@ -130,7 +90,6 @@ const styles = {
         problems: []
       });
       this.redirectToLogin()
-      //this.props.history.push(this.dynamicConfig.getNextRedirect())
     }
   };
 

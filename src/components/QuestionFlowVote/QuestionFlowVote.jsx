@@ -105,7 +105,7 @@ class QuestionFlowVote extends Component {
   }
 
   render() {
-    const { items, index, onVote, navigateNext, getNextQuestion, getPrevQuestion, currentQuestion } = this.props
+    const { items, index, navigateNext, currentQuestion } = this.props
     const item = items[index];
     const { hiddenIcon, icon } = styles
     const showAnswered = item.type === "Q" && !!currentQuestion.my_vote.length
@@ -226,7 +226,7 @@ const LikertButtons = ({value, onVote, defHideAnswer}) => {
   let likertJSX = [];
   for (let i = 1; i <= 5; i++) {
     likertJSX.push(<div
-      className={ `likertButton likertButton${i} ${(value && value == i) ? 'likertButtonSelected' : 'likertButtonDimmed'}`}
+      className={ `likertButton likertButton${i} ${(value && value === i) ? 'likertButtonSelected' : 'likertButtonDimmed'}`}
       key={i}
       onTouchTap={() => onVote(i, defHideAnswer)}></div>);
   }
@@ -250,7 +250,7 @@ class MCQButtons extends Component {
       <div style={{paddingBottom: '50px'}}>
         {choices.map((choice, index) => {
           let activeMCQ = value === choice.id ? 'activeMCQ' : '';
-          let isHovered = observable(false);
+          //let isHovered = observable(false);
           return (
             <div key={`p-${index}`} className={`mcqButton ${activeMCQ}`} onTouchTap={() => onVote(choice.id, defHideAnswer)}
                 onMouseEnter={() => this.choiceHovers[index] = true} onMouseLeave={() => this.choiceHovers[index] = false}>

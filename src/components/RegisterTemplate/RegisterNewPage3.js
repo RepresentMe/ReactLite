@@ -1,13 +1,6 @@
 import React from 'react';
 
-import { cyan600 } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
-// import TextField from 'material-ui/TextField';
-// import Paper from 'material-ui/Paper';
-//import Dialog from 'material-ui/Dialog';
-//import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-
-//import DynamicConfigService from '../../services/DynamicConfigService';
 
 import './RegisterNew.css';
 

@@ -4,14 +4,11 @@ import TextField from 'material-ui/TextField';
 import { inject } from "mobx-react"
 
 import RaisedButton from 'material-ui/RaisedButton';
-import ActionAndroid from 'material-ui/svg-icons/action/android';
-import FontIcon from 'material-ui/FontIcon';
 
 import './style.css';
 
 import {
   ShareButtons,
-  ShareCounts,
   generateShareIcon
 } from 'react-share';
 
@@ -131,7 +128,7 @@ class QuestionFlowShare extends Component {
         <Paper style={pageWrapperPaper} zDepth={0}>
 
           <Paper style={innerPaperStyle} zDepth={0}>
-            <img src={imgSrc} className='img-share'/>
+            <img src={imgSrc} alt='share' className='img-share'/>
           </Paper>
           <Paper style={innerPaperStyle} zDepth={0}>
             <TextField

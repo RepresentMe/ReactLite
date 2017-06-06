@@ -2,18 +2,11 @@ import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import { Link } from 'react-router-dom';
 
-import TextField from 'material-ui/TextField';
 import { grey200, cyan600, orange500, indigo500 } from 'material-ui/styles/colors';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
-//import Dialog from 'material-ui/Dialog';
-//import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
-//import MessengerCheckboxPlugin from '../MessengerCheckboxPlugin';
-import FacebookBox from 'material-ui-community-icons/icons/facebook-box';
-import smallLogo from './represent_white_outline.svg';
 import './RegisterNewUser.css';
 
 const styles = {
@@ -54,16 +47,16 @@ const Page1 = (props) => {
           <div style={{textAlign: 'center'}}>
       <img src="/static/media/represent_white_outline.dbff67a6.svg" className="introimage" />
       <h2 style={{margin: '10px 0'}}>
-          A Revolution in Democracy  
+          A Revolution in Democracy
         </h2>
         </div>
         <p>
-          A more effective democracy is within reach. 
+          A more effective democracy is within reach.
           Represent gives your views and values a voice. One central place to vote on the issues and work with the politicians and groups you trust to represent you.
-        </p><p> 
-          Represent is free, open to everyone, community-driven, anonymous and secure. 
         </p><p>
-          By signing up you can track your MP, have your say, and make our combined voices more powerful and effective to create the world we want. 
+          Represent is free, open to everyone, community-driven, anonymous and secure.
+        </p><p>
+          By signing up you can track your MP, have your say, and make our combined voices more powerful and effective to create the world we want.
           <Link to="#" onTouchTap={() => props.toggleIntro()}><span> Learn more</span></Link>
         </p>
 
@@ -81,7 +74,7 @@ const Page1 = (props) => {
             value={props.agreedTermsValue}
             checked={props.agreedTermsValue}
             />
- 
+
         <div>
           {props.agreedTermsValue ? <FacebookLogin
             appId={String(window.authSettings.facebookId)}

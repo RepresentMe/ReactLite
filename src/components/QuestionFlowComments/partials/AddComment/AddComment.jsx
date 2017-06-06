@@ -36,23 +36,21 @@ class AddComment extends Component {
     const { comment } = this.state
     return (
 
-      <div className="add-comment-wrapper"> 
-   
+      <div className="add-comment-wrapper">
+         <TextField
+          hintText=""
+          floatingLabelText=""
+          className="add-comment-area"
+          onChange={this.handleChange}
+          value={comment}
+          multiLine={true}
+          underlineShow={false}
+          rows={2}
+        />
 
-            <TextField
-      hintText=""
-      floatingLabelText=""
-      className="add-comment-area"
-      onChange={this.handleChange}
-      value={comment}
-      multiLine={true}
-      underlineShow={false}
-      rows={2}
-    />
-
-    <IconButton tooltip="Post comment" className="commentButton" touch={true} tooltipPosition="top-center" onClick={this.onSend} >
-      <Send />
-    </IconButton> 
+        <IconButton tooltip="Post comment" className="commentButton" touch={true} tooltipPosition="top-center" onClick={this.onSend} >
+          <Send />
+        </IconButton>
       </div>
 
 
