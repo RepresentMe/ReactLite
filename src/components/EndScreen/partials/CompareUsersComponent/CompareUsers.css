@@ -148,7 +148,7 @@
 .scrollbar {
     padding: 0 0 0 0 !important;
     overflow-x: hidden;
-    background: #2B3F4D !important;
+    background: #fff !important;
 }
 
 @media (max-width: 899px) {
