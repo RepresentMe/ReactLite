@@ -39,13 +39,17 @@ import './CollectionIntro.css';
   }
 
   startVoting = () => {
-    const collectionId = parseInt(this.props.match.params.collectionId);
-    const url = `/survey/${collectionId}/flow/0/vote/`;
-    this.dynamicConfig.addRedirect(url);
-    const dynamicConfigStr = this.dynamicConfig.getEncodedConfig();
-    //console.log('startVoting: ', dynamicConfigStr);
+    if(!this.props.UserStore.userData.has("id")){
+      this.props.history.push("/login/" + this.dynamicConfig.getEncodedConfig());
+    } else {
+      const collectionId = parseInt(this.props.match.params.collectionId);
+      const url = `/survey/${collectionId}/flow/0/vote/`;
+      this.dynamicConfig.addRedirect(url);
+      const dynamicConfigStr = this.dynamicConfig.getEncodedConfig();
+      //console.log('startVoting: ', dynamicConfigStr);
 
-    this.props.history.push(url+dynamicConfigStr)
+      this.props.history.push(url+dynamicConfigStr)
+    }
   }
 
   render() {
