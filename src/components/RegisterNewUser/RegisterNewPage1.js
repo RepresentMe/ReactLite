@@ -108,7 +108,7 @@ const Page1 = (props) => {
           <div className='button'
             onTouchTap={attemptNextPage}
             style={{backgroundColor: grey200, color: 'black',  border:'1px solid #ccc'}}
-            >Create a Represent account
+            >Create an account using email
           </div>
           <div className='button'
             onTouchTap={props.redirectToLogin}
