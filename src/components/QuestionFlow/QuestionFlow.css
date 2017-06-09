@@ -144,6 +144,16 @@
     height: 28px !important;
 }
 
+/* Breakpoint is taken from Drawer (left sliding menu) size
+this.breakpoints.lg = 901px */
+@media screen and (min-width: 901px) {
+  .tabs-wrapper > div > div > button.menu-tab,
+  .tabs-wrapper > div > div > button.menu-tab-active {
+    max-width: calc((100% - 256px)/4);
+    width: calc((100% - 256px)/4);
+  }
+}
+
 .tabs-wrapper > div >div:first-child {
     position: fixed;
     bottom: 0;
@@ -157,11 +167,11 @@
 
 .menu-tab {
     background-color: #eee !important;
-    border-top: 1px solid #ccc !important; 
+    border-top: 1px solid #ccc !important;
     box-shadow: #cccccc 0PX 6px 3px -3px inset;
     font-size: 10px !important;
     line-height: 1;
-} 
+}
 
 .menu-tab-active {
     background-color: white !important;
@@ -284,7 +294,7 @@ a {
 
 .questionBreak {
     color: #1B8AAE;
-} 
+}
 .questionBreakp {
     color: #1B8AAE;
     max-width: 800px;
