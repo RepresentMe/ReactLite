@@ -4,7 +4,7 @@
     text-transform: uppercase;
     background: #1B8AAE;
     color: #fff !important;
-    margin: 30px 0;
+    margin: 0 0 30px 0;
     text-align: center;
 }
 
@@ -178,7 +178,7 @@
     background-image: url('/img/messenger.png') !important;
     background-position: 0 51%;
     padding: 15px 10px 10px 10px;
-    margin: 0 0 10px 0;
+    margin: 20px;
     text-align: center;
 }
 

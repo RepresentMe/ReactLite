@@ -244,7 +244,7 @@ class CompareCollectionUsers extends Component {
     // if (!userIds.length) console.log('No users specified to compare');
     // return <CompareCollectionUsersView data={this.viewData} />
     if (!this.props.UserStore.isLoggedIn()) return <SignInToSeeView />;
-
+ 
 
     // TODO make it computed
     if (!(this.viewData.pageReadiness.isCompareUsersReady.get()
