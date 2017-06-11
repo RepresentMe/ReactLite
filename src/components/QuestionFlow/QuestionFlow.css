@@ -145,12 +145,12 @@
 }
 
 /* Breakpoint is taken from Drawer (left sliding menu) size
-this.breakpoints.lg = 901px */
+this.breakpoints.lg = 901px
+Drawer width = 256px - defined in Shell.js, Shell.css*/
 @media screen and (min-width: 901px) {
-  .tabs-wrapper > div > div > button.menu-tab,
-  .tabs-wrapper > div > div > button.menu-tab-active {
-    max-width: calc((100% - 256px)/4);
-    width: calc((100% - 256px)/4);
+  .tabs-wrapper > div > div:first-child {
+    max-width: calc(100% - 256px);
+    width: calc(100% - 256px);
   }
 }
 
