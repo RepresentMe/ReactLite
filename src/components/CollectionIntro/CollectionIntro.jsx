@@ -154,7 +154,7 @@ import './CollectionIntro.css';
 const OgTags = ({collection}) => {
   const og = {
     url: `${window.location.origin}/survey/${collection.id}`,
-    title: `${collection.name} - #RepresentMe`,
+    title: `${collection.name}`,
     image: collection.photo || 'http://i.imgur.com/wrW7xwp.png',
     desc: collection.desc || "Have your say!"
   }
