@@ -67,14 +67,14 @@ const CollectionsList = inject("CollectionStore", "UserStore")(observer(({ Colle
 
 
         <div>
-           <div className="imageContainer"  style={{background: 'url(/img/montage.jpg)', padding: '70px 0 90px 0'}} >
+           <div className="imageContainer"  style={{background: 'url(https://images.unsplash.com/photo-1488229297570-58520851e868?dpr=1&auto=format&fit=crop&w=1000&h=500&q=60)', backgroundSize: 'cover', backgroundPosition: '50% 50%', padding: '70px 0 90px 0'}} >
             <div className="contentBox">
 
-                <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>Who should I vote for?</h1>
+                <h1 style={{ maxWidth: '600px', display: '-webkit-inline-box' }}>Did you get what you wanted from the election?</h1>
 
-                <p>Confused about which party to vote for on June 8th? Find out which party best matches your values.</p>
+                <p>Well that was fun. How was it for you?</p>
 
-                <RaisedButton label="Start" primary href="/survey/122/flow/0/vote/" style={{marginTop: 15}}/>
+                <RaisedButton label="Start" primary href="/survey/132/flow/0/vote/" style={{marginTop: 15}}/>
 
               </div>
             </div>
