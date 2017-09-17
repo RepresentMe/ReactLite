@@ -146,6 +146,7 @@ const styles = {
 
         <FacebookLogin
           appId={String(window.authSettings.facebookId)}
+          version={2.6}
           autoLoad={false}
           fields="name,email,picture"
           callback={this.facebookCallback}

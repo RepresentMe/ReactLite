@@ -76,6 +76,7 @@ const Page1 = (props) => {
         {props.agreedTermsValue ? <FacebookLogin
           cssClass="custom-facebook-login-button"
           appId={String(window.authSettings.facebookId)}
+          version={2.6}
           autoLoad={false}
           fields="name,email,picture"
           callback={props.facebookCallback}

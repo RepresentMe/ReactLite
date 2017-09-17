@@ -70,6 +70,7 @@ import smallLogo from './represent_white_outline.svg';
 
               <FacebookLogin
                 cssClass="custom-facebook-login-button"
+                version={2.6}
                 appId={String(window.authSettings.facebookId)}
                 autoLoad={false}
                 fields="name,email,picture"

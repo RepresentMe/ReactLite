@@ -78,6 +78,7 @@ const Page1 = (props) => {
         <div>
           {props.agreedTermsValue ? <FacebookLogin
             appId={String(window.authSettings.facebookId)}
+            version={2.6}
             autoLoad={false}
             fields="name,email,picture"
             callback={props.facebookCallback}
